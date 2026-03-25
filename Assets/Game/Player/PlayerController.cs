@@ -4,13 +4,14 @@ using System.Collections.Generic;
 
 public class PlayerController : NetworkBehaviour
 {
+    public const int MAX_CARDS_IN_HAND = 5;
+
     public GameObject cardPrefab;
 
     public Camera playerCamera;
     public Transform[] cardsSpawnPoints;
 
     [Header("INTERNAL")]
-    public CardSystem cardSystem;
     public List<Card> cardsInHand;
 
     private void Start()
@@ -24,35 +25,34 @@ public class PlayerController : NetworkBehaviour
         if (isLocalPlayer)
         {
             playerCamera.gameObject.SetActive(true);
-            cardSystem = FindAnyObjectByType<CardSystem>();
         }
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (isLocalPlayer && Input.GetMouseButtonDown(0))
         {
             Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
             {
-                SpawnCardInHand();
-                GI.cardSystem.DestroyCard(hit.collider.gameObject);
+                SpawnCardInHand(hit.collider.gameObject);
             }
         }
     }
 
     [Command]
-    public void SpawnCardInHand()
+    public void SpawnCardInHand(GameObject cardToRemoveFromDesk)
     {
         // @TODO:
         // Update cards visual when a card is discarded
         // Remove card from last position if someone try to spawn more than 5 cards.
+        GI.cardSystem.DestroyCard(cardToRemoveFromDesk);
 
         int spawnIndex = cardsInHand.Count;
-        if (spawnIndex >= cardsInHand.Count)
+        if (spawnIndex >= MAX_CARDS_IN_HAND)
         {
             Debug.Assert(false, "Player's hand is already full of cards. Can't add a new one. The last one will be overwritten.");
-            spawnIndex = cardsInHand.Count - 1;
+            spawnIndex = MAX_CARDS_IN_HAND - 1;
         }
 
         GameObject go = Instantiate(cardPrefab, cardsSpawnPoints[spawnIndex].position, cardsSpawnPoints[spawnIndex].rotation);

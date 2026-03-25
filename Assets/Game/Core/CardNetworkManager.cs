@@ -12,5 +12,8 @@ public class CardNetworkManager : RelayNetworkManager
     {
         GameObject cardDesk = Instantiate(cardDeskPrefab);
         NetworkServer.Spawn(cardDesk);
+
+        GI.cardSystem.SpawnCard();
+        GI.cardSystem.SpawnCard();
     }
 }
