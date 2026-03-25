@@ -600,6 +600,9 @@ MonoBehaviour:
   relayJoinCode: 
   cardDeskPrefab: {fileID: 510000207809440837, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
   cardList: {fileID: 11400000, guid: eebb44c2b68a466469218765af5ee4a1, type: 2}
+  currentPlayerTurn: -1
+  currentPlayerTurnIndex: -1
+  gameStarted: 0
 --- !u!4 &180431519
 Transform:
   m_ObjectHideFlags: 0

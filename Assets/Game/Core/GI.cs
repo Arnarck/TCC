@@ -13,4 +13,5 @@ public static class GI
 {
     public static CardSystem cardSystem;
     public static CardList cardList;
+    public static CardNetworkManager networkManager;
 }

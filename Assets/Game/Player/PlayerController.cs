@@ -40,6 +40,11 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void SpawnCardInHand(Card_Type type, GameObject cardToRemoveFromDesk)
     {
+        if (GI.networkManager.GetCurrentPlayerTurn() != connectionToClient.connectionId)
+        {
+            return;
+        }
+
         // @TODO:
         // Update cards visual when a card is discarded
         // Remove card from last position if someone try to spawn more than 5 cards.
@@ -57,5 +62,6 @@ public class PlayerController : NetworkBehaviour
         NetworkServer.Spawn(go, connectionToClient);
 
         cardsInHand.Add(go.GetComponent<Card>());
+        GI.networkManager.UpdatePlayerTurn();
     }
 }
