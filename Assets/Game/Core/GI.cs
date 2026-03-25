@@ -12,4 +12,5 @@ And as a static class, it will persist across scenes, so we can use it to store 
 public static class GI
 {
     public static CardSystem cardSystem;
+    public static CardList cardList;
 }

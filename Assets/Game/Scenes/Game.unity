@@ -579,8 +579,9 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 1
   spawnPrefabs:
-  - {fileID: 6513423077981549246, guid: d6d756657a57fc44cb4ad58d8048aba4, type: 3}
   - {fileID: 510000207809440837, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
+  - {fileID: 6513423077981549246, guid: d6d756657a57fc44cb4ad58d8048aba4, type: 3}
+  - {fileID: 6513423077981549246, guid: e1e4587f5251ba64292e82d83257abd7, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -598,6 +599,7 @@ MonoBehaviour:
   timeInterpolationGui: 0
   relayJoinCode: 
   cardDeskPrefab: {fileID: 510000207809440837, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
+  cardList: {fileID: 11400000, guid: eebb44c2b68a466469218765af5ee4a1, type: 2}
 --- !u!4 &180431519
 Transform:
   m_ObjectHideFlags: 0

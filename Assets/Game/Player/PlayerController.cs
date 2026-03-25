@@ -17,10 +17,7 @@ public class PlayerController : NetworkBehaviour
     private void Start()
     {
         // @TODO:
-        // Get card from the list instead of spawning directly from a prefab (pooling?)
-        // Some way to identify cards (an enum? Use scriptable objects?)
         // Make a base for spawn card in desk (maybe a function that checks if the space is available)
-        // Add a list and make the cards be spawned from there, instead of a prefab reference in NetworkManager.
         // Add turn system.
         if (isLocalPlayer)
         {
@@ -35,13 +32,13 @@ public class PlayerController : NetworkBehaviour
             Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
             {
-                SpawnCardInHand(hit.collider.gameObject);
+                SpawnCardInHand(hit.collider.GetComponent<Card>().type, hit.collider.gameObject);
             }
         }
     }
 
     [Command]
-    public void SpawnCardInHand(GameObject cardToRemoveFromDesk)
+    public void SpawnCardInHand(Card_Type type, GameObject cardToRemoveFromDesk)
     {
         // @TODO:
         // Update cards visual when a card is discarded
@@ -55,7 +52,8 @@ public class PlayerController : NetworkBehaviour
             spawnIndex = MAX_CARDS_IN_HAND - 1;
         }
 
-        GameObject go = Instantiate(cardPrefab, cardsSpawnPoints[spawnIndex].position, cardsSpawnPoints[spawnIndex].rotation);
+        GameObject go = Instantiate(GI.cardList.GetCardPrefab(type), cardsSpawnPoints[spawnIndex].position, 
+                                    cardsSpawnPoints[spawnIndex].rotation);
         NetworkServer.Spawn(go, connectionToClient);
 
         cardsInHand.Add(go.GetComponent<Card>());
