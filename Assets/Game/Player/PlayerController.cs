@@ -1,5 +1,6 @@
 using UnityEngine;
 using Mirror;
+using System.Collections.Generic;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -10,6 +11,7 @@ public class PlayerController : NetworkBehaviour
 
     [Header("INTERNAL")]
     public CardSystem cardSystem;
+    public List<Card> cardsInHand;
 
     private void Start()
     {
@@ -42,7 +44,20 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void SpawnCardInHand()
     {
-        GameObject card = Instantiate(cardPrefab, cardsSpawnPoints[0].position, cardsSpawnPoints[0].rotation);
-        NetworkServer.Spawn(card, connectionToClient);
+        // @TODO:
+        // Update cards visual when a card is discarded
+        // Remove card from last position if someone try to spawn more than 5 cards.
+
+        int spawnIndex = cardsInHand.Count;
+        if (spawnIndex >= cardsInHand.Count)
+        {
+            Debug.Assert(false, "Player's hand is already full of cards. Can't add a new one. The last one will be overwritten.");
+            spawnIndex = cardsInHand.Count - 1;
+        }
+
+        GameObject go = Instantiate(cardPrefab, cardsSpawnPoints[spawnIndex].position, cardsSpawnPoints[spawnIndex].rotation);
+        NetworkServer.Spawn(go, connectionToClient);
+
+        cardsInHand.Add(go.GetComponent<Card>());
     }
 }
