@@ -6,12 +6,14 @@ public class PlayerController : NetworkBehaviour
 {
     public const int MAX_CARDS_IN_HAND = 5;
 
-    public GameObject cardPrefab;
-
+    public Transform cameraPointWhenChoosingCards;
     public Camera playerCamera;
     public Transform[] cardsSpawnPoints;
 
     [Header("INTERNAL")]
+    public bool isChoosingCards;
+    public Vector3 cameraStartPosition;
+    public Quaternion cameraStartRotation;
     public Card selectedCard; // @TODO: This should have a 'SyncVar' attribute, but we'll add it when needed.
     public List<Card> cardsInHand;
 
@@ -20,27 +22,49 @@ public class PlayerController : NetworkBehaviour
         if (isLocalPlayer)
         {
             playerCamera.gameObject.SetActive(true);
+            cameraStartPosition = playerCamera.transform.position;
+            cameraStartRotation = playerCamera.transform.rotation;
         }
     }
 
     private void Update()
     {
-        if (isLocalPlayer && Input.GetMouseButtonDown(0))
+        if (isLocalPlayer)
         {
-            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
+            // Select cards
+            if (Input.GetMouseButtonDown(0))
             {
-                Card card = hit.collider.gameObject.GetComponent<Card>();
-
-                if (cardsInHand.Contains(card))
+                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
                 {
-                    // Selects a card from the hand
-                    selectedCard = card;
+                    Card card = hit.collider.gameObject.GetComponent<Card>();
+                    if (cardsInHand.Contains(card))
+                    {
+                        // Selects a card from the hand
+                        selectedCard = card;
+                    }
+                    else 
+                    {
+                        // Selects a card from the desk and spawns it
+                        CmdSpawnCardInHand(card.type, hit.collider.gameObject);
+                    }
                 }
-                else 
+            }
+
+            // Switch camera position
+            // @TODO: Align with design to know when and how the camera will change position.
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                isChoosingCards = !isChoosingCards;
+                if (isChoosingCards)
                 {
-                    // Selects a card from the desk and spawns it
-                    CmdSpawnCardInHand(card.type, hit.collider.gameObject);
+                    playerCamera.transform.position = cameraPointWhenChoosingCards.position;
+                    playerCamera.transform.rotation = cameraPointWhenChoosingCards.rotation;
+                }
+                else
+                {
+                    playerCamera.transform.position = cameraStartPosition;
+                    playerCamera.transform.rotation = cameraStartRotation;
                 }
             }
         }

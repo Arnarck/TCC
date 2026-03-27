@@ -152,6 +152,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 787918651976658566}
   m_LocalEulerAnglesHint: {x: 0, y: 18.069, z: 0}
+--- !u!1 &4045142701136068673
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5521379529617207664}
+  m_Layer: 0
+  m_Name: Camera Point When Choosing Cards
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5521379529617207664
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4045142701136068673}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 4.8, z: 4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 787918651976658566}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &4433382203868146167
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,6 +221,7 @@ Transform:
   - {fileID: 4636997376440255020}
   - {fileID: 989377298857328267}
   - {fileID: 5182996965587502121}
+  - {fileID: 5521379529617207664}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-2968880167013448636
@@ -224,7 +256,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  cardPrefab: {fileID: 6513423077981549246, guid: d6d756657a57fc44cb4ad58d8048aba4, type: 3}
+  cameraPointWhenChoosingCards: {fileID: 5521379529617207664}
   playerCamera: {fileID: 6879715664851187150}
   cardsSpawnPoints:
   - {fileID: 3238298378821918743}
@@ -232,6 +264,11 @@ MonoBehaviour:
   - {fileID: 4636997376440255020}
   - {fileID: 989377298857328267}
   - {fileID: 5182996965587502121}
+  isChoosingCards: 0
+  cameraStartPosition: {x: 0, y: 0, z: 0}
+  cameraStartRotation: {x: 0, y: 0, z: 0, w: 0}
+  selectedCard: {fileID: 0}
+  cardsInHand: []
 --- !u!1 &4624909988288648496
 GameObject:
   m_ObjectHideFlags: 0
