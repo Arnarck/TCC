@@ -26,15 +26,17 @@ public class Card : MonoBehaviour
     public Family_Type familyType;
     public Ability_Type abilityType;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    // @TODO: Sometimes this works, sometimes it doesn't. Investigate why, and solve it.
+    private void OnTriggerEnter(Collider other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (other.TryGetComponent<CardSystem>(out CardSystem cardSystem))
+        {
+            // Makes the cards rotate towards player's camera. So all 4 players will look the cards from the front side,
+            // intead of looking from sideways.
+            // Now, this was the easiest way that i found of doing it.
+            // Mirror does not support spawn something across the network with a parent object. So, when the cards spawns
+            // in the clients, they have no parents.
+            transform.RotateAround(cardSystem.transform.position, Vector3.up, cardSystem.transform.eulerAngles.y);
+        }
     }
 }

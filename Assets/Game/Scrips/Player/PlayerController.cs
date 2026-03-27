@@ -24,6 +24,11 @@ public class PlayerController : NetworkBehaviour
             playerCamera.gameObject.SetActive(true);
             cameraStartPosition = playerCamera.transform.position;
             cameraStartRotation = playerCamera.transform.rotation;
+
+            Quaternion rotation = transform.rotation;
+            rotation.x = 0f;
+            rotation.z = 0f;
+            GI.cardSystem.transform.rotation = rotation;
         }
     }
 

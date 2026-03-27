@@ -11,12 +11,21 @@ public class CardSystem : NetworkBehaviour
 {
     public const int MAX_CARDS_IN_DESK = 16;
 
+    public Rigidbody _rigidbody;
     public CardList cardList; // This reference is only to set it to GI.cardList, since 'Awake' apparently is not called in ScriptableObjects
     public GameObject cardPrefab;
+    public Vector3 collisionHalfSize;
     public Transform[] cardsSpawnPoints;
 
     [Header("INTERNAL")]
     public List<Card> cardsInDesk;
+
+    private void Start()
+    {
+        // Prevents rigidbody from sleeping
+        // We can make it sleep from times to times later if this become a optimization problem
+        _rigidbody.sleepThreshold = 0f;
+    }
 
     private void Awake()
     {
@@ -27,23 +36,17 @@ public class CardSystem : NetworkBehaviour
     [Server]
     public void SpawnCard(Card_Type type)
     {
-        // @TODO: Remove card from last position if someone try to spawn more than 16 cards.
-
         int spawnIndex = cardsInDesk.Count;
         if (spawnIndex >= MAX_CARDS_IN_DESK)
         {
-            Debug.Assert(false, "The desk is already full of cards. Can't add a new one. The last one will be overwritten.");
-            spawnIndex = MAX_CARDS_IN_DESK - 1;
-
-            // @TODO: Do we really need to make a fallback here?
-            DestroyCard(cardsInDesk[spawnIndex].gameObject);
+            Debug.Assert(false, "The desk is already full of cards. Can't add a new one.");
+            return;
         }
 
         Transform spawnPoint = cardsSpawnPoints[spawnIndex];
-
         GameObject go = Instantiate(GI.cardList.GetCardPrefab(type), spawnPoint.position, spawnPoint.rotation);
-        NetworkServer.Spawn(go, connectionToClient);
 
+        NetworkServer.Spawn(go, connectionToClient);
         cardsInDesk.Add(go.GetComponent<Card>());
     }
 
