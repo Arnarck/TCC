@@ -16,6 +16,8 @@ public class CardNetworkManager : RelayNetworkManager
 
     public override void Awake()
     {
+        base.Awake();
+        
         players = new List<NetworkConnectionToClient>();
         GI.networkManager = this;
     }
