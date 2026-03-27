@@ -24,7 +24,8 @@ public class Connect : MonoBehaviour
 
     public void Host()
     {
-         statusText.text = "";
+        statusText.text = "";
+        joinCodeText.text = "";
         statusText.text = "Creating room...";
         networkManager.StartRelayHost(2, null);
         StartCoroutine(WaitForCode());
@@ -36,14 +37,14 @@ public class Connect : MonoBehaviour
             yield return null;
 
         currentCode = networkManager.relayJoinCode;
-         statusText.text = "";
+        statusText.text = "";
         joinCodeText.text = currentCode;
         statusText.text = "Room created!";
     }
 
     public void CopyCode()
     {
-         statusText.text = "";
+        statusText.text = "";
         if (string.IsNullOrEmpty(currentCode)) return;
 
         GUIUtility.systemCopyBuffer = currentCode;
@@ -52,7 +53,8 @@ public class Connect : MonoBehaviour
 
     public void Client()
     {
-         statusText.text = "";
+        statusText.text = "";
+        joinCodeText.text = "";
         string code = inputJoinCode.text;
         if (string.IsNullOrEmpty(code))
         {
@@ -69,7 +71,8 @@ public class Connect : MonoBehaviour
 
     public void Disconnect()
     {
-         statusText.text = "";
+        statusText.text = "";
+        joinCodeText.text = "";
         if (NetworkServer.active && NetworkClient.isConnected)
         {
             // é host
