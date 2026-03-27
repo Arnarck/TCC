@@ -43,6 +43,8 @@ public class CardNetworkManager : RelayNetworkManager
         GI.cardSystem.SpawnCard(Card_Type.CARD_2);
         GI.cardSystem.SpawnCard(Card_Type.CARD_2);
         GI.cardSystem.SpawnCard(Card_Type.CARD_2);
+        GI.cardSystem.SpawnCard(Card_Type.CARD_2);
+        GI.cardSystem.SpawnCard(Card_Type.CARD_2);
     }
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)

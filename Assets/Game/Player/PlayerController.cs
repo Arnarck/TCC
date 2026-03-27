@@ -12,13 +12,11 @@ public class PlayerController : NetworkBehaviour
     public Transform[] cardsSpawnPoints;
 
     [Header("INTERNAL")]
+    public Card selectedCard; // @TODO: This should have a 'SyncVar' attribute, but we'll add it when needed.
     public List<Card> cardsInHand;
 
     private void Start()
     {
-        // @TODO:
-        // Make a base for spawn card in desk (maybe a function that checks if the space is available)
-        // Add turn system.
         if (isLocalPlayer)
         {
             playerCamera.gameObject.SetActive(true);
@@ -32,30 +30,38 @@ public class PlayerController : NetworkBehaviour
             Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
             {
-                SpawnCardInHand(hit.collider.GetComponent<Card>().type, hit.collider.gameObject);
+                Card card = hit.collider.gameObject.GetComponent<Card>();
+
+                if (cardsInHand.Contains(card))
+                {
+                    // Selects a card from the hand
+                    selectedCard = card;
+                }
+                else 
+                {
+                    // Selects a card from the desk and spawns it
+                    CmdSpawnCardInHand(card.type, hit.collider.gameObject);
+                }
             }
         }
     }
 
     [Command]
-    public void SpawnCardInHand(Card_Type type, GameObject cardToRemoveFromDesk)
+    public void CmdSpawnCardInHand(Card_Type type, GameObject cardToRemoveFromDesk)
     {
         if (GI.networkManager.GetCurrentPlayerTurn() != connectionToClient.connectionId)
         {
             return;
         }
 
-        // @TODO:
-        // Update cards visual when a card is discarded
-        // Remove card from last position if someone try to spawn more than 5 cards.
-        GI.cardSystem.DestroyCard(cardToRemoveFromDesk);
-
         int spawnIndex = cardsInHand.Count;
         if (spawnIndex >= MAX_CARDS_IN_HAND)
         {
-            Debug.Assert(false, "Player's hand is already full of cards. Can't add a new one. The last one will be overwritten.");
-            spawnIndex = MAX_CARDS_IN_HAND - 1;
+            Debug.Assert(false, "Player's hand is already full of cards. Can't add a new one.");
+            return;
         }
+
+        GI.cardSystem.DestroyCard(cardToRemoveFromDesk);
 
         GameObject go = Instantiate(GI.cardList.GetCardPrefab(type), cardsSpawnPoints[spawnIndex].position, 
                                     cardsSpawnPoints[spawnIndex].rotation);
@@ -63,5 +69,28 @@ public class PlayerController : NetworkBehaviour
 
         cardsInHand.Add(go.GetComponent<Card>());
         GI.networkManager.UpdatePlayerTurn();
+    }
+
+    [Command]
+    public void CmdRemoveCardFromHand(GameObject go)
+    {
+        Card card = go.GetComponent<Card>();
+        if (!cardsInHand.Contains(card))
+        {
+            Debug.Assert(false, "Trying to remove a card that is not on player's hand. Maybe you are referencing a card from the desk.");
+            return;
+        }
+
+        int index = cardsInHand.IndexOf(card);
+
+        cardsInHand.Remove(card);
+        NetworkServer.Destroy(card.gameObject);
+
+        // Reorder card's position
+        for (int i = index; i < cardsInHand.Count; i++)
+        {
+            cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
+            cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
+        }
     }
 }
