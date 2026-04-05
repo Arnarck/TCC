@@ -1,6 +1,7 @@
 using UnityEngine;
 using Mirror;
 using System.Collections.Generic;
+using System.Collections;
 
 // @Note: 'Command' attributes will not work here. Since the server spawns this object, it has no client to address authority to it.
 // The objects needs authority (an client as a owner) to make 'Command' attributes work, so the server can know at which client the
@@ -16,9 +17,12 @@ public class CardSystem : NetworkBehaviour
     public GameObject cardPrefab;
     public Vector3 collisionHalfSize;
     public Transform[] cardsSpawnPoints;
+    public float memorizeTime = 5f;
 
     [Header("INTERNAL")]
     public List<Card> cardsInDesk;
+
+
 
     private void Start()
     {
@@ -48,8 +52,30 @@ public class CardSystem : NetworkBehaviour
 
         NetworkServer.Spawn(go, connectionToClient);
         cardsInDesk.Add(go.GetComponent<Card>());
-    }
 
+        //********
+        Card card = go.GetComponent<Card>();
+
+        card.trioID = Random.Range(0, 4); // número de grupos
+
+        switch (card.trioID)
+        {
+            case 0: card.cardColor = Color.red; break;
+            case 1: card.cardColor = Color.blue; break;
+            case 2: card.cardColor = Color.green; break;
+            case 3: card.cardColor = Color.yellow; break;
+        }
+        StartCoroutine(MemorizationPhase());
+    }
+    IEnumerator MemorizationPhase()
+    {
+        yield return new WaitForSeconds(memorizeTime);
+
+        foreach (Card card in cardsInDesk)
+        {
+            card.cardColor = Color.gray;
+        }
+    }
     [Server]
     public void DestroyCard(GameObject card)
     {

@@ -48,11 +48,16 @@ public class PlayerController : NetworkBehaviour
                         // Selects a card from the hand
                         selectedCard = card;
                     }
-                    else 
+                    else
                     {
                         // Selects a card from the desk and spawns it
                         CmdSpawnCardInHand(card.type, hit.collider.gameObject);
                     }
+                }
+                //*******
+                if (cardsInHand.Count >= 3)
+                {
+                    CheckForTrio();
                 }
             }
 
@@ -92,7 +97,7 @@ public class PlayerController : NetworkBehaviour
 
         GI.cardSystem.DestroyCard(cardToRemoveFromDesk);
 
-        GameObject go = Instantiate(GI.cardList.GetCardPrefab(type), cardsSpawnPoints[spawnIndex].position, 
+        GameObject go = Instantiate(GI.cardList.GetCardPrefab(type), cardsSpawnPoints[spawnIndex].position,
                                     cardsSpawnPoints[spawnIndex].rotation);
         NetworkServer.Spawn(go, connectionToClient);
 
@@ -120,6 +125,39 @@ public class PlayerController : NetworkBehaviour
         {
             cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
             cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
+        }
+    }
+    //****************
+    [Command]
+    void CmdScoreTrio(GameObject c1, GameObject c2, GameObject c3)
+    {
+        Card card1 = c1.GetComponent<Card>();
+        Card card2 = c2.GetComponent<Card>();
+        Card card3 = c3.GetComponent<Card>();
+
+        int totalPoints = card1.points + card2.points + card3.points;
+
+        Debug.Log("Pontos do trio: " + totalPoints);
+
+        // TODO: somar pontos no jogador
+
+        CmdRemoveCardFromHand(c1);
+        CmdRemoveCardFromHand(c2);
+        CmdRemoveCardFromHand(c3);
+    }
+    void CheckForTrio()
+    {
+        Card c1 = cardsInHand[0];
+        Card c2 = cardsInHand[1];
+        Card c3 = cardsInHand[2];
+
+        if (c1.trioID == c2.trioID && c2.trioID == c3.trioID)
+        {
+            Debug.Log("TRIO!");
+
+            int points = c1.points + c2.points + c3.points;
+
+            CmdScoreTrio(c1.gameObject, c2.gameObject, c3.gameObject);
         }
     }
 }

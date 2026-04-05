@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using System.Collections;
+using Mirror;
 public enum Family_Type
 {
     FAMILY_1,
@@ -26,6 +27,10 @@ public class Card : MonoBehaviour
     public Family_Type familyType;
     public Ability_Type abilityType;
 
+    public Color cardColor;
+
+    public int trioID; // identifica o grupo (trio)
+
     // @TODO: Sometimes this works, sometimes it doesn't. Investigate why, and solve it.
     private void OnTriggerEnter(Collider other)
     {
@@ -39,4 +44,9 @@ public class Card : MonoBehaviour
             transform.RotateAround(cardSystem.transform.position, Vector3.up, cardSystem.transform.eulerAngles.y);
         }
     }
+    //*****
+    void OnColorChanged(Color oldColor, Color newColor)
+{
+    GetComponent<Renderer>().material.color = newColor;
+}
 }
