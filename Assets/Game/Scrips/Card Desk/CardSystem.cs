@@ -17,7 +17,9 @@ public class CardSystem : NetworkBehaviour
     public GameObject cardPrefab;
     public Vector3 collisionHalfSize;
     public Transform[] cardsSpawnPoints;
-    public float memorizeTime = 5f;
+    [SyncVar]
+    public bool isMemorizationPhase = true;
+    public float memorizeTime = 10f;
 
     [Header("INTERNAL")]
     public List<Card> cardsInDesk;
@@ -49,32 +51,42 @@ public class CardSystem : NetworkBehaviour
 
         Transform spawnPoint = cardsSpawnPoints[spawnIndex];
         GameObject go = Instantiate(GI.cardList.GetCardPrefab(type), spawnPoint.position, spawnPoint.rotation);
-
         NetworkServer.Spawn(go, connectionToClient);
-        cardsInDesk.Add(go.GetComponent<Card>());
-
-        //********
         Card card = go.GetComponent<Card>();
-
-        card.trioID = Random.Range(0, 4); // número de grupos
-
-        switch (card.trioID)
+        card.type = type;
+        switch (type)
         {
-            case 0: card.cardColor = Color.red; break;
-            case 1: card.cardColor = Color.blue; break;
-            case 2: card.cardColor = Color.green; break;
-            case 3: card.cardColor = Color.yellow; break;
+            case Card_Type.CARD_1: card.points = 10; break;
+            case Card_Type.CARD_2: card.points = 20; break;
+            case Card_Type.CARD_3: card.points = 30; break;
+            case Card_Type.CARD_4: card.points = 20; break;
+            case Card_Type.CARD_5: card.points = 30; break;
         }
+
+        cardsInDesk.Add(card);
+
+    }
+    [Server]
+    public void StartMemorizationPhase()
+    {
         StartCoroutine(MemorizationPhase());
     }
+
     IEnumerator MemorizationPhase()
     {
+        foreach (Card card in cardsInDesk)
+        {
+            card.isRevealed = true;
+        }
+
         yield return new WaitForSeconds(memorizeTime);
 
         foreach (Card card in cardsInDesk)
         {
-            card.cardColor = Color.gray;
+            card.isRevealed = false;
         }
+
+        isMemorizationPhase = false;
     }
     [Server]
     public void DestroyCard(GameObject card)

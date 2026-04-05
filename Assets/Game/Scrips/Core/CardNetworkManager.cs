@@ -17,7 +17,7 @@ public class CardNetworkManager : RelayNetworkManager
     public override void Awake()
     {
         base.Awake();
-        
+
         players = new List<NetworkConnectionToClient>();
         GI.networkManager = this;
     }
@@ -40,13 +40,26 @@ public class CardNetworkManager : RelayNetworkManager
     {
         GameObject cardDesk = Instantiate(cardDeskPrefab);
         NetworkServer.Spawn(cardDesk);
+        List<Card_Type> deck = new List<Card_Type>()
+    {
 
-        GI.cardSystem.SpawnCard(Card_Type.CARD_1);
-        GI.cardSystem.SpawnCard(Card_Type.CARD_2);
-        GI.cardSystem.SpawnCard(Card_Type.CARD_2);
-        GI.cardSystem.SpawnCard(Card_Type.CARD_2);
-        GI.cardSystem.SpawnCard(Card_Type.CARD_2);
-        GI.cardSystem.SpawnCard(Card_Type.CARD_2);
+        Card_Type.CARD_1, Card_Type.CARD_1, Card_Type.CARD_1,
+        Card_Type.CARD_2, Card_Type.CARD_2, Card_Type.CARD_2,
+        Card_Type.CARD_3, Card_Type.CARD_3, Card_Type.CARD_3,
+        Card_Type.CARD_4, Card_Type.CARD_4, Card_Type.CARD_4,
+        Card_Type.CARD_5, Card_Type.CARD_5, Card_Type.CARD_5
+    };
+        for (int i = 0; i < deck.Count; i++)
+        {
+            int rand = Random.Range(i, deck.Count);
+            (deck[i], deck[rand]) = (deck[rand], deck[i]);
+        }
+
+        foreach (var type in deck)
+        {
+            GI.cardSystem.SpawnCard(type);
+        }
+
     }
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
@@ -54,9 +67,14 @@ public class CardNetworkManager : RelayNetworkManager
         base.OnServerAddPlayer(conn);
         players.Add(conn);
 
-        if (numPlayers > 1 && !gameStarted)
+        if (players.Count >= 2 && !gameStarted)
         {
             gameStarted = true;
+
+            Debug.Log("2 players conectados - iniciando memorização");
+
+            GI.cardSystem.StartMemorizationPhase();
+
             UpdatePlayerTurn();
         }
     }

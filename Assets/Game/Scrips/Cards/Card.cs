@@ -20,16 +20,17 @@ public enum Ability_Type
     COUNT
 }
 
-public class Card : MonoBehaviour
+public class Card : NetworkBehaviour
 {
     public Card_Type type;
     public int points;
     public Family_Type familyType;
     public Ability_Type abilityType;
+    public GameObject visual; 
 
-    public Color cardColor;
+    [SyncVar(hook = nameof(OnRevealChanged))]
+    public bool isRevealed = true;
 
-    public int trioID; // identifica o grupo (trio)
 
     // @TODO: Sometimes this works, sometimes it doesn't. Investigate why, and solve it.
     private void OnTriggerEnter(Collider other)
@@ -44,9 +45,9 @@ public class Card : MonoBehaviour
             transform.RotateAround(cardSystem.transform.position, Vector3.up, cardSystem.transform.eulerAngles.y);
         }
     }
-    //*****
-    void OnColorChanged(Color oldColor, Color newColor)
-{
-    GetComponent<Renderer>().material.color = newColor;
-}
+    
+    void OnRevealChanged(bool oldValue, bool newValue)
+    {
+        visual.SetActive(newValue);
+    }
 }

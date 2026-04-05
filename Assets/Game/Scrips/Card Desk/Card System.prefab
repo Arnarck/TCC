@@ -86,6 +86,7 @@ MonoBehaviour:
   _rigidbody: {fileID: 8689526216746040772}
   cardList: {fileID: 11400000, guid: eebb44c2b68a466469218765af5ee4a1, type: 2}
   cardPrefab: {fileID: 6513423077981549246, guid: d6d756657a57fc44cb4ad58d8048aba4, type: 3}
+  collisionHalfSize: {x: 0, y: 0, z: 0}
   cardsSpawnPoints:
   - {fileID: 2566705865606977060}
   - {fileID: 1017633283121655049}
@@ -103,6 +104,8 @@ MonoBehaviour:
   - {fileID: 5581585363536933431}
   - {fileID: 5993470836397736295}
   - {fileID: 6524625006746613573}
+  isMemorizationPhase: 1
+  memorizeTime: 10
   cardsInDesk: []
 --- !u!65 &5216723305730547434
 BoxCollider:

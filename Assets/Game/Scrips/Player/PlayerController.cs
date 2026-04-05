@@ -36,9 +36,15 @@ public class PlayerController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            // Select cards
+
             if (Input.GetMouseButtonDown(0))
             {
+                // Select cards
+                if (GI.cardSystem.isMemorizationPhase)
+                {
+                    //Debug.Log("Aguardando fim da memorização...");
+                    return;
+                }
                 Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
                 {
@@ -139,7 +145,6 @@ public class PlayerController : NetworkBehaviour
 
         Debug.Log("Pontos do trio: " + totalPoints);
 
-        // TODO: somar pontos no jogador
 
         CmdRemoveCardFromHand(c1);
         CmdRemoveCardFromHand(c2);
@@ -147,17 +152,19 @@ public class PlayerController : NetworkBehaviour
     }
     void CheckForTrio()
     {
+        if (cardsInHand.Count < 3) return;
+
         Card c1 = cardsInHand[0];
         Card c2 = cardsInHand[1];
         Card c3 = cardsInHand[2];
 
-        if (c1.trioID == c2.trioID && c2.trioID == c3.trioID)
+        if (c1.type == c2.type && c2.type == c3.type)
         {
             Debug.Log("TRIO!");
-
-            int points = c1.points + c2.points + c3.points;
 
             CmdScoreTrio(c1.gameObject, c2.gameObject, c3.gameObject);
         }
     }
+
+
 }
