@@ -16,6 +16,7 @@ public class PlayerController : NetworkBehaviour
     public Quaternion cameraStartRotation;
     public Card selectedCard; // @TODO: This should have a 'SyncVar' attribute, but we'll add it when needed.
     public List<Card> cardsInHand;
+    private TrioSystem trioSystem = new TrioSystem();
 
     private void Start()
     {
@@ -135,36 +136,31 @@ public class PlayerController : NetworkBehaviour
     }
     //****************
     [Command]
-    void CmdScoreTrio(GameObject c1, GameObject c2, GameObject c3)
+void CmdScoreTrio(GameObject c1, GameObject c2, GameObject c3, int clientScore)
+{
+    Card card1 = c1.GetComponent<Card>();
+    Card card2 = c2.GetComponent<Card>();
+    Card card3 = c3.GetComponent<Card>();
+
+    int serverScore = trioSystem.CalculateScore(card1, card2, card3);
+
+    Debug.Log("Score do trio (server): " + serverScore);
+
+    CmdRemoveCardFromHand(c1);
+    CmdRemoveCardFromHand(c2);
+    CmdRemoveCardFromHand(c3);
+}
+   void CheckForTrio()
+{
+    if (trioSystem.TryFindTrio(cardsInHand, out Card a, out Card b, out Card c))
     {
-        Card card1 = c1.GetComponent<Card>();
-        Card card2 = c2.GetComponent<Card>();
-        Card card3 = c3.GetComponent<Card>();
+        Debug.Log("TRIO!");
 
-        int totalPoints = card1.points + card2.points + card3.points;
+        int score = trioSystem.CalculateScore(a, b, c);
 
-        Debug.Log("Pontos do trio: " + totalPoints);
-
-
-        CmdRemoveCardFromHand(c1);
-        CmdRemoveCardFromHand(c2);
-        CmdRemoveCardFromHand(c3);
+        CmdScoreTrio(a.gameObject, b.gameObject, c.gameObject, score);
     }
-    void CheckForTrio()
-    {
-        if (cardsInHand.Count < 3) return;
-
-        Card c1 = cardsInHand[0];
-        Card c2 = cardsInHand[1];
-        Card c3 = cardsInHand[2];
-
-        if (c1.type == c2.type && c2.type == c3.type)
-        {
-            Debug.Log("TRIO!");
-
-            CmdScoreTrio(c1.gameObject, c2.gameObject, c3.gameObject);
-        }
-    }
+}
 
 
 }
