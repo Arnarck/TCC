@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: -90182799447918613}
   - component: {fileID: 2163931753016736439}
   - component: {fileID: 5216723305730547434}
-  - component: {fileID: 8689526216746040772}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +82,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _rigidbody: {fileID: 8689526216746040772}
+  _rigidbody: {fileID: 0}
   cardList: {fileID: 11400000, guid: eebb44c2b68a466469218765af5ee4a1, type: 2}
   cardPrefab: {fileID: 6513423077981549246, guid: d6d756657a57fc44cb4ad58d8048aba4, type: 3}
   collisionHalfSize: {x: 0, y: 0, z: 0}
@@ -106,6 +105,7 @@ MonoBehaviour:
   - {fileID: 6524625006746613573}
   isMemorizationPhase: 1
   memorizeTime: 10
+  localPlayerSpawned: 0
   cardsInDesk: []
 --- !u!65 &5216723305730547434
 BoxCollider:
@@ -128,33 +128,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.5, y: 0.5, z: 3.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &8689526216746040772
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 510000207809440837}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &540939705837489234
 GameObject:
   m_ObjectHideFlags: 0

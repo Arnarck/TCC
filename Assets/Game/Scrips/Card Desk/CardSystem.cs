@@ -22,16 +22,9 @@ public class CardSystem : NetworkBehaviour
     public float memorizeTime = 10f;
 
     [Header("INTERNAL")]
+    public bool localPlayerSpawned; // We need this because since player spawns in the network, it can spawns at any time
     public List<Card> cardsInDesk;
 
-
-
-    private void Start()
-    {
-        // Prevents rigidbody from sleeping
-        // We can make it sleep from times to times later if this become a optimization problem
-        _rigidbody.sleepThreshold = 0f;
-    }
 
     private void Awake()
     {

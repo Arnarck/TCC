@@ -26,26 +26,37 @@ public class Card : NetworkBehaviour
     public int points;
     public Family_Type familyType;
     public Ability_Type abilityType;
-    public GameObject visual; 
+    public GameObject visual;
+    public BoxCollider boxCollider;
+    public LayerMask cardSystemMask;
 
     [SyncVar(hook = nameof(OnRevealChanged))]
     public bool isRevealed = true;
 
+    [Header("INTERNAL")]
+    public bool collidedWithCardSystem;
 
-    // @TODO: Sometimes this works, sometimes it doesn't. Investigate why, and solve it.
-    private void OnTriggerEnter(Collider other)
+
+    private void Update()
     {
-        if (other.TryGetComponent<CardSystem>(out CardSystem cardSystem))
+        if (GI.cardSystem.localPlayerSpawned && !collidedWithCardSystem)
         {
-            // Makes the cards rotate towards player's camera. So all 4 players will look the cards from the front side,
-            // intead of looking from sideways.
-            // Now, this was the easiest way that i found of doing it.
-            // Mirror does not support spawn something across the network with a parent object. So, when the cards spawns
-            // in the clients, they have no parents.
-            transform.RotateAround(cardSystem.transform.position, Vector3.up, cardSystem.transform.eulerAngles.y);
+            // Checks Collision against other objects
+            Collider[] results = new Collider[1];
+            if (Physics.OverlapBoxNonAlloc(transform.position, boxCollider.size*0.5f, results, transform.rotation, cardSystemMask) > 0)
+            {
+                collidedWithCardSystem = true;
+                if (results[0].gameObject.layer == 7) // CardSystem layer
+                {
+                    // Makes the cards rotate towards player's camera. So all 4 players will look the cards from the front side,
+                    // intead of looking from sideways.
+                    transform.RotateAround(GI.cardSystem.transform.position, Vector3.up, GI.cardSystem.transform.eulerAngles.y);
+                }
+            }
+
         }
     }
-    
+
     void OnRevealChanged(bool oldValue, bool newValue)
     {
         visual.SetActive(newValue);

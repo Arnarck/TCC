@@ -184,6 +184,10 @@ MonoBehaviour:
   familyType: 1
   abilityType: 1
   visual: {fileID: 3820423724403238206}
+  boxCollider: {fileID: 2507695349026446606}
+  cardSystemMask:
+    serializedVersion: 2
+    m_Bits: 128
   isRevealed: 1
 --- !u!1 &6852357120879546568
 GameObject:

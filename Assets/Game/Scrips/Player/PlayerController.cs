@@ -18,6 +18,7 @@ public class PlayerController : NetworkBehaviour
     public List<Card> cardsInHand;
     private TrioSystem trioSystem = new TrioSystem();
 
+
     private void Start()
     {
         if (isLocalPlayer)
@@ -30,6 +31,7 @@ public class PlayerController : NetworkBehaviour
             rotation.x = 0f;
             rotation.z = 0f;
             GI.cardSystem.transform.rotation = rotation;
+            GI.cardSystem.localPlayerSpawned = true;
         }
     }
 
