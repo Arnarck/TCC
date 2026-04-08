@@ -10,9 +10,10 @@ public class CardNetworkManager : RelayNetworkManager
     public CardList cardList;
 
     [Header("Card Game - INTERNAL")]
-    public List<NetworkConnectionToClient> players;
+    public int antePrice;
     public int currentPlayerTurnIndex;
     public bool gameStarted;
+    public List<NetworkConnectionToClient> players;
 
     public override void Awake()
     {
@@ -20,6 +21,21 @@ public class CardNetworkManager : RelayNetworkManager
 
         players = new List<NetworkConnectionToClient>();
         GI.networkManager = this;
+
+        // @DELETE - Only for test while we don't have the 'rounds' feature
+        antePrice = 4;
+    }
+
+    // @DELETE - Only for test while we don't have the 'rounds' feature
+    [ServerCallback]
+    public override void Update()
+    {
+        base.Update();
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            ChargeAnte();
+        }
     }
 
 
@@ -86,6 +102,7 @@ public class CardNetworkManager : RelayNetworkManager
         players.Remove(conn);
         if (currentPlayerTurnIndex >= players.Count)
         {
+            // Increase round here
             currentPlayerTurnIndex = 0;
         }
     }
@@ -96,7 +113,29 @@ public class CardNetworkManager : RelayNetworkManager
         currentPlayerTurnIndex++;
         if (currentPlayerTurnIndex >= players.Count)
         {
+            // Increase round here
             currentPlayerTurnIndex = 0;
+        }
+    }
+
+    [Server]
+    public void ChargeAnte()
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            PlayerController player = players[i].identity.GetComponent<PlayerController>();
+            if (player.score >= antePrice)
+            {
+                player.score -= antePrice;
+            }
+            else
+            {
+                // @TODO:
+                // Mark players for disconnection instead of disconnecting directly here? Disconnection can happen at any time.
+                // Show 'game over' screen if only one player survive - or none.
+                // Should player spect the game?
+                players[i].Disconnect();
+            }
         }
     }
 

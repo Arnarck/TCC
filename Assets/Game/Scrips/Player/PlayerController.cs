@@ -6,11 +6,13 @@ public class PlayerController : NetworkBehaviour
 {
     public const int MAX_CARDS_IN_HAND = 5;
 
+    public PlayerHUD playerHUD;
     public Transform cameraPointWhenChoosingCards;
     public Camera playerCamera;
     public Transform[] cardsSpawnPoints;
 
     [Header("INTERNAL")]
+    [SyncVar(hook = nameof(UpdateScore))]public int score;
     public bool isChoosingCards;
     public Vector3 cameraStartPosition;
     public Quaternion cameraStartRotation;
@@ -32,6 +34,12 @@ public class PlayerController : NetworkBehaviour
             rotation.z = 0f;
             GI.cardSystem.transform.rotation = rotation;
             GI.cardSystem.localPlayerSpawned = true;
+
+            playerHUD.UpdateScore();
+        }
+        else
+        {
+            playerHUD.Hide();
         }
     }
 
@@ -136,33 +144,48 @@ public class PlayerController : NetworkBehaviour
             cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
         }
     }
+
+    [Command]
+    public void CmdAddScore(int value)
+    {
+        score += value;
+    }
+
+    public void UpdateScore(int oldValue, int newValue)
+    {
+        score = newValue;
+        playerHUD.UpdateScore();
+    }
+
+
     //****************
     [Command]
-void CmdScoreTrio(GameObject c1, GameObject c2, GameObject c3, int clientScore)
-{
-    Card card1 = c1.GetComponent<Card>();
-    Card card2 = c2.GetComponent<Card>();
-    Card card3 = c3.GetComponent<Card>();
-
-    int serverScore = trioSystem.CalculateScore(card1, card2, card3);
-
-    Debug.Log("Score do trio (server): " + serverScore);
-
-    CmdRemoveCardFromHand(c1);
-    CmdRemoveCardFromHand(c2);
-    CmdRemoveCardFromHand(c3);
-}
-   void CheckForTrio()
-{
-    if (trioSystem.TryFindTrio(cardsInHand, out Card a, out Card b, out Card c))
+    void CmdScoreTrio(GameObject c1, GameObject c2, GameObject c3, int clientScore)
     {
-        Debug.Log("TRIO!");
+        Card card1 = c1.GetComponent<Card>();
+        Card card2 = c2.GetComponent<Card>();
+        Card card3 = c3.GetComponent<Card>();
 
-        int score = trioSystem.CalculateScore(a, b, c);
+        int serverScore = trioSystem.CalculateScore(card1, card2, card3);
+        CmdAddScore(serverScore);
 
-        CmdScoreTrio(a.gameObject, b.gameObject, c.gameObject, score);
+        Debug.Log("Score do trio (server): " + serverScore);
+
+        CmdRemoveCardFromHand(c1);
+        CmdRemoveCardFromHand(c2);
+        CmdRemoveCardFromHand(c3);
     }
-}
+   void CheckForTrio()
+    {
+        if (trioSystem.TryFindTrio(cardsInHand, out Card a, out Card b, out Card c))
+        {
+            Debug.Log("TRIO!");
+
+            int score = trioSystem.CalculateScore(a, b, c);
+
+            CmdScoreTrio(a.gameObject, b.gameObject, c.gameObject, score);
+        }
+    }
 
 
 }
