@@ -16,7 +16,7 @@ public class PlayerController : NetworkBehaviour
     public bool isChoosingCards;
     public Vector3 cameraStartPosition;
     public Quaternion cameraStartRotation;
-    public Card selectedCard; // @TODO: This should have a 'SyncVar' attribute, but we'll add it when needed.
+    public List<Card> selectedCards;
     public List<Card> cardsInHand;
     private TrioSystem trioSystem = new TrioSystem();
 
@@ -47,35 +47,21 @@ public class PlayerController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-
             if (Input.GetMouseButtonDown(0))
             {
-                // Select cards
-                if (GI.cardSystem.isMemorizationPhase)
-                {
-                    //Debug.Log("Aguardando fim da memorização...");
-                    return;
-                }
+                // Select card
                 Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
                 {
                     Card card = hit.collider.gameObject.GetComponent<Card>();
-                    if (cardsInHand.Contains(card))
-                    {
-                        // Selects a card from the hand
-                        selectedCard = card;
-                    }
-                    else
-                    {
-                        // Selects a card from the desk and spawns it
-                        CmdSpawnCardInHand(card.type, hit.collider.gameObject);
-                    }
+                    CmdTryToSelectCard(card.gameObject);
                 }
-                //*******
-                if (cardsInHand.Count >= 3)
-                {
-                    CheckForTrio();
-                }
+            }
+
+            // @DELETE - Temp while we don't have a official way of making a trio.
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                CmdCheckForTrio();
             }
 
             // Switch camera position
@@ -98,7 +84,61 @@ public class PlayerController : NetworkBehaviour
     }
 
     [Command]
-    public void CmdSpawnCardInHand(Card_Type type, GameObject cardToRemoveFromDesk)
+    public void CmdTryToSelectCard(GameObject go)
+    {
+        if (GI.cardSystem.isMemorizationPhase)
+        {
+            //Debug.Log("Aguardando fim da memorização...");
+            return;
+        }
+
+        Card card = go.GetComponent<Card>();
+        // Prevents from stolling a card from other player's hand (although it's a good idea)
+        for (int i = 0; i < GI.networkManager.players.Count; i++)
+        {
+            // @TODO: Cache 'PlayerController' in network manager?
+            NetworkConnectionToClient conn = GI.networkManager.players[i];
+            if (conn != connectionToClient && conn.identity.GetComponent<PlayerController>().cardsInHand.Contains(card))
+            {
+                return;
+            }
+        }
+
+        // Selects/Deselects the card
+        if (cardsInHand.Contains(card))
+        {
+            if (selectedCards.Contains(card))
+            {
+                selectedCards.Remove(card);
+                TargetDeselectCard(go);
+            }
+            else
+            {
+                selectedCards.Add(card);
+                TargetSelectCard(go);
+            }
+        }
+        else
+        {
+            // Selects a card from the desk and spawns it
+            SpawnCardInHand(card.type, go);
+        }
+    }
+
+    [TargetRpc]
+    public void TargetSelectCard(GameObject go)
+    {
+        go.transform.position += go.transform.forward*0.1f;
+    }
+
+    [TargetRpc]
+    public void TargetDeselectCard(GameObject go)
+    {
+        go.transform.position -= go.transform.forward*0.1f;
+    }
+
+    [Server]
+    public void SpawnCardInHand(Card_Type type, GameObject cardToRemoveFromDesk)
     {
         if (GI.networkManager.GetCurrentPlayerTurn() != connectionToClient.connectionId)
         {
@@ -175,9 +215,16 @@ public class PlayerController : NetworkBehaviour
         CmdRemoveCardFromHand(c2);
         CmdRemoveCardFromHand(c3);
     }
-   void CheckForTrio()
+
+    [Command]
+    void CmdCheckForTrio()
     {
-        if (trioSystem.TryFindTrio(cardsInHand, out Card a, out Card b, out Card c))
+        if (selectedCards.Count != 3)
+        {
+            return;
+        }
+
+        if (trioSystem.TryFindTrio(selectedCards, out Card a, out Card b, out Card c))
         {
             Debug.Log("TRIO!");
 
@@ -186,6 +233,4 @@ public class PlayerController : NetworkBehaviour
             CmdScoreTrio(a.gameObject, b.gameObject, c.gameObject, score);
         }
     }
-
-
 }
