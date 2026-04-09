@@ -8,6 +8,7 @@ public class CardNetworkManager : RelayNetworkManager
     [Header("Card Game")]
     public GameObject cardDeskPrefab;
     public CardList cardList;
+    public int anteStartPrice;
 
     [Header("Card Game - INTERNAL")]
     public int currentRound;
@@ -15,30 +16,6 @@ public class CardNetworkManager : RelayNetworkManager
     public int currentPlayerTurnIndex;
     public bool gameStarted;
     public List<NetworkConnectionToClient> players;
-
-    public override void Awake()
-    {
-        base.Awake();
-
-        players = new List<NetworkConnectionToClient>();
-        GI.networkManager = this;
-
-        // @DELETE - Only for test while we don't have the 'rounds' feature
-        antePrice = 4;
-    }
-
-    // @DELETE - Only for test while we don't have the 'rounds' feature
-    [ServerCallback]
-    public override void Update()
-    {
-        base.Update();
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            ChargeAnte();
-        }
-    }
-
 
     [ContextMenu("Fill Spawnable Prefabs With Cards")]
     public void FillSpawnablePrefabsWithCards()
@@ -51,6 +28,16 @@ public class CardNetworkManager : RelayNetworkManager
                 spawnPrefabs.Add(prefab);
             }
         }
+    }
+
+    public override void Awake()
+    {
+        base.Awake();
+
+        players = new List<NetworkConnectionToClient>();
+        GI.networkManager = this;
+
+        antePrice = anteStartPrice;
     }
 
     public override void OnStartServer()
@@ -124,25 +111,26 @@ public class CardNetworkManager : RelayNetworkManager
         currentPlayerTurnIndex = 0;
 
         GI.cardSystem.ServerUpdateCurrentRound(currentRound);
-    }
 
-    [Server]
-    public void ChargeAnte()
-    {
-        for (int i = 0; i < players.Count; i++)
+        // Check for ante round
+        if (currentRound > 0 && currentRound % 2 == 0)
         {
-            PlayerController player = players[i].identity.GetComponent<PlayerController>();
-            if (player.score >= antePrice)
+            // Charge ante and disconnect players that don't have enough score
+            for (int i = 0; i < players.Count; i++)
             {
-                player.score -= antePrice;
-            }
-            else
-            {
-                // @TODO:
-                // Mark players for disconnection instead of disconnecting directly here? Disconnection can happen at any time.
-                // Show 'game over' screen if only one player survive - or none.
-                // Should player spect the game?
-                players[i].Disconnect();
+                PlayerController player = players[i].identity.GetComponent<PlayerController>();
+                if (player.score >= antePrice)
+                {
+                    player.score -= antePrice;
+                }
+                else
+                {
+                    // @TODO:
+                    // Mark players for disconnection instead of disconnecting directly here? Disconnection can happen at any time.
+                    // Show 'game over' screen if only one player survive - or none.
+                    // Should player spect the game?
+                    players[i].Disconnect();
+                }
             }
         }
     }
