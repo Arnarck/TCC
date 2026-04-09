@@ -8,6 +8,7 @@ public class PlayerHUD : NetworkBehaviour
     public PlayerController player;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI roundsText;
+    public TextMeshProUGUI currentTurnTimeText;
     public Button endCurrentTurnButton;
 
     public override void OnStartClient()
@@ -38,5 +39,11 @@ public class PlayerHUD : NetworkBehaviour
     public void OnClick_EndCurrentTurn()
     {
         player.CmdEndCurrentTurn();
+    }
+
+    public void UpdateCurrentTurnTime()
+    {
+        int time = (int)Mathf.Max(0f, player.currentTurn_t);
+        currentTurnTimeText.text = "Remaining Time \n<size=300%>" + time.ToString() + "s</size>";
     }
 }

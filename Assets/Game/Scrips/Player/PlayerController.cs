@@ -13,7 +13,7 @@ public class PlayerController : NetworkBehaviour
 
     [Header("INTERNAL")]
     [SyncVar(hook = nameof(UpdateScore))]public int score;
-    public float currentTurn_t;
+    [SyncVar] public float currentTurn_t;
     public bool canCollectCardThisTurn;
     public bool isChoosingCards;
     public Vector3 cameraStartPosition;
@@ -87,14 +87,19 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
-        // @TODO:
-        // Make UI to show remaining time?
+        // Update current turn timer
         if (currentTurn_t > 0f)
         {
             currentTurn_t -= Time.deltaTime;
-            if (currentTurn_t <= 0f)
+            if (currentTurn_t <= 0f && isServer) // Only the server can call this function because the client can cheat the timer
             {
                 CmdEndCurrentTurn();
+            }
+
+            // Update time in the client
+            if (isLocalPlayer)
+            {
+                playerHUD.UpdateCurrentTurnTime();
             }
         }
     }
@@ -111,7 +116,9 @@ public class PlayerController : NetworkBehaviour
     [TargetRpc]
     public void TargetEndCurrentTurn()
     {
+        currentTurn_t = 0f;
         playerHUD.endCurrentTurnButton.interactable = false;
+        playerHUD.currentTurnTimeText.enabled = false;
     }
 
     [Command]
@@ -253,14 +260,14 @@ public class PlayerController : NetworkBehaviour
         canCollectCardThisTurn = true;
         currentTurn_t = timer;
 
-        TargetStartCurrentTurn(timer);
+        TargetStartCurrentTurn();
     }
 
     [TargetRpc]
-    public void TargetStartCurrentTurn(float timer)
+    public void TargetStartCurrentTurn()
     {
-        currentTurn_t = timer;
         playerHUD.endCurrentTurnButton.interactable = true;
+        playerHUD.currentTurnTimeText.enabled = true;
     }
 
 
