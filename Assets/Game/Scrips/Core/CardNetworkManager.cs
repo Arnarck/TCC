@@ -10,6 +10,7 @@ public class CardNetworkManager : RelayNetworkManager
     public CardList cardList;
 
     [Header("Card Game - INTERNAL")]
+    public int currentRound;
     public int antePrice;
     public int currentPlayerTurnIndex;
     public bool gameStarted;
@@ -102,7 +103,7 @@ public class CardNetworkManager : RelayNetworkManager
         players.Remove(conn);
         if (currentPlayerTurnIndex >= players.Count)
         {
-            // Increase round here
+            currentRound++;
             currentPlayerTurnIndex = 0;
         }
     }
@@ -113,7 +114,7 @@ public class CardNetworkManager : RelayNetworkManager
         currentPlayerTurnIndex++;
         if (currentPlayerTurnIndex >= players.Count)
         {
-            // Increase round here
+            currentRound++;
             currentPlayerTurnIndex = 0;
         }
     }
