@@ -116,6 +116,8 @@ public class CardNetworkManager : RelayNetworkManager
         {
             currentRound++;
             currentPlayerTurnIndex = 0;
+
+            GI.cardSystem.ServerUpdateCurrentRound(currentRound);
         }
     }
 

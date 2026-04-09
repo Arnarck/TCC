@@ -22,6 +22,7 @@ public class CardSystem : NetworkBehaviour
     public float memorizeTime = 10f;
 
     [Header("INTERNAL")]
+    [SyncVar(hook = nameof(UpdateCurrentRound))]public int currentRound;
     public bool localPlayerSpawned; // We need this because since player spawns in the network, it can spawns at any time
     public List<Card> cardsInDesk;
 
@@ -30,6 +31,18 @@ public class CardSystem : NetworkBehaviour
     {
         GI.cardSystem = this;
         GI.cardList = cardList;
+    }
+
+    [Server]
+    public void ServerUpdateCurrentRound(int value)
+    {
+        currentRound = value;
+    }
+
+    public void UpdateCurrentRound(int oldValue, int newValue)
+    {
+        currentRound = newValue;
+        GI.playerHUD.UpdateCurrentRound(currentRound);
     }
 
     [Server]
