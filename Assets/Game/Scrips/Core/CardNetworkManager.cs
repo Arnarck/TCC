@@ -89,7 +89,9 @@ public class CardNetworkManager : RelayNetworkManager
     {
         base.OnServerDisconnect(conn);
 
+        // Update the rounds if a player get disconnected from the match
         players.Remove(conn);
+        spectators.Remove(conn);
         if (currentPlayerTurnIndex >= players.Count)
         {
             UpdateRound();
@@ -106,7 +108,10 @@ public class CardNetworkManager : RelayNetworkManager
             UpdateRound();
         }
 
-        players[currentPlayerTurnIndex].identity.GetComponent<PlayerController>().ServerStartCurrentTurn(30f);
+        if (players.Count > 0)
+        {
+            players[currentPlayerTurnIndex].identity.GetComponent<PlayerController>().ServerStartCurrentTurn(30f);
+        }
     }
 
     [Server]
@@ -130,8 +135,7 @@ public class CardNetworkManager : RelayNetworkManager
                 }
                 else
                 {
-                    // @TODO:
-                    // Show 'game over' screen if only one player survive - or none.
+                    // Spectator Mode
                     spectators.Add(players[i]);
                     players.Remove(players[i]);
 
@@ -140,7 +144,22 @@ public class CardNetworkManager : RelayNetworkManager
                 }
             }
 
-            
+            // Check for win/lose conditions
+            if (players.Count == 1)
+            {
+                players[0].identity.GetComponent<PlayerController>().ServerWin();
+                for (int i = 0; i < spectators.Count; i++)
+                {
+                    spectators[i].identity.GetComponent<PlayerController>().ServerLose();
+                }
+            }
+            else if (players.Count == 0)
+            {
+                for (int i = 0; i < spectators.Count; i++)
+                {
+                    spectators[i].identity.GetComponent<PlayerController>().ServerLose();
+                }
+            }
         }
     }
 

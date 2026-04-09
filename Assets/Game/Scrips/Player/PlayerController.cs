@@ -16,6 +16,7 @@ public class PlayerController : NetworkBehaviour
     [SyncVar(hook = nameof(UpdateScore))]public int score;
     [SyncVar] public float currentTurn_t;
     [SyncVar] public bool spectatorMode;
+    [SyncVar] public bool gameStopped;
     public bool canCollectCardThisTurn;
     public bool isChoosingCards;
     public Vector3 cameraStartPosition;
@@ -52,6 +53,11 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
+        if (gameStopped)
+        {
+            return;
+        }
+
         if (!spectatorMode)
         {
             if (isLocalPlayer)
@@ -67,7 +73,7 @@ public class PlayerController : NetworkBehaviour
                     }
                 }
 
-                // @DELETE - Temp while we don't have a official way of making a trio.
+                // @TODO: Check with design a official way of making a trio (button? mouse click in item in desk?).
                 if (Input.GetKeyDown(KeyCode.C))
                 {
                     CmdCheckForTrio();
@@ -295,6 +301,41 @@ public class PlayerController : NetworkBehaviour
     {
         playerHUD.HideGameplayHUD();
         playerHUD.ShowSpectatorHUD();
+    }
+
+    [Server]
+    public void ServerWin()
+    {
+        gameStopped = true;
+        Time.timeScale = 0f;
+
+        // Update Stats here
+        TargetWin();
+    }
+
+    [TargetRpc]
+    public void TargetWin()
+    {
+        Time.timeScale = 0f;
+        playerHUD.ShowWin();
+    }
+
+    [Server]
+    public void ServerLose()
+    {
+        // @TODO: ServerPause() function
+        gameStopped = true;
+        Time.timeScale = 0f;
+
+        // Update stats here
+        TargetLose();
+    }
+
+    [TargetRpc]
+    public void TargetLose()
+    {
+        Time.timeScale = 0f;
+        playerHUD.ShowLose();
     }
 
 

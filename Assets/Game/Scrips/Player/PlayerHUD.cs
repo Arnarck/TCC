@@ -12,6 +12,8 @@ public class PlayerHUD : NetworkBehaviour
     public Button endCurrentTurnButton;
     public GameObject gameplayHUD;
     public GameObject spectatorHUD;
+    public GameObject winUI;
+    public GameObject loseUI;
 
     public override void OnStartClient()
     {
@@ -45,6 +47,16 @@ public class PlayerHUD : NetworkBehaviour
     public void ShowSpectatorHUD()
     {
         spectatorHUD.SetActive(true);
+    }
+
+    public void ShowWin()
+    {
+        winUI.SetActive(true);
+    }
+
+    public void ShowLose()
+    {
+        loseUI.SetActive(true);
     }
 
     // 'OnClick' means that this function is called by a button on the UI.
