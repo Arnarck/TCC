@@ -175,9 +175,6 @@ public class PlayerController : NetworkBehaviour
         go.transform.position -= go.transform.forward*0.1f;
     }
 
-// @TODO: 
-// Add turn conditions here?
-// Decide what to do with this function 
     [Command]
     public void CmdSpawnCardInHand(Card_Type type)
     {
@@ -188,11 +185,7 @@ public class PlayerController : NetworkBehaviour
             return;
         }
 
-        GameObject go = Instantiate(GI.cardList.GetCardPrefab(type), cardsSpawnPoints[spawnIndex].position,
-                                    cardsSpawnPoints[spawnIndex].rotation);
-        NetworkServer.Spawn(go, connectionToClient);
-
-        cardsInHand.Add(go.GetComponent<Card>());
+        __SpawnCardInHand(type, spawnIndex);
     }
 
     [Server]
@@ -215,14 +208,22 @@ public class PlayerController : NetworkBehaviour
             return;
         }
 
-        GI.cardSystem.DestroyCard(cardToRemoveFromDesk);
+        __SpawnCardInHand(type, spawnIndex);
 
+        GI.cardSystem.DestroyCard(cardToRemoveFromDesk);
+        canCollectCardThisTurn = false;
+    }
+
+    // Function made to eliminate duplicated code.
+    // Those two underlines '__' means "i'm a internal function, but you can call me outside the script if you know what you're doing"
+    [Server]
+    public void __SpawnCardInHand(Card_Type type, int spawnIndex)
+    {
         GameObject go = Instantiate(GI.cardList.GetCardPrefab(type), cardsSpawnPoints[spawnIndex].position,
                                     cardsSpawnPoints[spawnIndex].rotation);
         NetworkServer.Spawn(go, connectionToClient);
 
         cardsInHand.Add(go.GetComponent<Card>());
-        canCollectCardThisTurn = false;
     }
 
     [Server]

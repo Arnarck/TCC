@@ -27,7 +27,7 @@ public class PlayerHUD : NetworkBehaviour
 
     public void UpdateCurrentRound(int value)
     {
-        roundsText.text = value.ToString();
+        roundsText.text = (value + 1).ToString(); // Starts from 1, rather than from 0
     }
 
     public void Hide()
