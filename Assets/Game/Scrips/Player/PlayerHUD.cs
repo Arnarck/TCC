@@ -10,6 +10,8 @@ public class PlayerHUD : NetworkBehaviour
     public TextMeshProUGUI roundsText;
     public TextMeshProUGUI currentTurnTimeText;
     public Button endCurrentTurnButton;
+    public GameObject gameplayHUD;
+    public GameObject spectatorHUD;
 
     public override void OnStartClient()
     {
@@ -33,6 +35,16 @@ public class PlayerHUD : NetworkBehaviour
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public void HideGameplayHUD()
+    {
+        gameplayHUD.SetActive(false);
+    }
+
+    public void ShowSpectatorHUD()
+    {
+        spectatorHUD.SetActive(true);
     }
 
     // 'OnClick' means that this function is called by a button on the UI.

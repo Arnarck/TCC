@@ -16,6 +16,7 @@ public class CardNetworkManager : RelayNetworkManager
     public int currentPlayerTurnIndex;
     public bool gameStarted;
     public List<NetworkConnectionToClient> players;
+    public List<NetworkConnectionToClient> spectators;
 
     [ContextMenu("Fill Spawnable Prefabs With Cards")]
     public void FillSpawnablePrefabsWithCards()
@@ -34,7 +35,8 @@ public class CardNetworkManager : RelayNetworkManager
     {
         base.Awake();
 
-        players = new List<NetworkConnectionToClient>();
+        players    = new List<NetworkConnectionToClient>();
+        spectators = new List<NetworkConnectionToClient>();
         GI.networkManager = this;
 
         antePrice = anteStartPrice;
@@ -129,12 +131,16 @@ public class CardNetworkManager : RelayNetworkManager
                 else
                 {
                     // @TODO:
-                    // Mark players for disconnection instead of disconnecting directly here? Disconnection can happen at any time.
                     // Show 'game over' screen if only one player survive - or none.
-                    // Should player spect the game?
-                    players[i].Disconnect();
+                    spectators.Add(players[i]);
+                    players.Remove(players[i]);
+
+                    player.ServerEnterSpectatorMode();
+                    i--;
                 }
             }
+
+            
         }
     }
 

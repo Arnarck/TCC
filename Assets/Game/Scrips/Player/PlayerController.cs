@@ -9,11 +9,13 @@ public class PlayerController : NetworkBehaviour
     public PlayerHUD playerHUD;
     public Transform cameraPointWhenChoosingCards;
     public Camera playerCamera;
+    public GameObject playerModel;
     public Transform[] cardsSpawnPoints;
 
     [Header("INTERNAL")]
     [SyncVar(hook = nameof(UpdateScore))]public int score;
     [SyncVar] public float currentTurn_t;
+    [SyncVar] public bool spectatorMode;
     public bool canCollectCardThisTurn;
     public bool isChoosingCards;
     public Vector3 cameraStartPosition;
@@ -50,56 +52,59 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        if (isLocalPlayer)
+        if (!spectatorMode)
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                // Select card
-                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
-                {
-                    Card card = hit.collider.gameObject.GetComponent<Card>();
-                    CmdTryToSelectCard(card.gameObject);
-                }
-            }
-
-            // @DELETE - Temp while we don't have a official way of making a trio.
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                CmdCheckForTrio();
-            }
-
-            // Switch camera position
-            // @TODO: Align with design to know when and how the camera will change position.
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                isChoosingCards = !isChoosingCards;
-                if (isChoosingCards)
-                {
-                    playerCamera.transform.position = cameraPointWhenChoosingCards.position;
-                    playerCamera.transform.rotation = cameraPointWhenChoosingCards.rotation;
-                }
-                else
-                {
-                    playerCamera.transform.position = cameraStartPosition;
-                    playerCamera.transform.rotation = cameraStartRotation;
-                }
-            }
-        }
-
-        // Update current turn timer
-        if (currentTurn_t > 0f)
-        {
-            currentTurn_t -= Time.deltaTime;
-            if (currentTurn_t <= 0f && isServer) // Only the server can call this function because the client can cheat the timer
-            {
-                CmdEndCurrentTurn();
-            }
-
-            // Update time in the client
             if (isLocalPlayer)
             {
-                playerHUD.UpdateCurrentTurnTime();
+                if (Input.GetMouseButtonDown(0))
+                {
+                    // Select card
+                    Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+                    if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
+                    {
+                        Card card = hit.collider.gameObject.GetComponent<Card>();
+                        CmdTryToSelectCard(card.gameObject);
+                    }
+                }
+
+                // @DELETE - Temp while we don't have a official way of making a trio.
+                if (Input.GetKeyDown(KeyCode.C))
+                {
+                    CmdCheckForTrio();
+                }
+
+                // Switch camera position
+                // @TODO: Align with design to know when and how the camera will change position.
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    isChoosingCards = !isChoosingCards;
+                    if (isChoosingCards)
+                    {
+                        playerCamera.transform.position = cameraPointWhenChoosingCards.position;
+                        playerCamera.transform.rotation = cameraPointWhenChoosingCards.rotation;
+                    }
+                    else
+                    {
+                        playerCamera.transform.position = cameraStartPosition;
+                        playerCamera.transform.rotation = cameraStartRotation;
+                    }
+                }
+            }
+
+            // Update current turn timer
+            if (currentTurn_t > 0f)
+            {
+                currentTurn_t -= Time.deltaTime;
+                if (currentTurn_t <= 0f && isServer) // Only the server can call this function because the client can cheat the timer
+                {
+                    CmdEndCurrentTurn();
+                }
+
+                // Update time in the client
+                if (isLocalPlayer)
+                {
+                    playerHUD.UpdateCurrentTurnTime();
+                }
             }
         }
     }
@@ -269,6 +274,27 @@ public class PlayerController : NetworkBehaviour
     {
         playerHUD.endCurrentTurnButton.interactable = true;
         playerHUD.currentTurnTimeText.enabled = true;
+    }
+
+    [Server]
+    public void ServerEnterSpectatorMode()
+    {
+        spectatorMode = true;
+        playerModel.SetActive(false);
+        for (int i = 0; i < cardsInHand.Count; i++)
+        {
+            ServerRemoveCardFromHand(cardsInHand[i].gameObject);
+            i--;
+        }
+
+        TargetEnterSpectatorMode();
+    }
+
+    [TargetRpc]
+    public void TargetEnterSpectatorMode()
+    {
+        playerHUD.HideGameplayHUD();
+        playerHUD.ShowSpectatorHUD();
     }
 
 
