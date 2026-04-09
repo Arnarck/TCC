@@ -103,8 +103,7 @@ public class CardNetworkManager : RelayNetworkManager
         players.Remove(conn);
         if (currentPlayerTurnIndex >= players.Count)
         {
-            currentRound++;
-            currentPlayerTurnIndex = 0;
+            UpdateRound();
         }
     }
 
@@ -114,11 +113,17 @@ public class CardNetworkManager : RelayNetworkManager
         currentPlayerTurnIndex++;
         if (currentPlayerTurnIndex >= players.Count)
         {
-            currentRound++;
-            currentPlayerTurnIndex = 0;
-
-            GI.cardSystem.ServerUpdateCurrentRound(currentRound);
+            UpdateRound();
         }
+    }
+
+    [Server]
+    public void UpdateRound()
+    {
+        currentRound++;
+        currentPlayerTurnIndex = 0;
+
+        GI.cardSystem.ServerUpdateCurrentRound(currentRound);
     }
 
     [Server]
