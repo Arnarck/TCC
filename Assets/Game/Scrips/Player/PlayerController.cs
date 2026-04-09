@@ -185,8 +185,8 @@ public class PlayerController : NetworkBehaviour
         GI.networkManager.UpdatePlayerTurn();
     }
 
-    [Command]
-    public void CmdRemoveCardFromHand(GameObject go)
+    [Server]
+    public void ServerRemoveCardFromHand(GameObject go)
     {
         Card card = go.GetComponent<Card>();
         if (!cardsInHand.Contains(card))
@@ -208,12 +208,6 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    [Command]
-    public void CmdAddScore(int value)
-    {
-        score += value;
-    }
-
     public void UpdateScore(int oldValue, int newValue)
     {
         score = newValue;
@@ -222,21 +216,21 @@ public class PlayerController : NetworkBehaviour
 
 
     //****************
-    [Command]
-    void CmdScoreTrio(GameObject c1, GameObject c2, GameObject c3, int clientScore)
+    [Server]
+    void ServerScoreTrio(GameObject c1, GameObject c2, GameObject c3, int clientScore)
     {
         Card card1 = c1.GetComponent<Card>();
         Card card2 = c2.GetComponent<Card>();
         Card card3 = c3.GetComponent<Card>();
 
         int serverScore = trioSystem.CalculateScore(card1, card2, card3);
-        CmdAddScore(serverScore);
+        score += serverScore;
 
         Debug.Log("Score do trio (server): " + serverScore);
 
-        CmdRemoveCardFromHand(c1);
-        CmdRemoveCardFromHand(c2);
-        CmdRemoveCardFromHand(c3);
+        ServerRemoveCardFromHand(c1);
+        ServerRemoveCardFromHand(c2);
+        ServerRemoveCardFromHand(c3);
     }
 
     [Command]
@@ -253,7 +247,7 @@ public class PlayerController : NetworkBehaviour
 
             int score = trioSystem.CalculateScore(a, b, c);
 
-            CmdScoreTrio(a.gameObject, b.gameObject, c.gameObject, score);
+            ServerScoreTrio(a.gameObject, b.gameObject, c.gameObject, score);
         }
     }
 }
