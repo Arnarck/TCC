@@ -36,6 +36,9 @@ public class PlayerController : NetworkBehaviour
             GI.cardSystem.localPlayerSpawned = true;
 
             playerHUD.UpdateScore();
+
+            CmdSpawnCardInHand((Card_Type)Random.Range(0, (int)Card_Type.COUNT));
+            CmdSpawnCardInHand((Card_Type)Random.Range(0, (int)Card_Type.COUNT));
         }
         else
         {
@@ -135,6 +138,26 @@ public class PlayerController : NetworkBehaviour
     public void TargetDeselectCard(GameObject go)
     {
         go.transform.position -= go.transform.forward*0.1f;
+    }
+
+// @TODO: 
+// Add turn conditions here?
+// Decide what to do with this function 
+    [Command]
+    public void CmdSpawnCardInHand(Card_Type type)
+    {
+        int spawnIndex = cardsInHand.Count;
+        if (spawnIndex >= MAX_CARDS_IN_HAND)
+        {
+            Debug.Assert(false, "Player's hand is already full of cards. Can't add a new one.");
+            return;
+        }
+
+        GameObject go = Instantiate(GI.cardList.GetCardPrefab(type), cardsSpawnPoints[spawnIndex].position,
+                                    cardsSpawnPoints[spawnIndex].rotation);
+        NetworkServer.Spawn(go, connectionToClient);
+
+        cardsInHand.Add(go.GetComponent<Card>());
     }
 
     [Server]
