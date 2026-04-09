@@ -94,6 +94,7 @@ public class CardNetworkManager : RelayNetworkManager
         }
     }
 
+    // @TODO: Only update player turn after memorization phase
     [Server]
     public void UpdatePlayerTurn()
     {
@@ -102,6 +103,8 @@ public class CardNetworkManager : RelayNetworkManager
         {
             UpdateRound();
         }
+
+        players[currentPlayerTurnIndex].identity.GetComponent<PlayerController>().ServerStartTurnTimer(30f);
     }
 
     [Server]

@@ -13,6 +13,8 @@ public class PlayerController : NetworkBehaviour
 
     [Header("INTERNAL")]
     [SyncVar(hook = nameof(UpdateScore))]public int score;
+    public float currentTurn_t;
+    public bool canCollectCardThisTurn;
     public bool isChoosingCards;
     public Vector3 cameraStartPosition;
     public Quaternion cameraStartRotation;
@@ -82,6 +84,18 @@ public class PlayerController : NetworkBehaviour
                     playerCamera.transform.position = cameraStartPosition;
                     playerCamera.transform.rotation = cameraStartRotation;
                 }
+            }
+        }
+
+        // @TODO:
+        // Make UI to show remaining time?
+        // Make a feature to finish the turn earlier
+        if (currentTurn_t > 0f)
+        {
+            currentTurn_t -= Time.deltaTime;
+            if (currentTurn_t <= 0f)
+            {
+                GI.networkManager.UpdatePlayerTurn();
             }
         }
     }
@@ -168,6 +182,11 @@ public class PlayerController : NetworkBehaviour
             return;
         }
 
+        if (!canCollectCardThisTurn)
+        {
+            return;
+        }
+
         int spawnIndex = cardsInHand.Count;
         if (spawnIndex >= MAX_CARDS_IN_HAND)
         {
@@ -182,7 +201,7 @@ public class PlayerController : NetworkBehaviour
         NetworkServer.Spawn(go, connectionToClient);
 
         cardsInHand.Add(go.GetComponent<Card>());
-        GI.networkManager.UpdatePlayerTurn();
+        canCollectCardThisTurn = false;
     }
 
     [Server]
@@ -214,6 +233,13 @@ public class PlayerController : NetworkBehaviour
         playerHUD.UpdateScore();
     }
 
+    [Server]
+    public void ServerStartTurnTimer(float timer)
+    {
+        canCollectCardThisTurn = true;
+        currentTurn_t = timer;
+    }
+
 
     //****************
     [Server]
@@ -236,6 +262,12 @@ public class PlayerController : NetworkBehaviour
     [Command]
     void CmdCheckForTrio()
     {
+        // Player is only able to score a trio in his current turn
+        if (GI.networkManager.GetCurrentPlayerTurn() != connectionToClient.connectionId)
+        {
+            return;
+        }
+
         if (selectedCards.Count != 3)
         {
             return;
