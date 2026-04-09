@@ -104,7 +104,7 @@ public class CardNetworkManager : RelayNetworkManager
             UpdateRound();
         }
 
-        players[currentPlayerTurnIndex].identity.GetComponent<PlayerController>().ServerStartTurnTimer(30f);
+        players[currentPlayerTurnIndex].identity.GetComponent<PlayerController>().ServerStartCurrentTurn(30f);
     }
 
     [Server]

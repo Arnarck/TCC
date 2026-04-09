@@ -89,15 +89,29 @@ public class PlayerController : NetworkBehaviour
 
         // @TODO:
         // Make UI to show remaining time?
-        // Make a feature to finish the turn earlier
         if (currentTurn_t > 0f)
         {
             currentTurn_t -= Time.deltaTime;
             if (currentTurn_t <= 0f)
             {
-                GI.networkManager.UpdatePlayerTurn();
+                CmdEndCurrentTurn();
             }
         }
+    }
+
+    [Command]
+    public void CmdEndCurrentTurn()
+    {
+        currentTurn_t = 0f;
+        GI.networkManager.UpdatePlayerTurn();
+
+        TargetEndCurrentTurn();
+    }
+
+    [TargetRpc]
+    public void TargetEndCurrentTurn()
+    {
+        playerHUD.endCurrentTurnButton.interactable = false;
     }
 
     [Command]
@@ -234,10 +248,19 @@ public class PlayerController : NetworkBehaviour
     }
 
     [Server]
-    public void ServerStartTurnTimer(float timer)
+    public void ServerStartCurrentTurn(float timer)
     {
         canCollectCardThisTurn = true;
         currentTurn_t = timer;
+
+        TargetStartCurrentTurn(timer);
+    }
+
+    [TargetRpc]
+    public void TargetStartCurrentTurn(float timer)
+    {
+        currentTurn_t = timer;
+        playerHUD.endCurrentTurnButton.interactable = true;
     }
 
 
