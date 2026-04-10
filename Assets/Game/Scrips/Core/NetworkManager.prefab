@@ -70,6 +70,8 @@ MonoBehaviour:
   - {fileID: 6513423077981549246, guid: 9666b9caa425496439f610ed6a21000f, type: 3}
   - {fileID: 6513423077981549246, guid: 9950977b0ff25e6489fd7747db69c5bf, type: 3}
   - {fileID: 6513423077981549246, guid: 750eb0b359193a6419303411d119f7e7, type: 3}
+  - {fileID: 6513423077981549246, guid: a5109613d280aa94daeaa1e276b5d4c2, type: 3}
+  - {fileID: 6513423077981549246, guid: d3e3b513c543a564e88de34c9776f963, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -93,6 +95,7 @@ MonoBehaviour:
   antePrice: 0
   currentPlayerTurnIndex: -1
   gameStarted: 0
+  deckManagerPrefab: {fileID: 4466294268958774064, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
 --- !u!114 &2949082019381439153
 MonoBehaviour:
   m_ObjectHideFlags: 0

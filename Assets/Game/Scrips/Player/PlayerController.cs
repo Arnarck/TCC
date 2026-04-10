@@ -13,7 +13,7 @@ public class PlayerController : NetworkBehaviour
     public Transform[] cardsSpawnPoints;
 
     [Header("INTERNAL")]
-    [SyncVar(hook = nameof(UpdateScore))]public int score;
+    [SyncVar(hook = nameof(UpdateScore))] public int score;
     [SyncVar] public float currentTurn_t;
     [SyncVar] public bool spectatorMode;
     [SyncVar] public bool gameStopped;
@@ -42,8 +42,10 @@ public class PlayerController : NetworkBehaviour
 
             playerHUD.UpdateScore();
 
-            CmdSpawnCardInHand((Card_Type)Random.Range(0, (int)Card_Type.COUNT));
-            CmdSpawnCardInHand((Card_Type)Random.Range(0, (int)Card_Type.COUNT));
+
+            CmdSpawnCardInHand();  
+            CmdSpawnCardInHand();
+
         }
         else
         {
@@ -177,25 +179,26 @@ public class PlayerController : NetworkBehaviour
     [TargetRpc]
     public void TargetSelectCard(GameObject go)
     {
-        go.transform.position += go.transform.forward*0.1f;
+        go.transform.position += go.transform.forward * 0.1f;
     }
 
     [TargetRpc]
     public void TargetDeselectCard(GameObject go)
     {
-        go.transform.position -= go.transform.forward*0.1f;
+        go.transform.position -= go.transform.forward * 0.1f;
     }
 
     [Command]
-    public void CmdSpawnCardInHand(Card_Type type)
+    public void CmdSpawnCardInHand()
     {
-        int spawnIndex = cardsInHand.Count;
-        if (spawnIndex >= MAX_CARDS_IN_HAND)
+        if (!GI.cardSystem.deckManager.HasCards())
         {
-            Debug.Assert(false, "Player's hand is already full of cards. Can't add a new one.");
+            Debug.Log("Deck vazio, não é possível comprar carta para a mão.");
             return;
         }
-
+        Card_Type type = GI.cardSystem.deckManager.DrawCard();
+        int spawnIndex = cardsInHand.Count;
+        if (spawnIndex >= MAX_CARDS_IN_HAND) return;
         __SpawnCardInHand(type, spawnIndex);
     }
 
@@ -341,21 +344,25 @@ public class PlayerController : NetworkBehaviour
 
     //****************
     [Server]
-    void ServerScoreTrio(GameObject c1, GameObject c2, GameObject c3, int clientScore)
-    {
-        Card card1 = c1.GetComponent<Card>();
-        Card card2 = c2.GetComponent<Card>();
-        Card card3 = c3.GetComponent<Card>();
+void ServerScoreTrio(GameObject c1, GameObject c2, GameObject c3, int clientScore)
+{
+    Card card1 = c1.GetComponent<Card>();
+    Card card2 = c2.GetComponent<Card>();
+    Card card3 = c3.GetComponent<Card>();
 
-        int serverScore = trioSystem.CalculateScore(card1, card2, card3);
-        score += serverScore;
+    int serverScore = trioSystem.CalculateScore(card1, card2, card3);
+    score += serverScore;
+    Debug.Log("Score do trio (server): " + serverScore);
 
-        Debug.Log("Score do trio (server): " + serverScore);
+    // Retorna as cartas ao deck ANTES de removê-las da mão
+    GI.cardSystem.deckManager.AddCard(card1.type);
+    GI.cardSystem.deckManager.AddCard(card2.type);
+    GI.cardSystem.deckManager.AddCard(card3.type);
 
-        ServerRemoveCardFromHand(c1);
-        ServerRemoveCardFromHand(c2);
-        ServerRemoveCardFromHand(c3);
-    }
+    ServerRemoveCardFromHand(c1);
+    ServerRemoveCardFromHand(c2);
+    ServerRemoveCardFromHand(c3);
+}
 
     [Command]
     void CmdCheckForTrio()

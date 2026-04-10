@@ -18,6 +18,9 @@ public class CardNetworkManager : RelayNetworkManager
     public List<NetworkConnectionToClient> players;
     public List<NetworkConnectionToClient> spectators;
 
+    public DeckManager deckManagerPrefab;
+    private DeckManager deckManager;
+
     [ContextMenu("Fill Spawnable Prefabs With Cards")]
     public void FillSpawnablePrefabsWithCards()
     {
@@ -44,27 +47,17 @@ public class CardNetworkManager : RelayNetworkManager
 
     public override void OnStartServer()
     {
-        GameObject cardDesk = Instantiate(cardDeskPrefab);
-        NetworkServer.Spawn(cardDesk);
-        List<Card_Type> deck = new List<Card_Type>()
-    {
+        GameObject deckObj = Instantiate(deckManagerPrefab.gameObject);
+    NetworkServer.Spawn(deckObj);
+    deckManager = deckObj.GetComponent<DeckManager>();
+    deckManager.InitializeDeck();
 
-        Card_Type.CARD_1, Card_Type.CARD_1, Card_Type.CARD_1,
-        Card_Type.CARD_2, Card_Type.CARD_2, Card_Type.CARD_2,
-        Card_Type.CARD_3, Card_Type.CARD_3, Card_Type.CARD_3,
-        Card_Type.CARD_4, Card_Type.CARD_4, Card_Type.CARD_4,
-        Card_Type.CARD_5, Card_Type.CARD_5, Card_Type.CARD_5
-    };
-        for (int i = 0; i < deck.Count; i++)
-        {
-            int rand = Random.Range(i, deck.Count);
-            (deck[i], deck[rand]) = (deck[rand], deck[i]);
-        }
+    // Criar a mesa (CardSystem)
+    GameObject cardDesk = Instantiate(cardDeskPrefab);
+    NetworkServer.Spawn(cardDesk);
+    GI.cardSystem.deckManager = deckManager; // injeta referência
+    GI.cardSystem.FillInitialTable();        // preenche todos os slots com cartas do deck
 
-        foreach (var type in deck)
-        {
-            GI.cardSystem.SpawnCard(type);
-        }
 
     }
 
@@ -121,7 +114,10 @@ public class CardNetworkManager : RelayNetworkManager
         currentPlayerTurnIndex = 0;
 
         GI.cardSystem.ServerUpdateCurrentRound(currentRound);
-
+ if (currentRound % 3 == 0)
+    {
+        GI.cardSystem.RefillTableFromDeck();
+    }
         // Check for ante round
         if (currentRound > 0 && currentRound % 2 == 0)
         {

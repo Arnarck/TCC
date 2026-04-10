@@ -8,6 +8,8 @@ public enum Card_Type
     CARD_3,
     CARD_4,
     CARD_5,
+    CARD_6,
+    CARD_7,
 
     COUNT
 }

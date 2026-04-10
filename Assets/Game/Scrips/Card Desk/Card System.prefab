@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6739868955388663515}
   - component: {fileID: -90182799447918613}
   - component: {fileID: 2163931753016736439}
+  - component: {fileID: 4466294268958774064}
   - component: {fileID: 5216723305730547434}
   m_Layer: 7
   m_Name: Card System
@@ -105,8 +106,26 @@ MonoBehaviour:
   - {fileID: 6524625006746613573}
   isMemorizationPhase: 1
   memorizeTime: 10
+  currentRound: 0
   localPlayerSpawned: 0
   cardsInDesk: []
+  deckManager: {fileID: 4466294268958774064}
+--- !u!114 &4466294268958774064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510000207809440837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e63bf329f746da498df07c05003d827, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeckManager
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  copiesPerType: 3
 --- !u!65 &5216723305730547434
 BoxCollider:
   m_ObjectHideFlags: 0

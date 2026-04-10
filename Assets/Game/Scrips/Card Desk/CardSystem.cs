@@ -22,15 +22,21 @@ public class CardSystem : NetworkBehaviour
     public float memorizeTime = 10f;
 
     [Header("INTERNAL")]
-    [SyncVar(hook = nameof(UpdateCurrentRound))]public int currentRound;
+    [SyncVar(hook = nameof(UpdateCurrentRound))] public int currentRound;
     public bool localPlayerSpawned; // We need this because since player spawns in the network, it can spawns at any time
     public List<Card> cardsInDesk;
+
+    [Header("Deck")]
+    public DeckManager deckManager;
+
+    private Card[] deskSlots; // novo
 
 
     private void Awake()
     {
         GI.cardSystem = this;
         GI.cardList = cardList;
+        deskSlots = new Card[MAX_CARDS_IN_DESK];
     }
 
     [Server]
@@ -46,18 +52,19 @@ public class CardSystem : NetworkBehaviour
     }
 
     [Server]
-    public void SpawnCard(Card_Type type)
+    public void SpawnCard(Card_Type type, int slotIndex)
     {
-        int spawnIndex = cardsInDesk.Count;
-        if (spawnIndex >= MAX_CARDS_IN_DESK)
+        if (slotIndex < 0 || slotIndex >= MAX_CARDS_IN_DESK)
+            return;
+        if (deskSlots[slotIndex] != null)
         {
-            Debug.Assert(false, "The desk is already full of cards. Can't add a new one.");
+            Debug.LogWarning($"Slot {slotIndex} já ocupado.");
             return;
         }
 
-        Transform spawnPoint = cardsSpawnPoints[spawnIndex];
+        Transform spawnPoint = cardsSpawnPoints[slotIndex];
         GameObject go = Instantiate(GI.cardList.GetCardPrefab(type), spawnPoint.position, spawnPoint.rotation);
-        NetworkServer.Spawn(go, connectionToClient);
+        NetworkServer.Spawn(go);
         Card card = go.GetComponent<Card>();
         card.type = type;
         switch (type)
@@ -67,10 +74,21 @@ public class CardSystem : NetworkBehaviour
             case Card_Type.CARD_3: card.points = 30; break;
             case Card_Type.CARD_4: card.points = 20; break;
             case Card_Type.CARD_5: card.points = 30; break;
+            case Card_Type.CARD_6: card.points = 10; break;
+            case Card_Type.CARD_7: card.points = 20; break;
         }
-
-        cardsInDesk.Add(card);
-
+        deskSlots[slotIndex] = card;
+    }
+    [Server]
+    public void SpawnCardFromDeck(int slotIndex)
+    {
+        if (!deckManager.HasCards())
+        {
+            Debug.Log("Deck vazio, não é possível spawnar carta na mesa.");
+            return;
+        }
+        Card_Type type = deckManager.DrawCard();
+        SpawnCard(type, slotIndex);
     }
     [Server]
     public void StartMemorizationPhase()
@@ -78,26 +96,77 @@ public class CardSystem : NetworkBehaviour
         StartCoroutine(MemorizationPhase());
     }
 
-    IEnumerator MemorizationPhase()
+   IEnumerator MemorizationPhase()
+{
+    // Revela todas as cartas atualmente na mesa (usando deskSlots)
+    foreach (Card card in deskSlots)
     {
-        foreach (Card card in cardsInDesk)
-        {
+        if (card != null)
             card.isRevealed = true;
-        }
+    }
 
-        yield return new WaitForSeconds(memorizeTime);
+    yield return new WaitForSeconds(memorizeTime);
 
-        foreach (Card card in cardsInDesk)
-        {
+    // Esconde todas as cartas após o tempo de memorização
+    foreach (Card card in deskSlots)
+    {
+        if (card != null)
             card.isRevealed = false;
-        }
+    }
 
-        isMemorizationPhase = false;
+    isMemorizationPhase = false;
+}
+    [Server]
+    public void DestroyCard(GameObject cardGO)
+    {
+        Card card = cardGO.GetComponent<Card>();
+        for (int i = 0; i < deskSlots.Length; i++)
+        {
+            if (deskSlots[i] == card)
+            {
+                deskSlots[i] = null;
+                break;
+            }
+        }
+        NetworkServer.Destroy(cardGO);
     }
     [Server]
-    public void DestroyCard(GameObject card)
+    public void RefillTableFromDeck()
     {
-        cardsInDesk.Remove(card.GetComponent<Card>());
-        NetworkServer.Destroy(card.gameObject);
+        for (int i = 0; i < deskSlots.Length; i++)
+        {
+            if (deskSlots[i] == null && deckManager.HasCards())
+            {
+                SpawnCardFromDeck(i);
+            }
+        }
+        Debug.Log($"Mesa preenchida. Slots vazios restantes: {GetEmptySlotCount()}");
+    }
+
+    [Server]
+    public void FillInitialTable()
+    {
+        for (int i = 0; i < deskSlots.Length; i++)
+        {
+            if (deskSlots[i] == null && deckManager.HasCards())
+            {
+                SpawnCardFromDeck(i);
+            }
+        }
+    }
+
+    public List<Card> GetCardsInDesk()
+    {
+        List<Card> list = new List<Card>();
+        foreach (var c in deskSlots)
+            if (c != null) list.Add(c);
+        return list;
+    }
+
+    private int GetEmptySlotCount()
+    {
+        int count = 0;
+        foreach (var c in deskSlots) if (c == null) count++;
+        return count;
     }
 }
