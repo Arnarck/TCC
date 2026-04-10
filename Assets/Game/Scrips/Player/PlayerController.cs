@@ -14,10 +14,11 @@ public class PlayerController : NetworkBehaviour
 
     [Header("INTERNAL")]
     [SyncVar(hook = nameof(UpdateScore))] public int score;
+    [SyncVar] public int actionsRemaining;
     [SyncVar] public float currentTurn_t;
     [SyncVar] public bool spectatorMode;
     [SyncVar] public bool gameStopped;
-    public bool canCollectCardThisTurn;
+    //public bool canCollectCardThisTurn;
     public bool isChoosingCards;
     public Vector3 cameraStartPosition;
     public Quaternion cameraStartRotation;
@@ -215,11 +216,14 @@ public class PlayerController : NetworkBehaviour
             return;
         }
 
-        if (!canCollectCardThisTurn)
+        /*if (!canCollectCardThisTurn)
+        {
+            return;
+        }*/
+        if (actionsRemaining <= 0)
         {
             return;
         }
-
         int spawnIndex = cardsInHand.Count;
         if (spawnIndex >= MAX_CARDS_IN_HAND)
         {
@@ -230,7 +234,8 @@ public class PlayerController : NetworkBehaviour
         __SpawnCardInHand(type, spawnIndex);
 
         GI.cardSystem.DestroyCard(cardToRemoveFromDesk);
-        canCollectCardThisTurn = false;
+        actionsRemaining--;
+        //canCollectCardThisTurn = false;
     }
 
     // Function made to eliminate duplicated code.
@@ -277,9 +282,9 @@ public class PlayerController : NetworkBehaviour
     [Server]
     public void ServerStartCurrentTurn(float timer)
     {
-        canCollectCardThisTurn = true;
+        //canCollectCardThisTurn = true;
         currentTurn_t = timer;
-
+        actionsRemaining = 2;
         TargetStartCurrentTurn();
     }
 
@@ -354,15 +359,17 @@ public class PlayerController : NetworkBehaviour
 
     //****************
     [Server]
-    void ServerScoreTrio(GameObject c1, GameObject c2, GameObject c3, int clientScore)
+    void ServerScoreTrio(GameObject c1, GameObject c2, GameObject c3)
     {
         Card card1 = c1.GetComponent<Card>();
         Card card2 = c2.GetComponent<Card>();
         Card card3 = c3.GetComponent<Card>();
 
-        int serverScore = trioSystem.CalculateScore(card1, card2, card3);
-        score += serverScore;
-        Debug.Log("Score do trio (server): " + serverScore);
+        int trioScore = trioSystem.CalculateScore(card1, card2, card3);
+
+        score += trioScore;
+
+        Debug.Log("Score atualizado: " + score);
 
         GI.cardSystem.deckManager.AddCard(card1.type);
         GI.cardSystem.deckManager.AddCard(card2.type);
@@ -371,7 +378,11 @@ public class PlayerController : NetworkBehaviour
         ServerRemoveCardFromHand(c1);
         ServerRemoveCardFromHand(c2);
         ServerRemoveCardFromHand(c3);
-
+        for (int i = 0; i < cardsInHand.Count; i++)
+        {
+            cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
+            cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
+        }
         selectedCards.Clear();
     }
 
@@ -379,22 +390,24 @@ public class PlayerController : NetworkBehaviour
     void CmdCheckForTrio()
     {
         if (GI.networkManager.GetCurrentPlayerTurn() != connectionToClient.connectionId)
-        {
             return;
-        }
+
+        selectedCards.RemoveAll(c => c == null || !cardsInHand.Contains(c));
 
         if (selectedCards.Count != 3)
         {
             return;
-        }
 
+        }
+        if (actionsRemaining <= 0)
+        {
+            return;
+        }
         if (trioSystem.TryFindTrio(selectedCards, out Card a, out Card b, out Card c))
         {
             Debug.Log("TRIO!");
-
-            int score = trioSystem.CalculateScore(a, b, c);
-
-            ServerScoreTrio(a.gameObject, b.gameObject, c.gameObject, score);
+            actionsRemaining--;
+            ServerScoreTrio(a.gameObject, b.gameObject, c.gameObject);
         }
     }
 }

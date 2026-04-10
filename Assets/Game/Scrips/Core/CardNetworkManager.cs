@@ -116,12 +116,12 @@ public class CardNetworkManager : RelayNetworkManager
 
         GI.cardSystem.ServerUpdateCurrentRound(currentRound);
 
-        
 
-   if (currentRound % 3 == 0)
-{
-    StartCoroutine(HandleAnteRound());
-}
+
+        if (currentRound % 3 == 0)
+        {
+            StartCoroutine(HandleAnteRound());
+        }
         // Check for ante round
         if (currentRound > 0 && currentRound % 3 == 0)
         {
@@ -162,63 +162,58 @@ public class CardNetworkManager : RelayNetworkManager
             }
         }
     }
-[Server]
-IEnumerator HandleAnteRound()
-{
-    // ⏸️ PAUSA JOGO
-    PauseAllPlayers();
 
-    // 💰 COBRAR ANTE
-    for (int i = 0; i < players.Count; i++)
+    [Server]
+    IEnumerator HandleAnteRound()
     {
-        PlayerController player = players[i].identity.GetComponent<PlayerController>();
+        PauseAllPlayers();
 
-        if (player.score >= antePrice)
+        for (int i = 0; i < players.Count; i++)
         {
-            player.score -= antePrice;
+            PlayerController player = players[i].identity.GetComponent<PlayerController>();
+
+            if (player.score >= antePrice)
+            {
+                player.score -= antePrice;
+            }
+            else
+            {
+                spectators.Add(players[i]);
+                players.Remove(players[i]);
+
+                player.ServerEnterSpectatorMode();
+                i--;
+            }
         }
-        else
+
+        GI.cardSystem.RefillTableFromDeck();
+
+        GI.cardSystem.StartMemorizationPhase();
+
+        yield return new WaitForSeconds(GI.cardSystem.memorizeTime);
+
+        ResumeAllPlayers();
+
+        currentPlayerTurnIndex = -1;
+
+        UpdatePlayerTurn();
+    }
+    [Server]
+    void PauseAllPlayers()
+    {
+        foreach (var p in players)
         {
-            spectators.Add(players[i]);
-            players.Remove(players[i]);
-
-            player.ServerEnterSpectatorMode();
-            i--;
+            p.identity.GetComponent<PlayerController>().TargetPauseTurn();
         }
     }
-
-    // 🃏 REABASTECE MESA
-    GI.cardSystem.RefillTableFromDeck();
-
-    // 👀 MEMORIZAÇÃO
-    GI.cardSystem.StartMemorizationPhase();
-
-    // ⏳ ESPERA MEMORIZAÇÃO
-    yield return new WaitForSeconds(GI.cardSystem.memorizeTime);
-
-    // ▶️ DESPAUSA
-    ResumeAllPlayers();
-    currentPlayerTurnIndex = -1;
-
-    // 🔄 CONTINUA TURNOS
-    UpdatePlayerTurn();
-}
-[Server]
-void PauseAllPlayers()
-{
-    foreach (var p in players)
+    [Server]
+    void ResumeAllPlayers()
     {
-        p.identity.GetComponent<PlayerController>().TargetPauseTurn();
+        foreach (var p in players)
+        {
+            p.identity.GetComponent<PlayerController>().ServerStartCurrentTurn(30f);
+        }
     }
-}
-[Server]
-void ResumeAllPlayers()
-{
-    foreach (var p in players)
-    {
-        p.identity.GetComponent<PlayerController>().ServerStartCurrentTurn(30f);
-    }
-}
     [Server]
     public int GetCurrentPlayerTurn()
     {
