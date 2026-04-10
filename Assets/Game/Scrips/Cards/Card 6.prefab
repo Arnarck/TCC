@@ -270,7 +270,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   type: 5
-  points: 1
+  points: 3
   familyType: 0
   abilityType: 0
   visual: {fileID: 3820423724403238206}

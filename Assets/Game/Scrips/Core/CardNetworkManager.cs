@@ -2,6 +2,7 @@ using UnityEngine;
 using Utp;
 using Mirror;
 using System.Collections.Generic;
+using System.Collections;
 
 public class CardNetworkManager : RelayNetworkManager
 {
@@ -66,18 +67,19 @@ public class CardNetworkManager : RelayNetworkManager
         base.OnServerAddPlayer(conn);
         players.Add(conn);
 
-        if (players.Count >= 2 && !gameStarted)
-        {
-            gameStarted = true;
-
-            Debug.Log("2 players conectados - iniciando memorização");
-
-            GI.cardSystem.StartMemorizationPhase();
-
-            UpdatePlayerTurn();
-        }
+       if (players.Count >= 2 && !gameStarted)
+{
+    gameStarted = true;
+    GI.cardSystem.StartMemorizationPhase();
+    StartCoroutine(WaitForMemorizationAndStartGame());
+}
     }
-
+IEnumerator WaitForMemorizationAndStartGame()
+{
+    while (GI.cardSystem.isMemorizationPhase)
+        yield return null;
+    UpdatePlayerTurn();
+}
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         base.OnServerDisconnect(conn);

@@ -180,7 +180,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   type: 2
-  points: 3
+  points: 2
   familyType: 2
   abilityType: 2
   visual: {fileID: 3820423724403238206}
