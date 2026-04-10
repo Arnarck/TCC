@@ -43,7 +43,7 @@ public class PlayerController : NetworkBehaviour
             playerHUD.UpdateScore();
 
 
-            CmdSpawnCardInHand();  
+            CmdSpawnCardInHand();
             CmdSpawnCardInHand();
 
         }
@@ -55,6 +55,10 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
+        if (GI.cardSystem.isMemorizationPhase)
+        {
+            return;
+        }
         if (gameStopped)
         {
             return;
@@ -137,6 +141,7 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void CmdTryToSelectCard(GameObject go)
     {
+        selectedCards.RemoveAll(c => c == null);
         if (GI.cardSystem.isMemorizationPhase)
         {
             //Debug.Log("Aguardando fim da memorização...");
@@ -284,7 +289,12 @@ public class PlayerController : NetworkBehaviour
         playerHUD.endCurrentTurnButton.interactable = true;
         playerHUD.currentTurnTimeText.enabled = true;
     }
-
+    [TargetRpc]
+    public void TargetPauseTurn()
+    {
+        currentTurn_t = 0f;
+        playerHUD.currentTurnTimeText.enabled = false;
+    }
     [Server]
     public void ServerEnterSpectatorMode()
     {
@@ -344,30 +354,30 @@ public class PlayerController : NetworkBehaviour
 
     //****************
     [Server]
-void ServerScoreTrio(GameObject c1, GameObject c2, GameObject c3, int clientScore)
-{
-    Card card1 = c1.GetComponent<Card>();
-    Card card2 = c2.GetComponent<Card>();
-    Card card3 = c3.GetComponent<Card>();
+    void ServerScoreTrio(GameObject c1, GameObject c2, GameObject c3, int clientScore)
+    {
+        Card card1 = c1.GetComponent<Card>();
+        Card card2 = c2.GetComponent<Card>();
+        Card card3 = c3.GetComponent<Card>();
 
-    int serverScore = trioSystem.CalculateScore(card1, card2, card3);
-    score += serverScore;
-    Debug.Log("Score do trio (server): " + serverScore);
+        int serverScore = trioSystem.CalculateScore(card1, card2, card3);
+        score += serverScore;
+        Debug.Log("Score do trio (server): " + serverScore);
 
-    // Retorna as cartas ao deck ANTES de removê-las da mão
-    GI.cardSystem.deckManager.AddCard(card1.type);
-    GI.cardSystem.deckManager.AddCard(card2.type);
-    GI.cardSystem.deckManager.AddCard(card3.type);
+        GI.cardSystem.deckManager.AddCard(card1.type);
+        GI.cardSystem.deckManager.AddCard(card2.type);
+        GI.cardSystem.deckManager.AddCard(card3.type);
 
-    ServerRemoveCardFromHand(c1);
-    ServerRemoveCardFromHand(c2);
-    ServerRemoveCardFromHand(c3);
-}
+        ServerRemoveCardFromHand(c1);
+        ServerRemoveCardFromHand(c2);
+        ServerRemoveCardFromHand(c3);
+
+        selectedCards.Clear();
+    }
 
     [Command]
     void CmdCheckForTrio()
     {
-        // Player is only able to score a trio in his current turn
         if (GI.networkManager.GetCurrentPlayerTurn() != connectionToClient.connectionId)
         {
             return;

@@ -39,7 +39,7 @@ public class CardNetworkManager : RelayNetworkManager
     {
         base.Awake();
 
-        players    = new List<NetworkConnectionToClient>();
+        players = new List<NetworkConnectionToClient>();
         spectators = new List<NetworkConnectionToClient>();
         GI.networkManager = this;
 
@@ -49,15 +49,14 @@ public class CardNetworkManager : RelayNetworkManager
     public override void OnStartServer()
     {
         GameObject deckObj = Instantiate(deckManagerPrefab.gameObject);
-    NetworkServer.Spawn(deckObj);
-    deckManager = deckObj.GetComponent<DeckManager>();
-    deckManager.InitializeDeck();
+        NetworkServer.Spawn(deckObj);
+        deckManager = deckObj.GetComponent<DeckManager>();
+        deckManager.InitializeDeck();
 
-    // Criar a mesa (CardSystem)
-    GameObject cardDesk = Instantiate(cardDeskPrefab);
-    NetworkServer.Spawn(cardDesk);
-    GI.cardSystem.deckManager = deckManager; // injeta referência
-    GI.cardSystem.FillInitialTable();        // preenche todos os slots com cartas do deck
+        GameObject cardDesk = Instantiate(cardDeskPrefab);
+        NetworkServer.Spawn(cardDesk);
+        GI.cardSystem.deckManager = deckManager;
+        GI.cardSystem.FillInitialTable();
 
 
     }
@@ -67,19 +66,19 @@ public class CardNetworkManager : RelayNetworkManager
         base.OnServerAddPlayer(conn);
         players.Add(conn);
 
-       if (players.Count >= 2 && !gameStarted)
-{
-    gameStarted = true;
-    GI.cardSystem.StartMemorizationPhase();
-    StartCoroutine(WaitForMemorizationAndStartGame());
-}
+        if (players.Count >= 2 && !gameStarted)
+        {
+            gameStarted = true;
+            GI.cardSystem.StartMemorizationPhase();
+            StartCoroutine(WaitForMemorizationAndStartGame());
+        }
     }
-IEnumerator WaitForMemorizationAndStartGame()
-{
-    while (GI.cardSystem.isMemorizationPhase)
-        yield return null;
-    UpdatePlayerTurn();
-}
+    IEnumerator WaitForMemorizationAndStartGame()
+    {
+        while (GI.cardSystem.isMemorizationPhase)
+            yield return null;
+        UpdatePlayerTurn();
+    }
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         base.OnServerDisconnect(conn);
@@ -116,12 +115,15 @@ IEnumerator WaitForMemorizationAndStartGame()
         currentPlayerTurnIndex = 0;
 
         GI.cardSystem.ServerUpdateCurrentRound(currentRound);
- if (currentRound % 3 == 0)
-    {
-        GI.cardSystem.RefillTableFromDeck();
-    }
+
+        
+
+   if (currentRound % 3 == 0)
+{
+    StartCoroutine(HandleAnteRound());
+}
         // Check for ante round
-        if (currentRound > 0 && currentRound % 2 == 0)
+        if (currentRound > 0 && currentRound % 3 == 0)
         {
             // Charge ante and disconnect players that don't have enough score
             for (int i = 0; i < players.Count; i++)
@@ -160,7 +162,63 @@ IEnumerator WaitForMemorizationAndStartGame()
             }
         }
     }
+[Server]
+IEnumerator HandleAnteRound()
+{
+    // ⏸️ PAUSA JOGO
+    PauseAllPlayers();
 
+    // 💰 COBRAR ANTE
+    for (int i = 0; i < players.Count; i++)
+    {
+        PlayerController player = players[i].identity.GetComponent<PlayerController>();
+
+        if (player.score >= antePrice)
+        {
+            player.score -= antePrice;
+        }
+        else
+        {
+            spectators.Add(players[i]);
+            players.Remove(players[i]);
+
+            player.ServerEnterSpectatorMode();
+            i--;
+        }
+    }
+
+    // 🃏 REABASTECE MESA
+    GI.cardSystem.RefillTableFromDeck();
+
+    // 👀 MEMORIZAÇÃO
+    GI.cardSystem.StartMemorizationPhase();
+
+    // ⏳ ESPERA MEMORIZAÇÃO
+    yield return new WaitForSeconds(GI.cardSystem.memorizeTime);
+
+    // ▶️ DESPAUSA
+    ResumeAllPlayers();
+    currentPlayerTurnIndex = -1;
+
+    // 🔄 CONTINUA TURNOS
+    UpdatePlayerTurn();
+}
+[Server]
+void PauseAllPlayers()
+{
+    foreach (var p in players)
+    {
+        p.identity.GetComponent<PlayerController>().TargetPauseTurn();
+    }
+}
+[Server]
+void ResumeAllPlayers()
+{
+    foreach (var p in players)
+    {
+        p.identity.GetComponent<PlayerController>().ServerStartCurrentTurn(30f);
+    }
+}
     [Server]
     public int GetCurrentPlayerTurn()
     {

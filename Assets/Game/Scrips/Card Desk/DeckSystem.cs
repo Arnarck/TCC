@@ -53,8 +53,6 @@ public class DeckManager : NetworkBehaviour
     public void AddCard(Card_Type type)
     {
         deck.Add(type);
-        // Opcional: shuffle após adicionar? Deixamos sem shuffle para não interferir na ordem.
-        // Se quiser, descomente a linha abaixo:
         // Shuffle();
     }
 }

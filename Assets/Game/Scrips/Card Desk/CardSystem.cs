@@ -90,32 +90,35 @@ public class CardSystem : NetworkBehaviour
         Card_Type type = deckManager.DrawCard();
         SpawnCard(type, slotIndex);
     }
+    public IEnumerator RunMemorizationPhase()
+    {
+        isMemorizationPhase = true;
+
+        // Revela todas as cartas atualmente na mesa
+        foreach (Card card in deskSlots)
+        {
+            if (card != null)
+                card.isRevealed = true;
+        }
+
+        yield return new WaitForSeconds(memorizeTime);
+
+        // Esconde todas as cartas
+        foreach (Card card in deskSlots)
+        {
+            if (card != null)
+                card.isRevealed = false;
+        }
+
+        isMemorizationPhase = false;
+    }
+
     [Server]
     public void StartMemorizationPhase()
     {
-        StartCoroutine(MemorizationPhase());
+        StartCoroutine(RunMemorizationPhase());
     }
 
-   IEnumerator MemorizationPhase()
-{
-    // Revela todas as cartas atualmente na mesa (usando deskSlots)
-    foreach (Card card in deskSlots)
-    {
-        if (card != null)
-            card.isRevealed = true;
-    }
-
-    yield return new WaitForSeconds(memorizeTime);
-
-    // Esconde todas as cartas após o tempo de memorização
-    foreach (Card card in deskSlots)
-    {
-        if (card != null)
-            card.isRevealed = false;
-    }
-
-    isMemorizationPhase = false;
-}
     [Server]
     public void DestroyCard(GameObject cardGO)
     {
