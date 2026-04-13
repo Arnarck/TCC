@@ -6,11 +6,12 @@ using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 using TMPro;
 using UnityEngine.InputSystem;
+using Mirror;
 
 
 public class UiController : MonoBehaviour
 {
-    public GameObject pausePanel, optionsPanel, creditsPanel, confirmMenuPanel, confirmResetPanel, audioPanel, videoPanel;
+    public GameObject pausePanel, optionsPanel, creditsPanel, confirmMenuPanel, confirmResetPanel, audioPanel, videoPanel, menuPanel;
     private Stack<GameObject> panelStack = new Stack<GameObject>();
 
     public Slider masterVolumeSlider, musicVolumeSlider, vfxVolumeSlider;
@@ -175,6 +176,20 @@ public class UiController : MonoBehaviour
         // AudioController.audioController.ChangeMusic(levelToGo);
         SceneManager.LoadScene(levelToGo);
         Time.timeScale = 1.0f;
+    }
+
+    public void OnClick_GoToPreviousMenu()
+    {
+        if (NetworkClient.isConnected)
+        {
+            // Player connected
+            pausePanel.SetActive(true);
+        }
+        else
+        {
+            // Main menu
+            menuPanel.SetActive(true);
+        }
     }
 
     public void QuitGame()
