@@ -171,11 +171,13 @@ public class PlayerController : NetworkBehaviour
         {
             if (selectedCards.Contains(card))
             {
+                // Deselect
                 selectedCards.Remove(card);
                 TargetDeselectCard(go);
             }
-            else
+            else if (selectedCards.Count < 3)
             {
+                // Select - Maximum of 3 cards in hand
                 selectedCards.Add(card);
                 TargetSelectCard(go);
             }
