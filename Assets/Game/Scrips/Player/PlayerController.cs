@@ -18,7 +18,6 @@ public class PlayerController : NetworkBehaviour
     [SyncVar] public float currentTurn_t;
     [SyncVar] public bool spectatorMode;
     [SyncVar] public bool gameStopped;
-    //public bool canCollectCardThisTurn;
     public bool isChoosingCards;
     public Vector3 cameraStartPosition;
     public Quaternion cameraStartRotation;
@@ -110,7 +109,7 @@ public class PlayerController : NetworkBehaviour
                 currentTurn_t -= Time.deltaTime;
                 if (currentTurn_t <= 0f && isServer) // Only the server can call this function because the client can cheat the timer
                 {
-                    CmdEndCurrentTurn();
+                    ServerEndCurrentTurn();
                 }
 
                 // Update time in the client
@@ -124,6 +123,12 @@ public class PlayerController : NetworkBehaviour
 
     [Command]
     public void CmdEndCurrentTurn()
+    {
+        ServerEndCurrentTurn();
+    }
+
+    [Server]
+    public void ServerEndCurrentTurn()
     {
         currentTurn_t = 0f;
         GI.networkManager.UpdatePlayerTurn();
@@ -216,10 +221,6 @@ public class PlayerController : NetworkBehaviour
             return;
         }
 
-        /*if (!canCollectCardThisTurn)
-        {
-            return;
-        }*/
         if (actionsRemaining <= 0)
         {
             return;
@@ -234,8 +235,7 @@ public class PlayerController : NetworkBehaviour
         __SpawnCardInHand(type, spawnIndex);
 
         GI.cardSystem.DestroyCard(cardToRemoveFromDesk);
-        actionsRemaining--;
-        //canCollectCardThisTurn = false;
+        ServerDecreaseActionsRemaining();
     }
 
     // Function made to eliminate duplicated code.
@@ -282,7 +282,6 @@ public class PlayerController : NetworkBehaviour
     [Server]
     public void ServerStartCurrentTurn(float timer)
     {
-        //canCollectCardThisTurn = true;
         currentTurn_t = timer;
         actionsRemaining = 2;
         TargetStartCurrentTurn();
@@ -406,8 +405,18 @@ public class PlayerController : NetworkBehaviour
         if (trioSystem.TryFindTrio(selectedCards, out Card a, out Card b, out Card c))
         {
             Debug.Log("TRIO!");
-            actionsRemaining--;
+            ServerDecreaseActionsRemaining();
             ServerScoreTrio(a.gameObject, b.gameObject, c.gameObject);
+        }
+    }
+
+    [Server]
+    public void ServerDecreaseActionsRemaining()
+    {
+        actionsRemaining--;
+        if (actionsRemaining <= 0)
+        {
+            ServerEndCurrentTurn();
         }
     }
 }

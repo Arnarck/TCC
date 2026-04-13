@@ -31,8 +31,6 @@ public class Connect : MonoBehaviour
     {
         hostButton.SetActive(false);
         clientButton.SetActive(false);
-        joinCodeButton.SetActive(false);
-        joinCodeTextGameObject.SetActive(false);
         disconnectButton.SetActive(false);
     }
 
@@ -40,8 +38,6 @@ public class Connect : MonoBehaviour
     {
         hostButton.SetActive(true);
         clientButton.SetActive(true);
-        joinCodeButton.SetActive(true);
-        joinCodeTextGameObject.SetActive(true);
         disconnectButton.SetActive(true);
     }
 
