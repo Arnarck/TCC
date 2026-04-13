@@ -92,7 +92,13 @@ public class CardNetworkManager : RelayNetworkManager
         }
     }
 
-    // @TODO: Only update player turn after memorization phase
+    public override void OnStopServer()
+    {
+        // Reseting server variables here because they still persist in the network manager while it isn't destroyed.
+        gameStarted = false;
+        currentPlayerTurnIndex = -1;
+    }
+
     [Server]
     public void UpdatePlayerTurn()
     {
