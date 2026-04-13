@@ -7,6 +7,7 @@ public class PlayerHUD : NetworkBehaviour
 {
     public PlayerController player;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI turnText;
     public TextMeshProUGUI roundsText;
     public TextMeshProUGUI currentTurnTimeText;
     public Button endCurrentTurnButton;
@@ -32,6 +33,12 @@ public class PlayerHUD : NetworkBehaviour
     public void UpdateCurrentRound(int value)
     {
         roundsText.text = (value + 1).ToString(); // Starts from 1, rather than from 0
+    }
+
+    [TargetRpc]
+    public void TargetDisplayTurn(string message)
+    {
+        turnText.text = message;
     }
 
     public void Hide()

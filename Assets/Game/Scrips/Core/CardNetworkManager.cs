@@ -102,6 +102,20 @@ public class CardNetworkManager : RelayNetworkManager
             UpdateRound();
         }
 
+        // Update the turn in the HUD
+        for (int i = 0; i < players.Count; i++)
+        {
+            PlayerController player = players[i].identity.GetComponent<PlayerController>();
+            if (i == currentPlayerTurnIndex)
+            {
+                player.playerHUD.TargetDisplayTurn("Your Turn");
+            }
+            else
+            {
+                player.playerHUD.TargetDisplayTurn("Player " + (i + 1) + " turn");
+            }
+        }
+
         if (players.Count > 0)
         {
             players[currentPlayerTurnIndex].identity.GetComponent<PlayerController>().ServerStartCurrentTurn(30f);
