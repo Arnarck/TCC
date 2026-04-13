@@ -17,10 +17,33 @@ public class Connect : MonoBehaviour
     public CardNetworkManager networkManager;
 
     [Header("UI")]
+    public GameObject hostButton;
+    public GameObject clientButton;
+    public GameObject joinCodeButton;
+    public GameObject joinCodeTextGameObject;
+    public GameObject disconnectButton;
     public TMP_Text joinCodeText;
     public TMP_InputField inputJoinCode;
     public TMP_Text statusText;
     private string currentCode = "";
+
+    public void HideJoinMatchElements()
+    {
+        hostButton.SetActive(false);
+        clientButton.SetActive(false);
+        joinCodeButton.SetActive(false);
+        joinCodeTextGameObject.SetActive(false);
+        disconnectButton.SetActive(false);
+    }
+
+    public void ShowJoinMatchElements()
+    {
+        hostButton.SetActive(true);
+        clientButton.SetActive(true);
+        joinCodeButton.SetActive(true);
+        joinCodeTextGameObject.SetActive(true);
+        disconnectButton.SetActive(true);
+    }
 
     public void Host()
     {
@@ -40,6 +63,7 @@ public class Connect : MonoBehaviour
         statusText.text = "";
         joinCodeText.text = currentCode;
         statusText.text = "Room created!";
+        HideJoinMatchElements();
     }
 
     public void CopyCode()
@@ -67,6 +91,7 @@ public class Connect : MonoBehaviour
         statusText.text = "Logging in...";
         networkManager.relayJoinCode = code;
         networkManager.JoinRelayServer();
+        HideJoinMatchElements();
     }
 
     public void Disconnect()
@@ -86,5 +111,6 @@ public class Connect : MonoBehaviour
             statusText.text = "Client disconnected";
         }
         networkManager.relayJoinCode = "";
+        ShowJoinMatchElements();
     }
 }

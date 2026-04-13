@@ -2094,6 +2094,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Connect
   networkManager: {fileID: 180431518}
+  hostButton: {fileID: 1297122503}
+  clientButton: {fileID: 1330301825}
+  joinCodeButton: {fileID: 938234127}
+  joinCodeTextGameObject: {fileID: 1981159445}
+  disconnectButton: {fileID: 1044710479}
   joinCodeText: {fileID: 1554793606}
   inputJoinCode: {fileID: 1981159446}
   statusText: {fileID: 1752992193}
