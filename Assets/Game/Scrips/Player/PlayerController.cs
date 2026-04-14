@@ -7,6 +7,7 @@ public class PlayerController : NetworkBehaviour
     public const int MAX_CARDS_IN_HAND = 5;
 
     public PlayerHUD playerHUD;
+    public Transform cameraStartPoint;
     public Transform cameraPointWhenChoosingCards;
     public Camera playerCamera;
     public GameObject playerModel;
@@ -18,9 +19,7 @@ public class PlayerController : NetworkBehaviour
     [SyncVar] public float currentTurn_t;
     [SyncVar] public bool spectatorMode;
     [SyncVar] public bool gameStopped;
-    public bool isChoosingCards;
-    public Vector3 cameraStartPosition;
-    public Quaternion cameraStartRotation;
+    [SyncVar(hook = nameof(UpdateIsChoosingCards))]public bool isChoosingCards;
     public List<Card> selectedCards;
     public List<Card> cardsInHand;
     private TrioSystem trioSystem = new TrioSystem();
@@ -31,8 +30,6 @@ public class PlayerController : NetworkBehaviour
         if (isLocalPlayer)
         {
             playerCamera.gameObject.SetActive(true);
-            cameraStartPosition = playerCamera.transform.position;
-            cameraStartRotation = playerCamera.transform.rotation;
 
             Quaternion rotation = transform.rotation;
             rotation.x = 0f;
@@ -101,16 +98,7 @@ public class PlayerController : NetworkBehaviour
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     isChoosingCards = !isChoosingCards;
-                    if (isChoosingCards)
-                    {
-                        playerCamera.transform.position = cameraPointWhenChoosingCards.position;
-                        playerCamera.transform.rotation = cameraPointWhenChoosingCards.rotation;
-                    }
-                    else
-                    {
-                        playerCamera.transform.position = cameraStartPosition;
-                        playerCamera.transform.rotation = cameraStartRotation;
-                    }
+                    ToggleCameraPosition(isChoosingCards);
                 }
             }
 
@@ -129,6 +117,25 @@ public class PlayerController : NetworkBehaviour
                     playerHUD.UpdateCurrentTurnTime();
                 }
             }
+        }
+    }
+
+    public void UpdateIsChoosingCards(bool oldValue, bool newValue)
+    {
+        ToggleCameraPosition(isChoosingCards);
+    }
+
+    public void ToggleCameraPosition(bool choosingCards)
+    {
+        if (choosingCards)
+        {
+            playerCamera.transform.position = cameraPointWhenChoosingCards.position;
+            playerCamera.transform.rotation = cameraPointWhenChoosingCards.rotation;
+        }
+        else
+        {
+            playerCamera.transform.position = cameraStartPoint.position;
+            playerCamera.transform.rotation = cameraStartPoint.rotation;
         }
     }
 

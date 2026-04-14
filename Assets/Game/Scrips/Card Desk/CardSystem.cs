@@ -98,6 +98,7 @@ public class CardSystem : NetworkBehaviour
             // Shows 'memorization phase panel' for all players
             PlayerController player = GI.networkManager.players[i].identity.GetComponent<PlayerController>();
             player.playerHUD.TargetShowMemorizationPhasePanel();
+            player.isChoosingCards = true;
             // MainHUD starts disabled. No need to disable it here.
         }
 
@@ -124,6 +125,7 @@ public class CardSystem : NetworkBehaviour
             PlayerController player = GI.networkManager.players[i].identity.GetComponent<PlayerController>();
             player.playerHUD.TargetHideMemorizationPhasePanel();
             player.playerHUD.TargetShowMainHUD();
+            player.isChoosingCards = false;
         }
     }
 
