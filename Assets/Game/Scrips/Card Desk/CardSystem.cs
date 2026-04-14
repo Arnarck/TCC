@@ -93,6 +93,13 @@ public class CardSystem : NetworkBehaviour
     public IEnumerator RunMemorizationPhase()
     {
         isMemorizationPhase = true;
+        for (int i = 0; i < GI.networkManager.players.Count; i++)
+        {
+            // Shows 'memorization phase panel' for all players
+            PlayerController player = GI.networkManager.players[i].identity.GetComponent<PlayerController>();
+            player.playerHUD.TargetShowMemorizationPhasePanel();
+            // MainHUD starts disabled. No need to disable it here.
+        }
 
         // Revela todas as cartas atualmente na mesa
         foreach (Card card in deskSlots)
@@ -111,6 +118,13 @@ public class CardSystem : NetworkBehaviour
         }
 
         isMemorizationPhase = false;
+        for (int i = 0; i < GI.networkManager.players.Count; i++)
+        {
+            // Hides 'memorization phase panel' for all players
+            PlayerController player = GI.networkManager.players[i].identity.GetComponent<PlayerController>();
+            player.playerHUD.TargetHideMemorizationPhasePanel();
+            player.playerHUD.TargetShowMainHUD();
+        }
     }
 
     [Server]

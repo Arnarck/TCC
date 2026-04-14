@@ -15,6 +15,8 @@ public class PlayerHUD : NetworkBehaviour
     public GameObject spectatorHUD;
     public GameObject winUI;
     public GameObject loseUI;
+    public GameObject memorizationPhasePanel;
+    public GameObject mainHUD;
 
     public override void OnStartClient()
     {
@@ -54,6 +56,30 @@ public class PlayerHUD : NetworkBehaviour
     public void ShowSpectatorHUD()
     {
         spectatorHUD.SetActive(true);
+    }
+
+    [TargetRpc]
+    public void TargetShowMainHUD()
+    {
+        mainHUD.SetActive(true);
+    }
+
+    [TargetRpc]
+    public void TargetHideMainHUD()
+    {
+        mainHUD.SetActive(false);
+    }
+
+    [TargetRpc]
+    public void TargetShowMemorizationPhasePanel()
+    {
+        memorizationPhasePanel.SetActive(true);
+    }
+
+    [TargetRpc]
+    public void TargetHideMemorizationPhasePanel()
+    {
+        memorizationPhasePanel.SetActive(false);
     }
 
     public void ShowWin()
