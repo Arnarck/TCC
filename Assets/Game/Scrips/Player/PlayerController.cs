@@ -285,6 +285,17 @@ public class PlayerController : NetworkBehaviour
         NetworkServer.Spawn(go, connectionToClient);
 
         cardsInHand.Add(go.GetComponent<Card>());
+        if (!isLocalPlayer) // Prevents the host from spawning the card twice
+        {
+            TargetSpawnCardInHand(go);
+        }
+    }
+
+    // 'cardsInHand' list is being updated in clients so we can reorder the cards easily from server and update it on the clients.
+    [TargetRpc]
+    public void TargetSpawnCardInHand(GameObject go)
+    {
+        cardsInHand.Add(go.GetComponent<Card>());
     }
 
     [Server]
@@ -304,6 +315,22 @@ public class PlayerController : NetworkBehaviour
         NetworkServer.Destroy(card.gameObject);
 
         // Reorder card's position
+        for (int i = index; i < cardsInHand.Count; i++)
+        {
+            cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
+            cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
+        }
+        
+        if (!isLocalPlayer) // Prevents the host from reordering the cards twice
+        {
+            TargetRemoveCardFromHand(index);
+        }
+    }
+
+    [TargetRpc]
+    public void TargetRemoveCardFromHand(int index)
+    {
+        cardsInHand.RemoveAt(index);
         for (int i = index; i < cardsInHand.Count; i++)
         {
             cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
