@@ -1,0 +1,1670 @@
+fileFormatVersion: 2
+guid: 69a0a15178e91544f96ed4178e260f1b
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 2272, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_0
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 324
+        width: 757
+        height: 1149
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca104ad4e141dc146aec58a2cf1112cd
+      internalID: -597296112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_1
+      rect:
+        serializedVersion: 2
+        x: 997
+        y: 272
+        width: 432
+        height: 490
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8fd142750aabb242b17ae0307b305bf
+      internalID: 1145783035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_2
+      rect:
+        serializedVersion: 2
+        x: 1471
+        y: 601
+        width: 387
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8ceb2c319e62f04d88fd510585fec55
+      internalID: -331220610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_3
+      rect:
+        serializedVersion: 2
+        x: 1903
+        y: 324
+        width: 109
+        height: 387
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d1dbb5054aac704eba34dfa02b2b0d3
+      internalID: -383549102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_4
+      rect:
+        serializedVersion: 2
+        x: 2272
+        y: 0
+        width: 1030
+        height: 1473
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 090bf184c1331dc4f9b1d28605add9e3
+      internalID: 213984183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_5
+      rect:
+        serializedVersion: 2
+        x: 703
+        y: 36
+        width: 13
+        height: 461
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 618d7c35978064445873f9057115ddf7
+      internalID: 916412209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_6
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 463
+        width: 651
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba05ed86589e14743a59ff016ea321c3
+      internalID: -1355218581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_8
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 177
+        width: 48
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34d39f3480a139d4890b2a299e7ea533
+      internalID: 1810421910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_9
+      rect:
+        serializedVersion: 2
+        x: 1471
+        y: 324
+        width: 387
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 443eb5cfbee771d4eb67701f2b2f98ec
+      internalID: 1792976251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 38
+        width: 112
+        height: 284
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04ac3a7b6aa932f428d53d2276b2dbb7
+      internalID: -777704101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_11
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 200
+        width: 93
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d19b7b07d3284d142818399c46c66fce
+      internalID: -1085416038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_12
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 161
+        width: 92
+        height: 134
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 374f9b9728021fc4ca6346778d49bcdb
+      internalID: 259275393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_13
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 200
+        width: 93
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3b97b03bea7e0e41a7dc4d8f264f530
+      internalID: 1850602493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_14
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 200
+        width: 65
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f0ccbaa6d18d0d4780d69d74c105abc
+      internalID: -651771567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_15
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 154
+        width: 19
+        height: 81
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39c6f3a7edbc4e245b6d3ad7fcb4753d
+      internalID: -2025289361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_16
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 153
+        width: 47
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 666f3e366306b56459c5ef251c5c007b
+      internalID: -287436664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_17
+      rect:
+        serializedVersion: 2
+        x: 1057
+        y: 222
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03c245327fa25094797daa31b9e0fbbc
+      internalID: 481149127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_18
+      rect:
+        serializedVersion: 2
+        x: 1085
+        y: 153
+        width: 46
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67158574794ead544915e8711a6cb679
+      internalID: 2001778284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_19
+      rect:
+        serializedVersion: 2
+        x: 1206
+        y: 153
+        width: 48
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63b142f27064aea49a0e550e2d54c3f3
+      internalID: 1298573838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_20
+      rect:
+        serializedVersion: 2
+        x: 1357
+        y: 153
+        width: 67
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0814c51d88d421a409d7a5eac03bc1e3
+      internalID: -952643436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_21
+      rect:
+        serializedVersion: 2
+        x: 1534
+        y: 153
+        width: 76
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70f32510d2409b042b12353a0742d3b3
+      internalID: -860682452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_22
+      rect:
+        serializedVersion: 2
+        x: 1617
+        y: 222
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f42d4bbc45e526d4a8799d330b665204
+      internalID: 955859549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_23
+      rect:
+        serializedVersion: 2
+        x: 1656
+        y: 221
+        width: 45
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48ab37fc51856324c900b6f893e18a5f
+      internalID: 1099618500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_24
+      rect:
+        serializedVersion: 2
+        x: 1860
+        y: 222
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37a647263b654c64284fefca30449fa7
+      internalID: 1143595293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_25
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 143
+        width: 29
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdeeeb37f868bce4c8431bdcce4b52b5
+      internalID: 1429464384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_26
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 143
+        width: 30
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41244f6eb34c7974d82168b94976cdff
+      internalID: -851062862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_27
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 143
+        width: 29
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80bf0690fa7a99e47abec506c980da2b
+      internalID: -995887984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_28
+      rect:
+        serializedVersion: 2
+        x: 878
+        y: 154
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a7a133ad0e07164ca4e39bd0677698d
+      internalID: 1204175562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_29
+      rect:
+        serializedVersion: 2
+        x: 949
+        y: 153
+        width: 55
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d27893e85f860f64f8b166618f79d72f
+      internalID: 1523730143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_30
+      rect:
+        serializedVersion: 2
+        x: 1059
+        y: 154
+        width: 18
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8624144dac3326b44b1e3e3af03dfad6
+      internalID: -2077834151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_31
+      rect:
+        serializedVersion: 2
+        x: 1138
+        y: 153
+        width: 61
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be437e481ffad0b44b84a5e0ac2f0d86
+      internalID: -1279523136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_32
+      rect:
+        serializedVersion: 2
+        x: 1255
+        y: 153
+        width: 67
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0c0a0da4ab4243488fdef64a9a90aee
+      internalID: 1704500874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_33
+      rect:
+        serializedVersion: 2
+        x: 1433
+        y: 153
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3054ab6055758b44b261044a6cf6b16
+      internalID: 1538922983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_34
+      rect:
+        serializedVersion: 2
+        x: 1619
+        y: 154
+        width: 17
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef6631aba84eb954c93e5e3991005443
+      internalID: 1097626745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_35
+      rect:
+        serializedVersion: 2
+        x: 1646
+        y: 153
+        width: 65
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 730f10e2c713ac64dbc7b05d2c216f21
+      internalID: -597414724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_36
+      rect:
+        serializedVersion: 2
+        x: 1720
+        y: 154
+        width: 62
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ef42011644941f4bb4e964a429814a7
+      internalID: -352051164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_37
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 153
+        width: 60
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d035947245179214d9d68fbdf29ce5b4
+      internalID: -52566437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_38
+      rect:
+        serializedVersion: 2
+        x: 1861
+        y: 154
+        width: 18
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68d7ada71d2a1d448b756936d901f2e3
+      internalID: -2278734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_39
+      rect:
+        serializedVersion: 2
+        x: 1889
+        y: 153
+        width: 58
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f22231056b38984eb2c960a0f87e49d
+      internalID: 1446012391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_40
+      rect:
+        serializedVersion: 2
+        x: 1954
+        y: 153
+        width: 56
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 268835d3a9c9e984a8df8fc652645d5c
+      internalID: 627020871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_46
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 40
+        width: 29
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cceba2861b4969c42a81fc8332299846
+      internalID: 513810828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_47
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 0
+        width: 92
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2b242dd0d01a2b4b937e64e57616b8a
+      internalID: 117149288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_48
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 40
+        width: 29
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5276dac4930c494484a405d146286de
+      internalID: 861299278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_49
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 38
+        width: 68
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98c7eb8a33dfec849b9e7f28c84993fa
+      internalID: 513942983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_50
+      rect:
+        serializedVersion: 2
+        x: 376
+        y: 38
+        width: 84
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f24e63d82d8aaa849950f45f0c96513a
+      internalID: -663300908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_51
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 40
+        width: 29
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 621d84b9776287241aeee4e6bee975c0
+      internalID: -1489712257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_52
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 38
+        width: 65
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e3308f0b82a7c74b9c140a1b26623db
+      internalID: 913586510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_53
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 50
+        width: 62
+        height: 81
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7226e44a77ee55140887602a1aeb2bc7
+      internalID: 1858751437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_54
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 49
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3bc79d45e2a89c24c94556aa5a7e81c5
+      internalID: -1187338496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_55
+      rect:
+        serializedVersion: 2
+        x: 1355
+        y: 50
+        width: 19
+        height: 81
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d59ca7f117cc47642bec6d8f36ad66c0
+      internalID: 523997233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_56
+      rect:
+        serializedVersion: 2
+        x: 1458
+        y: 50
+        width: 47
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db1e4529fb1b9d046811bf12bf6b800b
+      internalID: -1268491725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_57
+      rect:
+        serializedVersion: 2
+        x: 1758
+        y: 116
+        width: 34
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d59a190afe17c64490f3ce705c78aaf
+      internalID: -1971671121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_58
+      rect:
+        serializedVersion: 2
+        x: 1803
+        y: 49
+        width: 47
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5adb14886492d54c88928807f77ad2c
+      internalID: -174960864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_59
+      rect:
+        serializedVersion: 2
+        x: 1856
+        y: 117
+        width: 23
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5daa2d5cc0fdf234ab71e0063d9f1855
+      internalID: -1700904204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_64
+      rect:
+        serializedVersion: 2
+        x: 908
+        y: 49
+        width: 65
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a5850434f2f52a43addd9ebb1e2ba7b
+      internalID: -1774321992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_65
+      rect:
+        serializedVersion: 2
+        x: 975
+        y: 49
+        width: 58
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5b1f93a2f55fb7499cd995e4f5baad0
+      internalID: 2000958756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_66
+      rect:
+        serializedVersion: 2
+        x: 1091
+        y: 49
+        width: 58
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2a61d47b00148343b2b01e41e1958bd
+      internalID: 78986334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_67
+      rect:
+        serializedVersion: 2
+        x: 1156
+        y: 49
+        width: 56
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7b791f3b97cffe4f8f528f2158341be
+      internalID: 1857474250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_68
+      rect:
+        serializedVersion: 2
+        x: 1248
+        y: 49
+        width: 63
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c08d2a42bf683b4ea63c0f42b84b68c
+      internalID: -575116339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_69
+      rect:
+        serializedVersion: 2
+        x: 1390
+        y: 50
+        width: 62
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 201ce4ee52cecf34fbb573af5b57a023
+      internalID: 1669539113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_70
+      rect:
+        serializedVersion: 2
+        x: 1502
+        y: 49
+        width: 66
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24123428d20bc1c4288ece1be111e3ab
+      internalID: 760588779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_71
+      rect:
+        serializedVersion: 2
+        x: 1580
+        y: 50
+        width: 38
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f7eab061376ad94cb89683eca04e947
+      internalID: -376038747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_72
+      rect:
+        serializedVersion: 2
+        x: 1627
+        y: 50
+        width: 101
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 674aaf64de5d2d04d896a1f9661ddd06
+      internalID: -1015211564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_73
+      rect:
+        serializedVersion: 2
+        x: 1738
+        y: 49
+        width: 58
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd9af56037ad0db4ebc19be2ad08742d
+      internalID: 819823187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_74
+      rect:
+        serializedVersion: 2
+        x: 1858
+        y: 50
+        width: 19
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c226ef2f61f4f348b9195175bf18614
+      internalID: 708340082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_75
+      rect:
+        serializedVersion: 2
+        x: 1887
+        y: 49
+        width: 60
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 463200409cbee444aa8c637f8e1ea00b
+      internalID: 606250399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_jogos_brasao_novo_SVG_white@5x_76
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 49
+        width: 58
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1764dd664ba835049971b971246d0316
+      internalID: -1547533378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 1537655665
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      logo_jogos_brasao_novo_SVG_white@5x_0: -597296112
+      logo_jogos_brasao_novo_SVG_white@5x_1: 1145783035
+      logo_jogos_brasao_novo_SVG_white@5x_10: -777704101
+      logo_jogos_brasao_novo_SVG_white@5x_11: -1085416038
+      logo_jogos_brasao_novo_SVG_white@5x_12: 259275393
+      logo_jogos_brasao_novo_SVG_white@5x_13: 1850602493
+      logo_jogos_brasao_novo_SVG_white@5x_14: -651771567
+      logo_jogos_brasao_novo_SVG_white@5x_15: -2025289361
+      logo_jogos_brasao_novo_SVG_white@5x_16: -287436664
+      logo_jogos_brasao_novo_SVG_white@5x_17: 481149127
+      logo_jogos_brasao_novo_SVG_white@5x_18: 2001778284
+      logo_jogos_brasao_novo_SVG_white@5x_19: 1298573838
+      logo_jogos_brasao_novo_SVG_white@5x_2: -331220610
+      logo_jogos_brasao_novo_SVG_white@5x_20: -952643436
+      logo_jogos_brasao_novo_SVG_white@5x_21: -860682452
+      logo_jogos_brasao_novo_SVG_white@5x_22: 955859549
+      logo_jogos_brasao_novo_SVG_white@5x_23: 1099618500
+      logo_jogos_brasao_novo_SVG_white@5x_24: 1143595293
+      logo_jogos_brasao_novo_SVG_white@5x_25: 1429464384
+      logo_jogos_brasao_novo_SVG_white@5x_26: -851062862
+      logo_jogos_brasao_novo_SVG_white@5x_27: -995887984
+      logo_jogos_brasao_novo_SVG_white@5x_28: 1204175562
+      logo_jogos_brasao_novo_SVG_white@5x_29: 1523730143
+      logo_jogos_brasao_novo_SVG_white@5x_3: -383549102
+      logo_jogos_brasao_novo_SVG_white@5x_30: -2077834151
+      logo_jogos_brasao_novo_SVG_white@5x_31: -1279523136
+      logo_jogos_brasao_novo_SVG_white@5x_32: 1704500874
+      logo_jogos_brasao_novo_SVG_white@5x_33: 1538922983
+      logo_jogos_brasao_novo_SVG_white@5x_34: 1097626745
+      logo_jogos_brasao_novo_SVG_white@5x_35: -597414724
+      logo_jogos_brasao_novo_SVG_white@5x_36: -352051164
+      logo_jogos_brasao_novo_SVG_white@5x_37: -52566437
+      logo_jogos_brasao_novo_SVG_white@5x_38: -2278734
+      logo_jogos_brasao_novo_SVG_white@5x_39: 1446012391
+      logo_jogos_brasao_novo_SVG_white@5x_4: 213984183
+      logo_jogos_brasao_novo_SVG_white@5x_40: 627020871
+      logo_jogos_brasao_novo_SVG_white@5x_41: -2107579729
+      logo_jogos_brasao_novo_SVG_white@5x_42: 1509095456
+      logo_jogos_brasao_novo_SVG_white@5x_43: -290438111
+      logo_jogos_brasao_novo_SVG_white@5x_44: 2037881033
+      logo_jogos_brasao_novo_SVG_white@5x_45: -1981545553
+      logo_jogos_brasao_novo_SVG_white@5x_46: 513810828
+      logo_jogos_brasao_novo_SVG_white@5x_47: 117149288
+      logo_jogos_brasao_novo_SVG_white@5x_48: 861299278
+      logo_jogos_brasao_novo_SVG_white@5x_49: 513942983
+      logo_jogos_brasao_novo_SVG_white@5x_5: 916412209
+      logo_jogos_brasao_novo_SVG_white@5x_50: -663300908
+      logo_jogos_brasao_novo_SVG_white@5x_51: -1489712257
+      logo_jogos_brasao_novo_SVG_white@5x_52: 913586510
+      logo_jogos_brasao_novo_SVG_white@5x_53: 1858751437
+      logo_jogos_brasao_novo_SVG_white@5x_54: -1187338496
+      logo_jogos_brasao_novo_SVG_white@5x_55: 523997233
+      logo_jogos_brasao_novo_SVG_white@5x_56: -1268491725
+      logo_jogos_brasao_novo_SVG_white@5x_57: -1971671121
+      logo_jogos_brasao_novo_SVG_white@5x_58: -174960864
+      logo_jogos_brasao_novo_SVG_white@5x_59: -1700904204
+      logo_jogos_brasao_novo_SVG_white@5x_6: -1355218581
+      logo_jogos_brasao_novo_SVG_white@5x_60: -1242857258
+      logo_jogos_brasao_novo_SVG_white@5x_61: 1646437841
+      logo_jogos_brasao_novo_SVG_white@5x_62: -1642919649
+      logo_jogos_brasao_novo_SVG_white@5x_63: 567833729
+      logo_jogos_brasao_novo_SVG_white@5x_64: -1774321992
+      logo_jogos_brasao_novo_SVG_white@5x_65: 2000958756
+      logo_jogos_brasao_novo_SVG_white@5x_66: 78986334
+      logo_jogos_brasao_novo_SVG_white@5x_67: 1857474250
+      logo_jogos_brasao_novo_SVG_white@5x_68: -575116339
+      logo_jogos_brasao_novo_SVG_white@5x_69: 1669539113
+      logo_jogos_brasao_novo_SVG_white@5x_7: -993791392
+      logo_jogos_brasao_novo_SVG_white@5x_70: 760588779
+      logo_jogos_brasao_novo_SVG_white@5x_71: -376038747
+      logo_jogos_brasao_novo_SVG_white@5x_72: -1015211564
+      logo_jogos_brasao_novo_SVG_white@5x_73: 819823187
+      logo_jogos_brasao_novo_SVG_white@5x_74: 708340082
+      logo_jogos_brasao_novo_SVG_white@5x_75: 606250399
+      logo_jogos_brasao_novo_SVG_white@5x_76: -1547533378
+      logo_jogos_brasao_novo_SVG_white@5x_8: 1810421910
+      logo_jogos_brasao_novo_SVG_white@5x_9: 1792976251
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
