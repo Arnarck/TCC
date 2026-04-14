@@ -79,6 +79,17 @@ public class PlayerController : NetworkBehaviour
                     }
                 }
 
+                // Remove card
+                if (Input.GetMouseButtonDown(1))
+                {
+                    Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+                    if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
+                    {
+                        Card card = hit.collider.gameObject.GetComponent<Card>();
+                        CmdTryToRemoveCardFromHand(card.gameObject);
+                    }
+                }
+
                 // @TODO: Check with design a official way of making a trio (button? mouse click in item in desk?).
                 if (Input.GetKeyDown(KeyCode.C))
                 {
@@ -142,6 +153,23 @@ public class PlayerController : NetworkBehaviour
         currentTurn_t = 0f;
         playerHUD.endCurrentTurnButton.interactable = false;
         playerHUD.currentTurnTimeText.enabled = false;
+    }
+
+    [Command]
+    public void CmdTryToRemoveCardFromHand(GameObject go)
+    {
+        if (actionsRemaining <= 0)
+        {
+            return;
+        }
+
+        Card card = go.GetComponent<Card>();
+        if (selectedCards.Contains(card))
+        {
+            ServerRemoveCardFromHand(go);
+            ServerDecreaseActionsRemaining();
+        }
+
     }
 
     [Command]
@@ -264,6 +292,7 @@ public class PlayerController : NetworkBehaviour
 
         int index = cardsInHand.IndexOf(card);
 
+        selectedCards.Remove(card);
         cardsInHand.Remove(card);
         NetworkServer.Destroy(card.gameObject);
 
