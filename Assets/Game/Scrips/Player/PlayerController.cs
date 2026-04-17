@@ -1,5 +1,6 @@
 using UnityEngine;
 using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 
 public class PlayerController : NetworkBehaviour
@@ -19,7 +20,7 @@ public class PlayerController : NetworkBehaviour
     [SyncVar] public float currentTurn_t;
     [SyncVar] public bool spectatorMode;
     [SyncVar] public bool gameStopped;
-    [SyncVar(hook = nameof(UpdateIsChoosingCards))]public bool isChoosingCards;
+    [SyncVar(hook = nameof(UpdateIsChoosingCards))] public bool isChoosingCards;
     public List<Card> selectedCards;
     public List<Card> cardsInHand;
     private TrioSystem trioSystem = new TrioSystem();
@@ -76,16 +77,16 @@ public class PlayerController : NetworkBehaviour
                     }
                 }
 
-                // Remove card
-                if (Input.GetMouseButtonDown(1))
-                {
-                    Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-                    if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
-                    {
-                        Card card = hit.collider.gameObject.GetComponent<Card>();
-                        CmdTryToRemoveCardFromHand(card.gameObject);
-                    }
-                }
+                /* // Remove card
+                 if (Input.GetMouseButtonDown(1))
+                 {
+                     Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+                     if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
+                     {
+                         Card card = hit.collider.gameObject.GetComponent<Card>();
+                         CmdTryToRemoveCardFromHand(card.gameObject);
+                     }
+                 }*/
 
                 // @TODO: Check with design a official way of making a trio (button? mouse click in item in desk?).
                 if (Input.GetKeyDown(KeyCode.C))
@@ -162,22 +163,22 @@ public class PlayerController : NetworkBehaviour
         playerHUD.currentTurnTimeText.enabled = false;
     }
 
-    [Command]
-    public void CmdTryToRemoveCardFromHand(GameObject go)
-    {
-        if (actionsRemaining <= 0)
-        {
-            return;
-        }
+    /*  [Command]
+      public void CmdTryToRemoveCardFromHand(GameObject go)
+      {
+          if (actionsRemaining <= 0)
+          {
+              return;
+          }
 
-        Card card = go.GetComponent<Card>();
-        if (selectedCards.Contains(card))
-        {
-            ServerRemoveCardFromHand(go);
-            ServerDecreaseActionsRemaining();
-        }
+          Card card = go.GetComponent<Card>();
+          if (selectedCards.Contains(card))
+          {
+              ServerRemoveCardFromHand(go);
+              ServerDecreaseActionsRemaining();
+          }
 
-    }
+      }*/
 
     [Command]
     public void CmdTryToSelectCard(GameObject go)
@@ -190,10 +191,8 @@ public class PlayerController : NetworkBehaviour
         }
 
         Card card = go.GetComponent<Card>();
-        // Prevents from stolling a card from other player's hand (although it's a good idea)
         for (int i = 0; i < GI.networkManager.players.Count; i++)
         {
-            // @TODO: Cache 'PlayerController' in network manager?
             NetworkConnectionToClient conn = GI.networkManager.players[i];
             if (conn != connectionToClient && conn.identity.GetComponent<PlayerController>().cardsInHand.Contains(card))
             {
@@ -212,16 +211,35 @@ public class PlayerController : NetworkBehaviour
             }
             else if (selectedCards.Count < 3)
             {
-                // Select - Maximum of 3 cards in hand
                 selectedCards.Add(card);
                 TargetSelectCard(go);
             }
         }
         else
         {
-            // Selects a card from the desk and spawns it
-            SpawnCardInHand(card.type, go);
+            if (selectedCards.Count == 0)
+            {
+                SpawnCardInHand(card.type, go);
+                return;
+            }
+
+            if (selectedCards.Count == 1)
+            {
+                Card handCard = selectedCards[0];
+
+                StartCoroutine(GI.cardSystem.SwapCard(
+                    handCard,
+                    card,
+                    connectionToClient,
+                    cardsSpawnPoints,
+                    cardsInHand
+                ));
+
+                selectedCards.Clear();
+                ServerDecreaseActionsRemaining();
+            }
         }
+
     }
 
     [TargetRpc]
@@ -320,7 +338,7 @@ public class PlayerController : NetworkBehaviour
             cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
             cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
         }
-        
+
         if (!isLocalPlayer) // Prevents the host from reordering the cards twice
         {
             TargetRemoveCardFromHand(index);

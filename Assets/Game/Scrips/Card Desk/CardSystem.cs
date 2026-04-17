@@ -188,4 +188,53 @@ public class CardSystem : NetworkBehaviour
         foreach (var c in deskSlots) if (c == null) count++;
         return count;
     }
+    [Server]
+    public int GetSlotIndex(Card card)
+    {
+        for (int i = 0; i < deskSlots.Length; i++)
+        {
+            if (deskSlots[i] == card)
+                return i;
+        }
+        return -1;
+    }
+    [Server]
+    public IEnumerator SwapCard(Card handCard, Card deskCard, NetworkConnectionToClient conn, Transform[] handSlots, List<Card> handList)
+    {
+        int deskIndex = GetSlotIndex(deskCard);
+        if (deskIndex == -1) yield break;
+
+        deskSlots[deskIndex] = null;
+
+        handList.Remove(handCard);
+
+        NetworkServer.Destroy(deskCard.gameObject);
+        NetworkServer.Destroy(handCard.gameObject);
+
+        GameObject newHandGO = Instantiate(GI.cardList.GetCardPrefab(deskCard.type),
+            handSlots[handList.Count].position,
+            handSlots[handList.Count].rotation);
+
+        NetworkServer.Spawn(newHandGO, conn);
+        Card newHandCard = newHandGO.GetComponent<Card>();
+        handList.Add(newHandCard);
+
+        Transform spawnPoint = cardsSpawnPoints[deskIndex];
+
+        GameObject newDeskGO = Instantiate(GI.cardList.GetCardPrefab(handCard.type),
+            spawnPoint.position,
+            spawnPoint.rotation);
+
+        NetworkServer.Spawn(newDeskGO);
+
+        Card newDeskCard = newDeskGO.GetComponent<Card>();
+        deskSlots[deskIndex] = newDeskCard;
+
+        newDeskCard.isRevealed = true;
+
+        yield return new WaitForSeconds(5f);
+
+        if (newDeskCard != null)
+            newDeskCard.isRevealed = false;
+    }
 }
