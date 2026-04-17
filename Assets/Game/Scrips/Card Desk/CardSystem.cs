@@ -199,31 +199,59 @@ public class CardSystem : NetworkBehaviour
         return -1;
     }
     [Server]
-    public IEnumerator SwapCard(Card handCard, Card deskCard, NetworkConnectionToClient conn, Transform[] handSlots, List<Card> handList)
+    public IEnumerator SwapCard(
+    Card handCard,
+    Card deskCard,
+    NetworkConnectionToClient conn,
+    Transform[] handSlots,
+    List<Card> handList)
     {
+        if (GI.networkManager.GetCurrentPlayerTurn() != conn.connectionId)
+        {
+            yield break;
+        }
+
         int deskIndex = GetSlotIndex(deskCard);
         if (deskIndex == -1) yield break;
 
-        deskSlots[deskIndex] = null;
+        int handIndex = handList.IndexOf(handCard);
+        if (handIndex == -1) yield break;
 
-        handList.Remove(handCard);
+        deskSlots[deskIndex] = null;
+        handList.RemoveAt(handIndex);
 
         NetworkServer.Destroy(deskCard.gameObject);
         NetworkServer.Destroy(handCard.gameObject);
 
-        GameObject newHandGO = Instantiate(GI.cardList.GetCardPrefab(deskCard.type),
-            handSlots[handList.Count].position,
-            handSlots[handList.Count].rotation);
+
+        GameObject newHandGO = Instantiate(
+            GI.cardList.GetCardPrefab(deskCard.type),
+            handSlots[handIndex].position,
+            handSlots[handIndex].rotation
+        );
 
         NetworkServer.Spawn(newHandGO, conn);
+
         Card newHandCard = newHandGO.GetComponent<Card>();
-        handList.Add(newHandCard);
+
+
+        handList.Insert(handIndex, newHandCard);
+
+
+        for (int i = 0; i < handList.Count; i++)
+        {
+            handList[i].transform.position = handSlots[i].position;
+            handList[i].transform.rotation = handSlots[i].rotation;
+        }
+
 
         Transform spawnPoint = cardsSpawnPoints[deskIndex];
 
-        GameObject newDeskGO = Instantiate(GI.cardList.GetCardPrefab(handCard.type),
+        GameObject newDeskGO = Instantiate(
+            GI.cardList.GetCardPrefab(handCard.type),
             spawnPoint.position,
-            spawnPoint.rotation);
+            spawnPoint.rotation
+        );
 
         NetworkServer.Spawn(newDeskGO);
 

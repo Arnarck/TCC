@@ -183,6 +183,7 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void CmdTryToSelectCard(GameObject go)
     {
+        
         selectedCards.RemoveAll(c => c == null);
         if (GI.cardSystem.isMemorizationPhase)
         {
@@ -217,6 +218,10 @@ public class PlayerController : NetworkBehaviour
         }
         else
         {
+             if (GI.networkManager.GetCurrentPlayerTurn() != connectionToClient.connectionId)
+    {
+        return;
+    }
             if (selectedCards.Count == 0)
             {
                 SpawnCardInHand(card.type, go);
