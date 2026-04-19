@@ -108,7 +108,7 @@ PlayerSettings:
   xboxEnableFitness: 0
   visibleInBackground: 1
   allowFullscreenSwitch: 1
-  fullscreenMode: 3
+  fullscreenMode: 1
   xboxSpeechDB: 0
   xboxEnableHeadOrientation: 0
   xboxEnableGuest: 0
@@ -928,11 +928,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 8d7d5700-e034-460d-87f6-8aaeb4134570
+  cloudProjectId: 7dfbe77a-6f20-4bea-9bb8-3e01e18afa87
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: TCC
-  organizationId: laysbassottollg
+  projectName: TCC (1)
+  organizationId: lhss2003
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
