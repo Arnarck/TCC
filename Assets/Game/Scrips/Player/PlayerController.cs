@@ -17,10 +17,16 @@ public class PlayerController : NetworkBehaviour
     [Header("INTERNAL")]
     [SyncVar(hook = nameof(UpdateScore))] public int score;
     [SyncVar] public int actionsRemaining;
+    [SyncVar(hook = nameof(OnRespectF1Changed))] public int respectF1 = 0;
+    [SyncVar(hook = nameof(OnRespectF2Changed))] public int respectF2 = 0;
+    [SyncVar(hook = nameof(OnRespectF3Changed))] public int respectF3 = 0;
+    [SyncVar(hook = nameof(OnRespectF4Changed))] public int respectF4 = 0;
     [SyncVar] public float currentTurn_t;
     [SyncVar] public bool spectatorMode;
     [SyncVar] public bool gameStopped;
     [SyncVar(hook = nameof(UpdateIsChoosingCards))] public bool isChoosingCards;
+    // Respeito por família 
+
     public List<Card> selectedCards;
     public List<Card> cardsInHand;
     private TrioSystem trioSystem = new TrioSystem();
@@ -40,6 +46,7 @@ public class PlayerController : NetworkBehaviour
 
             playerHUD.UpdateScore();
 
+            CmdSetInitialRespect(Family_Type.FAMILY_1);
 
             CmdSpawnCardInHand();
             CmdSpawnCardInHand();
@@ -183,7 +190,7 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void CmdTryToSelectCard(GameObject go)
     {
-        
+
         selectedCards.RemoveAll(c => c == null);
         if (GI.cardSystem.isMemorizationPhase)
         {
@@ -218,10 +225,10 @@ public class PlayerController : NetworkBehaviour
         }
         else
         {
-             if (GI.networkManager.GetCurrentPlayerTurn() != connectionToClient.connectionId)
-    {
-        return;
-    }
+            if (GI.networkManager.GetCurrentPlayerTurn() != connectionToClient.connectionId)
+            {
+                return;
+            }
             if (selectedCards.Count == 0)
             {
                 SpawnCardInHand(card.type, go);
@@ -454,6 +461,17 @@ public class PlayerController : NetworkBehaviour
 
         int trioScore = trioSystem.CalculateScore(card1, card2, card3);
 
+        // Aplica bônus de respeito se for trio da mesma família
+        SameFamilyRule familyRule = new SameFamilyRule();
+        if (familyRule.IsValid(card1, card2, card3))
+        {
+            Family_Type family = card1.familyType; // todas iguais
+            UpdateRespect_Server(family);
+            int bonus = GetFamilyBonusScore(family);
+            trioScore += bonus;
+            Debug.Log($"Bônus de respeito da família {family}: +{bonus}");
+        }
+
         score += trioScore;
 
         Debug.Log("Score atualizado: " + score);
@@ -506,5 +524,115 @@ public class PlayerController : NetworkBehaviour
         {
             ServerEndCurrentTurn();
         }
+    }
+
+    //Retorna o valor real de respeito (0.0 a 6.0) para uma família.
+    public float GetRespect(Family_Type family)
+    {
+        return GetRespectScaled(family) / 100f;
+    }
+
+    int GetRespectScaled(Family_Type family)
+    {
+        return family switch
+        {
+            Family_Type.FAMILY_1 => respectF1,
+            Family_Type.FAMILY_2 => respectF2,
+            Family_Type.FAMILY_3 => respectF3,
+            Family_Type.FAMILY_4 => respectF4,
+            _ => 0
+        };
+    }
+
+    void SetRespectScaled(Family_Type family, int value)
+    {
+        value = Mathf.Max(0, value); // nunca negativo
+        switch (family)
+        {
+            case Family_Type.FAMILY_1: respectF1 = value; break;
+            case Family_Type.FAMILY_2: respectF2 = value; break;
+            case Family_Type.FAMILY_3: respectF3 = value; break;
+            case Family_Type.FAMILY_4: respectF4 = value; break;
+        }
+    }
+
+    // Nível de respeito (0 a 6) – parte inteira do valor real.
+    public int GetRespectLevel(Family_Type family)
+    {
+        return Mathf.Clamp(Mathf.FloorToInt(GetRespect(family)), 0, 6);
+    }
+
+    // Bônus de pontuação para trios dessa família (exemplo: +1 a +5).
+    public int GetFamilyBonusScore(Family_Type family)
+    {
+        int level = GetRespectLevel(family);
+        if (level < 2) return 0;
+        // Exemplo: nível 2 = +1, 3 = +2, 4 = +3, 5 = +4, 6 = +5
+        return level - 1;
+    }
+
+    [Server]
+    void UpdateRespect_Server(Family_Type trioFamily)
+    {
+        const int GAIN = 50; // +0.5
+
+        // ---- REGRA 1: perda de 0.25 nas três outras ----
+        /*
+        foreach (Family_Type f in System.Enum.GetValues(typeof(Family_Type)))
+        {
+            if (f == trioFamily) continue;
+            int current = GetRespectScaled(f);
+            SetRespectScaled(f, current - 25);
+        }
+        */
+
+        // ---- REGRA 2: perda de 0.25 só na família com maior respeito (entre as outras) ----
+        Family_Type? highestOther = null;
+        int highestValue = -1;
+        foreach (Family_Type f in System.Enum.GetValues(typeof(Family_Type)))
+        {
+            if (f == trioFamily) continue;
+            int val = GetRespectScaled(f);
+            if (val > highestValue)
+            {
+                highestValue = val;
+                highestOther = f;
+            }
+        }
+        if (highestOther.HasValue && highestValue > 0)
+        {
+            int newVal = Mathf.Max(0, highestValue - 25); // -0.25
+            SetRespectScaled(highestOther.Value, newVal);
+        }
+
+        // Ganho na família do trio
+        int currentTrio = GetRespectScaled(trioFamily);
+        SetRespectScaled(trioFamily, currentTrio + GAIN);
+    }
+
+
+    void OnRespectF1Changed(int oldValue, int newValue)
+    {
+        playerHUD.UpdateRespectUI(Family_Type.FAMILY_1, newValue);
+    }
+    void OnRespectF2Changed(int oldValue, int newValue)
+    {
+        playerHUD.UpdateRespectUI(Family_Type.FAMILY_2, newValue);
+    }
+    void OnRespectF3Changed(int oldValue, int newValue)
+    {
+        playerHUD.UpdateRespectUI(Family_Type.FAMILY_3, newValue);
+    }
+    void OnRespectF4Changed(int oldValue, int newValue)
+    {
+        playerHUD.UpdateRespectUI(Family_Type.FAMILY_4, newValue);
+    }
+
+
+    [Command]
+    public void CmdSetInitialRespect(Family_Type family)
+    {
+        int current = GetRespectScaled(family);
+        SetRespectScaled(family, current + 100); // +1.0
     }
 }

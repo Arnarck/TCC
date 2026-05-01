@@ -18,6 +18,12 @@ public class PlayerHUD : NetworkBehaviour
     public GameObject memorizationPhasePanel;
     public GameObject mainHUD;
 
+ [Header("Respect UI")]
+    public TextMeshProUGUI respectF1Text;
+    public TextMeshProUGUI respectF2Text;
+    public TextMeshProUGUI respectF3Text;
+    public TextMeshProUGUI respectF4Text;
+
     public override void OnStartClient()
     {
         if (isLocalPlayer)
@@ -102,5 +108,30 @@ public class PlayerHUD : NetworkBehaviour
     {
         int time = (int)Mathf.Max(0f, player.currentTurn_t);
         currentTurnTimeText.text = "Remaining Time \n<size=300%>" + time.ToString() + "s</size>";
+    }
+
+   public void UpdateRespectUI(Family_Type family, int scaledValue)
+    {
+        if (!isLocalPlayer) return; // só atualiza para o jogador local
+
+        float real = scaledValue / 100f;
+        int level = Mathf.Clamp(Mathf.FloorToInt(real), 0, 6);
+        string text = $"{real:F1} (Nv.{level})";
+
+        switch (family)
+        {
+            case Family_Type.FAMILY_1:
+                if (respectF1Text != null) respectF1Text.text = "F1: "  + text;
+                break;
+            case Family_Type.FAMILY_2:
+                if (respectF2Text != null) respectF2Text.text = "F2: " + text;
+                break;
+            case Family_Type.FAMILY_3:
+                if (respectF3Text != null) respectF3Text.text = "F3: " + text;
+                break;
+            case Family_Type.FAMILY_4:
+                if (respectF4Text != null) respectF4Text.text = "F4: " + text;
+                break;
+        }
     }
 }

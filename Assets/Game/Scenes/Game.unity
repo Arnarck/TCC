@@ -20244,6 +20244,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3265737998838147105, guid: 61bf6d2e4d5627144bbebea6aa607cfe, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -10.994
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265737998838147105, guid: 61bf6d2e4d5627144bbebea6aa607cfe, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -63.289
+      objectReference: {fileID: 0}
     - target: {fileID: 4136638030509540618, guid: 61bf6d2e4d5627144bbebea6aa607cfe, type: 3}
       propertyPath: m_Name
       value: Level BLOCAGEM
