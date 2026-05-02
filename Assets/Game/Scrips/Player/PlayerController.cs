@@ -21,6 +21,11 @@ public class PlayerController : NetworkBehaviour
     [SyncVar] public bool spectatorMode;
     [SyncVar] public bool gameStopped;
     [SyncVar(hook = nameof(UpdateIsChoosingCards))] public bool isChoosingCards;
+
+    public int cardCountToChooseToImprove;
+    public List<int>pointsToChooseToImprove;
+
+    public Card[] cardsInTrio;
     public List<Card> selectedCards;
     public List<Card> cardsInHand;
     private TrioSystem trioSystem = new TrioSystem();
@@ -28,6 +33,8 @@ public class PlayerController : NetworkBehaviour
 
     private void Start()
     {
+        pointsToChooseToImprove = new List<int>();
+
         if (isLocalPlayer)
         {
             playerCamera.gameObject.SetActive(true);
@@ -152,6 +159,22 @@ public class PlayerController : NetworkBehaviour
         currentTurn_t = 0f;
         GI.networkManager.UpdatePlayerTurn();
 
+        if (cardCountToChooseToImprove > 0)
+        {
+            // Improves the cards in hand in order if the time's over
+            if (cardsInHand.Count > 0)
+            {
+                for (int i = 0; i < cardCountToChooseToImprove; i++)
+                {
+                    int randomCard = Random.Range(0, cardsInHand.Count);
+                    cardsInHand[randomCard].improvedPoints += pointsToChooseToImprove[i];
+                }
+            }
+
+            cardCountToChooseToImprove = 0;
+            pointsToChooseToImprove.Clear();
+        }
+
         TargetEndCurrentTurn();
     }
 
@@ -161,6 +184,7 @@ public class PlayerController : NetworkBehaviour
         currentTurn_t = 0f;
         playerHUD.endCurrentTurnButton.interactable = false;
         playerHUD.currentTurnTimeText.enabled = false;
+        playerHUD.HideMessage();
     }
 
     /*  [Command]
@@ -204,7 +228,25 @@ public class PlayerController : NetworkBehaviour
         // Selects/Deselects the card
         if (cardsInHand.Contains(card))
         {
-            if (selectedCards.Contains(card))
+            if (cardCountToChooseToImprove > 0)
+            {
+                // Improve its points
+                cardCountToChooseToImprove--;
+                card.improvedPoints += pointsToChooseToImprove[0];
+                pointsToChooseToImprove.RemoveAt(0);
+
+                if (cardCountToChooseToImprove < 1)
+                {
+                    ServerMaybeEndCurrentTurn();
+                }
+                else
+                {
+                    ServerShowMessageToImproveCard();
+                }
+
+                return;
+            }
+            else if (selectedCards.Contains(card))
             {
                 // Deselect
                 selectedCards.Remove(card);
@@ -212,6 +254,7 @@ public class PlayerController : NetworkBehaviour
             }
             else if (selectedCards.Count < 3)
             {
+                // Select
                 selectedCards.Add(card);
                 TargetSelectCard(go);
             }
@@ -471,6 +514,30 @@ public class PlayerController : NetworkBehaviour
             cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
         }
         selectedCards.Clear();
+
+        // Apply Abilities
+        // @TODO:
+        // Client applying abilities on ante round breaks the game.
+        // Should 'improve card ability' block other player's actions?
+        cardsInTrio = new Card[] { card1, card2, card3 };
+        for (int i = 0; i < cardsInTrio.Length; i++)
+        {
+            Card card = cardsInTrio[i];
+
+            if (card.abilityType == Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS && cardsInHand.Count > 0)
+            {
+                cardCountToChooseToImprove++;
+                pointsToChooseToImprove.Add(5);
+                ServerShowMessageToImproveCard();
+            }
+        }
+
+        ServerDecreaseActionsRemaining();
+    }
+
+    public void ServerShowMessageToImproveCard()
+    {
+        playerHUD.TargetShowMessage("Choose a card to improve by 5 points.", 2f);
     }
 
     [Command]
@@ -493,7 +560,6 @@ public class PlayerController : NetworkBehaviour
         if (trioSystem.TryFindTrio(selectedCards, out Card a, out Card b, out Card c))
         {
             Debug.Log("TRIO!");
-            ServerDecreaseActionsRemaining();
             ServerScoreTrio(a.gameObject, b.gameObject, c.gameObject);
         }
     }
@@ -502,7 +568,13 @@ public class PlayerController : NetworkBehaviour
     public void ServerDecreaseActionsRemaining()
     {
         actionsRemaining--;
-        if (actionsRemaining <= 0)
+        ServerMaybeEndCurrentTurn();
+    }
+
+    [Server]
+    public void ServerMaybeEndCurrentTurn()
+    {
+        if (actionsRemaining <= 0 && cardCountToChooseToImprove < 1)
         {
             ServerEndCurrentTurn();
         }

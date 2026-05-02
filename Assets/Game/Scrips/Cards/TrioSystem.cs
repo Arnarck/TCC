@@ -13,7 +13,7 @@ public class SameTypeRule : ITrioRule
 
     public int CalculateScore(Card a, Card b, Card c)
     {
-        int baseScore = a.points + b.points + c.points;
+        int baseScore = (a.points + a.improvedPoints) + (b.points + b.improvedPoints) + (c.points + c.improvedPoints);
         return baseScore; // PODE ADICIONAR BONUS 
     }
 }

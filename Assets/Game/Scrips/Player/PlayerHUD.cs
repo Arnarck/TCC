@@ -17,6 +17,11 @@ public class PlayerHUD : NetworkBehaviour
     public GameObject loseUI;
     public GameObject memorizationPhasePanel;
     public GameObject mainHUD;
+    public GameObject messagePanel;
+    public TextMeshProUGUI messagePanelText;
+
+    [Header("INTERNAL")]
+    public float showMessage_t;
 
     public override void OnStartClient()
     {
@@ -24,6 +29,20 @@ public class PlayerHUD : NetworkBehaviour
         {
             GI.playerHUD = this;
             UpdateCurrentRound(0);
+        }
+    }
+
+    private void Update()
+    {
+        float dt = Time.deltaTime;
+
+        if (showMessage_t > 0f)
+        {
+            showMessage_t -= dt;
+            if (showMessage_t <= 0f)
+            {
+                messagePanel.SetActive(false);
+            }
         }
     }
 
@@ -80,6 +99,19 @@ public class PlayerHUD : NetworkBehaviour
     public void TargetHideMemorizationPhasePanel()
     {
         memorizationPhasePanel.SetActive(false);
+    }
+
+    [TargetRpc]
+    public void TargetShowMessage(string message, float t)
+    {
+        messagePanel.SetActive(true);
+        messagePanelText.text = message;
+        showMessage_t = t;
+    }
+
+    public void HideMessage()
+    {
+        messagePanel.SetActive(false);
     }
 
     public void ShowWin()

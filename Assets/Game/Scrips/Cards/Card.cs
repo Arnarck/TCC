@@ -1,6 +1,20 @@
 using UnityEngine;
 using System.Collections;
 using Mirror;
+
+public enum Card_Type
+{
+    IMPROVE,
+    CARD_2,
+    CARD_3,
+    CARD_4,
+    CARD_5,
+    CARD_6,
+    CARD_7,
+
+    COUNT
+}
+
 public enum Family_Type
 {
     FAMILY_1,
@@ -13,7 +27,7 @@ public enum Family_Type
 
 public enum Ability_Type
 {
-    ABILITY_1,
+    IMPROVE_ANOTHER_CARD_BY_X_POINTS,
     ABILITY_2,
     ABILITY_3,
 
@@ -35,6 +49,7 @@ public class Card : NetworkBehaviour
 
     [Header("INTERNAL")]
     public bool collidedWithCardSystem;
+    [SyncVar]public int improvedPoints;
 
 
     private void Update()

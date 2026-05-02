@@ -42,7 +42,7 @@ public class DeckManager : NetworkBehaviour
         if (deck.Count == 0)
         {
             Debug.LogWarning("Deck vazio! Não é possível comprar carta.");
-            return Card_Type.CARD_1; // fallback
+            return Card_Type.IMPROVE; // fallback
         }
         Card_Type drawn = deck[0];
         deck.RemoveAt(0);

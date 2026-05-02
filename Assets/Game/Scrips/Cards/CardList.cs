@@ -1,19 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public enum Card_Type
-{
-    CARD_1,
-    CARD_2,
-    CARD_3,
-    CARD_4,
-    CARD_5,
-    CARD_6,
-    CARD_7,
-
-    COUNT
-}
-
 [System.Serializable]
 public struct Card_List_Item
 {
