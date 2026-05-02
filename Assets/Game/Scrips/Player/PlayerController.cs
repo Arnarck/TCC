@@ -25,16 +25,12 @@ public class PlayerController : NetworkBehaviour
     [SyncVar] public bool spectatorMode;
     [SyncVar] public bool gameStopped;
     [SyncVar(hook = nameof(UpdateIsChoosingCards))] public bool isChoosingCards;
-<<<<<<< HEAD
 
     public int cardCountToChooseToImprove;
     public List<int>pointsToChooseToImprove;
 
     public Card[] cardsInTrio;
-=======
-    // Respeito por família 
 
->>>>>>> Branch
     public List<Card> selectedCards;
     public List<Card> cardsInHand;
     private TrioSystem trioSystem = new TrioSystem();
