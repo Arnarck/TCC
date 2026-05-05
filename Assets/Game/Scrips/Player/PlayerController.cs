@@ -26,10 +26,10 @@ public class PlayerController : NetworkBehaviour
     [SyncVar] public bool gameStopped;
     [SyncVar(hook = nameof(UpdateIsChoosingCards))] public bool isChoosingCards;
 
-    public int cardCountToChooseToReduce;
-    public int cardCountToChooseToImprove;
-    public List<int> pointsToChooseToReduce;
-    public List<int>pointsToChooseToImprove;
+    public List<Ability_Type> abilitiesToApply;
+    public Ability_Type currentAbility;
+    public int pointsToChooseToReduce;
+    public int pointsToChooseToImprove;
 
     public Card[] cardsInTrio;
 
@@ -40,7 +40,7 @@ public class PlayerController : NetworkBehaviour
 
     private void Start()
     {
-        pointsToChooseToImprove = new List<int>();
+        currentAbility = Ability_Type.COUNT;
 
         if (isLocalPlayer)
         {
@@ -167,62 +167,62 @@ public class PlayerController : NetworkBehaviour
         currentTurn_t = 0f;
         GI.networkManager.UpdatePlayerTurn();
 
-        if (cardCountToChooseToImprove > 0)
+        if (currentAbility != Ability_Type.COUNT)
         {
-            // Improves the cards in hand in order if the time's over
-            if (cardsInHand.Count > 0)
+            for (int a = 0; a < 3; a++) // '3' because we can have a maximum of three card abilities in a trio.
             {
-                for (int i = 0; i < cardCountToChooseToImprove; i++)
+                if (currentAbility == Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS)
                 {
-                    int randomCard = Random.Range(0, cardsInHand.Count);
-                    cardsInHand[randomCard].improvedPoints += pointsToChooseToImprove[i];
+                    // Improves the cards in hand in order if the time's over
+                    if (cardsInHand.Count > 0)
+                    {
+                        int randomCard = Random.Range(0, cardsInHand.Count);
+                        cardsInHand[randomCard].improvedPoints += pointsToChooseToImprove;
+                    }
+                }
+                else if (currentAbility == Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS)
+                {
+                    if (GI.networkManager.players.Count > 1) // '> 1' to ignore current player
+                    {
+                        List<int> possiblePlayers = new List<int>();
+                        // Adds possible players to randomly select
+                        for (int i = 0; i < GI.networkManager.players.Count; i++)
+                        {
+                            NetworkConnectionToClient conn = GI.networkManager.players[i];
+                            if (conn != connectionToClient)
+                            {
+                                possiblePlayers.Add(i);
+                            }
+                        }
+
+                        // Search for a random player with cards in hand and reduce the points of a random card.
+                        while (possiblePlayers.Count > 0)
+                        {
+                            int randomIndex = Random.Range(0, possiblePlayers.Count);
+                            int randomPlayer = possiblePlayers[randomIndex];
+                            possiblePlayers.RemoveAt(randomIndex);
+
+                            PlayerController player = GI.networkManager.players[randomPlayer].identity.GetComponent<PlayerController>();
+                            if (player.cardsInHand.Count > 0)
+                            {
+                                int randomCardIndex = Random.Range(0, player.cardsInHand.Count);
+                                player.cardsInHand[randomCardIndex].improvedPoints -= pointsToChooseToReduce;
+
+                                break;
+                            }
+                        }
+
+                        possiblePlayers.Clear();
+                    }
+                }
+
+                // We don' want to end current turn inside 'ServerApplyNextAbility' here because it will run this function twice.
+                ServerActivateNextCardAbility(maybeEndCurrentTurn: false);
+                if (currentAbility == Ability_Type.COUNT) // No more abilities to use
+                {
+                    break;
                 }
             }
-
-            cardCountToChooseToImprove = 0;
-            pointsToChooseToImprove.Clear();
-        }
-
-        if (cardCountToChooseToReduce > 0)
-        {
-            if (GI.networkManager.players.Count > 1) // '> 1' to ignore current player
-            {
-                List<int> possiblePlayers = new List<int>();
-                for (int c = 0; c < cardCountToChooseToReduce; c++)
-                {
-                    // Adds possible players to randomly select
-                    for (int i = 0; i < GI.networkManager.players.Count; i++)
-                    {
-                        NetworkConnectionToClient conn = GI.networkManager.players[i];
-                        if (conn != connectionToClient)
-                        {
-                            possiblePlayers.Add(i);
-                        }
-                    }
-
-                    // Search for a random player with cards in hand and reduce the points of a random card.
-                    while (possiblePlayers.Count > 0)
-                    {
-                        int randomIndex = Random.Range(0, possiblePlayers.Count);
-                        int randomPlayer = possiblePlayers[randomIndex];
-                        possiblePlayers.RemoveAt(randomIndex);
-
-                        PlayerController player = GI.networkManager.players[randomPlayer].identity.GetComponent<PlayerController>();
-                        if (player.cardsInHand.Count > 0)
-                        {
-                            int randomCardIndex = Random.Range(0, player.cardsInHand.Count);
-                            player.cardsInHand[randomCardIndex].improvedPoints -= pointsToChooseToReduce[c];
-
-                            break;
-                        }
-                    }
-
-                    possiblePlayers.Clear();
-                }
-            }
-
-            cardCountToChooseToReduce = 0;
-            pointsToChooseToReduce.Clear();
         }
 
         TargetEndCurrentTurn();
@@ -267,7 +267,7 @@ public class PlayerController : NetworkBehaviour
 
         Card card = go.GetComponent<Card>();
 
-        if (cardCountToChooseToReduce > 0)
+        if (currentAbility == Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS)
         {
             // Reduce other player card's points
             for (int i = 0; i < GI.networkManager.players.Count; i++)
@@ -276,14 +276,8 @@ public class PlayerController : NetworkBehaviour
                 NetworkConnectionToClient conn = GI.networkManager.players[i];
                 if (conn != connectionToClient && conn.identity.GetComponent<PlayerController>().cardsInHand.Contains(card))
                 {
-                    card.improvedPoints -= pointsToChooseToReduce[0];
-                    pointsToChooseToReduce.RemoveAt(0);
-                    cardCountToChooseToReduce--;
-
-                    if (cardCountToChooseToReduce > 0)
-                    {
-                        playerHUD.TargetShowMessage("Choose a other player's card to reduce by 5 points.", 1f);
-                    }
+                    card.improvedPoints -= pointsToChooseToReduce;
+                    ServerActivateNextCardAbility();
 
                     return;
                 }
@@ -305,21 +299,11 @@ public class PlayerController : NetworkBehaviour
         // Selects/Deselects the card
         if (cardsInHand.Contains(card))
         {
-            if (cardCountToChooseToImprove > 0)
+            if (currentAbility == Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS)
             {
                 // Improve its points
-                cardCountToChooseToImprove--;
-                card.improvedPoints += pointsToChooseToImprove[0];
-                pointsToChooseToImprove.RemoveAt(0);
-
-                if (cardCountToChooseToImprove < 1)
-                {
-                    ServerMaybeEndCurrentTurn();
-                }
-                else
-                {
-                    ServerShowMessageToImproveCard();
-                }
+                card.improvedPoints += pointsToChooseToImprove;
+                ServerActivateNextCardAbility();
 
                 return;
             }
@@ -606,27 +590,52 @@ public class PlayerController : NetworkBehaviour
         // Apply Abilities
         // @TODO:
         // Client applying abilities on ante round breaks the game.
-        // Should 'improve card ability' block other player's actions?
-        cardsInTrio = new Card[] { card1, card2, card3 };
-        for (int i = 0; i < cardsInTrio.Length; i++)
-        {
-            Card card = cardsInTrio[i];
-
-            if (card.abilityType == Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS && cardsInHand.Count > 0)
-            {
-                cardCountToChooseToImprove++;
-                pointsToChooseToImprove.Add(5);
-                ServerShowMessageToImproveCard();
-            }
-            else if (card.abilityType == Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS)
-            {
-                cardCountToChooseToReduce++;
-                pointsToChooseToReduce.Add(5);
-                playerHUD.TargetShowMessage("Choose a other player's card to reduce by 5 points.", 1f);
-            }
-        }
+        // Should 'improve card ability' block other player's actions?;
+        abilitiesToApply.Add(card1.abilityType);
+        abilitiesToApply.Add(card2.abilityType);
+        abilitiesToApply.Add(card3.abilityType);
+        ServerActivateNextCardAbility();
 
         ServerDecreaseActionsRemaining();
+    }
+
+    [Server]
+    public void ServerActivateNextCardAbility(bool maybeEndCurrentTurn = true)
+    {
+        activate_ability_start:
+
+        if (abilitiesToApply.Count < 1)
+        {
+            currentAbility = Ability_Type.COUNT;
+            if (maybeEndCurrentTurn)
+            {
+                ServerMaybeEndCurrentTurn();
+            }
+
+            return;
+        }
+
+        currentAbility = abilitiesToApply[0];
+        abilitiesToApply.RemoveAt(0);
+
+        if (currentAbility == Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS)
+        {
+            if (cardsInHand.Count > 0)
+            {
+                pointsToChooseToImprove = 5;
+                ServerShowMessageToImproveCard();
+            }
+            else
+            {
+                // Go back to the beginning of the function.
+                goto activate_ability_start;
+            }
+        }
+        else if (currentAbility == Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS)
+        {
+            pointsToChooseToReduce = 5;
+            playerHUD.TargetShowMessage("Choose a other player's card to reduce by 5 points.", 1f);
+        }
     }
 
     public void ServerShowMessageToImproveCard()
@@ -668,7 +677,7 @@ public class PlayerController : NetworkBehaviour
     [Server]
     public void ServerMaybeEndCurrentTurn()
     {
-        if (actionsRemaining <= 0 && cardCountToChooseToImprove < 1 && cardCountToChooseToReduce < 1)
+        if (actionsRemaining <= 0 && currentAbility == Ability_Type.COUNT)
         {
             ServerEndCurrentTurn();
         }

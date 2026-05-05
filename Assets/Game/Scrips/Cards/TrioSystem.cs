@@ -54,7 +54,7 @@ public class TrioSystem
     {
         rules.Add(new SameTypeRule());
         rules.Add(new SameFamilyRule());
-       // rules.Add(new AllDifferentRule());
+        rules.Add(new AllDifferentRule());
        
     }
 
