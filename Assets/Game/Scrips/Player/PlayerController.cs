@@ -26,7 +26,9 @@ public class PlayerController : NetworkBehaviour
     [SyncVar] public bool gameStopped;
     [SyncVar(hook = nameof(UpdateIsChoosingCards))] public bool isChoosingCards;
 
+    public int cardCountToChooseToReduce;
     public int cardCountToChooseToImprove;
+    public List<int> pointsToChooseToReduce;
     public List<int>pointsToChooseToImprove;
 
     public Card[] cardsInTrio;
@@ -181,6 +183,48 @@ public class PlayerController : NetworkBehaviour
             pointsToChooseToImprove.Clear();
         }
 
+        if (cardCountToChooseToReduce > 0)
+        {
+            if (GI.networkManager.players.Count > 1) // '> 1' to ignore current player
+            {
+                List<int> possiblePlayers = new List<int>();
+                for (int c = 0; c < cardCountToChooseToReduce; c++)
+                {
+                    // Adds possible players to randomly select
+                    for (int i = 0; i < GI.networkManager.players.Count; i++)
+                    {
+                        NetworkConnectionToClient conn = GI.networkManager.players[i];
+                        if (conn != connectionToClient)
+                        {
+                            possiblePlayers.Add(i);
+                        }
+                    }
+
+                    // Search for a random player with cards in hand and reduce the points of a random card.
+                    while (possiblePlayers.Count > 0)
+                    {
+                        int randomIndex = Random.Range(0, possiblePlayers.Count);
+                        int randomPlayer = possiblePlayers[randomIndex];
+                        possiblePlayers.RemoveAt(randomIndex);
+
+                        PlayerController player = GI.networkManager.players[randomPlayer].identity.GetComponent<PlayerController>();
+                        if (player.cardsInHand.Count > 0)
+                        {
+                            int randomCardIndex = Random.Range(0, player.cardsInHand.Count);
+                            player.cardsInHand[randomCardIndex].improvedPoints -= pointsToChooseToReduce[c];
+
+                            break;
+                        }
+                    }
+
+                    possiblePlayers.Clear();
+                }
+            }
+
+            cardCountToChooseToReduce = 0;
+            pointsToChooseToReduce.Clear();
+        }
+
         TargetEndCurrentTurn();
     }
 
@@ -222,12 +266,39 @@ public class PlayerController : NetworkBehaviour
         }
 
         Card card = go.GetComponent<Card>();
-        for (int i = 0; i < GI.networkManager.players.Count; i++)
+
+        if (cardCountToChooseToReduce > 0)
         {
-            NetworkConnectionToClient conn = GI.networkManager.players[i];
-            if (conn != connectionToClient && conn.identity.GetComponent<PlayerController>().cardsInHand.Contains(card))
+            // Reduce other player card's points
+            for (int i = 0; i < GI.networkManager.players.Count; i++)
             {
-                return;
+                // Checks if the selected card came from a player's hand.
+                NetworkConnectionToClient conn = GI.networkManager.players[i];
+                if (conn != connectionToClient && conn.identity.GetComponent<PlayerController>().cardsInHand.Contains(card))
+                {
+                    card.improvedPoints -= pointsToChooseToReduce[0];
+                    pointsToChooseToReduce.RemoveAt(0);
+                    cardCountToChooseToReduce--;
+
+                    if (cardCountToChooseToReduce > 0)
+                    {
+                        playerHUD.TargetShowMessage("Choose a other player's card to reduce by 5 points.", 1f);
+                    }
+
+                    return;
+                }
+            }
+        }
+        else
+        {
+            // Ignores if the card came from a player's hand.
+            for (int i = 0; i < GI.networkManager.players.Count; i++)
+            {
+                NetworkConnectionToClient conn = GI.networkManager.players[i];
+                if (conn != connectionToClient && conn.identity.GetComponent<PlayerController>().cardsInHand.Contains(card))
+                {
+                    return;
+                }
             }
         }
 
@@ -547,6 +618,12 @@ public class PlayerController : NetworkBehaviour
                 pointsToChooseToImprove.Add(5);
                 ServerShowMessageToImproveCard();
             }
+            else if (card.abilityType == Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS)
+            {
+                cardCountToChooseToReduce++;
+                pointsToChooseToReduce.Add(5);
+                playerHUD.TargetShowMessage("Choose a other player's card to reduce by 5 points.", 1f);
+            }
         }
 
         ServerDecreaseActionsRemaining();
@@ -591,7 +668,7 @@ public class PlayerController : NetworkBehaviour
     [Server]
     public void ServerMaybeEndCurrentTurn()
     {
-        if (actionsRemaining <= 0 && cardCountToChooseToImprove < 1)
+        if (actionsRemaining <= 0 && cardCountToChooseToImprove < 1 && cardCountToChooseToReduce < 1)
         {
             ServerEndCurrentTurn();
         }

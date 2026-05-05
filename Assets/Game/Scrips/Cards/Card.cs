@@ -28,7 +28,7 @@ public enum Family_Type
 public enum Ability_Type
 {
     IMPROVE_ANOTHER_CARD_BY_X_POINTS,
-    ABILITY_2,
+    REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS,
     ABILITY_3,
 
     COUNT
