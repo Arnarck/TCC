@@ -296,18 +296,25 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
+        // Improve card's points
+        if (currentAbility == Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS && cardsInHand.Contains(card))
+        {
+            card.improvedPoints += pointsToChooseToImprove;
+            ServerActivateNextCardAbility();
+
+            return;
+        }
+
+        // Blocks other player's actions while using abilities
+        if (currentAbility != Ability_Type.COUNT)
+        {
+            return;
+        }
+
         // Selects/Deselects the card
         if (cardsInHand.Contains(card))
         {
-            if (currentAbility == Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS)
-            {
-                // Improve its points
-                card.improvedPoints += pointsToChooseToImprove;
-                ServerActivateNextCardAbility();
-
-                return;
-            }
-            else if (selectedCards.Contains(card))
+            if (selectedCards.Contains(card))
             {
                 // Deselect
                 selectedCards.Remove(card);
@@ -636,6 +643,11 @@ public class PlayerController : NetworkBehaviour
             pointsToChooseToReduce = 5;
             playerHUD.TargetShowMessage("Choose a other player's card to reduce by 5 points.", 1f);
         }
+        else if (currentAbility == Ability_Type.ABILITY_3)
+        {
+            // @DELETE when rename this ability
+            goto activate_ability_start;
+        }
     }
 
     public void ServerShowMessageToImproveCard()
@@ -648,6 +660,12 @@ public class PlayerController : NetworkBehaviour
     {
         if (GI.networkManager.GetCurrentPlayerTurn() != connectionToClient.connectionId)
             return;
+
+        // Using a card ability
+        if (currentAbility != Ability_Type.COUNT)
+        {
+            return;
+        }
 
         selectedCards.RemoveAll(c => c == null || !cardsInHand.Contains(c));
 
