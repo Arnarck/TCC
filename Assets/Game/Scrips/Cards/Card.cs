@@ -29,7 +29,7 @@ public enum Ability_Type
 {
     IMPROVE_ANOTHER_CARD_BY_X_POINTS,
     REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS,
-    ABILITY_3,
+    STEAL_ANOTHER_PLAYER_CARD, // @TODO: Conditions to activate card abilities.
 
     COUNT
 }

@@ -12,6 +12,7 @@ public class PlayerController : NetworkBehaviour
     public Transform cameraPointWhenChoosingCards;
     public Camera playerCamera;
     public GameObject playerModel;
+    public LayerMask mouseClickMasks;
     public Transform[] cardsSpawnPoints;
 
     [Header("INTERNAL")]
@@ -30,6 +31,8 @@ public class PlayerController : NetworkBehaviour
     public Ability_Type currentAbility;
     public int pointsToChooseToReduce;
     public int pointsToChooseToImprove;
+    public bool canSelectOtherPlayer;
+    public PlayerController playerSelected;
 
     public Card[] cardsInTrio;
 
@@ -85,11 +88,20 @@ public class PlayerController : NetworkBehaviour
                 {
                     // Select card
                     Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-                    if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << 6))
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit, Mathf.Infinity, mouseClickMasks))
                     {
-                        Card card = hit.collider.gameObject.GetComponent<Card>();
-                        CmdTryToSelectCard(card.gameObject);
+                        if (hit.collider.gameObject.layer == 6)
+                        {
+                            Card card = hit.collider.gameObject.GetComponent<Card>();
+                            CmdTryToSelectCard(card.gameObject);
+                        }
+                        else if (hit.collider.gameObject.layer == 8 && canSelectOtherPlayer)
+                        {
+                            CmdSelectPlayer(hit.collider.GetComponent<NetworkIdentity>().netId);
+                        }
                     }
+
                 }
 
                 /* // Remove card
@@ -136,6 +148,24 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    public void CmdSelectPlayer(uint netId)
+    {
+        for (int i = 0; i < GI.networkManager.players.Count; i++)
+        {
+            if (GI.networkManager.players[i].identity.netId == netId)
+            {
+                playerSelected = GI.networkManager.players[i].identity.GetComponent<PlayerController>();
+            }
+        }
+
+        if (currentAbility == Ability_Type.STEAL_ANOTHER_PLAYER_CARD)
+        {
+            playerHUD.TargetShowMessage("Now select a card from player's hand.", 1f);
+        }
+
+        canSelectOtherPlayer = false;
+    }
+
     public void UpdateIsChoosingCards(bool oldValue, bool newValue)
     {
         ToggleCameraPosition(isChoosingCards);
@@ -171,49 +201,76 @@ public class PlayerController : NetworkBehaviour
         {
             for (int a = 0; a < 3; a++) // '3' because we can have a maximum of three card abilities in a trio.
             {
-                if (currentAbility == Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS)
+                switch (currentAbility)
                 {
-                    // Improves the cards in hand in order if the time's over
-                    if (cardsInHand.Count > 0)
-                    {
-                        int randomCard = Random.Range(0, cardsInHand.Count);
-                        cardsInHand[randomCard].improvedPoints += pointsToChooseToImprove;
-                    }
-                }
-                else if (currentAbility == Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS)
-                {
-                    if (GI.networkManager.players.Count > 1) // '> 1' to ignore current player
-                    {
-                        List<int> possiblePlayers = new List<int>();
-                        // Adds possible players to randomly select
-                        for (int i = 0; i < GI.networkManager.players.Count; i++)
+                    case Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS:
                         {
-                            NetworkConnectionToClient conn = GI.networkManager.players[i];
-                            if (conn != connectionToClient)
+                            // Improves the cards in hand in order if the time's over
+                            if (cardsInHand.Count > 0)
                             {
-                                possiblePlayers.Add(i);
+                                int randomCard = Random.Range(0, cardsInHand.Count);
+                                cardsInHand[randomCard].improvedPoints += pointsToChooseToImprove;
                             }
-                        }
-
-                        // Search for a random player with cards in hand and reduce the points of a random card.
-                        while (possiblePlayers.Count > 0)
+                        } break;
+                    case Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS:
                         {
-                            int randomIndex = Random.Range(0, possiblePlayers.Count);
-                            int randomPlayer = possiblePlayers[randomIndex];
-                            possiblePlayers.RemoveAt(randomIndex);
-
-                            PlayerController player = GI.networkManager.players[randomPlayer].identity.GetComponent<PlayerController>();
-                            if (player.cardsInHand.Count > 0)
+                            if (GI.networkManager.players.Count > 1) // '> 1' to ignore current player
                             {
-                                int randomCardIndex = Random.Range(0, player.cardsInHand.Count);
-                                player.cardsInHand[randomCardIndex].improvedPoints -= pointsToChooseToReduce;
+                                List<int> possiblePlayers = new List<int>();
+                                // Adds possible players to randomly select
+                                for (int i = 0; i < GI.networkManager.players.Count; i++)
+                                {
+                                    NetworkConnectionToClient conn = GI.networkManager.players[i];
+                                    if (conn != connectionToClient)
+                                    {
+                                        possiblePlayers.Add(i);
+                                    }
+                                }
 
-                                break;
+                                // Search for a random player with cards in hand and reduce the points of a random card.
+                                while (possiblePlayers.Count > 0)
+                                {
+                                    int randomIndex = Random.Range(0, possiblePlayers.Count);
+                                    int randomPlayer = possiblePlayers[randomIndex];
+                                    possiblePlayers.RemoveAt(randomIndex);
+
+                                    PlayerController player = GI.networkManager.players[randomPlayer].identity.GetComponent<PlayerController>();
+                                    if (player.cardsInHand.Count > 0)
+                                    {
+                                        int randomCardIndex = Random.Range(0, player.cardsInHand.Count);
+                                        player.cardsInHand[randomCardIndex].improvedPoints -= pointsToChooseToReduce;
+
+                                        break;
+                                    }
+                                }
+
+                                possiblePlayers.Clear();
                             }
-                        }
+                        } break;
+                    case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:
+                        {
+                            if (playerSelected)
+                            {
+                                if (playerSelected.cardsInHand.Count > 0)
+                                {
+                                    // Steal card from player hand
+                                    __ServerStealRandomCardFromPlayerHand(playerSelected);
+                                }
+                                else
+                                {
+                                    // Search for a player with available cards to steal from
+                                    __ServerSearchForPlayerWithAvailableCardsAndStealFromHim();
+                                }
 
-                        possiblePlayers.Clear();
-                    }
+                                playerSelected = null;
+                            }
+                            else
+                            {
+                                // Search for a player with available cards to steal from
+                                __ServerSearchForPlayerWithAvailableCardsAndStealFromHim();
+                            }
+                        } break;
+                    default: break;
                 }
 
                 // We don' want to end current turn inside 'ServerApplyNextAbility' here because it will run this function twice.
@@ -226,6 +283,33 @@ public class PlayerController : NetworkBehaviour
         }
 
         TargetEndCurrentTurn();
+    }
+
+    [Server]
+    public void __ServerSearchForPlayerWithAvailableCardsAndStealFromHim() // Creativity for names has died a looong time ago
+    {
+        for (int i = 0; i < GI.networkManager.players.Count; i++)
+        {
+            NetworkConnectionToClient conn = GI.networkManager.players[i];
+            PlayerController player = conn.identity.GetComponent<PlayerController>();
+            if (conn != connectionToClient && player.cardsInHand.Count > 0)
+            {
+                __ServerStealRandomCardFromPlayerHand(player);
+            }
+        }
+    }
+
+    [Server]
+    public void __ServerStealRandomCardFromPlayerHand(PlayerController player)
+    {
+        int randomIndex = Random.Range(0, player.cardsInHand.Count);
+        Card card = player.cardsInHand[randomIndex];
+
+        player.ServerRemoveCardFromHand(card.gameObject);
+        if (cardsInHand.Count < MAX_CARDS_IN_HAND)
+        {
+            __SpawnCardInHand(card.type, cardsInHand.Count);
+        }
     }
 
     [TargetRpc]
@@ -267,42 +351,53 @@ public class PlayerController : NetworkBehaviour
 
         Card card = go.GetComponent<Card>();
 
-        if (currentAbility == Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS)
+        // Apply abilities
+        switch (currentAbility)
         {
-            // Reduce other player card's points
-            for (int i = 0; i < GI.networkManager.players.Count; i++)
-            {
-                // Checks if the selected card came from a player's hand.
-                NetworkConnectionToClient conn = GI.networkManager.players[i];
-                if (conn != connectionToClient && conn.identity.GetComponent<PlayerController>().cardsInHand.Contains(card))
+            case Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS:
                 {
-                    card.improvedPoints -= pointsToChooseToReduce;
-                    ServerActivateNextCardAbility();
+                    // Reduce other player card's points
+                    for (int i = 0; i < GI.networkManager.players.Count; i++)
+                    {
+                        // Checks if the selected card came from a player's hand.
+                        NetworkConnectionToClient conn = GI.networkManager.players[i];
+                        if (conn != connectionToClient && conn.identity.GetComponent<PlayerController>().cardsInHand.Contains(card))
+                        {
+                            card.improvedPoints -= pointsToChooseToReduce;
+                            ServerActivateNextCardAbility();
 
-                    return;
-                }
-            }
-        }
-        else
-        {
-            // Ignores if the card came from a player's hand.
-            for (int i = 0; i < GI.networkManager.players.Count; i++)
-            {
-                NetworkConnectionToClient conn = GI.networkManager.players[i];
-                if (conn != connectionToClient && conn.identity.GetComponent<PlayerController>().cardsInHand.Contains(card))
+                            return;
+                        }
+                    }
+                } break;
+            case Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS:
                 {
-                    return;
-                }
-            }
-        }
+                    if (cardsInHand.Contains(card))
+                    {
+                        // Improve card's points
+                        card.improvedPoints += pointsToChooseToImprove;
+                        ServerActivateNextCardAbility();
 
-        // Improve card's points
-        if (currentAbility == Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS && cardsInHand.Contains(card))
-        {
-            card.improvedPoints += pointsToChooseToImprove;
-            ServerActivateNextCardAbility();
+                        return;
+                    }
+                } break;
+            case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:
+                {
+                    if (playerSelected && playerSelected.cardsInHand.Contains(card))
+                    {
+                        // Remove card from the selected player and spawns it in current player's hand
+                        playerSelected.ServerRemoveCardFromHand(card.gameObject);
+                        if (cardsInHand.Count < MAX_CARDS_IN_HAND)
+                        {
+                            __SpawnCardInHand(card.type, cardsInHand.Count);
+                        }
 
-            return;
+                        playerSelected = null;
+                        ServerActivateNextCardAbility();
+                        return;
+                    }
+                } break;
+            default: break;
         }
 
         // Blocks other player's actions while using abilities
@@ -335,7 +430,7 @@ public class PlayerController : NetworkBehaviour
             }
             if (selectedCards.Count == 0)
             {
-                SpawnCardInHand(card.type, go);
+                ServerSpawnCardInHand(card.type, go);
                 return;
             }
 
@@ -385,7 +480,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     [Server]
-    public void SpawnCardInHand(Card_Type type, GameObject cardToRemoveFromDesk)
+    public void ServerSpawnCardInHand(Card_Type type, GameObject cardToRemoveFromDesk)
     {
         if (GI.networkManager.GetCurrentPlayerTurn() != connectionToClient.connectionId)
         {
@@ -597,7 +692,6 @@ public class PlayerController : NetworkBehaviour
         // Apply Abilities
         // @TODO:
         // Client applying abilities on ante round breaks the game.
-        // Should 'improve card ability' block other player's actions?;
         abilitiesToApply.Add(card1.abilityType);
         abilitiesToApply.Add(card2.abilityType);
         abilitiesToApply.Add(card3.abilityType);
@@ -643,10 +737,10 @@ public class PlayerController : NetworkBehaviour
             pointsToChooseToReduce = 5;
             playerHUD.TargetShowMessage("Choose a other player's card to reduce by 5 points.", 1f);
         }
-        else if (currentAbility == Ability_Type.ABILITY_3)
+        else if (currentAbility == Ability_Type.STEAL_ANOTHER_PLAYER_CARD)
         {
-            // @DELETE when rename this ability
-            goto activate_ability_start;
+            canSelectOtherPlayer = true;
+            playerHUD.TargetShowMessage("Select a player to steal a card from.", 1f);
         }
     }
 

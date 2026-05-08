@@ -1685,8 +1685,9 @@ GameObject:
   m_Component:
   - component: {fileID: 787918651976658566}
   - component: {fileID: -2968880167013448636}
+  - component: {fileID: 84698876924174470}
   - component: {fileID: 5302235777089728819}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1731,6 +1732,29 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
+--- !u!136 &84698876924174470
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4433382203868146167}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &5302235777089728819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1751,6 +1775,9 @@ MonoBehaviour:
   cameraPointWhenChoosingCards: {fileID: 5521379529617207664}
   playerCamera: {fileID: 6879715664851187150}
   playerModel: {fileID: 8915883917538402610}
+  mouseClickMasks:
+    serializedVersion: 2
+    m_Bits: 320
   cardsSpawnPoints:
   - {fileID: 3238298378821918743}
   - {fileID: 4125565442643311886}
@@ -1767,8 +1794,11 @@ MonoBehaviour:
   spectatorMode: 0
   gameStopped: 0
   isChoosingCards: 0
-  cardCountToChooseToImprove: 0
-  pointsToChooseToImprove: 
+  abilitiesToApply: 
+  currentAbility: 0
+  pointsToChooseToReduce: 0
+  pointsToChooseToImprove: 0
+  canSelectOtherPlayer: 0
   cardsInTrio: []
   selectedCards: []
   cardsInHand: []
