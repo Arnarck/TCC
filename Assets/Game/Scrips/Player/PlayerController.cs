@@ -32,7 +32,8 @@ public class PlayerController : NetworkBehaviour
     public int pointsToChooseToReduce;
     public int pointsToChooseToImprove;
     public bool canSelectOtherPlayer;
-    public PlayerController playerSelected;
+    public int scoreToStolenFromAnotherPlayer;
+    public PlayerController selectedPlayer;
 
     public Card[] cardsInTrio;
 
@@ -150,17 +151,29 @@ public class PlayerController : NetworkBehaviour
 
     public void CmdSelectPlayer(uint netId)
     {
+        // Search for the selected player netId
         for (int i = 0; i < GI.networkManager.players.Count; i++)
         {
             if (GI.networkManager.players[i].identity.netId == netId)
             {
-                playerSelected = GI.networkManager.players[i].identity.GetComponent<PlayerController>();
+                selectedPlayer = GI.networkManager.players[i].identity.GetComponent<PlayerController>();
             }
         }
 
-        if (currentAbility == Ability_Type.STEAL_ANOTHER_PLAYER_CARD)
+        // Apply or progresses abilities
+        switch (currentAbility)
         {
-            playerHUD.TargetShowMessage("Now select a card from player's hand.", 1f);
+            case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:
+                {
+                    playerHUD.TargetShowMessage("Now select a card from player's hand.", 1f);
+                } break;
+            case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE:
+                {
+                    __ServerStealScoreFromSelectedPlayerAndGiveToPlayerWithLowestScore(selectedPlayer);
+                    selectedPlayer = null;
+                    ServerActivateNextCardAbility();
+                } break;
+            default: break;
         }
 
         canSelectOtherPlayer = false;
@@ -249,26 +262,53 @@ public class PlayerController : NetworkBehaviour
                         } break;
                     case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:
                         {
-                            if (playerSelected)
+                            if (selectedPlayer)
                             {
-                                if (playerSelected.cardsInHand.Count > 0)
+                                if (selectedPlayer.cardsInHand.Count > 0)
                                 {
                                     // Steal card from player hand
-                                    __ServerStealRandomCardFromPlayerHand(playerSelected);
+                                    __ServerStealRandomCardFromPlayerHand(selectedPlayer);
                                 }
                                 else
                                 {
                                     // Search for a player with available cards to steal from
                                     __ServerSearchForPlayerWithAvailableCardsAndStealFromHim();
                                 }
-
-                                playerSelected = null;
                             }
                             else
                             {
                                 // Search for a player with available cards to steal from
                                 __ServerSearchForPlayerWithAvailableCardsAndStealFromHim();
                             }
+                        } break;
+                    case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE:
+                        {
+                            PlayerController playerToStealScoreFrom = null;
+                            if (GI.networkManager.players.Count > 1)
+                            {
+                                // Gathers all players that can be chosen to have the score stolen from
+                                int[] playersToChoose = new int[GI.networkManager.players.Count - 1];
+                                int currentIndex = 0;
+                                for (int i = 0; i < GI.networkManager.players.Count; i++)
+                                {
+                                    if (GI.networkManager.players[i].identity.connectionToClient != connectionToClient)
+                                    {
+                                        playersToChoose[currentIndex] = i;
+                                        currentIndex++;
+                                    }
+                                }
+
+                                // Choose a player to stole the score
+                                int randomIndex = Random.Range(0, playersToChoose.Length);
+                                int playerToChoose = playersToChoose[randomIndex];
+                                playerToStealScoreFrom = GI.networkManager.players[playerToChoose].identity.GetComponent<PlayerController>();
+                            }
+                            else
+                            {
+                                break;
+                            }
+
+                            __ServerStealScoreFromSelectedPlayerAndGiveToPlayerWithLowestScore(playerToStealScoreFrom);
                         } break;
                     default: break;
                 }
@@ -282,7 +322,41 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
+        selectedPlayer = null;
         TargetEndCurrentTurn();
+    }
+
+    [Server]
+    public void __ServerStealScoreFromSelectedPlayerAndGiveToPlayerWithLowestScore(PlayerController playerToStealScoreFrom)
+    {
+        // Steal score from selected player
+        int stolenScore = 0;
+        if (playerToStealScoreFrom.score < scoreToStolenFromAnotherPlayer)
+        {
+            stolenScore = playerToStealScoreFrom.score;
+            playerToStealScoreFrom.score = 0;
+        }
+        else
+        {
+            stolenScore = scoreToStolenFromAnotherPlayer;
+            playerToStealScoreFrom.score -= scoreToStolenFromAnotherPlayer;
+        }
+
+        // Finds the player with lowest score
+        int lowestScore = int.MaxValue;
+        PlayerController playerWithLowestScore = null;
+        for (int i = 0; i < GI.networkManager.players.Count; i++)
+        {
+            PlayerController player = GI.networkManager.players[i].identity.GetComponent<PlayerController>();
+            if (player != this && player != playerToStealScoreFrom && player.score < lowestScore)
+            {
+                lowestScore = player.score;
+                playerWithLowestScore = player;
+            }
+        }
+
+        // Gives the stolen score to the player with lowest score
+        playerWithLowestScore.score += stolenScore;
     }
 
     [Server]
@@ -383,16 +457,16 @@ public class PlayerController : NetworkBehaviour
                 } break;
             case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:
                 {
-                    if (playerSelected && playerSelected.cardsInHand.Contains(card))
+                    if (selectedPlayer && selectedPlayer.cardsInHand.Contains(card))
                     {
                         // Remove card from the selected player and spawns it in current player's hand
-                        playerSelected.ServerRemoveCardFromHand(card.gameObject);
+                        selectedPlayer.ServerRemoveCardFromHand(card.gameObject);
                         if (cardsInHand.Count < MAX_CARDS_IN_HAND)
                         {
                             __SpawnCardInHand(card.type, cardsInHand.Count);
                         }
 
-                        playerSelected = null;
+                        selectedPlayer = null;
                         ServerActivateNextCardAbility();
                         return;
                     }
@@ -719,28 +793,38 @@ public class PlayerController : NetworkBehaviour
         currentAbility = abilitiesToApply[0];
         abilitiesToApply.RemoveAt(0);
 
-        if (currentAbility == Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS)
+        switch (currentAbility)
         {
-            if (cardsInHand.Count > 0)
-            {
-                pointsToChooseToImprove = 5;
-                ServerShowMessageToImproveCard();
-            }
-            else
-            {
-                // Go back to the beginning of the function.
-                goto activate_ability_start;
-            }
-        }
-        else if (currentAbility == Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS)
-        {
-            pointsToChooseToReduce = 5;
-            playerHUD.TargetShowMessage("Choose a other player's card to reduce by 5 points.", 1f);
-        }
-        else if (currentAbility == Ability_Type.STEAL_ANOTHER_PLAYER_CARD)
-        {
-            canSelectOtherPlayer = true;
-            playerHUD.TargetShowMessage("Select a player to steal a card from.", 1f);
+            case Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS:
+                {
+                    if (cardsInHand.Count > 0)
+                    {
+                        pointsToChooseToImprove = 5;
+                        ServerShowMessageToImproveCard();
+                    }
+                    else
+                    {
+                        // Go back to the beginning of the function.
+                        goto activate_ability_start;
+                    }
+                } break;
+            case Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS:
+                {
+                    pointsToChooseToReduce = 5;
+                    playerHUD.TargetShowMessage("Choose a other player's card to reduce by 5 points.", 1f);
+                } break;
+            case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:
+                {
+                    canSelectOtherPlayer = true;
+                    playerHUD.TargetShowMessage("Select a player to steal a card from.", 1f);
+                } break;
+            case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE:
+                {
+                    canSelectOtherPlayer = true;
+                    scoreToStolenFromAnotherPlayer = 5;
+                    playerHUD.TargetShowMessage("Select a player to steal score from.", 1f);
+                } break;
+            default: break;
         }
     }
 
