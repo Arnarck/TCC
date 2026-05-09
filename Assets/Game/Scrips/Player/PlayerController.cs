@@ -654,7 +654,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     [Server]
-    public void ServerRemoveCardFromHand(GameObject go)
+    public void ServerRemoveCardFromHand(GameObject go, bool discard = false)
     {
         Card card = go.GetComponent<Card>();
         if (!cardsInHand.Contains(card))
@@ -667,7 +667,15 @@ public class PlayerController : NetworkBehaviour
 
         selectedCards.Remove(card);
         cardsInHand.Remove(card);
-        NetworkServer.Destroy(card.gameObject);
+        if (discard)
+        {
+            NetworkServer.Destroy(card.gameObject);
+        }
+        else
+        {
+            // @TODO: Add 'cemetery' here, so cards can be reused
+            NetworkServer.Destroy(card.gameObject);
+        }
 
         // Reorder card's position
         for (int i = index; i < cardsInHand.Count; i++)
@@ -805,9 +813,20 @@ public class PlayerController : NetworkBehaviour
         GI.cardSystem.deckManager.AddCard(card2.type);
         GI.cardSystem.deckManager.AddCard(card3.type);
 
-        ServerRemoveCardFromHand(c1);
-        ServerRemoveCardFromHand(c2);
-        ServerRemoveCardFromHand(c3);
+        Card[] cards         = { card1, card2, card3 };
+        GameObject[] cardsGo = { c1, c2, c3 };
+        for (int i = 0; i < cards.Length; i++)
+        {
+            if (cards[i].type == Card_Type.DWARF)
+            {
+                ServerRemoveCardFromHand(cardsGo[i], discard: true);
+            }
+            else
+            {
+                ServerRemoveCardFromHand(cardsGo[i]);
+            }
+        }
+
         for (int i = 0; i < cardsInHand.Count; i++)
         {
             cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
