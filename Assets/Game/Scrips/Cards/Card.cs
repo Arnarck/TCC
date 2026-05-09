@@ -5,7 +5,7 @@ using Mirror;
 public enum Card_Type
 {
     IMPROVE,
-    CARD_2,
+    DWARF,
     CARD_3,
     CARD_4,
     CARD_5,
@@ -31,6 +31,7 @@ public enum Ability_Type
     REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS,
     STEAL_ANOTHER_PLAYER_CARD, // @TODO: Conditions to activate card abilities.
     STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE,
+    SPAWN_DWARVES_IN_PLAYER_HAND_UNTIL_ITS_FULL,
 
     COUNT
 }

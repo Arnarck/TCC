@@ -165,6 +165,7 @@ public class PlayerController : NetworkBehaviour
         {
             case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:
                 {
+                    // @TODO: What if player hand is empty?
                     playerHUD.TargetShowMessage("Now select a card from player's hand.", 1f);
                 } break;
             case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE:
@@ -173,10 +174,25 @@ public class PlayerController : NetworkBehaviour
                     selectedPlayer = null;
                     ServerActivateNextCardAbility();
                 } break;
+            case Ability_Type.SPAWN_DWARVES_IN_PLAYER_HAND_UNTIL_ITS_FULL:
+                {
+                    // @TODO: What if player hand is already full?
+                    __ServerSpawnDwarvesInPlayerHand(selectedPlayer);
+                } break;
             default: break;
         }
 
         canSelectOtherPlayer = false;
+    }
+
+    [Server]
+    public void __ServerSpawnDwarvesInPlayerHand(PlayerController player)
+    {
+        int cardsToSpawn = MAX_CARDS_IN_HAND - player.cardsInHand.Count;
+        for (int i = 0; i < cardsToSpawn; i++)
+        {
+            player.__SpawnCardInHand(Card_Type.DWARF, player.cardsInHand.Count);
+        }
     }
 
     public void UpdateIsChoosingCards(bool oldValue, bool newValue)
@@ -283,10 +299,11 @@ public class PlayerController : NetworkBehaviour
                         } break;
                     case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE:
                         {
-                            PlayerController playerToStealScoreFrom = null;
                             if (GI.networkManager.players.Count > 1)
                             {
                                 // Gathers all players that can be chosen to have the score stolen from
+                                PlayerController player = null;
+
                                 int[] playersToChoose = new int[GI.networkManager.players.Count - 1];
                                 int currentIndex = 0;
                                 for (int i = 0; i < GI.networkManager.players.Count; i++)
@@ -301,14 +318,49 @@ public class PlayerController : NetworkBehaviour
                                 // Choose a player to stole the score
                                 int randomIndex = Random.Range(0, playersToChoose.Length);
                                 int playerToChoose = playersToChoose[randomIndex];
-                                playerToStealScoreFrom = GI.networkManager.players[playerToChoose].identity.GetComponent<PlayerController>();
+                                player = GI.networkManager.players[playerToChoose].identity.GetComponent<PlayerController>();
+
+                                __ServerStealScoreFromSelectedPlayerAndGiveToPlayerWithLowestScore(player);
                             }
                             else
                             {
                                 break;
                             }
 
-                            __ServerStealScoreFromSelectedPlayerAndGiveToPlayerWithLowestScore(playerToStealScoreFrom);
+                        } break;
+                    case Ability_Type.SPAWN_DWARVES_IN_PLAYER_HAND_UNTIL_ITS_FULL:
+                        {
+                            PlayerController player = null;
+                            if (GI.networkManager.players.Count > 1) // @TODO: Do we really need this 'if' here?
+                            {
+                                // Gathers all players that can be chosen (they must have available space in hands)
+                                int[] playersToChoose = new int[GI.networkManager.players.Count - 1];
+                                int currentIndex = 0;
+                                for (int i = 0; i < GI.networkManager.players.Count; i++)
+                                {
+                                    if (GI.networkManager.players[i].identity.connectionToClient != connectionToClient &&
+                                        GI.networkManager.players[i].identity.GetComponent<PlayerController>().cardsInHand.Count < 
+                                        MAX_CARDS_IN_HAND)
+                                    {
+                                        playersToChoose[currentIndex] = i;
+                                        currentIndex++;
+                                    }
+                                }
+
+                                // Choose a player if some player has available space in hand
+                                if (currentIndex > 0)
+                                {
+                                    int randomIndex = Random.Range(0, playersToChoose.Length);
+                                    int playerToChoose = playersToChoose[randomIndex];
+                                    player = GI.networkManager.players[playerToChoose].identity.GetComponent<PlayerController>();
+
+                                    __ServerSpawnDwarvesInPlayerHand(player);
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
                         } break;
                     default: break;
                 }
@@ -823,6 +875,11 @@ public class PlayerController : NetworkBehaviour
                     canSelectOtherPlayer = true;
                     scoreToStolenFromAnotherPlayer = 5;
                     playerHUD.TargetShowMessage("Select a player to steal score from.", 1f);
+                } break;
+            case Ability_Type.SPAWN_DWARVES_IN_PLAYER_HAND_UNTIL_ITS_FULL:
+                {
+                    canSelectOtherPlayer = true;
+                    playerHUD.TargetShowMessage("Select a player to fill his hands with dwarves.", 1f);
                 } break;
             default: break;
         }
