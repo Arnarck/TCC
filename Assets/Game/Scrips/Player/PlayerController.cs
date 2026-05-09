@@ -44,7 +44,7 @@ public class PlayerController : NetworkBehaviour
 
     private void Start()
     {
-        currentAbility = Ability_Type.COUNT;
+        currentAbility = Ability_Type.NONE;
 
         if (isLocalPlayer)
         {
@@ -179,6 +179,11 @@ public class PlayerController : NetworkBehaviour
                     // @TODO: What if player hand is already full?
                     __ServerSpawnDwarvesInPlayerHand(selectedPlayer);
                 } break;
+            case Ability_Type.TURN_A_PLAYER_CARD_INTO_A_FROG:
+                {
+                    // @TODO: What if player hand is empty?
+                    playerHUD.TargetShowMessage("Now select a card from player's hand.", 1f);
+                } break;
             default: break;
         }
 
@@ -191,7 +196,7 @@ public class PlayerController : NetworkBehaviour
         int cardsToSpawn = MAX_CARDS_IN_HAND - player.cardsInHand.Count;
         for (int i = 0; i < cardsToSpawn; i++)
         {
-            player.__SpawnCardInHand(Card_Type.DWARF, player.cardsInHand.Count);
+            player.__ServerSpawnCardInHand(Card_Type.DWARF, player.cardsInHand.Count);
         }
     }
 
@@ -226,7 +231,7 @@ public class PlayerController : NetworkBehaviour
         currentTurn_t = 0f;
         GI.networkManager.UpdatePlayerTurn();
 
-        if (currentAbility != Ability_Type.COUNT)
+        if (currentAbility != Ability_Type.NONE)
         {
             for (int a = 0; a < 3; a++) // '3' because we can have a maximum of three card abilities in a trio.
             {
@@ -362,12 +367,50 @@ public class PlayerController : NetworkBehaviour
                                 break;
                             }
                         } break;
+                    case Ability_Type.TURN_A_PLAYER_CARD_INTO_A_FROG:
+                        {
+                            PlayerController player = null;
+                            if (GI.networkManager.players.Count > 1)
+                            {
+                                // Gathers all players that can be chosen
+                                int[] playersToChoose = new int[GI.networkManager.players.Count - 1];
+                                int currentIndex = 0;
+                                for (int i = 0; i < GI.networkManager.players.Count; i++)
+                                {
+                                    if (GI.networkManager.players[i].identity.connectionToClient != connectionToClient &&
+                                        GI.networkManager.players[i].identity.GetComponent<PlayerController>().cardsInHand.Count > 0)
+                                    {
+                                        playersToChoose[currentIndex] = i;
+                                        currentIndex++;
+                                    }
+                                }
+
+                                // Choose a player if some player has cards in hand
+                                if (currentIndex > 0)
+                                {
+                                    // Choose a random player
+                                    int randomIndex = Random.Range(0, playersToChoose.Length);
+                                    int playerToChoose = playersToChoose[randomIndex];
+                                    player = GI.networkManager.players[playerToChoose].identity.GetComponent<PlayerController>();
+
+                                    // Choose a random card
+                                    int randomCard = Random.Range(0, player.cardsInHand.Count);
+                                    Card card = player.cardsInHand[randomCard];
+
+                                    ServerTransformCard(player, card, Card_Type.FROG);
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        } break;
                     default: break;
                 }
 
                 // We don' want to end current turn inside 'ServerApplyNextAbility' here because it will run this function twice.
                 ServerActivateNextCardAbility(maybeEndCurrentTurn: false);
-                if (currentAbility == Ability_Type.COUNT) // No more abilities to use
+                if (currentAbility == Ability_Type.NONE) // No more abilities to use
                 {
                     break;
                 }
@@ -434,7 +477,7 @@ public class PlayerController : NetworkBehaviour
         player.ServerRemoveCardFromHand(card.gameObject);
         if (cardsInHand.Count < MAX_CARDS_IN_HAND)
         {
-            __SpawnCardInHand(card.type, cardsInHand.Count);
+            __ServerSpawnCardInHand(card.type, cardsInHand.Count);
         }
     }
 
@@ -515,10 +558,20 @@ public class PlayerController : NetworkBehaviour
                         selectedPlayer.ServerRemoveCardFromHand(card.gameObject);
                         if (cardsInHand.Count < MAX_CARDS_IN_HAND)
                         {
-                            __SpawnCardInHand(card.type, cardsInHand.Count);
+                            __ServerSpawnCardInHand(card.type, cardsInHand.Count);
                         }
 
                         selectedPlayer = null;
+                        ServerActivateNextCardAbility();
+                        return;
+                    }
+                } break;
+            case Ability_Type.TURN_A_PLAYER_CARD_INTO_A_FROG:
+                {
+                    if (selectedPlayer && selectedPlayer.cardsInHand.Contains(card))
+                    {
+                        ServerTransformCard(selectedPlayer, card, Card_Type.FROG);
+
                         ServerActivateNextCardAbility();
                         return;
                     }
@@ -527,7 +580,7 @@ public class PlayerController : NetworkBehaviour
         }
 
         // Blocks other player's actions while using abilities
-        if (currentAbility != Ability_Type.COUNT)
+        if (currentAbility != Ability_Type.NONE)
         {
             return;
         }
@@ -579,6 +632,14 @@ public class PlayerController : NetworkBehaviour
 
     }
 
+    [Server]
+    public void ServerTransformCard(PlayerController player, Card card, Card_Type newCardType)
+    {
+        int index = player.cardsInHand.IndexOf(card);
+        player.ServerRemoveCardFromHand(card.gameObject, reoderPositions: false);
+        player.__ServerSpawnCardInHand(newCardType, index);
+    }
+
     [TargetRpc]
     public void TargetSelectCard(GameObject go)
     {
@@ -602,7 +663,7 @@ public class PlayerController : NetworkBehaviour
         Card_Type type = GI.cardSystem.deckManager.DrawCard();
         int spawnIndex = cardsInHand.Count;
         if (spawnIndex >= MAX_CARDS_IN_HAND) return;
-        __SpawnCardInHand(type, spawnIndex);
+        __ServerSpawnCardInHand(type, spawnIndex);
     }
 
     [Server]
@@ -624,7 +685,7 @@ public class PlayerController : NetworkBehaviour
             return;
         }
 
-        __SpawnCardInHand(type, spawnIndex);
+        __ServerSpawnCardInHand(type, spawnIndex);
 
         GI.cardSystem.DestroyCard(cardToRemoveFromDesk);
         ServerDecreaseActionsRemaining();
@@ -633,7 +694,7 @@ public class PlayerController : NetworkBehaviour
     // Function made to eliminate duplicated code.
     // Those two underlines '__' means "i'm a internal function, but you can call me outside the script if you know what you're doing"
     [Server]
-    public void __SpawnCardInHand(Card_Type type, int spawnIndex)
+    public void __ServerSpawnCardInHand(Card_Type type, int spawnIndex)
     {
         GameObject go = Instantiate(GI.cardList.GetCardPrefab(type), cardsSpawnPoints[spawnIndex].position,
                                     cardsSpawnPoints[spawnIndex].rotation);
@@ -654,7 +715,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     [Server]
-    public void ServerRemoveCardFromHand(GameObject go, bool discard = false)
+    public void ServerRemoveCardFromHand(GameObject go, bool discard = false, bool reoderPositions = true)
     {
         Card card = go.GetComponent<Card>();
         if (!cardsInHand.Contains(card))
@@ -678,10 +739,13 @@ public class PlayerController : NetworkBehaviour
         }
 
         // Reorder card's position
-        for (int i = index; i < cardsInHand.Count; i++)
+        if (reoderPositions)
         {
-            cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
-            cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
+            for (int i = index; i < cardsInHand.Count; i++)
+            {
+                cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
+                cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
+            }
         }
 
         if (!isLocalPlayer) // Prevents the host from reordering the cards twice
@@ -852,7 +916,7 @@ public class PlayerController : NetworkBehaviour
 
         if (abilitiesToApply.Count < 1)
         {
-            currentAbility = Ability_Type.COUNT;
+            currentAbility = Ability_Type.NONE;
             if (maybeEndCurrentTurn)
             {
                 ServerMaybeEndCurrentTurn();
@@ -900,6 +964,12 @@ public class PlayerController : NetworkBehaviour
                     canSelectOtherPlayer = true;
                     playerHUD.TargetShowMessage("Select a player to fill his hands with dwarves.", 1f);
                 } break;
+            case Ability_Type.TURN_A_PLAYER_CARD_INTO_A_FROG:
+                {
+                    canSelectOtherPlayer = true;
+                    playerHUD.TargetShowMessage("Select a player to one of his cards into a frog.", 1f);
+                }
+                break;
             default: break;
         }
     }
@@ -916,7 +986,7 @@ public class PlayerController : NetworkBehaviour
             return;
 
         // Using a card ability
-        if (currentAbility != Ability_Type.COUNT)
+        if (currentAbility != Ability_Type.NONE)
         {
             return;
         }
@@ -949,7 +1019,7 @@ public class PlayerController : NetworkBehaviour
     [Server]
     public void ServerMaybeEndCurrentTurn()
     {
-        if (actionsRemaining <= 0 && currentAbility == Ability_Type.COUNT)
+        if (actionsRemaining <= 0 && currentAbility == Ability_Type.NONE)
         {
             ServerEndCurrentTurn();
         }

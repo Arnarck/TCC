@@ -6,7 +6,7 @@ public enum Card_Type
 {
     IMPROVE,
     DWARF,
-    CARD_3,
+    FROG,
     CARD_4,
     CARD_5,
     CARD_6,
@@ -27,11 +27,13 @@ public enum Family_Type
 
 public enum Ability_Type
 {
+    NONE,
     IMPROVE_ANOTHER_CARD_BY_X_POINTS,
     REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS,
     STEAL_ANOTHER_PLAYER_CARD, // @TODO: Conditions to activate card abilities.
     STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE,
     SPAWN_DWARVES_IN_PLAYER_HAND_UNTIL_ITS_FULL,
+    TURN_A_PLAYER_CARD_INTO_A_FROG,
 
     COUNT
 }
