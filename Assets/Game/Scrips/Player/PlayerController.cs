@@ -182,7 +182,12 @@ public class PlayerController : NetworkBehaviour
             case Ability_Type.TURN_A_PLAYER_CARD_INTO_A_FROG:
                 {
                     // @TODO: What if player hand is empty?
-                    playerHUD.TargetShowMessage("Now select a card from player's hand.", 1f);
+                    // Choose a random card
+                    int randomCard = Random.Range(0, selectedPlayer.cardsInHand.Count);
+                    Card card = selectedPlayer.cardsInHand[randomCard];
+
+                    ServerTransformCard(selectedPlayer, card, Card_Type.FROG);
+                    ServerActivateNextCardAbility();
                 } break;
             default: break;
         }
@@ -562,16 +567,6 @@ public class PlayerController : NetworkBehaviour
                         }
 
                         selectedPlayer = null;
-                        ServerActivateNextCardAbility();
-                        return;
-                    }
-                } break;
-            case Ability_Type.TURN_A_PLAYER_CARD_INTO_A_FROG:
-                {
-                    if (selectedPlayer && selectedPlayer.cardsInHand.Contains(card))
-                    {
-                        ServerTransformCard(selectedPlayer, card, Card_Type.FROG);
-
                         ServerActivateNextCardAbility();
                         return;
                     }
