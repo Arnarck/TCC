@@ -13,6 +13,15 @@ public class CardList : ScriptableObject
 {
     public Card_List_Item[] cards;
 
+    [ContextMenu("Update Cards Type")]
+    public void UpdateCardsType()
+    {
+        for (int i = 0; i < cards.Length; i++)
+        {
+            cards[i].type = cards[i].prefab.GetComponent<Card>().type;
+        }
+    }
+
     public GameObject GetCardPrefab(Card_Type type)
     {
         for (int i = 0; i < cards.Length; i++)

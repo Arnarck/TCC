@@ -72,8 +72,8 @@ public class CardSystem : NetworkBehaviour
             case Card_Type.IMPROVE: card.points = 10; break;
             case Card_Type.DWARF: card.points = 20; break;
             case Card_Type.FROG: card.points = 30; break;
-            case Card_Type.CARD_4: card.points = 20; break;
-            case Card_Type.CARD_5: card.points = 30; break;
+            case Card_Type.PRINCESS: card.points = 20; break;
+            case Card_Type.PRINCE: card.points = 30; break;
             case Card_Type.CARD_6: card.points = 10; break;
             case Card_Type.CARD_7: card.points = 20; break;
         }

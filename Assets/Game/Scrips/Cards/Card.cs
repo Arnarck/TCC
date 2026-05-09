@@ -7,8 +7,8 @@ public enum Card_Type
     IMPROVE,
     DWARF,
     FROG,
-    CARD_4,
-    CARD_5,
+    PRINCESS,
+    PRINCE,
     CARD_6,
     CARD_7,
 

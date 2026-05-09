@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: CardList
   m_EditorClassIdentifier: Assembly-CSharp::CardList
   cards:
-  - type: 0
+  - type: 2
     prefab: {fileID: 3253797605370002477, guid: 7008ca063a8f19e48906394fa101de70, type: 3}
   - type: 1
     prefab: {fileID: 8433363071428617254, guid: d1a1b32860fafe7418b23e2af7d5b5da, type: 3}
-  - type: 2
+  - type: 4
     prefab: {fileID: 4934787232951914250, guid: 4670f6bc2fcaa0246845fd5b3665b4f4, type: 3}
   - type: 3
     prefab: {fileID: 7791721712499757964, guid: 3ace44350b0b26a4dbbf0a70ae1b458c, type: 3}
-  - type: 4
+  - type: 0
     prefab: {fileID: 8840090129706520789, guid: a803554ed9d270a4c8a15c34461c77a5, type: 3}
   - type: 5
     prefab: {fileID: 4396930041969506992, guid: 1b121f51ad231c843b888fd4311a3502, type: 3}

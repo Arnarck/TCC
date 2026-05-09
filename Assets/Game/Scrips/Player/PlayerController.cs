@@ -695,7 +695,32 @@ public class PlayerController : NetworkBehaviour
                                     cardsSpawnPoints[spawnIndex].rotation);
         NetworkServer.Spawn(go, connectionToClient);
 
-        cardsInHand.Add(go.GetComponent<Card>());
+        Card card = go.GetComponent<Card>();
+        cardsInHand.Add(card);
+
+        // @TODO: Should this happen at the beginning of the game?
+        // Makes a Frog becomes a Prince again.
+        if (type == Card_Type.PRINCESS)
+        {
+            for (int i = 0; i < cardsInHand.Count; i++)
+            {
+                if (cardsInHand[i].type == Card_Type.FROG)
+                {
+                    ServerTransformCard(this, cardsInHand[i], Card_Type.PRINCE);
+                }
+            }
+        }
+        else if (type == Card_Type.FROG)
+        {
+            for (int i = 0; i < cardsInHand.Count; i++)
+            {
+                if (cardsInHand[i].type == Card_Type.PRINCESS)
+                {
+                    ServerTransformCard(this, card, Card_Type.PRINCE);
+                }
+            }
+        }
+
         if (!isLocalPlayer) // Prevents the host from spawning the card twice
         {
             TargetSpawnCardInHand(go);
