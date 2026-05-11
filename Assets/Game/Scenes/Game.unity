@@ -20256,6 +20256,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level BLOCAGEM
       objectReference: {fileID: 0}
+    - target: {fileID: 4654762277529480079, guid: 61bf6d2e4d5627144bbebea6aa607cfe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6945734711185299979, guid: 61bf6d2e4d5627144bbebea6aa607cfe, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647

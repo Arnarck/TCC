@@ -638,13 +638,15 @@ public class PlayerController : NetworkBehaviour
     [TargetRpc]
     public void TargetSelectCard(GameObject go)
     {
-        go.transform.position += go.transform.forward * 0.1f;
+        //go.transform.position += go.transform.forward * 0.1f;// VITOR MEXEU AQ
+        go.GetComponentInChildren<SelectCard>().Active();
     }
 
     [TargetRpc]
     public void TargetDeselectCard(GameObject go)
     {
-        go.transform.position -= go.transform.forward * 0.1f;
+        //go.transform.position -= go.transform.forward * 0.1f;
+        go.GetComponentInChildren<SelectCard>().Active();
     }
 
     [Command]

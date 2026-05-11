@@ -93,6 +93,8 @@ public class CardSystem : NetworkBehaviour
     public IEnumerator RunMemorizationPhase()
     {
         isMemorizationPhase = true;
+        
+
         for (int i = 0; i < GI.networkManager.players.Count; i++)
         {
             // Shows 'memorization phase panel' for all players

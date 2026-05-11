@@ -78,6 +78,13 @@ public class Card : NetworkBehaviour
 
     void OnRevealChanged(bool oldValue, bool newValue)
     {
-        visual.SetActive(newValue);
+        //visual.SetActive(newValue);//VITOR MEXEU AQ
+        visual.GetComponent<ToTurn>().Active();//VITOR MEXEU AQ
+    }
+
+    public override void OnStartClient()
+    {
+        visual.GetComponent<ToTurn>().Active();//VITOR MEXEU AQ
+        
     }
 }
