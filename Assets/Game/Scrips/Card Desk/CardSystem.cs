@@ -134,6 +134,7 @@ public class CardSystem : NetworkBehaviour
     [Server]
     public void StartMemorizationPhase()
     {
+        
         StartCoroutine(RunMemorizationPhase());
     }
 

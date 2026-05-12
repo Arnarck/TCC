@@ -84,7 +84,9 @@ public class Card : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        visual.GetComponent<ToTurn>().Active();//VITOR MEXEU AQ
+        visual.GetComponent<ToTurn>().Active();//VITOR MEXEU AQ 
+
+        //isso aq é bug ein pessoal so pra mostrar pro lipas  @TODO
         
     }
 }
