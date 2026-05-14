@@ -14,4 +14,13 @@ public class TeleportCard : MonoBehaviour, iVFX
     {
         vfx.Play();
     }
+
+    public void TeleportIN()
+    {
+        anim.SetTrigger("TeleportIN");
+    }
+    public void TeleportOUT()
+    {
+        anim.SetTrigger("TeleportOUT");
+    }
 }

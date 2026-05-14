@@ -52,6 +52,7 @@ public class Card : NetworkBehaviour
     public bool isRevealed = true;
 
     [Header("INTERNAL")]
+    public bool spawnedInDesk;
     public bool collidedWithCardSystem;
     [SyncVar]public int improvedPoints;
 
@@ -69,7 +70,10 @@ public class Card : NetworkBehaviour
                 {
                     // Makes the cards rotate towards player's camera. So all 4 players will look the cards from the front side,
                     // intead of looking from sideways.
+                    spawnedInDesk = true;
                     transform.RotateAround(GI.cardSystem.transform.position, Vector3.up, GI.cardSystem.transform.eulerAngles.y);
+                    visual.GetComponent<ToTurn>().Active();
+                    
                 }
             }
 
@@ -84,7 +88,7 @@ public class Card : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        visual.GetComponent<ToTurn>().Active();//VITOR MEXEU AQ 
+        //if(spawnedInDesk) visual.GetComponent<ToTurn>().Active();//VITOR MEXEU AQ 
 
         //isso aq é bug ein pessoal so pra mostrar pro lipas  @TODO
         
