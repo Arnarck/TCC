@@ -71,7 +71,12 @@ public class PlayerHUD : NetworkBehaviour
 
     public void UpdateCurrentRound(int value)
     {
-        roundsText.text = (value + 1).ToString(); // Starts from 1, rather than from 0
+        int round = (value + 1);
+
+        // @HACK to display ante round and price
+        string s = "\n<size=50%>" + (3 - round) + " rounds until ante (Price: 4)</size>";
+
+        roundsText.text = round.ToString() + s; // Starts from 1, rather than from 0
     }
 
     [TargetRpc]
