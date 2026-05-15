@@ -1165,7 +1165,7 @@ public class PlayerController : NetworkBehaviour
 [Command]
 public void CmdSetReady(bool ready)
 {
-    LobbyManager lobby = GI.networkManager.GetComponent<LobbyManager>();
+    LobbyManager lobby = GI.networkManager.lobbyManager;
     lobby.SetReady(netId, ready);   // era sSetReady
 }
 
@@ -1183,7 +1183,7 @@ public void CmdHostStartGame()
     CardNetworkManager netMan = GI.networkManager;
     if (netMan.gameStarted) return;
 
-    LobbyManager lobby = netMan.GetComponent<LobbyManager>();
+    LobbyManager lobby = netMan.lobbyManager;
     if (lobby.players.Count < 2) return;   // mínimo de 2 jogadores
 
     foreach (var p in lobby.players)

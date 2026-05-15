@@ -17,7 +17,7 @@ public class LobbyUI : NetworkBehaviour
     void Start()
     {
         // Obtém referências
-        lobbyManager = GI.networkManager.GetComponent<LobbyManager>();
+        lobbyManager = GI.networkManager.lobbyManager;
         localPlayerController = NetworkClient.localPlayer.GetComponent<PlayerController>();
 
         if (isLocalPlayer)
@@ -31,7 +31,7 @@ public override void OnStartClient()
 {
     base.OnStartClient();
 
-    lobbyManager = GI.networkManager.GetComponent<LobbyManager>();
+     lobbyManager = GI.networkManager.lobbyManager;
 
     lobbyManager.players.OnAdd += OnLobbyAdd;
     lobbyManager.players.OnSet += OnLobbyUpdated;
