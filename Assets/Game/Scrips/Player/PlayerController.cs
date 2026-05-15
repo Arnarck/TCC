@@ -420,8 +420,16 @@ public class PlayerController : NetworkBehaviour
                             {
                                 break;
                             }
-                        }
-                        break;
+                        } break;
+
+                    case Ability_Type.SHUFFLE_ADJACENT_CARDS:
+                        {
+                            // Chooses a random card from the desk
+                            List<Card> cardsInDesk = GI.cardSystem.GetCardsInDesk();
+                            int randomIndex = Random.Range(0, cardsInDesk.Count);
+
+                            ServerShuffleAdjacentCards(cardsInDesk[randomIndex]);
+                        } break;
                     default: break;
                 }
 
@@ -467,6 +475,7 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
+        // @TODO: Player null
         // Gives the stolen score to the player with lowest score
         playerWithLowestScore.score += stolenScore;
     }
@@ -584,6 +593,11 @@ public class PlayerController : NetworkBehaviour
                         ServerActivateNextCardAbility();
                         return;
                     }
+                } break;
+            case Ability_Type.SHUFFLE_ADJACENT_CARDS:
+                {
+                    ServerShuffleAdjacentCards(card);
+                    ServerActivateNextCardAbility();
                 }
                 break;
             default: break;
@@ -640,6 +654,81 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
+    }
+
+    [Server]
+    public void ServerShuffleAdjacentCards(Card card)
+    {
+        List<Card> cardsInDesk = new List<Card>();
+        GI.cardSystem.deskSlots.CopyTo(cardsInDesk);
+        if (cardsInDesk.Contains(card))
+        {
+            List<int> cardsIndexToShuffle = new List<int>();
+            Collider[] results = new Collider[9]; // 8 adjacent + the selected card
+            if (Physics.OverlapBoxNonAlloc(card.transform.position, new Vector3(1f, .05f, 1f), results,
+                                           Quaternion.identity, 1 << 6) > 0)
+            {
+                // Adds the cards to the list
+                for (int i = 0; i < results.Length; i++)
+                {
+                    if (!results[i])
+                    {
+                        continue;
+                    }
+
+                    Card cardResult = results[i].GetComponent<Card>();
+                    if (cardResult != card)
+                    {
+                        cardsIndexToShuffle.Add(cardsInDesk.IndexOf(cardResult));
+                    }
+                }
+
+                // Shuffle
+                List<int> newCardsIndex = new List<int>();
+                List<int> availableIndexes = new List<int>();
+                cardsIndexToShuffle.CopyTo(availableIndexes);
+                for (int i = 0; i < cardsIndexToShuffle.Count; i++)
+                {
+                    int randomIndex = Random.Range(0, availableIndexes.Count);
+                    int newCardIndex = availableIndexes[randomIndex];
+                    newCardsIndex.Add(newCardIndex);
+                    availableIndexes.RemoveAt(randomIndex);
+                }
+
+                // Reorder cards in desk
+                for (int i = 0; i < cardsIndexToShuffle.Count; i++)
+                {
+                    int oldIndex = cardsIndexToShuffle[i];
+                    int newIndex = newCardsIndex[i];
+
+                    // Swap the cards
+                    Card oldIndexCard = GI.cardSystem.deskSlots[oldIndex];
+                    GI.cardSystem.deskSlots[oldIndex] = GI.cardSystem.deskSlots[newIndex];
+                    GI.cardSystem.deskSlots[newIndex] = oldIndexCard;
+
+                    // Reorder position and rotation
+                    GameObject card1 = GI.cardSystem.deskSlots[oldIndex].gameObject;
+                    GameObject card2 = GI.cardSystem.deskSlots[newIndex].gameObject;
+                    GI.cardSystem.ReorderCardLocation(card1, oldIndex);
+                    GI.cardSystem.ReorderCardLocation(card2, newIndex);
+                    RpcReorderCardLocation(card1, card2, oldIndex, newIndex);
+
+                    // Prevents the values from swapping back to their original places
+                    cardsIndexToShuffle.Remove(oldIndex);
+                    cardsIndexToShuffle.Remove(newIndex);
+                    newCardsIndex.Remove(oldIndex);
+                    newCardsIndex.Remove(newIndex);
+                    i--;
+                }
+            }
+        }
+    }
+
+    [ClientRpc]
+    public void RpcReorderCardLocation(GameObject card1, GameObject card2, int card1NewIndex, int card2NewIndex)
+    {
+        GI.cardSystem.ReorderCardLocation(card1, card1NewIndex);
+        GI.cardSystem.ReorderCardLocation(card2, card2NewIndex);
     }
 
     [Server]
@@ -1010,8 +1099,11 @@ public class PlayerController : NetworkBehaviour
                 {
                     canSelectOtherPlayer = true;
                     playerHUD.TargetShowMessage("Select a player to one of his cards into a frog.", 1f);
-                }
-                break;
+                } break;
+            case Ability_Type.SHUFFLE_ADJACENT_CARDS:
+                {
+                    playerHUD.TargetShowMessage("Select a card in desk to shuffle the adjacent ones.", 1f);
+                } break;
             default: break;
         }
     }
