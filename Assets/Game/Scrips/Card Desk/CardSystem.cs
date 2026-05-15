@@ -268,6 +268,8 @@ public class CardSystem : NetworkBehaviour
         if (newDeskCard != null)
             newDeskCard.isRevealed = false;
     }
+
+    public void ReorderCardLocation(GameObject card, int index)
     {
         card.transform.position = cardsSpawnPoints[index].position;
         card.transform.rotation = cardsSpawnPoints[index].rotation;
