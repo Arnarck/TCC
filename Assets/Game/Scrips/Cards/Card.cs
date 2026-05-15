@@ -24,7 +24,36 @@ public enum Family_Type
 
     COUNT // Used as a way of knowing how many elements there is in this enum.
 }
+public enum CharacterType
+{
+    NONE,
+    TURTLE,
+    DOLL,
+    CAT,
+    GOLDILOCKS
+}
+public static class CharacterDatabase
+{
+    public static Family_Type GetFamily(CharacterType character)
+    {
+        switch (character)
+        {
+            case CharacterType.TURTLE:
+                return Family_Type.FAMILY_1;
 
+            case CharacterType.DOLL:
+                return Family_Type.FAMILY_2;
+
+            case CharacterType.CAT:
+                return Family_Type.FAMILY_3;
+
+            case CharacterType.GOLDILOCKS:
+                return Family_Type.FAMILY_4;
+        }
+
+        return Family_Type.FAMILY_1;
+    }
+}
 public enum Ability_Type
 {
     NONE,

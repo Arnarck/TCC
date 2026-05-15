@@ -11,7 +11,7 @@ public class PlayerController : NetworkBehaviour
     public Transform cameraStartPoint;
     public Transform cameraPointWhenChoosingCards;
     public Camera playerCamera;
-    public GameObject playerModel;
+   // public GameObject playerModel;
     public LayerMask mouseClickMasks;
     public Transform[] cardsSpawnPoints;
 
@@ -41,7 +41,10 @@ public class PlayerController : NetworkBehaviour
     public List<Card> cardsInHand;
     private TrioSystem trioSystem = new TrioSystem();
 
-
+[Header("Character Models")]
+public GameObject[] characterModels;
+[SyncVar(hook = nameof(OnCharacterChanged))]
+public CharacterType selectedCharacter = CharacterType.NONE;
     private void Start()
     {
         currentAbility = Ability_Type.NONE;
@@ -58,7 +61,7 @@ public class PlayerController : NetworkBehaviour
 
             playerHUD.UpdateScore();
 
-            CmdSetInitialRespect(Family_Type.FAMILY_1);
+          //  CmdSetInitialRespect(Family_Type.FAMILY_1);
 
             CmdSpawnCardInHand();
             CmdSpawnCardInHand();
@@ -832,7 +835,7 @@ public class PlayerController : NetworkBehaviour
     public void ServerEnterSpectatorMode()
     {
         spectatorMode = true;
-        playerModel.SetActive(false);
+       // playerModel.SetActive(false);
         for (int i = 0; i < cardsInHand.Count; i++)
         {
             ServerRemoveCardFromHand(cardsInHand[i].gameObject);
@@ -1183,6 +1186,8 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void CmdSetReady(bool ready)
     {
+        if (selectedCharacter == CharacterType.NONE)
+        return;
         LobbyManager lobby = GI.networkManager.lobbyManager;
         lobby.SetReady(netId, ready);
     }
@@ -1209,5 +1214,66 @@ public class PlayerController : NetworkBehaviour
 
         netMan.StartGameFromLobby();
     }
+
+    public event System.Action<CharacterType> OnLocalCharacterChanged;
+void OnCharacterChanged(CharacterType oldChar, CharacterType newChar)
+{
+    UpdateCharacterVisual(newChar);
+    if (isLocalPlayer)
+        OnLocalCharacterChanged?.Invoke(newChar);
+}
+
+public void UpdateCharacterVisual(CharacterType character)
+{
+    for (int i = 0; i < characterModels.Length; i++)
+    {
+        characterModels[i].SetActive(false);
+    }
+
+    int index = (int)character - 1;
+
+    if (index >= 0 && index < characterModels.Length)
+    {
+        characterModels[index].SetActive(true);
+    }
+}
+
+[Command]
+public void CmdSelectCharacter(CharacterType character)
+{
+    // Verifica se já existe outro player usando
+     foreach (NetworkConnectionToClient conn in GI.networkManager.players)
+    {
+        if (conn.identity == null) continue;
+        PlayerController p = conn.identity.GetComponent<PlayerController>();
+        if (p != this && p.selectedCharacter == character)
+        {
+
+            return;
+        }
+    }
+
+     selectedCharacter = character;
+    // Atualiza no lobby
+    GI.networkManager.lobbyManager.SetCharacter(netId, (int)character);
+
+    // Define família inicial
+    Family_Type family = CharacterDatabase.GetFamily(character);
+
+    ResetAllRespect();
+
+    int current = GetRespectScaled(family);
+    SetRespectScaled(family, current + 100);
+}
+
+[Server]
+void ResetAllRespect()
+{
+    respectF1 = 0;
+    respectF2 = 0;
+    respectF3 = 0;
+    respectF4 = 0;
+}
+
 
 }
