@@ -563,6 +563,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8956823962523787712}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9157405502431603438}
   m_SourcePrefab: {fileID: 100100000, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
 --- !u!1 &54212930437593909 stripped
 GameObject:
@@ -660,6 +663,21 @@ MonoBehaviour:
   anim: {fileID: 1474715728147731989}
   vfx: {fileID: 7364792591988355955}
   curve: {fileID: 3966031935886355925}
+--- !u!114 &9157405502431603438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 54212930437593909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ec5dce93678f3438422f2c2199f4cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::vfxSteal
+  pontoB: {fileID: 0}
+  velocidade: 5
+  anim: {fileID: 1474715728147731989}
 --- !u!4 &831840967580934543 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}

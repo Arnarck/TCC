@@ -8,6 +8,10 @@ public class vfxSteal : MonoBehaviour, iVFX
     private bool indoParaB = true;
     private bool active = false;
 
+    [Header("Animator")]
+
+    public Animator anim;
+
     void Update()
     {
         if(active)
@@ -23,10 +27,16 @@ public class vfxSteal : MonoBehaviour, iVFX
         if (Vector3.Distance(transform.position, alvo) < 0.1f)
         {
             indoParaB = !indoParaB;
+            anim.SetTrigger("EndSteal");
         }
         }
     }
     public void Active()
+    {
+        anim.SetTrigger("ToTurn");
+        anim.SetTrigger("StartSteal");
+    }
+    void ActiveMov()
     {
         active = !active;
     }

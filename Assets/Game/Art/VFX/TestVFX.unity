@@ -1285,7 +1285,7 @@ Transform:
   m_GameObject: {fileID: 408745879}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.068, y: 0.81985, z: -7.027}
+  m_LocalPosition: {x: -0.068, y: 0.81985, z: -6.366}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1693,7 +1693,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1639980362}
+      - m_Target: {fileID: 1639980365}
         m_TargetAssemblyTypeName: vfxSteal, Assembly-CSharp
         m_MethodName: Active
         m_Mode: 1
@@ -2168,19 +2168,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9157405502431603438, guid: 5961de5866757f044933a9437fca93dd, type: 3}
+      propertyPath: pontoB
+      value: 
+      objectReference: {fileID: 408745880}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 54212930437593909, guid: 5961de5866757f044933a9437fca93dd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1639980362}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5961de5866757f044933a9437fca93dd, type: 3}
---- !u!1 &1233744889 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 54212930437593909, guid: 5961de5866757f044933a9437fca93dd, type: 3}
-  m_PrefabInstance: {fileID: 1233744888}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1253387313
 GameObject:
   m_ObjectHideFlags: 0
@@ -2636,7 +2632,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 792851747378624440, guid: 5961de5866757f044933a9437fca93dd, type: 3}
   m_PrefabInstance: {fileID: 1233744888}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233744889}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4dbeb5d797d10446bc2417e8e5e70ac, type: 3}
@@ -2647,7 +2643,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5002022061144277782, guid: 5961de5866757f044933a9437fca93dd, type: 3}
   m_PrefabInstance: {fileID: 1233744888}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233744889}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb373e202ebe63f40a111b0c4273712c, type: 3}
@@ -2658,7 +2654,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3707239383812110102, guid: 5961de5866757f044933a9437fca93dd, type: 3}
   m_PrefabInstance: {fileID: 1233744888}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233744889}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 467840c218a478c44b34d5a074ec91d2, type: 3}
@@ -2669,7 +2665,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8987514909031487842, guid: 5961de5866757f044933a9437fca93dd, type: 3}
   m_PrefabInstance: {fileID: 1233744888}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233744889}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a7f269a22d041a4598d5e3eba92b7ae, type: 3}
@@ -2680,26 +2676,23 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8956823962523787712, guid: 5961de5866757f044933a9437fca93dd, type: 3}
   m_PrefabInstance: {fileID: 1233744888}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233744889}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 080ec4ecc623ead4e87954d6e8d35577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::vfxTransform
---- !u!114 &1639980362
+--- !u!114 &1639980365 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 9157405502431603438, guid: 5961de5866757f044933a9437fca93dd, type: 3}
+  m_PrefabInstance: {fileID: 1233744888}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233744889}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5ec5dce93678f3438422f2c2199f4cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::vfxSteal
-  pontoB: {fileID: 408745880}
-  velocidade: 5
 --- !u!1 &1643117359
 GameObject:
   m_ObjectHideFlags: 0
