@@ -167,8 +167,16 @@ public class PlayerController : NetworkBehaviour
         {
             case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:
                 {
-                    // @TODO: What if player hand is empty?
-                    playerHUD.TargetShowMessage("Now select a card from player's hand.", 1f);
+                    if (selectedPlayer.cardsInHand.Count > 0)
+                    {
+                        playerHUD.TargetShowMessage("Now select a card from player's hand.", 1f);
+                    }
+                    else
+                    {
+                        playerHUD.TargetShowMessage("This player has no cards in hands. Try another player instead.", 1f);
+                        selectedPlayer = null;
+                        return; // Prevents the 'canSelectOtherPlayer' variable becomes false
+                    }
                 }
                 break;
             case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE:
@@ -475,9 +483,16 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
-        // @TODO: Player null
         // Gives the stolen score to the player with lowest score
-        playerWithLowestScore.score += stolenScore;
+        if (playerWithLowestScore)
+        {
+            playerWithLowestScore.score += stolenScore;
+        }
+        else
+        {
+            // The player itself receives the score if there's no more players (2 players game)
+            score += stolenScore;
+        }
     }
 
     [Server]
@@ -1078,8 +1093,31 @@ public class PlayerController : NetworkBehaviour
                 break;
             case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:
                 {
-                    canSelectOtherPlayer = true;
-                    playerHUD.TargetShowMessage("Select a player to steal a card from.", 1f);
+                    bool thereIsAPlayerWithCardsInHand = false;
+                    for (int i = 0; i < GI.networkManager.players.Count; i++)
+                    {
+                        NetworkConnectionToClient conn = GI.networkManager.players[i];
+                        if (conn != connectionToClient)
+                        {
+                            PlayerController player = conn.identity.GetComponent<PlayerController>();
+                            if (player.cardsInHand.Count > 0)
+                            {
+                                thereIsAPlayerWithCardsInHand = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (thereIsAPlayerWithCardsInHand)
+                    {
+                        canSelectOtherPlayer = true;
+                        playerHUD.TargetShowMessage("Select a player to steal a card from.", 1f);
+                    }
+                    else
+                    {
+                        // @TODO: This text will be ignored. We should add a way of stacking messages in some place.
+                        //playerHUD.TargetShowMessage("There's no players with cards in hand. This ability will be ignored.", 1f);
+                    }
                 }
                 break;
             case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE:
