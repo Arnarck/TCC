@@ -129,7 +129,7 @@ public class PlayerHUD : NetworkBehaviour
     {
         messagePanel.SetActive(true);
         messagePanelText.text = message;
-        showMessage_t = t;
+        showMessage_t = t + 1.5f; // @HACK to increase message time
     }
 
     public void HideMessage()
