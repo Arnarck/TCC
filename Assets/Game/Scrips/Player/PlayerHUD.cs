@@ -47,7 +47,7 @@ public class PlayerHUD : NetworkBehaviour
         {
             GI.playerHUD = this;
             UpdateCurrentRound(0);
-          
+
         }
     }
 

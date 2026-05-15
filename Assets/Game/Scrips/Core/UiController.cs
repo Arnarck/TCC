@@ -22,7 +22,7 @@ public class UiController : MonoBehaviour
          {
              GameController.controller.uiController = this;
          } */
-         pausePanel.SetActive(false);
+        pausePanel.SetActive(false);
         LoadSliderValues();
     }
 
@@ -31,7 +31,7 @@ public class UiController : MonoBehaviour
         // Close current panel when pressing Escape
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            if(panelLobbyMenu.activeSelf == true)return;
+            if (panelLobbyMenu.activeSelf == true) return;
             if (panelStack.Count == 0)
             {
                 OpenPanel(pausePanel);
@@ -97,7 +97,7 @@ public class UiController : MonoBehaviour
         }
     }
 
-     public void CreditsPanel()
+    public void CreditsPanel()
     {
         if (panelStack.Count > 0 && panelStack.Peek() == creditsPanel)
         {

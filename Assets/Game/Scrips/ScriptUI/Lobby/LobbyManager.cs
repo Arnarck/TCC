@@ -59,18 +59,20 @@ public class LobbyManager : NetworkBehaviour
         }
     }
 
-  [Server]
-public void SetCharacter(uint netId, int characterId)
-{
-    for (int i = 0; i < players.Count; i++)
+    [Server]
+    public void SetCharacter(uint netId, int characterId)
     {
-        if (players[i].netId == netId)
+        for (int i = 0; i < players.Count; i++)
         {
-            LobbyPlayerData data = players[i];
-            data.characterId = characterId;
-            players[i] = data;
-            break;
+            if (players[i].netId == netId)
+            {
+                LobbyPlayerData data = players[i];
+                data.characterId = characterId;
+                players[i] = data;
+                break;
+            }
         }
     }
-}
+
+
 }
