@@ -31,7 +31,7 @@ public class PlayerController : NetworkBehaviour
     public Ability_Type currentAbility;
     public int pointsToChooseToReduce;
     public int pointsToChooseToImprove;
-    public bool canSelectOtherPlayer;
+    [SyncVar] public bool canSelectOtherPlayer;
     public int scoreToStolenFromAnotherPlayer;
     public PlayerController selectedPlayer;
 
@@ -101,6 +101,7 @@ public class PlayerController : NetworkBehaviour
                         }
                         else if (hit.collider.gameObject.layer == 8 && canSelectOtherPlayer)
                         {
+                            Debug.Log("aaaaaaaaaaaaaaa");
                             CmdSelectPlayer(hit.collider.GetComponent<NetworkIdentity>().netId);
                         }
                     }
@@ -151,6 +152,7 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    [Command]
     public void CmdSelectPlayer(uint netId)
     {
         // Search for the selected player netId
