@@ -29,7 +29,7 @@ public class CardSystem : NetworkBehaviour
     [Header("Deck")]
     public DeckManager deckManager;
 
-    private Card[] deskSlots; // novo
+    public Card[] deskSlots; // novo
 
 
     private void Awake()
@@ -267,5 +267,9 @@ public class CardSystem : NetworkBehaviour
 
         if (newDeskCard != null)
             newDeskCard.isRevealed = false;
+    }
+    {
+        card.transform.position = cardsSpawnPoints[index].position;
+        card.transform.rotation = cardsSpawnPoints[index].rotation;
     }
 }
