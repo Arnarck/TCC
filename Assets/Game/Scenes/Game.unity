@@ -2689,7 +2689,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5136080925900278692, guid: a07b4fe6fd89e4d4d97129f8c0ed90cd, type: 3}
   m_PrefabInstance: {fileID: 1893300502514616637}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1751920077}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0267e9e4bf8d9e648a8e74211c11bfe7, type: 3}
@@ -4106,6 +4106,71 @@ Transform:
   - {fileID: 1559899397}
   - {fileID: 928562688}
   - {fileID: 1565615512}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &265911660
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 265911663}
+  - component: {fileID: 265911662}
+  - component: {fileID: 265911661}
+  m_Layer: 0
+  m_Name: LobbyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &265911661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265911660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aae97e772b1ac814185d50f2ad9d5563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LobbyManager
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+--- !u!114 &265911662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265911660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Mirror::Mirror.NetworkIdentity
+  sceneId: 2996829998
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!4 &265911663
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265911660}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -13.1683, y: -0, z: -42.80944}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &287466861
@@ -18215,43 +18280,6 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1751920077 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5234883067926497805, guid: a07b4fe6fd89e4d4d97129f8c0ed90cd, type: 3}
-  m_PrefabInstance: {fileID: 1893300502514616637}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1751920081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1751920077}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Mirror::Mirror.NetworkIdentity
-  sceneId: 3817057546
-  _assetId: 1897279094
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
---- !u!114 &1751920082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1751920077}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aae97e772b1ac814185d50f2ad9d5563, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LobbyManager
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
 --- !u!1 &1752992192
 GameObject:
   m_ObjectHideFlags: 0
@@ -23282,7 +23310,7 @@ PrefabInstance:
     - target: {fileID: 5136080925900278692, guid: a07b4fe6fd89e4d4d97129f8c0ed90cd, type: 3}
       propertyPath: lobbyManager
       value: 
-      objectReference: {fileID: 7627444200532913552, guid: 98e82d10331704242b0331332ce8b2e4, type: 3}
+      objectReference: {fileID: 265911661}
     - target: {fileID: 5136080925900278692, guid: a07b4fe6fd89e4d4d97129f8c0ed90cd, type: 3}
       propertyPath: lobbyManagerPrefab
       value: 
@@ -23294,13 +23322,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5234883067926497805, guid: a07b4fe6fd89e4d4d97129f8c0ed90cd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1751920082}
-    - targetCorrespondingSourceObject: {fileID: 5234883067926497805, guid: a07b4fe6fd89e4d4d97129f8c0ed90cd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1751920081}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a07b4fe6fd89e4d4d97129f8c0ed90cd, type: 3}
 --- !u!1001 &3540633154091170579
 PrefabInstance:
@@ -23366,6 +23388,7 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 832575519}
   - {fileID: 1893300502514616637}
+  - {fileID: 265911663}
   - {fileID: 172153372}
   - {fileID: 1311603029}
   - {fileID: 1666544618}

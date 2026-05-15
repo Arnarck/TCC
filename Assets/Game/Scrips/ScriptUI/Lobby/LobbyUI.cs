@@ -16,7 +16,7 @@ public class LobbyUI : NetworkBehaviour
 
     void Start()
     {
-        lobbyManager = GI.networkManager.GetComponent<LobbyManager>();
+        lobbyManager = GI.networkManager.lobbyManager;
         localPlayerController = NetworkClient.localPlayer.GetComponent<PlayerController>();
 
         if (isLocalPlayer)
@@ -29,7 +29,7 @@ public class LobbyUI : NetworkBehaviour
     {
         base.OnStartClient();
 
-        lobbyManager = GI.networkManager.GetComponent<LobbyManager>();
+        lobbyManager = GI.networkManager.lobbyManager;
 
         lobbyManager.players.OnAdd += OnLobbyAdd;
         lobbyManager.players.OnSet += OnLobbyUpdated;

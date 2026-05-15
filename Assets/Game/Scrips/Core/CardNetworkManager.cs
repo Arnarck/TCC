@@ -22,7 +22,7 @@ public class CardNetworkManager : RelayNetworkManager
 
     public DeckManager deckManagerPrefab;
     private DeckManager deckManager;
-    private LobbyManager lobbyManager;
+    public LobbyManager lobbyManager;
 
     [ContextMenu("Fill Spawnable Prefabs With Cards")]
     public void FillSpawnablePrefabsWithCards()
@@ -40,7 +40,6 @@ public class CardNetworkManager : RelayNetworkManager
     public override void Awake()
     {
         base.Awake();
-        lobbyManager = GetComponent<LobbyManager>();
         players = new List<NetworkConnectionToClient>();
         spectators = new List<NetworkConnectionToClient>();
         GI.networkManager = this;

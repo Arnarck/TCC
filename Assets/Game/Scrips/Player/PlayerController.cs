@@ -1183,7 +1183,7 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void CmdSetReady(bool ready)
     {
-        LobbyManager lobby = GI.networkManager.GetComponent<LobbyManager>();
+        LobbyManager lobby = GI.networkManager.lobbyManager;
         lobby.SetReady(netId, ready);
     }
 
@@ -1201,7 +1201,7 @@ public class PlayerController : NetworkBehaviour
         CardNetworkManager netMan = GI.networkManager;
         if (netMan.gameStarted) return;
 
-        LobbyManager lobby = netMan.GetComponent<LobbyManager>();
+        LobbyManager lobby = netMan.lobbyManager;
         if (lobby.players.Count < 2) return;
 
         foreach (var p in lobby.players)
