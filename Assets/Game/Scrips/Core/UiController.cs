@@ -11,7 +11,7 @@ using Mirror;
 
 public class UiController : MonoBehaviour
 {
-    public GameObject pausePanel, optionsPanel, creditsPanel, confirmMenuPanel, confirmResetPanel, audioPanel, videoPanel, menuPanel;
+    public GameObject pausePanel, optionsPanel, creditsPanel, confirmMenuPanel, confirmResetPanel, audioPanel, videoPanel, menuPanel, panelLobbyMenu;
     private Stack<GameObject> panelStack = new Stack<GameObject>();
 
     public Slider masterVolumeSlider, musicVolumeSlider, vfxVolumeSlider;
@@ -22,6 +22,7 @@ public class UiController : MonoBehaviour
          {
              GameController.controller.uiController = this;
          } */
+         pausePanel.SetActive(false);
         LoadSliderValues();
     }
 
@@ -30,6 +31,7 @@ public class UiController : MonoBehaviour
         // Close current panel when pressing Escape
         if (Input.GetKeyUp(KeyCode.Escape))
         {
+            if(panelLobbyMenu.activeSelf == true)return;
             if (panelStack.Count == 0)
             {
                 OpenPanel(pausePanel);
