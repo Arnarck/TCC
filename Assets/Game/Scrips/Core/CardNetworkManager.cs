@@ -6,6 +6,7 @@ using System.Collections;
 
 public class CardNetworkManager : RelayNetworkManager
 {
+
     [Header("Card Game")]
     public GameObject cardDeskPrefab;
     public CardList cardList;
@@ -21,6 +22,7 @@ public class CardNetworkManager : RelayNetworkManager
 
     public DeckManager deckManagerPrefab;
     private DeckManager deckManager;
+    private LobbyManager lobbyManager;
 
     [ContextMenu("Fill Spawnable Prefabs With Cards")]
     public void FillSpawnablePrefabsWithCards()
@@ -38,7 +40,7 @@ public class CardNetworkManager : RelayNetworkManager
     public override void Awake()
     {
         base.Awake();
-
+        lobbyManager = GetComponent<LobbyManager>();
         players = new List<NetworkConnectionToClient>();
         spectators = new List<NetworkConnectionToClient>();
         GI.networkManager = this;
@@ -61,36 +63,8 @@ public class CardNetworkManager : RelayNetworkManager
 
     }
 
-    public override void OnServerAddPlayer(NetworkConnectionToClient conn)
-    {
-        base.OnServerAddPlayer(conn);
-        players.Add(conn);
 
-        if (players.Count >= 2 && !gameStarted)
-        {
-            gameStarted = true;
-            GI.cardSystem.StartMemorizationPhase();
-            StartCoroutine(WaitForMemorizationAndStartGame());
-        }
-    }
-    IEnumerator WaitForMemorizationAndStartGame()
-    {
-        while (GI.cardSystem.isMemorizationPhase)
-            yield return null;
-        UpdatePlayerTurn();
-    }
-    public override void OnServerDisconnect(NetworkConnectionToClient conn)
-    {
-        base.OnServerDisconnect(conn);
 
-        // Update the rounds if a player get disconnected from the match
-        players.Remove(conn);
-        spectators.Remove(conn);
-        if (currentPlayerTurnIndex >= players.Count)
-        {
-            UpdateRound();
-        }
-    }
 
     public override void OnStopServer()
     {
@@ -244,4 +218,85 @@ public class CardNetworkManager : RelayNetworkManager
 
         return players[currentPlayerTurnIndex].connectionId;
     }
+
+
+    public override void OnServerAddPlayer(NetworkConnectionToClient conn)
+    {
+        base.OnServerAddPlayer(conn);
+        players.Add(conn);
+
+        if (players.Count > 4)
+        {
+            conn.Disconnect();
+            return;
+        }
+
+        lobbyManager.AddPlayer(conn, $"Player {players.Count}");
+
+        conn.identity.GetComponent<PlayerController>().playerHUD.TargetShowLobby();
+    }
+
+    public override void OnServerDisconnect(NetworkConnectionToClient conn)
+    {
+        base.OnServerDisconnect(conn);
+
+        if (lobbyManager != null && conn.identity != null)
+            lobbyManager.RemovePlayer(conn.identity.netId);
+
+        players.Remove(conn);
+        spectators.Remove(conn);
+
+        if (!gameStarted)
+        {
+            if (lobbyManager != null)
+            {
+                for (int i = 0; i < lobbyManager.players.Count; i++)
+                {
+                    LobbyPlayerData data = lobbyManager.players[i];
+                    data.isReady = false;
+                    lobbyManager.players[i] = data;
+                }
+            }
+        }
+        else
+        {
+            if (currentPlayerTurnIndex >= players.Count)
+                UpdateRound();
+        }
+    }
+    [Server]
+    public void CheckLobbyReady()
+    {
+        if (gameStarted) return;
+        if (lobbyManager.players.Count <= 1) return;
+
+        foreach (var p in lobbyManager.players)
+            if (!p.isReady) return;
+
+        StartGameFromLobby();
+    }
+
+    [Server]
+    public void StartGameFromLobby()
+    {
+        gameStarted = true;
+
+        foreach (var conn in players)
+        {
+            var pc = conn.identity.GetComponent<PlayerController>();
+            pc.playerHUD.TargetHideLobby();
+            pc.playerHUD.TargetShowMainHUD();
+            pc.playerHUD.TargetHideConnectMenu();
+        }
+
+        GI.cardSystem.StartMemorizationPhase();
+        StartCoroutine(WaitForMemorizationAndStartGame());
+    }
+    IEnumerator WaitForMemorizationAndStartGame()
+    {
+        while (GI.cardSystem.isMemorizationPhase)
+            yield return null;
+        UpdatePlayerTurn();
+    }
+
 }

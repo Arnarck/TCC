@@ -17,6 +17,8 @@ public class Connect : MonoBehaviour
     public CardNetworkManager networkManager;
 
     [Header("UI")]
+     public GameObject panelLobbyMenu;
+
     public GameObject hostButton;
     public GameObject clientButton;
     public GameObject joinCodeButton;
@@ -26,6 +28,20 @@ public class Connect : MonoBehaviour
     public TMP_InputField inputJoinCode;
     public TMP_Text statusText;
     private string currentCode = "";
+
+    public static Connect Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject); // opcional, se o menu persistir entre cenas
+    }
+
 
     public void HideJoinMatchElements()
     {
@@ -46,7 +62,7 @@ public class Connect : MonoBehaviour
         statusText.text = "";
         joinCodeText.text = "";
         statusText.text = "Creating room...";
-        networkManager.StartRelayHost(2, null);
+        networkManager.StartRelayHost(3, null);
         StartCoroutine(WaitForCode());
     }
 
@@ -109,4 +125,10 @@ public class Connect : MonoBehaviour
         networkManager.relayJoinCode = "";
         ShowJoinMatchElements();
     }
+
+    public void HideConnectPanel()
+{
+    if (panelLobbyMenu != null)
+        panelLobbyMenu.SetActive(false);
+}
 }

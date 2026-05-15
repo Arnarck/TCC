@@ -68,6 +68,8 @@ public class PlayerController : NetworkBehaviour
         {
             playerHUD.Hide();
         }
+        //  if (playerHUD.startGameButton != null)
+        // playerHUD.startGameButton.onClick.AddListener(OnStartGameClick);
     }
 
     private void Update()
@@ -167,18 +169,21 @@ public class PlayerController : NetworkBehaviour
                 {
                     // @TODO: What if player hand is empty?
                     playerHUD.TargetShowMessage("Now select a card from player's hand.", 1f);
-                } break;
+                }
+                break;
             case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE:
                 {
                     __ServerStealScoreFromSelectedPlayerAndGiveToPlayerWithLowestScore(selectedPlayer);
                     selectedPlayer = null;
                     ServerActivateNextCardAbility();
-                } break;
+                }
+                break;
             case Ability_Type.SPAWN_DWARVES_IN_PLAYER_HAND_UNTIL_ITS_FULL:
                 {
                     // @TODO: What if player hand is already full?
                     __ServerSpawnDwarvesInPlayerHand(selectedPlayer);
-                } break;
+                }
+                break;
             case Ability_Type.TURN_A_PLAYER_CARD_INTO_A_FROG:
                 {
                     // @TODO: What if player hand is empty?
@@ -188,7 +193,8 @@ public class PlayerController : NetworkBehaviour
 
                     ServerTransformCard(selectedPlayer, card, Card_Type.FROG);
                     ServerActivateNextCardAbility();
-                } break;
+                }
+                break;
             default: break;
         }
 
@@ -250,7 +256,8 @@ public class PlayerController : NetworkBehaviour
                                 int randomCard = Random.Range(0, cardsInHand.Count);
                                 cardsInHand[randomCard].improvedPoints += pointsToChooseToImprove;
                             }
-                        } break;
+                        }
+                        break;
                     case Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS:
                         {
                             if (GI.networkManager.players.Count > 1) // '> 1' to ignore current player
@@ -285,7 +292,8 @@ public class PlayerController : NetworkBehaviour
 
                                 possiblePlayers.Clear();
                             }
-                        } break;
+                        }
+                        break;
                     case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:
                         {
                             if (selectedPlayer)
@@ -306,7 +314,8 @@ public class PlayerController : NetworkBehaviour
                                 // Search for a player with available cards to steal from
                                 __ServerSearchForPlayerWithAvailableCardsAndStealFromHim();
                             }
-                        } break;
+                        }
+                        break;
                     case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE:
                         {
                             if (GI.networkManager.players.Count > 1)
@@ -337,7 +346,8 @@ public class PlayerController : NetworkBehaviour
                                 break;
                             }
 
-                        } break;
+                        }
+                        break;
                     case Ability_Type.SPAWN_DWARVES_IN_PLAYER_HAND_UNTIL_ITS_FULL:
                         {
                             PlayerController player = null;
@@ -349,7 +359,7 @@ public class PlayerController : NetworkBehaviour
                                 for (int i = 0; i < GI.networkManager.players.Count; i++)
                                 {
                                     if (GI.networkManager.players[i].identity.connectionToClient != connectionToClient &&
-                                        GI.networkManager.players[i].identity.GetComponent<PlayerController>().cardsInHand.Count < 
+                                        GI.networkManager.players[i].identity.GetComponent<PlayerController>().cardsInHand.Count <
                                         MAX_CARDS_IN_HAND)
                                     {
                                         playersToChoose[currentIndex] = i;
@@ -371,7 +381,8 @@ public class PlayerController : NetworkBehaviour
                             {
                                 break;
                             }
-                        } break;
+                        }
+                        break;
                     case Ability_Type.TURN_A_PLAYER_CARD_INTO_A_FROG:
                         {
                             PlayerController player = null;
@@ -409,7 +420,8 @@ public class PlayerController : NetworkBehaviour
                             {
                                 break;
                             }
-                        } break;
+                        }
+                        break;
                     default: break;
                 }
 
@@ -543,7 +555,8 @@ public class PlayerController : NetworkBehaviour
                             return;
                         }
                     }
-                } break;
+                }
+                break;
             case Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS:
                 {
                     if (cardsInHand.Contains(card))
@@ -554,7 +567,8 @@ public class PlayerController : NetworkBehaviour
 
                         return;
                     }
-                } break;
+                }
+                break;
             case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:
                 {
                     if (selectedPlayer && selectedPlayer.cardsInHand.Contains(card))
@@ -570,7 +584,8 @@ public class PlayerController : NetworkBehaviour
                         ServerActivateNextCardAbility();
                         return;
                     }
-                } break;
+                }
+                break;
             default: break;
         }
 
@@ -899,7 +914,7 @@ public class PlayerController : NetworkBehaviour
         GI.cardSystem.deckManager.AddCard(card2.type);
         GI.cardSystem.deckManager.AddCard(card3.type);
 
-        Card[] cards         = { card1, card2, card3 };
+        Card[] cards = { card1, card2, card3 };
         GameObject[] cardsGo = { c1, c2, c3 };
         for (int i = 0; i < cards.Length; i++)
         {
@@ -934,7 +949,7 @@ public class PlayerController : NetworkBehaviour
     [Server]
     public void ServerActivateNextCardAbility(bool maybeEndCurrentTurn = true)
     {
-        activate_ability_start:
+    activate_ability_start:
 
         if (abilitiesToApply.Count < 1)
         {
@@ -964,28 +979,33 @@ public class PlayerController : NetworkBehaviour
                         // Go back to the beginning of the function.
                         goto activate_ability_start;
                     }
-                } break;
+                }
+                break;
             case Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS:
                 {
                     pointsToChooseToReduce = 5;
                     playerHUD.TargetShowMessage("Choose a other player's card to reduce by 5 points.", 1f);
-                } break;
+                }
+                break;
             case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:
                 {
                     canSelectOtherPlayer = true;
                     playerHUD.TargetShowMessage("Select a player to steal a card from.", 1f);
-                } break;
+                }
+                break;
             case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE:
                 {
                     canSelectOtherPlayer = true;
                     scoreToStolenFromAnotherPlayer = 5;
                     playerHUD.TargetShowMessage("Select a player to steal score from.", 1f);
-                } break;
+                }
+                break;
             case Ability_Type.SPAWN_DWARVES_IN_PLAYER_HAND_UNTIL_ITS_FULL:
                 {
                     canSelectOtherPlayer = true;
                     playerHUD.TargetShowMessage("Select a player to fill his hands with dwarves.", 1f);
-                } break;
+                }
+                break;
             case Ability_Type.TURN_A_PLAYER_CARD_INTO_A_FROG:
                 {
                     canSelectOtherPlayer = true;
@@ -1077,13 +1097,11 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    // Nível de respeito (0 a 6) – parte inteira do valor real.
     public int GetRespectLevel(Family_Type family)
     {
         return Mathf.Clamp(Mathf.FloorToInt(GetRespect(family)), 0, 6);
     }
 
-    // Bônus de pontuação para trios dessa família (exemplo: +1 a +5).
     public int GetFamilyBonusScore(Family_Type family)
     {
         int level = GetRespectLevel(family);
@@ -1150,10 +1168,46 @@ public class PlayerController : NetworkBehaviour
     }
 
 
+
+    //******************* Lobby *******************
+
+
     [Command]
     public void CmdSetInitialRespect(Family_Type family)
     {
         int current = GetRespectScaled(family);
         SetRespectScaled(family, current + 100); // +1.0
     }
+
+
+    [Command]
+    public void CmdSetReady(bool ready)
+    {
+        LobbyManager lobby = GI.networkManager.GetComponent<LobbyManager>();
+        lobby.SetReady(netId, ready);
+    }
+
+    void OnStartGameClick()
+    {
+        if (!isServer) return;
+        CmdHostStartGame();
+    }
+
+    [Command]
+    public void CmdHostStartGame()
+    {
+
+
+        CardNetworkManager netMan = GI.networkManager;
+        if (netMan.gameStarted) return;
+
+        LobbyManager lobby = netMan.GetComponent<LobbyManager>();
+        if (lobby.players.Count < 2) return;
+
+        foreach (var p in lobby.players)
+            if (!p.isReady) return;
+
+        netMan.StartGameFromLobby();
+    }
+
 }
