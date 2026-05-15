@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class LobbyUI : NetworkBehaviour
 {
     public GameObject lobbyPanel;
-    public TextMeshProUGUI lobbyPlayersText;   
-    public TextMeshProUGUI textButton;  
+    public TextMeshProUGUI lobbyPlayersText;
+    public TextMeshProUGUI textButton;
     public Button readyButton;
 
     private LobbyManager lobbyManager;
@@ -16,67 +16,52 @@ public class LobbyUI : NetworkBehaviour
 
     void Start()
     {
-        // Obtém referências
         lobbyManager = GI.networkManager.GetComponent<LobbyManager>();
         localPlayerController = NetworkClient.localPlayer.GetComponent<PlayerController>();
 
         if (isLocalPlayer)
         {
             readyButton.onClick.AddListener(OnReadyClick);
-           // lobbyPanel.SetActive(false); // começa escondido
-         
+
         }
     }
-public override void OnStartClient()
-{
-    base.OnStartClient();
-
-    lobbyManager = GI.networkManager.GetComponent<LobbyManager>();
-
-    lobbyManager.players.OnAdd += OnLobbyAdd;
-    lobbyManager.players.OnSet += OnLobbyUpdated;
-    lobbyManager.players.OnRemove += OnLobbyUpdated;
-
-    RefreshLobby();
-}
-
-void OnLobbyAdd(int index)
-{
-    RefreshLobby();
-}
-
-void OnLobbyUpdated(int index, LobbyPlayerData oldValue)
-{
-    RefreshLobby();
-}
-
-void RefreshLobby()
-{
-    string list = "";
-
-    foreach (var p in lobbyManager.players)
+    public override void OnStartClient()
     {
-        string ready = p.isReady ? "Ok" : "X";
-        list += $"{p.playerName} [{ready}]\n";
+        base.OnStartClient();
+
+        lobbyManager = GI.networkManager.GetComponent<LobbyManager>();
+
+        lobbyManager.players.OnAdd += OnLobbyAdd;
+        lobbyManager.players.OnSet += OnLobbyUpdated;
+        lobbyManager.players.OnRemove += OnLobbyUpdated;
+
+        RefreshLobby();
     }
 
-    lobbyPlayersText.text = list;
-}
- /*   void Update()
+    void OnLobbyAdd(int index)
     {
-        if (!isLocalPlayer || lobbyManager == null) return;
+        RefreshLobby();
+    }
 
-        // Monta lista de jogadores no lobby
+    void OnLobbyUpdated(int index, LobbyPlayerData oldValue)
+    {
+        RefreshLobby();
+    }
+
+    void RefreshLobby()
+    {
         string list = "";
+
         foreach (var p in lobbyManager.players)
         {
-            string ready = p.isReady ? "✔️" : "❌";
+            string ready = p.isReady ? "Ok" : "X";
             list += $"{p.playerName} [{ready}]\n";
         }
-        lobbyPlayersText.text = list;
-    }*/
 
- 
+        lobbyPlayersText.text = list;
+    }
+
+
     void OnReadyClick()
     {
         if (localPlayerController == null) return;
@@ -85,7 +70,6 @@ void RefreshLobby()
         bool newState = !current;
         localPlayerController.CmdSetReady(newState);
 
-        // Texto corrigido: mostra o estado oposto ao que acabou de ficar
         if (textButton != null)
             textButton.text = newState ? "UNREADY" : "READY";
     }

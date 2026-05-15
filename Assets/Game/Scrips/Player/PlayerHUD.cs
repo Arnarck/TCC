@@ -11,7 +11,7 @@ public class PlayerHUD : NetworkBehaviour
     public TextMeshProUGUI roundsText;
     public TextMeshProUGUI currentTurnTimeText;
     public Button endCurrentTurnButton;
-    public Button startGameButton;  
+    public Button startGameButton;
     public GameObject gameplayHUD;
     public GameObject spectatorHUD;
     public GameObject winUI;
@@ -24,23 +24,23 @@ public class PlayerHUD : NetworkBehaviour
     [Header("INTERNAL")]
     public float showMessage_t;
 
- [Header("Respect UI")]
+    [Header("Respect UI")]
     public TextMeshProUGUI respectF1Text;
     public TextMeshProUGUI respectF2Text;
     public TextMeshProUGUI respectF3Text;
     public TextMeshProUGUI respectF4Text;
 
-void Start()
-{
-    if (startGameButton != null)
-        startGameButton.onClick.AddListener(OnStartGameClick);
-}
+    void Start()
+    {
+        if (startGameButton != null)
+            startGameButton.onClick.AddListener(OnStartGameClick);
+    }
 
-void OnStartGameClick()
-{
-    if (!isServer) return;
-    player.CmdHostStartGame();
-}
+    void OnStartGameClick()
+    {
+        if (!isServer) return;
+        player.CmdHostStartGame();
+    }
     public override void OnStartClient()
     {
         if (isLocalPlayer)
@@ -154,9 +154,9 @@ void OnStartGameClick()
         currentTurnTimeText.text = "Remaining Time \n<size=300%>" + time.ToString() + "s</size>";
     }
 
-   public void UpdateRespectUI(Family_Type family, int scaledValue)
+    public void UpdateRespectUI(Family_Type family, int scaledValue)
     {
-        if (!isLocalPlayer) return; // só atualiza para o jogador local
+        if (!isLocalPlayer) return;
 
         float real = scaledValue / 100f;
         int level = Mathf.Clamp(Mathf.FloorToInt(real), 0, 6);
@@ -165,7 +165,7 @@ void OnStartGameClick()
         switch (family)
         {
             case Family_Type.FAMILY_1:
-                if (respectF1Text != null) respectF1Text.text = "F1: "  + text;
+                if (respectF1Text != null) respectF1Text.text = "F1: " + text;
                 break;
             case Family_Type.FAMILY_2:
                 if (respectF2Text != null) respectF2Text.text = "F2: " + text;
@@ -182,24 +182,24 @@ void OnStartGameClick()
 
 
     [Header("Lobby UI")]
-public GameObject lobbyPanel;   // arraste o GameObject do painel aqui no Inspector
+    public GameObject lobbyPanel;
 
-[TargetRpc]
-public void TargetShowLobby()
-{
-    lobbyPanel.SetActive(true);
-    if (startGameButton != null)
-        startGameButton.gameObject.SetActive(isServer);   // só host vê
-}
+    [TargetRpc]
+    public void TargetShowLobby()
+    {
+        lobbyPanel.SetActive(true);
+        if (startGameButton != null)
+            startGameButton.gameObject.SetActive(isServer);
+    }
 
-[TargetRpc]
-public void TargetHideLobby()
-{
-    lobbyPanel.SetActive(false);
-}
-[TargetRpc]
-public void TargetHideConnectMenu()
-{
-    Connect.Instance?.HideConnectPanel();
-}
+    [TargetRpc]
+    public void TargetHideLobby()
+    {
+        lobbyPanel.SetActive(false);
+    }
+    [TargetRpc]
+    public void TargetHideConnectMenu()
+    {
+        Connect.Instance?.HideConnectPanel();
+    }
 }

@@ -22,7 +22,7 @@ public class CardNetworkManager : RelayNetworkManager
 
     public DeckManager deckManagerPrefab;
     private DeckManager deckManager;
-private LobbyManager lobbyManager;    
+    private LobbyManager lobbyManager;
 
     [ContextMenu("Fill Spawnable Prefabs With Cards")]
     public void FillSpawnablePrefabsWithCards()
@@ -63,36 +63,8 @@ private LobbyManager lobbyManager;
 
     }
 
-  /*  public override void OnServerAddPlayer(NetworkConnectionToClient conn)
-    {
-        base.OnServerAddPlayer(conn);
-        players.Add(conn);
 
-        if (players.Count >= 2 && !gameStarted)
-        {
-            gameStarted = true;
-            GI.cardSystem.StartMemorizationPhase();
-            StartCoroutine(WaitForMemorizationAndStartGame());
-        }
-    }*/
-    IEnumerator WaitForMemorizationAndStartGame()
-    {
-        while (GI.cardSystem.isMemorizationPhase)
-            yield return null;
-        UpdatePlayerTurn();
-    }
-   /* public override void OnServerDisconnect(NetworkConnectionToClient conn)
-    {
-        base.OnServerDisconnect(conn);
 
-        // Update the rounds if a player get disconnected from the match
-        players.Remove(conn);
-        spectators.Remove(conn);
-        if (currentPlayerTurnIndex >= players.Count)
-        {
-            UpdateRound();
-        }
-    }*/
 
     public override void OnStopServer()
     {
@@ -248,81 +220,83 @@ private LobbyManager lobbyManager;
     }
 
 
-public override void OnServerAddPlayer(NetworkConnectionToClient conn)
-{
-    base.OnServerAddPlayer(conn);
-    players.Add(conn);
-
-    if (players.Count > 4)
+    public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        conn.Disconnect();
-        return;
+        base.OnServerAddPlayer(conn);
+        players.Add(conn);
+
+        if (players.Count > 4)
+        {
+            conn.Disconnect();
+            return;
+        }
+
+        lobbyManager.AddPlayer(conn, $"Player {players.Count}");
+
+        conn.identity.GetComponent<PlayerController>().playerHUD.TargetShowLobby();
     }
 
-    // Adiciona ao lobby
-    lobbyManager.AddPlayer(conn, $"Player {players.Count}");
-
-    // Mostra lobby para o jogador
-    conn.identity.GetComponent<PlayerController>().playerHUD.TargetShowLobby();
-}
-public override void OnServerDisconnect(NetworkConnectionToClient conn)
-{
-    base.OnServerDisconnect(conn);
-
-    // Remove do lobby (agora usando o LobbyManager)
-    if (lobbyManager != null && conn.identity != null)
-        lobbyManager.RemovePlayer(conn.identity.netId);
-
-    players.Remove(conn);
-    spectators.Remove(conn);
-
-    if (!gameStarted)
+    public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
-        // Se ainda está no lobby, zera o estado de todos (opcional)
-        if (lobbyManager != null)
+        base.OnServerDisconnect(conn);
+
+        if (lobbyManager != null && conn.identity != null)
+            lobbyManager.RemovePlayer(conn.identity.netId);
+
+        players.Remove(conn);
+        spectators.Remove(conn);
+
+        if (!gameStarted)
         {
-            for (int i = 0; i < lobbyManager.players.Count; i++)
+            if (lobbyManager != null)
             {
-                LobbyPlayerData data = lobbyManager.players[i];
-                data.isReady = false;
-                lobbyManager.players[i] = data;
+                for (int i = 0; i < lobbyManager.players.Count; i++)
+                {
+                    LobbyPlayerData data = lobbyManager.players[i];
+                    data.isReady = false;
+                    lobbyManager.players[i] = data;
+                }
             }
         }
+        else
+        {
+            if (currentPlayerTurnIndex >= players.Count)
+                UpdateRound();
+        }
     }
-    else
+    [Server]
+    public void CheckLobbyReady()
     {
-        // Jogo em andamento: mantém lógica original
-        if (currentPlayerTurnIndex >= players.Count)
-            UpdateRound();
+        if (gameStarted) return;
+        if (lobbyManager.players.Count <= 1) return;
+
+        foreach (var p in lobbyManager.players)
+            if (!p.isReady) return;
+
+        StartGameFromLobby();
     }
-}
-[Server]
-public void CheckLobbyReady()
-{
-    if (gameStarted) return;
-    if (lobbyManager.players.Count <= 1) return;
 
-    foreach (var p in lobbyManager.players)
-        if (!p.isReady) return;
-
-    StartGameFromLobby();
-}
-
-[Server]
-public void StartGameFromLobby()
-{
-    gameStarted = true;
-
-    foreach (var conn in players)
+    [Server]
+    public void StartGameFromLobby()
     {
-        var pc = conn.identity.GetComponent<PlayerController>();
-        pc.playerHUD.TargetHideLobby();
-        pc.playerHUD.TargetShowMainHUD();
-         pc.playerHUD.TargetHideConnectMenu();
+        gameStarted = true;
+
+        foreach (var conn in players)
+        {
+            var pc = conn.identity.GetComponent<PlayerController>();
+            pc.playerHUD.TargetHideLobby();
+            pc.playerHUD.TargetShowMainHUD();
+            pc.playerHUD.TargetHideConnectMenu();
+        }
+
+        GI.cardSystem.StartMemorizationPhase();
+        StartCoroutine(WaitForMemorizationAndStartGame());
+    }
+    IEnumerator WaitForMemorizationAndStartGame()
+    {
+        while (GI.cardSystem.isMemorizationPhase)
+            yield return null;
+        UpdatePlayerTurn();
     }
 
-    // Deck e mesa já existem, vai para memorização
-    GI.cardSystem.StartMemorizationPhase();
-    StartCoroutine(WaitForMemorizationAndStartGame());
-}
 }

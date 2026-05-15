@@ -7,6 +7,7 @@ public struct LobbyPlayerData
     public uint netId;
     public string playerName;
     public bool isReady;
+    public int characterId;
 }
 
 public class LobbyManager : NetworkBehaviour
@@ -56,22 +57,7 @@ public class LobbyManager : NetworkBehaviour
                 break;
             }
         }
-       // CheckReady();
     }
 
-   [Server]
-public void CheckReady()
-{
-    if (networkManager.gameStarted) return;
-
-    // Mínimo de 2 jogadores para começar
-    if (players.Count < 2) return;
-
-    // Todos os jogadores no lobby precisam estar prontos
-    foreach (var p in players)
-        if (!p.isReady) return;
-
-    // Se chegou aqui, inicia a partida
-    networkManager.StartGameFromLobby();
-}
+  
 }
