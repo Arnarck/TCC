@@ -6,6 +6,7 @@ using System.Collections;
 
 public class CardNetworkManager : RelayNetworkManager
 {
+
     [Header("Card Game")]
     public GameObject cardDeskPrefab;
     public CardList cardList;
@@ -21,6 +22,7 @@ public class CardNetworkManager : RelayNetworkManager
 
     public DeckManager deckManagerPrefab;
     private DeckManager deckManager;
+private LobbyManager lobbyManager;    
 
     [ContextMenu("Fill Spawnable Prefabs With Cards")]
     public void FillSpawnablePrefabsWithCards()
@@ -38,7 +40,7 @@ public class CardNetworkManager : RelayNetworkManager
     public override void Awake()
     {
         base.Awake();
-
+        lobbyManager = GetComponent<LobbyManager>();
         players = new List<NetworkConnectionToClient>();
         spectators = new List<NetworkConnectionToClient>();
         GI.networkManager = this;
@@ -61,7 +63,7 @@ public class CardNetworkManager : RelayNetworkManager
 
     }
 
-    public override void OnServerAddPlayer(NetworkConnectionToClient conn)
+  /*  public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         base.OnServerAddPlayer(conn);
         players.Add(conn);
@@ -72,14 +74,14 @@ public class CardNetworkManager : RelayNetworkManager
             GI.cardSystem.StartMemorizationPhase();
             StartCoroutine(WaitForMemorizationAndStartGame());
         }
-    }
+    }*/
     IEnumerator WaitForMemorizationAndStartGame()
     {
         while (GI.cardSystem.isMemorizationPhase)
             yield return null;
         UpdatePlayerTurn();
     }
-    public override void OnServerDisconnect(NetworkConnectionToClient conn)
+   /* public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         base.OnServerDisconnect(conn);
 
@@ -90,7 +92,7 @@ public class CardNetworkManager : RelayNetworkManager
         {
             UpdateRound();
         }
-    }
+    }*/
 
     public override void OnStopServer()
     {
@@ -244,4 +246,83 @@ public class CardNetworkManager : RelayNetworkManager
 
         return players[currentPlayerTurnIndex].connectionId;
     }
+
+
+public override void OnServerAddPlayer(NetworkConnectionToClient conn)
+{
+    base.OnServerAddPlayer(conn);
+    players.Add(conn);
+
+    if (players.Count > 4)
+    {
+        conn.Disconnect();
+        return;
+    }
+
+    // Adiciona ao lobby
+    lobbyManager.AddPlayer(conn, $"Player {players.Count}");
+
+    // Mostra lobby para o jogador
+    conn.identity.GetComponent<PlayerController>().playerHUD.TargetShowLobby();
+}
+public override void OnServerDisconnect(NetworkConnectionToClient conn)
+{
+    base.OnServerDisconnect(conn);
+
+    // Remove do lobby (agora usando o LobbyManager)
+    if (lobbyManager != null && conn.identity != null)
+        lobbyManager.RemovePlayer(conn.identity.netId);
+
+    players.Remove(conn);
+    spectators.Remove(conn);
+
+    if (!gameStarted)
+    {
+        // Se ainda está no lobby, zera o estado de todos (opcional)
+        if (lobbyManager != null)
+        {
+            for (int i = 0; i < lobbyManager.players.Count; i++)
+            {
+                LobbyPlayerData data = lobbyManager.players[i];
+                data.isReady = false;
+                lobbyManager.players[i] = data;
+            }
+        }
+    }
+    else
+    {
+        // Jogo em andamento: mantém lógica original
+        if (currentPlayerTurnIndex >= players.Count)
+            UpdateRound();
+    }
+}
+[Server]
+public void CheckLobbyReady()
+{
+    if (gameStarted) return;
+    if (lobbyManager.players.Count <= 1) return;
+
+    foreach (var p in lobbyManager.players)
+        if (!p.isReady) return;
+
+    StartGameFromLobby();
+}
+
+[Server]
+public void StartGameFromLobby()
+{
+    gameStarted = true;
+
+    foreach (var conn in players)
+    {
+        var pc = conn.identity.GetComponent<PlayerController>();
+        pc.playerHUD.TargetHideLobby();
+        pc.playerHUD.TargetShowMainHUD();
+         pc.playerHUD.TargetHideConnectMenu();
+    }
+
+    // Deck e mesa já existem, vai para memorização
+    GI.cardSystem.StartMemorizationPhase();
+    StartCoroutine(WaitForMemorizationAndStartGame());
+}
 }

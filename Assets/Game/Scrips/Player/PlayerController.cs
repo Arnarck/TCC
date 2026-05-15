@@ -68,6 +68,8 @@ public class PlayerController : NetworkBehaviour
         {
             playerHUD.Hide();
         }
+      //  if (playerHUD.startGameButton != null)
+       // playerHUD.startGameButton.onClick.AddListener(OnStartGameClick);
     }
 
     private void Update()
@@ -1077,13 +1079,11 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    // Nível de respeito (0 a 6) – parte inteira do valor real.
     public int GetRespectLevel(Family_Type family)
     {
         return Mathf.Clamp(Mathf.FloorToInt(GetRespect(family)), 0, 6);
     }
 
-    // Bônus de pontuação para trios dessa família (exemplo: +1 a +5).
     public int GetFamilyBonusScore(Family_Type family)
     {
         int level = GetRespectLevel(family);
@@ -1150,10 +1150,46 @@ public class PlayerController : NetworkBehaviour
     }
 
 
+
+//******************* Lobby *******************
+   
+   
     [Command]
     public void CmdSetInitialRespect(Family_Type family)
     {
         int current = GetRespectScaled(family);
         SetRespectScaled(family, current + 100); // +1.0
     }
+
+
+[Command]
+public void CmdSetReady(bool ready)
+{
+    LobbyManager lobby = GI.networkManager.GetComponent<LobbyManager>();
+    lobby.SetReady(netId, ready);   // era sSetReady
+}
+
+void OnStartGameClick()
+{
+    if (!isServer) return; // segurança extra
+    CmdHostStartGame();
+}
+
+[Command]
+public void CmdHostStartGame()
+{
+   
+
+    CardNetworkManager netMan = GI.networkManager;
+    if (netMan.gameStarted) return;
+
+    LobbyManager lobby = netMan.GetComponent<LobbyManager>();
+    if (lobby.players.Count < 2) return;   // mínimo de 2 jogadores
+
+    foreach (var p in lobby.players)
+        if (!p.isReady) return;           
+
+    netMan.StartGameFromLobby();
+}
+
 }

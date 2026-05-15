@@ -11,6 +11,7 @@ public class PlayerHUD : NetworkBehaviour
     public TextMeshProUGUI roundsText;
     public TextMeshProUGUI currentTurnTimeText;
     public Button endCurrentTurnButton;
+    public Button startGameButton;  
     public GameObject gameplayHUD;
     public GameObject spectatorHUD;
     public GameObject winUI;
@@ -29,6 +30,17 @@ public class PlayerHUD : NetworkBehaviour
     public TextMeshProUGUI respectF3Text;
     public TextMeshProUGUI respectF4Text;
 
+void Start()
+{
+    if (startGameButton != null)
+        startGameButton.onClick.AddListener(OnStartGameClick);
+}
+
+void OnStartGameClick()
+{
+    if (!isServer) return;
+    player.CmdHostStartGame();
+}
     public override void OnStartClient()
     {
         if (isLocalPlayer)
@@ -166,4 +178,28 @@ public class PlayerHUD : NetworkBehaviour
                 break;
         }
     }
+
+
+
+    [Header("Lobby UI")]
+public GameObject lobbyPanel;   // arraste o GameObject do painel aqui no Inspector
+
+[TargetRpc]
+public void TargetShowLobby()
+{
+    lobbyPanel.SetActive(true);
+    if (startGameButton != null)
+        startGameButton.gameObject.SetActive(isServer);   // só host vê
+}
+
+[TargetRpc]
+public void TargetHideLobby()
+{
+    lobbyPanel.SetActive(false);
+}
+[TargetRpc]
+public void TargetHideConnectMenu()
+{
+    Connect.Instance?.HideConnectPanel();
+}
 }
