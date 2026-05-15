@@ -131,5 +131,4 @@ public class Connect : MonoBehaviour
     if (panelLobbyMenu != null)
         panelLobbyMenu.SetActive(false);
 }
-
 }
