@@ -47,6 +47,7 @@ public class PlayerHUD : NetworkBehaviour
         {
             GI.playerHUD = this;
             UpdateCurrentRound(0);
+
         }
     }
 
@@ -207,4 +208,5 @@ public class PlayerHUD : NetworkBehaviour
     {
         Connect.Instance?.HideConnectPanel();
     }
+
 }
