@@ -247,6 +247,8 @@ public class PlayerController : NetworkBehaviour
     public void CmdEndCurrentTurn()
     {
         ServerEndCurrentTurn();
+        Debug.Log("End Turn");   // @Vitor
+        //gameObject.GetComponent<vfxTurn>().Active();
     }
 
     [Server]
@@ -556,7 +558,7 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void CmdTryToSelectCard(GameObject go)
     {
-
+        
         selectedCards.RemoveAll(c => c == null);
         if (GI.cardSystem.isMemorizationPhase)
         {
@@ -783,7 +785,7 @@ public class PlayerController : NetworkBehaviour
         }
         Card_Type type = GI.cardSystem.deckManager.DrawCard();
         int spawnIndex = cardsInHand.Count;
-        if (spawnIndex >= MAX_CARDS_IN_HAND) return;
+        if (spawnIndex >= MAX_CARDS_IN_HAND)return;
         __ServerSpawnCardInHand(type, spawnIndex);
     }
 
@@ -802,7 +804,8 @@ public class PlayerController : NetworkBehaviour
         int spawnIndex = cardsInHand.Count;
         if (spawnIndex >= MAX_CARDS_IN_HAND)
         {
-            Debug.Assert(false, "Player's hand is already full of cards. Can't add a new one.");
+            Debug.Assert(false, "Player's hand is already full of cards. Can't add a new one."); 
+            //@VITOR
             return;
         }
 

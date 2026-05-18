@@ -49,6 +49,7 @@ public class CardSystem : NetworkBehaviour
     {
         currentRound = newValue;
         GI.playerHUD.UpdateCurrentRound(currentRound);
+        Debug.Log("olok");
     }
 
     [Server]
