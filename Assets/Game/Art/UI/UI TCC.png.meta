@@ -339,28 +339,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apply
-      rect:
-        serializedVersion: 2
-        x: 1060
-        y: 346
-        width: 224
-        height: 85
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: af94e5dcda2738a46b7b15110b05af00
-      internalID: -1577201583
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Mute
       rect:
         serializedVersion: 2
@@ -471,7 +449,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Audi
+      name: AudioPanel
       rect:
         serializedVersion: 2
         x: 1308
@@ -492,6 +470,94 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Graphics
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 570
+        width: 268
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 7, y: 6, z: 7, w: 5}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81a08295dfdd4204fadcea4d19617392
+      internalID: 1358564295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Checkbox
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 652
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f78df618177eb9408274c7f8b91c4b9
+      internalID: -1541281766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Check
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 641
+        width: 65
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ec8a3920b6177242a9cded39964d303
+      internalID: -377923990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Arrow
+      rect:
+        serializedVersion: 2
+        x: 945
+        y: 658
+        width: 74
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d38571e59104a254b9655466baa6c479
+      internalID: -992908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -508,12 +574,16 @@ TextureImporter:
     nameFileIdTable:
       Apply: -1577201583
       AreYouSure: -1990831895
-      Audi: -976942834
+      Arrow: -992908
       Audio: 1316251749
+      AudioPanel: -976942834
+      Check: -377923990
+      Checkbox: -1541281766
       Close: 969943426
       Controls: 1367478536
       Credits: 891880084
       Exit: -829028332
+      Graphics: 1358564295
       Mute: -1572717432
       No: 120924749
       Options: 773257859
