@@ -526,6 +526,7 @@ public class PlayerController : NetworkBehaviour
         if (cardsInHand.Count < MAX_CARDS_IN_HAND)
         {
             __ServerSpawnCardInHand(card.type, cardsInHand.Count);
+            ServerPlayStealVFX(randomIndex, cardsInHand.Count - 1, player);
         }
     }
 
@@ -605,10 +606,14 @@ public class PlayerController : NetworkBehaviour
                     if (selectedPlayer && selectedPlayer.cardsInHand.Contains(card))
                     {
                         // Remove card from the selected player and spawns it in current player's hand
+                        int cardToStealIndex = selectedPlayer.cardsInHand.IndexOf(card);
                         selectedPlayer.ServerRemoveCardFromHand(card.gameObject);
                         if (cardsInHand.Count < MAX_CARDS_IN_HAND)
                         {
                             __ServerSpawnCardInHand(card.type, cardsInHand.Count);
+
+                            int spawnedCardIndex = cardsInHand.Count - 1;
+                            ServerPlayStealVFX(cardToStealIndex, spawnedCardIndex, selectedPlayer);
                         }
 
                         selectedPlayer = null;
@@ -676,6 +681,19 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
+    }
+
+    [Server]
+    public void ServerPlayStealVFX(int cardToStealIndex, int spawnedCardIndex, PlayerController playerToStealFrom)
+    {
+        Card spawnedCard = cardsInHand[spawnedCardIndex];
+        spawnedCard.transform.position = playerToStealFrom.cardsSpawnPoints[cardToStealIndex].position;
+        spawnedCard.transform.rotation = playerToStealFrom.cardsSpawnPoints[cardToStealIndex].rotation;
+
+        vfxSteal vfx = spawnedCard.GetComponentInChildren<vfxSteal>();
+        vfx.pontoA = playerToStealFrom.cardsSpawnPoints[cardToStealIndex];
+        vfx.pontoB = cardsSpawnPoints[spawnedCardIndex];
+        vfx.Active();
     }
 
     [Server]
