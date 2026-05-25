@@ -526,7 +526,7 @@ public class PlayerController : NetworkBehaviour
         if (cardsInHand.Count < MAX_CARDS_IN_HAND)
         {
             __ServerSpawnCardInHand(card.type, cardsInHand.Count);
-            ServerPlayStealVFX(randomIndex, cardsInHand.Count - 1, player);
+            TargetPlayStealVFX(randomIndex, cardsInHand.Count - 1, player);
         }
     }
 
@@ -613,7 +613,7 @@ public class PlayerController : NetworkBehaviour
                             __ServerSpawnCardInHand(card.type, cardsInHand.Count);
 
                             int spawnedCardIndex = cardsInHand.Count - 1;
-                            ServerPlayStealVFX(cardToStealIndex, spawnedCardIndex, selectedPlayer);
+                            TargetPlayStealVFX(cardToStealIndex, spawnedCardIndex, selectedPlayer);
                         }
 
                         selectedPlayer = null;
@@ -683,8 +683,8 @@ public class PlayerController : NetworkBehaviour
 
     }
 
-    [Server]
-    public void ServerPlayStealVFX(int cardToStealIndex, int spawnedCardIndex, PlayerController playerToStealFrom)
+    [TargetRpc]
+    public void TargetPlayStealVFX(int cardToStealIndex, int spawnedCardIndex, PlayerController playerToStealFrom)
     {
         Card spawnedCard = cardsInHand[spawnedCardIndex];
         spawnedCard.transform.position = playerToStealFrom.cardsSpawnPoints[cardToStealIndex].position;
