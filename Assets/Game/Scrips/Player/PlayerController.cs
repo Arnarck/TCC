@@ -734,12 +734,18 @@ public class PlayerController : NetworkBehaviour
                     newCardsIndex.Add(newCardIndex);
                     availableIndexes.RemoveAt(randomIndex);
                 }
+                List<GameObject> ListCard = new List<GameObject>();
 
+                Debug.Log(cardsIndexToShuffle.Count);
                 // Reorder cards in desk
                 for (int i = 0; i < cardsIndexToShuffle.Count; i++)
                 {
+                    
                     int oldIndex = cardsIndexToShuffle[i];
                     int newIndex = newCardsIndex[i];
+
+                    ListCard.Add(GI.cardSystem.deskSlots[oldIndex].gameObject);
+                    ListCard.Add(GI.cardSystem.deskSlots[newIndex].gameObject);
 
                     // Swap the cards
                     Card oldIndexCard = GI.cardSystem.deskSlots[oldIndex];
@@ -760,6 +766,8 @@ public class PlayerController : NetworkBehaviour
                     newCardsIndex.Remove(newIndex);
                     i--;
                 }
+                    Debug.Log(ListCard.Count);
+                    ShuffleCardVFX(ListCard, card.gameObject);
             }
         }
     }
@@ -770,7 +778,17 @@ public class PlayerController : NetworkBehaviour
         GI.cardSystem.ReorderCardLocation(card1, card1NewIndex);
         GI.cardSystem.ReorderCardLocation(card2, card2NewIndex);
     }
+    
+    [ClientRpc]
+    public void ShuffleCardVFX(List<GameObject> Listcard, GameObject pos)
+    {
+        float delay = 1f;
 
+        for(int i = 0; i < Listcard.Count; i++){
+        Listcard[i].GetComponentInChildren<vfxShuffle>().Active( pos, delay);
+        Debug.Log(Listcard[i].gameObject.GetInstanceID());
+        }
+    }
     [Server]
     public void ServerTransformCard(PlayerController player, Card card, Card_Type newCardType)
     {
