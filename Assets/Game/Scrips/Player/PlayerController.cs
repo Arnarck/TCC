@@ -793,7 +793,7 @@ public class PlayerController : NetworkBehaviour
     public void ServerTransformCard(PlayerController player, Card card, Card_Type newCardType)
     {
         int index = player.cardsInHand.IndexOf(card);
-        player.ServerRemoveCardFromHand(card.gameObject, reoderPositions: false);
+        player.ServerRemoveCardFromHand(card.gameObject, reorderPositions: false);
         player.__ServerSpawnCardInHand(newCardType, index);
     }
 
@@ -856,6 +856,18 @@ public class PlayerController : NetworkBehaviour
     [Server]
     public void __ServerSpawnCardInHand(Card_Type type, int spawnIndex)
     {
+        // Transform the current card into a FROG if there is a PRINCESS in the hand
+        if (type == Card_Type.FROG)
+        {
+            for (int i = 0; i < cardsInHand.Count; i++)
+            {
+                if (cardsInHand[i].type == Card_Type.PRINCESS)
+                {
+                    type = Card_Type.PRINCE;
+                }
+            }
+        }
+
         GameObject go = Instantiate(GI.cardList.GetCardPrefab(type), cardsSpawnPoints[spawnIndex].position,
                                     cardsSpawnPoints[spawnIndex].rotation);
         NetworkServer.Spawn(go, connectionToClient);
@@ -875,32 +887,27 @@ public class PlayerController : NetworkBehaviour
                 }
             }
         }
-        else if (type == Card_Type.FROG)
-        {
-            for (int i = 0; i < cardsInHand.Count; i++)
-            {
-                if (cardsInHand[i].type == Card_Type.PRINCESS)
-                {
-                    ServerTransformCard(this, card, Card_Type.PRINCE);
-                }
-            }
-        }
 
         if (!isLocalPlayer) // Prevents the host from spawning the card twice
         {
-            TargetSpawnCardInHand(go);
+            TargetSpawnCardInHand(go, spawnIndex);
         }
     }
 
     // 'cardsInHand' list is being updated in clients so we can reorder the cards easily from server and update it on the clients.
     [TargetRpc]
-    public void TargetSpawnCardInHand(GameObject go)
+    public void TargetSpawnCardInHand(GameObject go, int spawnIndex)
     {
+        // @BUG: cardsInHand and cardsSpawnPoints will not be aligned in situations like the frog turning into a prince.
+        // Is this a problem?
         cardsInHand.Add(go.GetComponent<Card>());
+
+        go.transform.position = cardsSpawnPoints[spawnIndex].position;
+        go.transform.rotation = cardsSpawnPoints[spawnIndex].rotation;
     }
 
     [Server]
-    public void ServerRemoveCardFromHand(GameObject go, bool discard = false, bool reoderPositions = true)
+    public void ServerRemoveCardFromHand(GameObject go, bool discard = false, bool reorderPositions = true)
     {
         Card card = go.GetComponent<Card>();
         if (!cardsInHand.Contains(card))
@@ -924,7 +931,7 @@ public class PlayerController : NetworkBehaviour
         }
 
         // Reorder card's position
-        if (reoderPositions)
+        if (reorderPositions)
         {
             for (int i = index; i < cardsInHand.Count; i++)
             {
@@ -935,18 +942,23 @@ public class PlayerController : NetworkBehaviour
 
         if (!isLocalPlayer) // Prevents the host from reordering the cards twice
         {
-            TargetRemoveCardFromHand(index);
+            TargetRemoveCardFromHand(index, reorderPositions);
         }
     }
 
     [TargetRpc]
-    public void TargetRemoveCardFromHand(int index)
+    public void TargetRemoveCardFromHand(int index, bool reorderPositions)
     {
+        Debug.Log("Index: " + index);
         cardsInHand.RemoveAt(index);
-        for (int i = index; i < cardsInHand.Count; i++)
+
+        if (reorderPositions)
         {
-            cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
-            cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
+            for (int i = index; i < cardsInHand.Count; i++)
+            {
+                cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
+                cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
+            }
         }
     }
 
