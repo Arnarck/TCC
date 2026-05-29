@@ -18,6 +18,7 @@ public class vfxOutlineConfig : MonoBehaviour, iVFX
     //}
     public void Active()
     {
+
         obj.SetActive(true);
     }
 

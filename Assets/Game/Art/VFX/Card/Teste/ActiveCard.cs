@@ -9,7 +9,8 @@ public class ActiveCard : MonoBehaviour
     public Animator anim;
     public VisualEffect vfx;
 
-    Vector3 pontoB, startPosition;
+    Vector3 startPosition, pontoBpos;
+    Quaternion startRotation, pontoBrot;
     public bool active = false;
     public float delay = 2;
     public float velocidade = 2;
@@ -22,10 +23,17 @@ public class ActiveCard : MonoBehaviour
     //    startPosition = transform.position;
     //}
 
-    public void Active(Vector3 pos)
+    public void Active(Vector3 pos, Quaternion rot)
     {
-        pontoB = pos;
+        pontoBpos = pos;
+        pontoBrot = rot;
+
         startPosition = transform.position;
+        startRotation = transform.rotation;
+
+        GetComponent<SelectCard>().Active();
+        StartCoroutine(WaitForDelay());
+
         active = true;
     }
     private void ActiveVFX()
@@ -42,10 +50,10 @@ public class ActiveCard : MonoBehaviour
                 if (animation_t >= 1f)
                 {
                     animation_t = 1f;
-                    StartCoroutine(WaitForDelay());
                 }
             }
-            transform.parent.position = Vector3.Lerp(startPosition, pontoB, animation_t);
+            transform.parent.position = Vector3.Lerp(startPosition, pontoBpos, animation_t);
+            transform.parent.rotation = Quaternion.Lerp(startRotation, pontoBrot, animation_t);
         }
         
     }
