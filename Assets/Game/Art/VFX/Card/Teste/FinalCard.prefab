@@ -335,7 +335,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.0001
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalPosition.z
@@ -625,6 +625,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardVFX
   anim: {fileID: 1474715728147731989}
   vfx: {fileID: 3252356054117316075}
+  active: 0
+  delay: 2
+  velocidade: 5
 --- !u!114 &5002022061144277782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,9 +681,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5ec5dce93678f3438422f2c2199f4cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::vfxSteal
+  pontoA: {fileID: 0}
   pontoB: {fileID: 0}
   velocidade: 5
   anim: {fileID: 1474715728147731989}
+  animation_t: 0
+  startPosition: {x: 0, y: 0, z: 0}
+  startRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &590609822193091109
 MonoBehaviour:
   m_ObjectHideFlags: 0

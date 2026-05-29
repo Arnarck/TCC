@@ -21,6 +21,16 @@ public class vfxShuffle : MonoBehaviour
         active = true;
         StartCoroutine(WaitForDelay());
     }
+    int index;
+    public void Active( Vector3 pos, float delay, int index)
+    {
+        this.index = index;
+        pontoB = pos;
+        this.delay = delay;
+        startPosition = transform.position;
+        active = true;
+        StartCoroutine(WaitForDelay());
+    }
 
     public void Update()
     {
@@ -35,6 +45,8 @@ public class vfxShuffle : MonoBehaviour
                     if (animation_t <= 0f)
                     {
                         animation_t = 0f;
+                        active = false;
+                        end = false;
                     }
                 }
             }
@@ -56,6 +68,14 @@ public class vfxShuffle : MonoBehaviour
     }
     IEnumerator WaitForDelay()
     {
+        yield return new WaitForSeconds(2);
+        if(index%2 == 0)
+        {
+            anim.SetTrigger("Shuffle.L");
+            Debug.Log("Shuffle");
+        }
+        else anim.SetTrigger("Shuffle.R");
+
         yield return new WaitForSeconds(delay);
         end = true;
     }
