@@ -1076,34 +1076,55 @@ public class PlayerController : NetworkBehaviour
 
         Card[] cards = { card1, card2, card3 };
         GameObject[] cardsGo = { c1, c2, c3 };
-        for (int i = 0; i < cards.Length; i++)
-        {
-            if (cards[i].type == Card_Type.DWARF)
+
+        StartCoroutine(WaitVfxActiveCards(cardsGo, .7f));//@Vitor
+        if(VFXcompleted){   //@VITOR VOLTAR DEPOIS COM O ANDRE PRA FAZER ISSO AQ DIREITO
+            for (int i = 0; i < cards.Length; i++)   
             {
-                ServerRemoveCardFromHand(cardsGo[i], discard: true);
+                if (cards[i].type == Card_Type.DWARF)
+                {
+                    ServerRemoveCardFromHand(cardsGo[i], discard: true);
+                }
+                else
+                {
+                    ServerRemoveCardFromHand(cardsGo[i]);
+                }
             }
-            else
+    
+            for (int i = 0; i < cardsInHand.Count; i++)
             {
-                ServerRemoveCardFromHand(cardsGo[i]);
+                cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
+                cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
             }
+            selectedCards.Clear();
+    
+            // Apply Abilities
+            // @TODO:
+            // Client applying abilities on ante round breaks the game.
+            abilitiesToApply.Add(card1.abilityType);
+            abilitiesToApply.Add(card2.abilityType);
+            abilitiesToApply.Add(card3.abilityType);
+            ServerActivateNextCardAbility();
+    
+            ServerDecreaseActionsRemaining();
+            VFXcompleted = false;
         }
+    }
+    public GameObject targetCardsOnTheTableToAbility;
+    bool VFXcompleted = false; //@VITOR VOLTAR DEPOIS COM O ANDRE PRA FAZER ISSO AQ DIREITO
+    IEnumerator WaitVfxActiveCards(GameObject[] list, float delay) //@VITOR
+    {
+        Vector3 offset = new Vector3(-.3f, 0, 0.035f);
 
-        for (int i = 0; i < cardsInHand.Count; i++)
+        for(int i = 0; i < list.Length ; i++)
         {
-            cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
-            cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
+            Vector3 pos = (targetCardsOnTheTableToAbility.transform.position + (offset * i));
+            list[i].gameObject.GetComponentInChildren<ActiveCard>().Active(pos);
+            yield return new WaitForSeconds(delay);
         }
-        selectedCards.Clear();
+        VFXcompleted = true;
 
-        // Apply Abilities
-        // @TODO:
-        // Client applying abilities on ante round breaks the game.
-        abilitiesToApply.Add(card1.abilityType);
-        abilitiesToApply.Add(card2.abilityType);
-        abilitiesToApply.Add(card3.abilityType);
-        ServerActivateNextCardAbility();
 
-        ServerDecreaseActionsRemaining();
     }
 
     [Server]
