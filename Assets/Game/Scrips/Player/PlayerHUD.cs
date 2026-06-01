@@ -20,9 +20,12 @@ public class PlayerHUD : NetworkBehaviour
     public GameObject mainHUD;
     public GameObject messagePanel;
     public TextMeshProUGUI messagePanelText;
+    public TextMeshProUGUI[] trioScoreTexts;
 
     [Header("INTERNAL")]
     public float showMessage_t;
+    public float[] showTrioScoreText_t;
+    public float[] showTrioScoreTextDelay_t;
 
     [Header("Respect UI")]
     public TextMeshProUGUI respectF1Text;
@@ -34,6 +37,9 @@ public class PlayerHUD : NetworkBehaviour
     {
         if (startGameButton != null)
             startGameButton.onClick.AddListener(OnStartGameClick);
+
+        showTrioScoreText_t      = new float[trioScoreTexts.Length];
+        showTrioScoreTextDelay_t = new float[trioScoreTexts.Length];
     }
 
     void OnStartGameClick()
@@ -63,6 +69,36 @@ public class PlayerHUD : NetworkBehaviour
                 messagePanel.SetActive(false);
             }
         }
+
+        for (int i = 0; i < showTrioScoreTextDelay_t.Length; i++)
+        {
+            if (showTrioScoreText_t[i] > 0f)
+            {
+                showTrioScoreText_t[i] -= dt;
+                if (showTrioScoreText_t[i] <= 0f)
+                {
+                    trioScoreTexts[i].enabled = false;
+                }
+            }
+
+            if (showTrioScoreTextDelay_t[i] > 0f)
+            {
+                showTrioScoreTextDelay_t[i] -= dt;
+                if (showTrioScoreTextDelay_t[i] <= 0f)
+                {
+                    trioScoreTexts[i].enabled = true;
+                    showTrioScoreText_t[i] = 1.5f;
+                }
+            }
+        }
+    }
+
+    public void ShowTrioScoreText(int index, int score, float delay)
+    {
+        showTrioScoreText_t[index] = 0f;
+        showTrioScoreTextDelay_t[index] = delay;
+
+        trioScoreTexts[index].text = "+" + score;
     }
 
     public void UpdateScore()

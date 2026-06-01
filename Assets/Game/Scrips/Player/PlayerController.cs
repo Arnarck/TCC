@@ -13,6 +13,7 @@ public class PlayerController : NetworkBehaviour
     public Camera playerCamera;
     // public GameObject playerModel;
     public LayerMask mouseClickMasks;
+    public Transform[] trioSpawnPoints;
     public Transform[] cardsSpawnPoints;
 
     [Header("INTERNAL")]
@@ -26,6 +27,8 @@ public class PlayerController : NetworkBehaviour
     [SyncVar] public bool spectatorMode;
     [SyncVar] public bool gameStopped;
     [SyncVar(hook = nameof(UpdateIsChoosingCards))] public bool isChoosingCards;
+    public float activateNextCardAbility_t;
+    public Card[] trioCards;
 
     public List<Ability_Type> abilitiesToApply;
     public Ability_Type currentAbility;
@@ -86,6 +89,8 @@ public class PlayerController : NetworkBehaviour
             return;
         }
 
+        float dt = Time.deltaTime;
+
         if (!spectatorMode)
         {
             if (isLocalPlayer)
@@ -134,6 +139,18 @@ public class PlayerController : NetworkBehaviour
                 {
                     isChoosingCards = !isChoosingCards;
                     ToggleCameraPosition(isChoosingCards);
+                }
+            }
+
+            if (isServer)
+            {
+                if (activateNextCardAbility_t > 0f)
+                {
+                    activateNextCardAbility_t -= dt;
+                    if (activateNextCardAbility_t <= 0f)
+                    {
+                        ServerActivateNextCardAbility();
+                    }
                 }
             }
 
@@ -195,6 +212,7 @@ public class PlayerController : NetworkBehaviour
                 {
                     // @TODO: What if player hand is already full?
                     __ServerSpawnDwarvesInPlayerHand(selectedPlayer);
+                    ServerActivateNextCardAbility();
                 }
                 break;
             case Ability_Type.TURN_A_PLAYER_CARD_INTO_A_FROG:
@@ -927,7 +945,7 @@ public class PlayerController : NetworkBehaviour
         else
         {
             // @TODO: Add 'cemetery' here, so cards can be reused
-            NetworkServer.Destroy(card.gameObject);
+            card.gameObject.SetActive(false);
         }
 
         // Reorder card's position
@@ -942,15 +960,22 @@ public class PlayerController : NetworkBehaviour
 
         if (!isLocalPlayer) // Prevents the host from reordering the cards twice
         {
-            TargetRemoveCardFromHand(index, reorderPositions);
+            TargetRemoveCardFromHand(index, reorderPositions, discard);
         }
     }
 
     [TargetRpc]
-    public void TargetRemoveCardFromHand(int index, bool reorderPositions)
+    public void TargetRemoveCardFromHand(int index, bool reorderPositions, bool discard)
     {
+        if (!discard) // No need to destroy card if 'discard' is true, since the card is being deleted in the server
+        {
+            Card cardToRemove = cardsInHand[index];
+            cardToRemove.gameObject.SetActive(false);
+        }
+
         Debug.Log("Index: " + index);
         cardsInHand.RemoveAt(index);
+
 
         if (reorderPositions)
         {
@@ -1074,57 +1099,58 @@ public class PlayerController : NetworkBehaviour
         GI.cardSystem.deckManager.AddCard(card2.type);
         GI.cardSystem.deckManager.AddCard(card3.type);
 
-        Card[] cards = { card1, card2, card3 };
+        trioCards = new Card[] { card1, card2, card3 };
         GameObject[] cardsGo = { c1, c2, c3 };
-
-        StartCoroutine(WaitVfxActiveCards(cardsGo, .7f));//@Vitor
-        if(VFXcompleted){   //@VITOR VOLTAR DEPOIS COM O ANDRE PRA FAZER ISSO AQ DIREITO
-            for (int i = 0; i < cards.Length; i++)   
-            {
-                if (cards[i].type == Card_Type.DWARF)
-                {
-                    ServerRemoveCardFromHand(cardsGo[i], discard: true);
-                }
-                else
-                {
-                    ServerRemoveCardFromHand(cardsGo[i]);
-                }
-            }
-    
-            for (int i = 0; i < cardsInHand.Count; i++)
-            {
-                cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
-                cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
-            }
-            selectedCards.Clear();
-    
-            // Apply Abilities
-            // @TODO:
-            // Client applying abilities on ante round breaks the game.
-            abilitiesToApply.Add(card1.abilityType);
-            abilitiesToApply.Add(card2.abilityType);
-            abilitiesToApply.Add(card3.abilityType);
-            ServerActivateNextCardAbility();
-    
-            ServerDecreaseActionsRemaining();
-            VFXcompleted = false;
-        }
-    }
-    public GameObject targetCardsOnTheTableToAbility;
-    bool VFXcompleted = false; //@VITOR VOLTAR DEPOIS COM O ANDRE PRA FAZER ISSO AQ DIREITO
-    IEnumerator WaitVfxActiveCards(GameObject[] list, float delay) //@VITOR
-    {
-        Vector3 offset = new Vector3(-.3f, 0, 0.035f);
-
-        for(int i = 0; i < list.Length ; i++)
+        for (int i = 0; i < trioCards.Length; i++)
         {
-            Vector3 pos = (targetCardsOnTheTableToAbility.transform.position + (offset * i));
-            list[i].gameObject.GetComponentInChildren<ActiveCard>().Active(pos);
-            yield return new WaitForSeconds(delay);
+            // Place the cards in the desk
+            ServerRemoveCardFromHand(cardsGo[i]);
         }
-        VFXcompleted = true;
 
+        // Makes the cards animation
+        RpcDoTrioAnimation(cardsGo);
 
+        for (int i = 0; i < cardsInHand.Count; i++)
+        {
+            cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
+            cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
+        }
+        selectedCards.Clear();
+
+        // Apply Abilities
+        // @TODO:
+        // Client applying abilities on ante round breaks the game.
+        abilitiesToApply.Add(card1.abilityType);
+        abilitiesToApply.Add(card2.abilityType);
+        abilitiesToApply.Add(card3.abilityType);
+        activateNextCardAbility_t = 3f;
+
+        ServerDecreaseActionsRemaining();
+
+        // @TODO:
+        //if (cards[i].type == Card_Type.DWARF)
+        //{
+        //    ServerRemoveCardFromHand(cardGo, discard: true);
+        //}
+    }
+
+    [ClientRpc]
+    public void RpcDoTrioAnimation(GameObject[] cards)
+    {
+        for (int i = 0; i < cards.Length; i++)
+        {
+            Transform pointB = trioSpawnPoints[i];
+
+            cards[i].SetActive(true);
+            cards[i].GetComponentInChildren<ActiveCard>().Active(pointB.position, pointB.rotation);
+
+            if (isLocalPlayer)
+            {
+                // @TODO: Add bonus score for family here as well
+                Card card = cards[i].GetComponent<Card>();
+                playerHUD.ShowTrioScoreText(i, card.points + card.improvedPoints, 0.5f);
+            }
+        }
     }
 
     [Server]
@@ -1143,6 +1169,7 @@ public class PlayerController : NetworkBehaviour
             return;
         }
 
+        NetworkServer.Destroy(trioCards[3 - abilitiesToApply.Count].gameObject);
         currentAbility = abilitiesToApply[0];
         abilitiesToApply.RemoveAt(0);
 
@@ -1268,7 +1295,7 @@ public class PlayerController : NetworkBehaviour
     [Server]
     public void ServerMaybeEndCurrentTurn()
     {
-        if (actionsRemaining <= 0 && currentAbility == Ability_Type.NONE)
+        if (actionsRemaining <= 0 && abilitiesToApply.Count < 1)
         {
             ServerEndCurrentTurn();
         }
