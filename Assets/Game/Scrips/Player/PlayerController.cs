@@ -999,7 +999,7 @@ public class PlayerController : NetworkBehaviour
         {
             for (int i = index; i < cardsInHand.Count; i++)
             {
-                (cardsInHand[i])
+                if (cardsInHand[i])
                 {
                     cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
                     cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
