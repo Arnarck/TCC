@@ -1248,6 +1248,10 @@ public class PlayerController : NetworkBehaviour
                 {
                     playerHUD.TargetShowMessage("Select a card in desk to shuffle the adjacent ones.", 1f);
                 } break;
+            case Ability_Type.NONE:
+                {
+                    goto activate_ability_start;
+                }
             default: break;
         }
     }
