@@ -985,7 +985,10 @@ public class PlayerController : NetworkBehaviour
         if (!discard) // No need to destroy card if 'discard' is true, since the card is being deleted in the server
         {
             Card cardToRemove = cardsInHand[index];
-            cardToRemove.gameObject.SetActive(false);
+            if (cardToRemove)
+            {
+                cardToRemove.gameObject.SetActive(false);
+            }
         }
 
         Debug.Log("Index: " + index);
@@ -996,8 +999,11 @@ public class PlayerController : NetworkBehaviour
         {
             for (int i = index; i < cardsInHand.Count; i++)
             {
-                cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
-                cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
+                (cardsInHand[i])
+                {
+                    cardsInHand[i].transform.position = cardsSpawnPoints[i].position;
+                    cardsInHand[i].transform.rotation = cardsSpawnPoints[i].rotation;
+                }
             }
         }
     }
