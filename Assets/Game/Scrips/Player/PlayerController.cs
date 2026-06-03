@@ -588,6 +588,16 @@ public class PlayerController : NetworkBehaviour
 
         Card card = go.GetComponent<Card>();
 
+        for (int i = 0; i < GI.networkManager.players.Count; i++)
+        {
+            NetworkConnectionToClient conn = GI.networkManager.players[i];
+            PlayerController player = conn.identity.GetComponent<PlayerController>();
+            if (conn != connectionToClient && player.cardsInHand.Contains(card))
+            {
+                return;
+            }
+        }
+
         // Apply abilities
         switch (currentAbility)
         {
