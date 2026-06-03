@@ -1238,9 +1238,24 @@ public class PlayerController : NetworkBehaviour
                 break;
             case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE:
                 {
-                    canSelectOtherPlayer = true;
                     scoreToStolenFromAnotherPlayer = 5;
-                    playerHUD.TargetShowMessage("Select a player to steal score from.", 1f);
+                    for (int i = 0; i < GI.networkManager.players.Count; i++)
+                    {
+                        NetworkConnectionToClient conn = GI.networkManager.players[i];
+                        if (conn != connectionToClient)
+                        {
+                            PlayerController player = conn.identity.GetComponent<PlayerController>();
+                            if (player.score >= scoreToStolenFromAnotherPlayer)
+                            {
+                                canSelectOtherPlayer = true;
+                                playerHUD.TargetShowMessage("Select a player to steal score from.", 1f);
+                                break;
+                            }
+                        }
+                    }
+
+                    goto activate_ability_start;
+
                 }
                 break;
             case Ability_Type.SPAWN_DWARVES_IN_PLAYER_HAND_UNTIL_ITS_FULL:
