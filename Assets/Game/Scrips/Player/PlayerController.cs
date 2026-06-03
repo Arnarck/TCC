@@ -588,13 +588,17 @@ public class PlayerController : NetworkBehaviour
 
         Card card = go.GetComponent<Card>();
 
-        for (int i = 0; i < GI.networkManager.players.Count; i++)
+        // Prevents player from stealing cards from other players
+        if (currentAbility != Ability_Type.STEAL_ANOTHER_PLAYER_CARD)
         {
-            NetworkConnectionToClient conn = GI.networkManager.players[i];
-            PlayerController player = conn.identity.GetComponent<PlayerController>();
-            if (conn != connectionToClient && player.cardsInHand.Contains(card))
+            for (int i = 0; i < GI.networkManager.players.Count; i++)
             {
-                return;
+                NetworkConnectionToClient conn = GI.networkManager.players[i];
+                PlayerController player = conn.identity.GetComponent<PlayerController>();
+                if (conn != connectionToClient && player.cardsInHand.Contains(card))
+                {
+                    return;
+                }
             }
         }
 
@@ -1255,9 +1259,7 @@ public class PlayerController : NetworkBehaviour
                     }
 
                     goto activate_ability_start;
-
                 }
-                break;
             case Ability_Type.SPAWN_DWARVES_IN_PLAYER_HAND_UNTIL_ITS_FULL:
                 {
                     canSelectOtherPlayer = true;
