@@ -73,6 +73,7 @@ public class PlayerController : NetworkBehaviour
         else
         {
             playerHUD.Hide();
+            playerHUD.UpdateWorldSpaceCanvasScore();
         }
         //  if (playerHUD.startGameButton != null)
         // playerHUD.startGameButton.onClick.AddListener(OnStartGameClick);
@@ -991,6 +992,7 @@ public class PlayerController : NetworkBehaviour
     {
         score = newValue;
         playerHUD.UpdateScore();
+        playerHUD.UpdateWorldSpaceCanvasScore();
     }
 
     [Server]

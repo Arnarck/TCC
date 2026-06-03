@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class PlayerHUD : NetworkBehaviour
 {
+    public GameObject canvasWorldSpace;
     public PlayerController player;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI scoreTextWorldSpace;
     public TextMeshProUGUI turnText;
     public TextMeshProUGUI roundsText;
     public TextMeshProUGUI currentTurnTimeText;
@@ -40,6 +42,11 @@ public class PlayerHUD : NetworkBehaviour
 
         showTrioScoreText_t      = new float[trioScoreTexts.Length];
         showTrioScoreTextDelay_t = new float[trioScoreTexts.Length];
+
+        if (isLocalPlayer)
+        {
+            canvasWorldSpace.SetActive(false);
+        }
     }
 
     void OnStartGameClick()
@@ -91,6 +98,11 @@ public class PlayerHUD : NetworkBehaviour
                 }
             }
         }
+
+        if (!isLocalPlayer && GI.playerHUD)
+        {
+            canvasWorldSpace.transform.LookAt(GI.playerHUD.player.playerCamera.transform);
+        }
     }
 
     public void ShowTrioScoreText(int index, int score, float delay)
@@ -104,6 +116,11 @@ public class PlayerHUD : NetworkBehaviour
     public void UpdateScore()
     {
         scoreText.text = player.score.ToString();
+    }
+
+    public void UpdateWorldSpaceCanvasScore()
+    {
+        scoreTextWorldSpace.text = "Score: " + player.score;
     }
 
     public void UpdateCurrentRound(int value)
