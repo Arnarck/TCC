@@ -736,7 +736,7 @@ public class PlayerController : NetworkBehaviour
                     }
 
                     Card cardResult = results[i].GetComponent<Card>();
-                    if (cardResult != card)
+                    if (cardResult != card && cardsInDesk.Contains(cardResult))
                     {
                         cardsIndexToShuffle.Add(cardsInDesk.IndexOf(cardResult));
                     }
