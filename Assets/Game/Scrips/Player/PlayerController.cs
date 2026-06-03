@@ -589,7 +589,8 @@ public class PlayerController : NetworkBehaviour
         Card card = go.GetComponent<Card>();
 
         // Prevents player from stealing cards from other players
-        if (currentAbility != Ability_Type.STEAL_ANOTHER_PLAYER_CARD)
+        if (currentAbility != Ability_Type.STEAL_ANOTHER_PLAYER_CARD &&
+            currentAbility != Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS)
         {
             for (int i = 0; i < GI.networkManager.players.Count; i++)
             {
