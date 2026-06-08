@@ -2,6 +2,7 @@ using UnityEngine;
 using Mirror;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerHUD : NetworkBehaviour
 {
@@ -199,6 +200,28 @@ public class PlayerHUD : NetworkBehaviour
     public void ShowLose()
     {
         loseUI.SetActive(true);
+    }
+
+    public void OnClick_ReturnToLobby()
+    {
+
+    }
+
+    public void OnClick_LeaveServer()
+    {
+        if (isServer && isLocalPlayer)
+        {
+            GI.networkManager.StopHost();
+            NetworkServer.Shutdown();
+        }
+        else
+        {
+            GI.networkManager.StopClient();
+        }
+
+        Destroy(Connect.Instance.gameObject);
+        Destroy(GI.networkManager.gameObject);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     // 'OnClick' means that this function is called by a button on the UI.
