@@ -129,14 +129,14 @@ public class PlayerController : NetworkBehaviour
                  }*/
 
                 // @TODO: Check with design a official way of making a trio (button? mouse click in item in desk?).
-                if (Input.GetKeyDown(KeyCode.C))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     CmdCheckForTrio();
                 }
 
                 // Switch camera position
                 // @TODO: Align with design to know when and how the camera will change position.
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.C))
                 {
                     isChoosingCards = !isChoosingCards;
                     ToggleCameraPosition(isChoosingCards);
