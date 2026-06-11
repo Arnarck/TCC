@@ -123,4 +123,17 @@ public class Card : NetworkBehaviour
         //isso aq é bug ein pessoal so pra mostrar pro lipas  @TODO
         
     }
+
+    private void OnMouseEnter()
+    {
+        if (!GI.playerHUD.lobbyPanel.activeSelf && GI.playerHUD.player.cardsInHand.Contains(this))
+        {
+            GI.playerHUD.ShowCardAbilityPanel(GI.GetCardAbilityDescription(type, abilityType), points + improvedPoints, gameObject);
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        GI.playerHUD.HideCardAbilityPanel();
+    }
 }

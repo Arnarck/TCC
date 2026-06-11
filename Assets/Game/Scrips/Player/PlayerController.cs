@@ -1173,6 +1173,12 @@ public class PlayerController : NetworkBehaviour
                 Card card = cards[i].GetComponent<Card>();
                 playerHUD.ShowTrioScoreText(i, card.points + card.improvedPoints, 0.5f);
             }
+
+            // Hide card ability panel if one of trio cards is the selected one
+            if (cards[i] == playerHUD.currentCardShownInPanel)
+            {
+                playerHUD.HideCardAbilityPanel();
+            }
         }
     }
 

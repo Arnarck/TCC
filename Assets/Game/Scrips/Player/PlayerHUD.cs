@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class PlayerHUD : NetworkBehaviour
 {
+    public RectTransform cardPanel;
+    public TextMeshProUGUI cardAbilityDescriptionText;
+    public TextMeshProUGUI cardPointsText;
     public GameObject canvasWorldSpace;
     public PlayerController player;
     public TextMeshProUGUI scoreText;
@@ -26,6 +29,7 @@ public class PlayerHUD : NetworkBehaviour
     public TextMeshProUGUI[] trioScoreTexts;
 
     [Header("INTERNAL")]
+    public GameObject currentCardShownInPanel;
     public float showMessage_t;
     public float[] showTrioScoreText_t;
     public float[] showTrioScoreTextDelay_t;
@@ -202,9 +206,34 @@ public class PlayerHUD : NetworkBehaviour
         loseUI.SetActive(true);
     }
 
+    public void ShowCardAbilityPanel(string description, int points, GameObject card)
+    {
+        if (lobbyPanel.activeSelf)
+        {
+            return;
+        }
+
+        currentCardShownInPanel = card;
+
+        Vector3 panelPosition = player.playerCamera.WorldToScreenPoint(card.transform.position);
+        panelPosition.y += 250f;
+
+        cardPanel.position = panelPosition;
+        cardPanel.gameObject.SetActive(true);
+
+        cardPointsText.text = points. ToString();
+        cardAbilityDescriptionText.text = description;
+    }
+
+    public void HideCardAbilityPanel()
+    {
+        currentCardShownInPanel = null;
+        cardPanel.gameObject.SetActive(false);
+    }
+
     public void OnClick_ReturnToLobby()
     {
-
+        // @TODO
     }
 
     public void OnClick_LeaveServer()
