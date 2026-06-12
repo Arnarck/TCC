@@ -1219,8 +1219,17 @@ public class PlayerController : NetworkBehaviour
                 break;
             case Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS:
                 {
-                    pointsToChooseToReduce = 5;
-                    playerHUD.TargetShowMessage("Choose a other player's card to reduce by 5 points.", 1f);
+                    // Check if other player has cards in hand
+                    for (int i = 0; i < GI.networkManager.players.Count; i++)
+                    {
+                        if (GI.networkManager.players[i].identity.connectionToClient != connectionToClient &&
+                            GI.networkManager.players[i].identity.GetComponent<PlayerController>().cardsInHand.Count > 0)
+                        {
+                            pointsToChooseToReduce = 5;
+                            playerHUD.TargetShowMessage("Choose a other player's card to reduce by 5 points.", 1f);
+                            break;
+                        }
+                    }
                 }
                 break;
             case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:
