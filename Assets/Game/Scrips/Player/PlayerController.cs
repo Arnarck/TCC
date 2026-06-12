@@ -211,7 +211,6 @@ public class PlayerController : NetworkBehaviour
                 break;
             case Ability_Type.SPAWN_DWARVES_IN_PLAYER_HAND_UNTIL_ITS_FULL:
                 {
-                    // @TODO: What if player hand is already full?
                     __ServerSpawnDwarvesInPlayerHand(selectedPlayer);
                     ServerActivateNextCardAbility();
                 }
@@ -1275,10 +1274,21 @@ public class PlayerController : NetworkBehaviour
                 }
             case Ability_Type.SPAWN_DWARVES_IN_PLAYER_HAND_UNTIL_ITS_FULL:
                 {
-                    canSelectOtherPlayer = true;
-                    playerHUD.TargetShowMessage("Select a player to fill his hands with dwarves.", 1f);
+                    // Checks if there is a player with hand not full
+                    for (int i = 0; i < GI.networkManager.players.Count; i++)
+                    {
+                        if (GI.networkManager.players[i].identity.connectionToClient != connectionToClient &&
+                            GI.networkManager.players[i].identity.GetComponent<PlayerController>().cardsInHand.Count <
+                            MAX_CARDS_IN_HAND)
+                        {
+                            canSelectOtherPlayer = true;
+                            playerHUD.TargetShowMessage("Select a player to fill his hands with dwarves.", 1f);
+                            break;
+                        }
+                    }
+
+                    goto activate_ability_start;
                 }
-                break;
             case Ability_Type.TURN_A_PLAYER_CARD_INTO_A_FROG:
                 {
                     canSelectOtherPlayer = true;
