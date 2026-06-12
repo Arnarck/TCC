@@ -1230,8 +1230,9 @@ public class PlayerController : NetworkBehaviour
                             break;
                         }
                     }
+
+                    goto activate_ability_start;
                 }
-                break;
             case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:
                 {
                     bool thereIsAPlayerWithCardsInHand = false;
