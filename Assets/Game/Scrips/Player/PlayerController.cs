@@ -1235,7 +1235,6 @@ public class PlayerController : NetworkBehaviour
                 }
             case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:
                 {
-                    bool thereIsAPlayerWithCardsInHand = false;
                     for (int i = 0; i < GI.networkManager.players.Count; i++)
                     {
                         NetworkConnectionToClient conn = GI.networkManager.players[i];
@@ -1244,24 +1243,15 @@ public class PlayerController : NetworkBehaviour
                             PlayerController player = conn.identity.GetComponent<PlayerController>();
                             if (player.cardsInHand.Count > 0)
                             {
-                                thereIsAPlayerWithCardsInHand = true;
+                                canSelectOtherPlayer = true;
+                                playerHUD.TargetShowMessage("Escolha um jogador para roubar uma de suas cartas.", 1f);
                                 break;
                             }
                         }
                     }
 
-                    if (thereIsAPlayerWithCardsInHand)
-                    {
-                        canSelectOtherPlayer = true;
-                        playerHUD.TargetShowMessage("Escolha um jogador para roubar uma de suas cartas.", 1f);
-                    }
-                    else
-                    {
-                        // @TODO: This text will be ignored. We should add a way of stacking messages in some place.
-                        //playerHUD.TargetShowMessage("There's no players with cards in hand. This ability will be ignored.", 1f);
-                    }
+                    goto activate_ability_start;
                 }
-                break;
             case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE:
                 {
                     scoreToStolenFromAnotherPlayer = 5;
