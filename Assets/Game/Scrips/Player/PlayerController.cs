@@ -1220,15 +1220,11 @@ public class PlayerController : NetworkBehaviour
             case Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS:
                 {
                     // Check if other player has cards in hand
-                    for (int i = 0; i < GI.networkManager.players.Count; i++)
-                    {
-                        if (GI.networkManager.players[i].identity.connectionToClient != connectionToClient &&
-                            GI.networkManager.players[i].identity.GetComponent<PlayerController>().cardsInHand.Count > 0)
-                        {
-                            pointsToChooseToReduce = 5;
-                            playerHUD.TargetShowMessage("Escolha uma carta de um jogador para reduzir em 5 pontos.", 1f); 
-                            break;
-                        }
+                    if (__Server_HasSomePlayerWithCardsInHand()) 
+                    { 
+                        pointsToChooseToReduce = 5;
+                        playerHUD.TargetShowMessage("Escolha uma carta de um jogador para reduzir em 5 pontos.", 1f); 
+                        break;
                     }
 
                     goto activate_ability_start;
@@ -1291,9 +1287,15 @@ public class PlayerController : NetworkBehaviour
                 }
             case Ability_Type.TURN_A_PLAYER_CARD_INTO_A_FROG:
                 {
-                    canSelectOtherPlayer = true;
-                    playerHUD.TargetShowMessage("Escolha um jogaodr para transformar uma de suas cartas em um sapo.", 1f);
-                } break;
+                    if (__Server_HasSomePlayerWithCardsInHand())
+                    {
+                        canSelectOtherPlayer = true;
+                        playerHUD.TargetShowMessage("Escolha um jogaodr para transformar uma de suas cartas em um sapo.", 1f);
+                        break;
+                    }
+
+                    goto activate_ability_start;
+                }
             case Ability_Type.SHUFFLE_ADJACENT_CARDS:
                 {
                     playerHUD.TargetShowMessage("Escolha uma carta da mesa para embaralhar as suas adjacentes.", 1f);
@@ -1304,6 +1306,22 @@ public class PlayerController : NetworkBehaviour
                 }
             default: break;
         }
+    }
+
+    [Server]
+    public bool __Server_HasSomePlayerWithCardsInHand()
+    {
+        for (int i = 0; i < GI.networkManager.players.Count; i++)
+        {
+            // Checks if there is a player with cards in hand
+            if (GI.networkManager.players[i].identity.connectionToClient != connectionToClient &&
+                GI.networkManager.players[i].identity.GetComponent<PlayerController>().cardsInHand.Count > 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void ServerShowMessageToImproveCard()
