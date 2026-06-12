@@ -1246,8 +1246,11 @@ public class PlayerController : NetworkBehaviour
                         }
                     }
 
-                    goto activate_ability_start;
-                }
+                    if (!canSelectOtherPlayer)
+                    {
+                        goto activate_ability_start;
+                    }
+                } break;
             case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE:
                 {
                     scoreToStolenFromAnotherPlayer = 5;
@@ -1266,8 +1269,11 @@ public class PlayerController : NetworkBehaviour
                         }
                     }
 
-                    goto activate_ability_start;
-                }
+                    if (!canSelectOtherPlayer)
+                    {
+                        goto activate_ability_start;
+                    }
+                } break;
             case Ability_Type.SPAWN_DWARVES_IN_PLAYER_HAND_UNTIL_ITS_FULL:
                 {
                     // Checks if there is a player with hand not full
@@ -1283,8 +1289,11 @@ public class PlayerController : NetworkBehaviour
                         }
                     }
 
-                    goto activate_ability_start;
-                }
+                    if (!canSelectOtherPlayer)
+                    {
+                        goto activate_ability_start;
+                    }
+                } break;
             case Ability_Type.TURN_A_PLAYER_CARD_INTO_A_FROG:
                 {
                     if (__Server_HasSomePlayerWithCardsInHand())
