@@ -73,7 +73,7 @@ public class CardNetworkManager : RelayNetworkManager
     }
 
     [Server]
-    public void UpdatePlayerTurn()
+    public void UpdatePlayerTurn() //@VITOR
     {
         currentPlayerTurnIndex++;
         if (currentPlayerTurnIndex >= players.Count)
@@ -88,10 +88,12 @@ public class CardNetworkManager : RelayNetworkManager
             if (i == currentPlayerTurnIndex)
             {
                 player.playerHUD.TargetDisplayTurn("Your Turn");
+                //player.GetComponentInChildren<vfxTurn>().Active(); //@VITOR
             }
             else
             {
                 player.playerHUD.TargetDisplayTurn("Player " + (i + 1) + " turn");
+                //player.GetComponentInChildren<vfxTurn>().Desactive();//@VITOR
             }
         }
 

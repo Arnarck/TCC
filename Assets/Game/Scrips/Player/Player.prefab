@@ -3530,7 +3530,7 @@ Transform:
   m_GameObject: {fileID: 4045142701136068673}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 2.65, z: 1.833}
+  m_LocalPosition: {x: 0, y: 2.211, z: 2.045}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4195,7 +4195,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 959a3a37154a48f449e02791e10f097f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::vfxTurn
-  anim: {fileID: 6052934708369154936}
   light001: {fileID: 4072903007498915113}
 --- !u!95 &6052934708369154936
 Animator:
@@ -4676,6 +4675,7 @@ MonoBehaviour:
   - {fileID: 6841399618835175837}
   - {fileID: 1740599788289233754}
   - {fileID: 7355447560122549986}
+  currentCardShownInPanel: {fileID: 0}
   showMessage_t: 0
   showTrioScoreText_t: []
   showTrioScoreTextDelay_t: []

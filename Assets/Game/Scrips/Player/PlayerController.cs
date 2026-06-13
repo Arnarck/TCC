@@ -265,7 +265,7 @@ public class PlayerController : NetworkBehaviour
     public void CmdEndCurrentTurn()
     {
         ServerEndCurrentTurn();
-        Debug.Log("End Turn");   // @Vitor
+        Debug.Log("End Turn");   // @VITOR
         //gameObject.GetComponent<vfxTurn>().Active();
     }
 

@@ -9129,6 +9129,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConnectCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6021552588212252485, guid: 448cf9c253610844588dc6ba1b226150, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7064848395420016551, guid: 448cf9c253610844588dc6ba1b226150, type: 3}
       propertyPath: networkManager
       value: 

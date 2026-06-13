@@ -23,7 +23,7 @@ public class vfxOutlineConfig : MonoBehaviour, iVFX
     }
 
     // Update is called once per frame
-    public void Deactivate()
+    public void Desactive()
     {
         obj.SetActive(false);
     }

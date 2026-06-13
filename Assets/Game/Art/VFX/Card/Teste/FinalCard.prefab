@@ -569,6 +569,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       insertIndex: -1
       addedObject: {fileID: 590609822193091109}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7100360381834403219}
   m_SourcePrefab: {fileID: 100100000, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
 --- !u!1 &54212930437593909 stripped
 GameObject:
@@ -701,6 +704,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::vfxHandFull
   anim: {fileID: 1474715728147731989}
+--- !u!114 &7100360381834403219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 54212930437593909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd0a7cc6552e2247a2b1c2577b50934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::vfxOutlineConfig
+  obj: {fileID: 0}
 --- !u!4 &831840967580934543 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
