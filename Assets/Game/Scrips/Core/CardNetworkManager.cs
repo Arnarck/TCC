@@ -304,7 +304,7 @@ public class CardNetworkManager : RelayNetworkManager
     public override void OnClientDisconnect()
     {
         Destroy(Connect.Instance.gameObject);
-        Destroy(GI.networkManager.gameObject);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Destroy(gameObject);
+        SceneManager.LoadScene(0);
     }
 }

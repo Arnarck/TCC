@@ -250,7 +250,7 @@ public class PlayerHUD : NetworkBehaviour
 
         Destroy(Connect.Instance.gameObject);
         Destroy(GI.networkManager.gameObject);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(0);
     }
 
     // 'OnClick' means that this function is called by a button on the UI.
