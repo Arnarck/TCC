@@ -3,6 +3,7 @@ using Utp;
 using Mirror;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class CardNetworkManager : RelayNetworkManager
 {
@@ -300,4 +301,10 @@ public class CardNetworkManager : RelayNetworkManager
         UpdatePlayerTurn();
     }
 
+    public override void OnClientDisconnect()
+    {
+        Destroy(Connect.Instance.gameObject);
+        Destroy(GI.networkManager.gameObject);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }
