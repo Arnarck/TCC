@@ -28,6 +28,7 @@ public class PlayerHUD : NetworkBehaviour
     public TextMeshProUGUI messagePanelText;
     public TextMeshProUGUI[] trioScoreTexts;
 
+
     [Header("INTERNAL")]
     public GameObject currentCardShownInPanel;
     public float showMessage_t;
@@ -45,7 +46,7 @@ public class PlayerHUD : NetworkBehaviour
         if (startGameButton != null)
             startGameButton.onClick.AddListener(OnStartGameClick);
 
-        showTrioScoreText_t      = new float[trioScoreTexts.Length];
+        showTrioScoreText_t = new float[trioScoreTexts.Length];
         showTrioScoreTextDelay_t = new float[trioScoreTexts.Length];
 
         if (isLocalPlayer)
@@ -130,13 +131,26 @@ public class PlayerHUD : NetworkBehaviour
 
     public void UpdateCurrentRound(int value)
     {
-        int round = (value + 1);
+        int round = value + 1;
 
-        // @HACK to display ante round and price
-        string s = "\n<size=50%>" + (3 - round) + " rounds until ante (Price: 4)</size>";
+        int price = 4 + (((round - 1) / 5) * 5);
 
-        roundsText.text = round.ToString() + s; // Starts from 1, rather than from 0
+        string s;
+
+        if (round % 5 == 0)
+        {
+            s = $"\n<size=50%>ANTE ROUND (Price: {price})</size>";
+        }
+        else
+        {
+            int roundsUntilAnte = 5 - (round % 5);
+            s = $"\n<size=50%>{roundsUntilAnte} rounds until ante (Price: {price})</size>";
+        }
+
+        roundsText.text = round + s;
+
     }
+
 
     [TargetRpc]
     public void TargetDisplayTurn(string message)
@@ -221,7 +235,7 @@ public class PlayerHUD : NetworkBehaviour
         cardPanel.position = panelPosition;
         cardPanel.gameObject.SetActive(true);
 
-        cardPointsText.text = points. ToString();
+        cardPointsText.text = points.ToString();
         cardAbilityDescriptionText.text = description;
     }
 

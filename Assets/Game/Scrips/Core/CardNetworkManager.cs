@@ -15,6 +15,7 @@ public class CardNetworkManager : RelayNetworkManager
 
     [Header("Card Game - INTERNAL")]
     public int currentRound;
+    public int anteIncrement = 5;
     public int antePrice;
     public int currentPlayerTurnIndex;
     public bool gameStarted;
@@ -115,12 +116,12 @@ public class CardNetworkManager : RelayNetworkManager
 
 
 
-        if (currentRound % 3 == 0)
+        if (currentRound > 0 && currentRound % 5 == 0)
         {
             StartCoroutine(HandleAnteRound());
         }
         // Check for ante round
-        if (currentRound > 0 && currentRound % 3 == 0)
+      /*  if (currentRound > 0 && currentRound % 3 == 0)
         {
             // Charge ante and disconnect players that don't have enough score
             for (int i = 0; i < players.Count; i++)
@@ -157,7 +158,7 @@ public class CardNetworkManager : RelayNetworkManager
                     spectators[i].identity.GetComponent<PlayerController>().ServerLose();
                 }
             }
-        }
+        }*/
     }
 
     [Server]
@@ -182,7 +183,21 @@ public class CardNetworkManager : RelayNetworkManager
                 i--;
             }
         }
-
+        
+        antePrice += anteIncrement;
+      
+// Check for win/lose conditions
+if (players.Count == 1)
+{
+    players[0].identity.GetComponent<PlayerController>().ServerWin();
+    for (int i = 0; i < spectators.Count; i++)
+        spectators[i].identity.GetComponent<PlayerController>().ServerLose();
+}
+else if (players.Count == 0)
+{
+    for (int i = 0; i < spectators.Count; i++)
+        spectators[i].identity.GetComponent<PlayerController>().ServerLose();
+}
         GI.cardSystem.RefillTableFromDeck();
 
         GI.cardSystem.StartMemorizationPhase();
