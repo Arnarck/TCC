@@ -28,6 +28,7 @@ public class Connect : MonoBehaviour
     public TMP_InputField inputJoinCode;
     public TMP_Text statusText;
     private string currentCode = "";
+private Coroutine statusCoroutine;
 
     public static Connect Instance { get; private set; }
 
@@ -61,7 +62,7 @@ public class Connect : MonoBehaviour
     {
         statusText.text = "";
         joinCodeText.text = "";
-        statusText.text = "Creating room...";
+        SetStatus("Creating room...");
         networkManager.StartRelayHost(3, null);
         StartCoroutine(WaitForCode());
     }
@@ -74,9 +75,24 @@ public class Connect : MonoBehaviour
         currentCode = networkManager.relayJoinCode;
         statusText.text = "";
         joinCodeText.text = currentCode;
-        statusText.text = "Room created!";
+        SetStatus("Room created!");
         HideJoinMatchElements();
     }
+private void SetStatus(string message, float duration = 3f)
+{
+    statusText.text = message;
+
+    if (statusCoroutine != null)
+        StopCoroutine(statusCoroutine);
+
+    statusCoroutine = StartCoroutine(ClearStatusAfterTime(duration));
+}
+
+private System.Collections.IEnumerator ClearStatusAfterTime(float seconds)
+{
+    yield return new WaitForSeconds(seconds);
+    statusText.text = "";
+}
 
     public void CopyCode()
     {
@@ -84,7 +100,7 @@ public class Connect : MonoBehaviour
         if (string.IsNullOrEmpty(currentCode)) return;
 
         GUIUtility.systemCopyBuffer = currentCode;
-        statusText.text = "Code copied!";
+        SetStatus("Code copied!");
     }
 
     public void Client()
@@ -94,13 +110,13 @@ public class Connect : MonoBehaviour
         string code = inputJoinCode.text;
         if (string.IsNullOrEmpty(code))
         {
-            statusText.text = "Enter a code!";
+            SetStatus("Enter a code!");
 
             return;
 
         }
 
-        statusText.text = "Logging in...";
+        SetStatus("Logging in...");
         networkManager.relayJoinCode = code;
         networkManager.JoinRelayServer();
         HideJoinMatchElements();
@@ -114,13 +130,13 @@ public class Connect : MonoBehaviour
         {
             // é host
             networkManager.StopHost();
-            statusText.text = "Host stopped";
+            SetStatus("Host stopped");
         }
         else if (NetworkClient.isConnected)
         {
             // é client
             networkManager.StopClient();
-            statusText.text = "Client disconnected";
+            SetStatus("Client disconnected");
         }
         networkManager.relayJoinCode = "";
         ShowJoinMatchElements();
