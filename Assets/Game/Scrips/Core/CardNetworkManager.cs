@@ -89,12 +89,13 @@ public class CardNetworkManager : RelayNetworkManager
             if (i == currentPlayerTurnIndex)
             {
                 player.playerHUD.TargetDisplayTurn("Your Turn");
-                //player.GetComponentInChildren<vfxTurn>().Active(); //@VITOR
+                player.GetComponentInChildren<vfxTurn>().Active(); //@VITOR
+                //GI.cardSystem.cardInDesk; olhar o nome da lista se é esse mesmo e chamar a função
             }
             else
             {
                 player.playerHUD.TargetDisplayTurn("Player " + (i + 1) + " turn");
-                //player.GetComponentInChildren<vfxTurn>().Desactive();//@VITOR
+                player.GetComponentInChildren<vfxTurn>().Desactive();//@VITOR
             }
         }
 

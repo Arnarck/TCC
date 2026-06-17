@@ -46,7 +46,7 @@ public class vfxSteal : MonoBehaviour, iVFX
                 }
             }
             transform.parent.position = Vector3.Lerp(pontoA.position, pontoB.position, animation_t);
-            transform.parent.rotation = Quaternion.Lerp(pontoA.rotation, (pontoB.rotation* Quaternion.Euler(0, 180, 0)), animation_t);
+            transform.parent.rotation = Quaternion.Lerp(pontoA.rotation, pontoB.rotation* Quaternion.Euler(0, 0, 180), animation_t);
 
             if (Vector3.Distance(transform.position, alvo) < 0.1f)
         {
@@ -59,7 +59,6 @@ public class vfxSteal : MonoBehaviour, iVFX
     {
         anim.SetTrigger("ToTurn");
         anim.SetTrigger("StartSteal");
-        anim.SetTrigger("ToTurn");
     }
     void ActiveMov()
     {

@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 9153347838787001819}
   - component: {fileID: 2507695349026446606}
   - component: {fileID: 5917914737427504582}
+  - component: {fileID: 4175897918176164850}
   m_Layer: 6
   m_Name: Card Base
   m_TagString: Untagged
@@ -391,6 +392,25 @@ MonoBehaviour:
   spawnedInDesk: 0
   collidedWithCardSystem: 0
   improvedPoints: 0
+--- !u!114 &4175897918176164850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6513423077981549246}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ec5dce93678f3438422f2c2199f4cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::vfxSteal
+  pontoA: {fileID: 0}
+  pontoB: {fileID: 0}
+  velocidade: 5
+  anim: {fileID: 1167882427107165068}
+  animation_t: 0
+  startPosition: {x: 0, y: 0, z: 0}
+  startRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &6788717154150967009
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,6 +568,10 @@ PrefabInstance:
     - target: {fileID: 3966031935886355925, guid: 5961de5866757f044933a9437fca93dd, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9157405502431603438, guid: 5961de5866757f044933a9437fca93dd, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7100360381834403219, guid: 5961de5866757f044933a9437fca93dd, type: 3}

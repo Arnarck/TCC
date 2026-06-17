@@ -2039,6 +2039,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table
       objectReference: {fileID: 0}
+    - target: {fileID: 4031047142696076418, guid: d29b704d085514642bd7c2cd826a7e5e, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8778348220714790614, guid: d29b704d085514642bd7c2cd826a7e5e, type: 3}
       propertyPath: m_LocalScale.x
       value: 153.42
