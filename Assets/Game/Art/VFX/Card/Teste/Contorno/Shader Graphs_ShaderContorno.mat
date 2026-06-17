@@ -41,11 +41,11 @@ Material:
     - _Float: 91.75
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Scale: 1.03
+    - _Scale: 1.006
     - _Scale_1: 1.21
     - _Scale_2: 1.28
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.6155722, g: 0.25842416, b: 0.5545387, a: 1}
     - _Vector3: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
