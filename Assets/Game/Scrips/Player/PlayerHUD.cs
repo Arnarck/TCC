@@ -353,17 +353,14 @@ else
     {
         if (scoreboardText == null) return;
 
-        // Usa a lista estática (confiável em qualquer contexto)
         var players = PlayerController.allPlayers;
 
-        // Ordena do maior score para o menor (opcional)
         players.Sort((a, b) => b.score.CompareTo(a.score));
 
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
         for (int i = 0; i < players.Count; i++)
         {
             var p = players[i];
-            // Identificação simples; se quiser mostrar o nome do lobby, substitua aqui
             sb.AppendLine($"Player {i + 1}: {p.score}");
         }
         scoreboardText.text = sb.ToString();
