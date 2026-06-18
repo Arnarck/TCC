@@ -120,7 +120,6 @@ public class PlayerController : NetworkBehaviour
                         }
                         else if (hit.collider.gameObject.layer == 8 && canSelectOtherPlayer)
                         {
-                            Debug.Log("aaaaaaaaaaaaaaa");
                             CmdSelectPlayer(hit.collider.GetComponent<NetworkIdentity>().netId);
                         }
                     }
@@ -734,9 +733,11 @@ public class PlayerController : NetworkBehaviour
         spawnedCard.transform.position = playerToStealFrom.cardsSpawnPoints[cardToStealIndex].position;
         spawnedCard.transform.rotation = playerToStealFrom.cardsSpawnPoints[cardToStealIndex].rotation;
 
-        vfxSteal vfx = spawnedCard.GetComponentInChildren<vfxSteal>(); //@VITOR remover esse InChildern mas ai parece q o GO da carta fica travado na pos
-        //problema do VFX do collider da carta nn acompanhar
+        vfxSteal vfx = spawnedCard.GetComponent<vfxSteal>(); //@VITOR 
+
         vfx.pontoA = playerToStealFrom.cardsSpawnPoints[cardToStealIndex];
+        //vfx.pontoBpos = cardsSpawnPoints[spawnedCardIndex].position;
+        //vfx.pontoBrot = cardsSpawnPoints[spawnedCardIndex].rotation;
         vfx.pontoB = cardsSpawnPoints[spawnedCardIndex];
         vfx.Active();
     }

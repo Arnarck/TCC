@@ -30,7 +30,7 @@ public class vfxSteal : MonoBehaviour, iVFX
     {
         if(active)
         {
-        Vector3 alvo = indoParaB ? pontoB.position : transform.position;
+            //Vector3 alvo = indoParaB ? pontoB.position : transform.position;
 
             //transform.position = Vector3.MoveTowards(
             //    transform.position,
@@ -45,20 +45,24 @@ public class vfxSteal : MonoBehaviour, iVFX
                     animation_t = 1f;
                 }
             }
-            transform.parent.position = Vector3.Lerp(pontoA.position, pontoB.position, animation_t);
-            transform.parent.rotation = Quaternion.Lerp(pontoA.rotation, pontoB.rotation* Quaternion.Euler(0, 0, 180), animation_t);
 
-            if (Vector3.Distance(transform.position, alvo) < 0.1f)
-        {
-            indoParaB = !indoParaB;
-            anim.SetTrigger("EndSteal");
-        }
+            transform.position = Vector3.Lerp(pontoA.position, pontoB.position, animation_t);
+            transform.rotation = Quaternion.Lerp(pontoA.rotation, pontoB.rotation, animation_t);
+
+            if (Vector3.Distance(transform.position, pontoB.position) < 0.1f)
+            {
+                indoParaB = !indoParaB;
+                anim.SetTrigger("EndSteal");
+                ActiveMov();
+            }
         }
     }
     public void Active()
     {
+        
         anim.SetTrigger("ToTurn");
         anim.SetTrigger("StartSteal");
+        ActiveMov();
     }
     void ActiveMov()
     {

@@ -39,9 +39,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _Float: 91.75
+    - _Lines: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Scale: 1.006
+    - _Scale: 1.009
     - _Scale_1: 1.21
     - _Scale_2: 1.28
     m_Colors:
