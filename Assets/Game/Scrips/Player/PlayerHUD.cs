@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class PlayerHUD : NetworkBehaviour
 {
     public GameObject showStartMessagePanel;
+    public GameObject ShowEndTurnMessagePanel;
     public RectTransform cardPanel;
     public TextMeshProUGUI cardAbilityDescriptionText;
     public TextMeshProUGUI cardPointsText;
@@ -36,6 +37,7 @@ public class PlayerHUD : NetworkBehaviour
     [Header("INTERNAL")]
     public GameObject currentCardShownInPanel;
     public float showStartMessage_t;
+    public float showEndTurnMessage_t;
     public float showMessage_t;
     public float[] showTrioScoreText_t;
     public float[] showTrioScoreTextDelay_t;
@@ -124,6 +126,16 @@ public class PlayerHUD : NetworkBehaviour
             {
                 showStartMessage_t = 0f;
                 showStartMessagePanel.SetActive(false);
+            }
+        }
+
+        if (showEndTurnMessage_t > 0f)
+        {
+            showEndTurnMessage_t -= dt;
+            if (showEndTurnMessage_t <= 0f)
+            {
+                showEndTurnMessage_t = 0f;
+                ShowEndTurnMessagePanel.SetActive(false);
             }
         }
     }
@@ -326,6 +338,12 @@ else
     {
         showStartMessage_t = 2f;
         showStartMessagePanel.SetActive(true);
+    }
+
+    public void ShowEndTurnMessage()
+    {
+        showEndTurnMessage_t = 2f;
+        ShowEndTurnMessagePanel.SetActive(true);
     }
 
 

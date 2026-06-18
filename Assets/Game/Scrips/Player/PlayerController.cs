@@ -565,6 +565,7 @@ public class PlayerController : NetworkBehaviour
         playerHUD.endCurrentTurnButton.interactable = false;
         playerHUD.currentTurnTimeText.enabled = false;
         playerHUD.HideMessage();
+        playerHUD.ShowEndTurnMessage();
     }
 
     /*  [Command]
