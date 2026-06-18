@@ -1041,6 +1041,7 @@ public class PlayerController : NetworkBehaviour
     {
         playerHUD.endCurrentTurnButton.interactable = true;
         playerHUD.currentTurnTimeText.enabled = true;
+        playerHUD.ShowStartTurnMessage();
     }
     [TargetRpc]
     public void TargetPauseTurn()

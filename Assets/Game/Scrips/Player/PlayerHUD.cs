@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerHUD : NetworkBehaviour
 {
+    public GameObject showStartMessagePanel;
     public RectTransform cardPanel;
     public TextMeshProUGUI cardAbilityDescriptionText;
     public TextMeshProUGUI cardPointsText;
@@ -34,6 +35,7 @@ public class PlayerHUD : NetworkBehaviour
     public TextMeshProUGUI scoreboardText;
     [Header("INTERNAL")]
     public GameObject currentCardShownInPanel;
+    public float showStartMessage_t;
     public float showMessage_t;
     public float[] showTrioScoreText_t;
     public float[] showTrioScoreTextDelay_t;
@@ -113,6 +115,16 @@ public class PlayerHUD : NetworkBehaviour
         if (!isLocalPlayer && GI.playerHUD)
         {
             canvasWorldSpace.transform.LookAt(GI.playerHUD.player.playerCamera.transform);
+        }
+
+        if (showStartMessage_t > 0f)
+        {
+            showStartMessage_t -= dt;
+            if (showStartMessage_t <= 0f)
+            {
+                showStartMessage_t = 0f;
+                showStartMessagePanel.SetActive(false);
+            }
         }
     }
 
@@ -308,6 +320,12 @@ else
                 if (respectF4Text != null) respectF4Text.text = "F4: " + text;
                 break;
         }
+    }
+
+    public void ShowStartTurnMessage()
+    {
+        showStartMessage_t = 2f;
+        showStartMessagePanel.SetActive(true);
     }
 
 
