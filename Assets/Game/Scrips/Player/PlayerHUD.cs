@@ -14,8 +14,10 @@ public class PlayerHUD : NetworkBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI scoreTextWorldSpace;
     public TextMeshProUGUI turnText;
-    public TextMeshProUGUI roundsText;
     public TextMeshProUGUI currentTurnTimeText;
+    public TextMeshProUGUI roundText;
+    public TextMeshProUGUI roundsUntilAnteText;
+    public TextMeshProUGUI antePriceText;
     public Button endCurrentTurnButton;
     public Button startGameButton;
     public GameObject gameplayHUD;
@@ -28,7 +30,8 @@ public class PlayerHUD : NetworkBehaviour
     public TextMeshProUGUI messagePanelText;
     public TextMeshProUGUI[] trioScoreTexts;
 
-
+    [Header("Scoreboard")]
+    public TextMeshProUGUI scoreboardText;
     [Header("INTERNAL")]
     public GameObject currentCardShownInPanel;
     public float showMessage_t;
@@ -60,13 +63,15 @@ public class PlayerHUD : NetworkBehaviour
         if (!isServer) return;
         player.CmdHostStartGame();
     }
-    public override void OnStartClient()
+     public override void OnStartClient()
     {
         if (isLocalPlayer)
         {
             GI.playerHUD = this;
             UpdateCurrentRound(0);
 
+            PlayerController.OnScoreChanged += OnAnyScoreChanged;
+            RefreshScoreboard();
         }
     }
 
@@ -129,27 +134,27 @@ public class PlayerHUD : NetworkBehaviour
         scoreTextWorldSpace.text = "Score: " + player.score;
     }
 
-    public void UpdateCurrentRound(int value)
-    {
-        int round = value + 1;
+   public void UpdateCurrentRound(int value)
+{
+int round = value + 1;
 
-        int price = 4 + (((round - 1) / 5) * 5);
+int price = 4 + (((round - 1) / 5) * 5);
 
-        string s;
+roundText.text = $"ROUND {round}";
+antePriceText.text = "Price: " + price.ToString();
 
-        if (round % 5 == 0)
-        {
-            s = $"\n<size=50%>ANTE ROUND (Price: {price})</size>";
-        }
-        else
-        {
-            int roundsUntilAnte = 5 - (round % 5);
-            s = $"\n<size=50%>{roundsUntilAnte} rounds until ante (Price: {price})</size>";
-        }
+if (round % 5 == 0)
+{
+    roundsUntilAnteText.text = "ANTE ROUND";
+}
+else
+{
+    int roundsUntilAnte = 5 - (round % 5);
+    roundsUntilAnteText.text = $"{roundsUntilAnte} rounds until ante";
+}
 
-        roundsText.text = round + s;
+}
 
-    }
 
 
     [TargetRpc]
@@ -177,6 +182,7 @@ public class PlayerHUD : NetworkBehaviour
     public void TargetShowMainHUD()
     {
         mainHUD.SetActive(true);
+        RefreshScoreboard();
     }
 
     [TargetRpc]
@@ -328,4 +334,38 @@ public class PlayerHUD : NetworkBehaviour
         Connect.Instance?.HideConnectPanel();
     }
 
+
+
+ 
+
+    private void OnDestroy()
+    {
+        if (isLocalPlayer)
+            PlayerController.OnScoreChanged -= OnAnyScoreChanged;
+    }
+
+    private void OnAnyScoreChanged(PlayerController player, int newScore)
+    {
+        RefreshScoreboard();
+    }
+
+    private void RefreshScoreboard()
+    {
+        if (scoreboardText == null) return;
+
+        // Usa a lista estática (confiável em qualquer contexto)
+        var players = PlayerController.allPlayers;
+
+        // Ordena do maior score para o menor (opcional)
+        players.Sort((a, b) => b.score.CompareTo(a.score));
+
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        for (int i = 0; i < players.Count; i++)
+        {
+            var p = players[i];
+            // Identificação simples; se quiser mostrar o nome do lobby, substitua aqui
+            sb.AppendLine($"Player {i + 1}: {p.score}");
+        }
+        scoreboardText.text = sb.ToString();
+    }
 }

@@ -37,6 +37,8 @@ public class PlayerController : NetworkBehaviour
     [SyncVar] public bool canSelectOtherPlayer;
     public int scoreToStolenFromAnotherPlayer;
     public PlayerController selectedPlayer;
+     public static List<PlayerController> allPlayers = new List<PlayerController>();
+    public static event System.Action<PlayerController, int> OnScoreChanged;
 
     public Card[] cardsInTrio;
 
@@ -78,7 +80,15 @@ public class PlayerController : NetworkBehaviour
         //  if (playerHUD.startGameButton != null)
         // playerHUD.startGameButton.onClick.AddListener(OnStartGameClick);
     }
+    void Awake()
+    {
+        allPlayers.Add(this);
+    }
 
+    void OnDestroy()
+    {
+        allPlayers.Remove(this);
+    }
     private void Update()
     {
         if (GI.cardSystem.isMemorizationPhase)
@@ -1014,6 +1024,8 @@ public class PlayerController : NetworkBehaviour
         score = newValue;
         playerHUD.UpdateScore();
         playerHUD.UpdateWorldSpaceCanvasScore();
+        
+        OnScoreChanged?.Invoke(this, newValue);
     }
 
     [Server]
