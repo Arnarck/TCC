@@ -1045,6 +1045,17 @@ public class PlayerController : NetworkBehaviour
         playerHUD.currentTurnTimeText.enabled = true;
         playerHUD.ShowStartTurnMessage();
     }
+
+    [TargetRpc]
+    public void TargetStartNewRound(bool isAnteRound)
+    {
+        // @Bug: This function isn't called in the first round. It should be called where the memorization phase ends to do so.
+        if (isAnteRound)
+        {
+            playerHUD.ShowAnteTurnMessage();
+        }
+    }
+
     [TargetRpc]
     public void TargetPauseTurn()
     {

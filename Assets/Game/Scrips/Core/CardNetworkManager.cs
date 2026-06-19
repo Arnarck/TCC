@@ -114,7 +114,12 @@ public class CardNetworkManager : RelayNetworkManager
 
         GI.cardSystem.ServerUpdateCurrentRound(currentRound);
 
-
+        // Notify all players that a new round has started
+        for (int i = 0; i < players.Count; i++)
+        {
+            PlayerController player = players[i].identity.GetComponent<PlayerController>();
+            player.TargetStartNewRound(currentRound == 4);
+        }
 
         if (currentRound > 0 && currentRound % 5 == 0)
         {

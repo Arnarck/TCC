@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 public class PlayerHUD : NetworkBehaviour
 {
     public GameObject showStartMessagePanel;
-    public GameObject ShowEndTurnMessagePanel;
+    public GameObject showEndTurnMessagePanel;
+    public GameObject showAnteTurnMessagePanel;
     public RectTransform cardPanel;
     public TextMeshProUGUI cardAbilityDescriptionText;
     public TextMeshProUGUI cardPointsText;
@@ -38,6 +39,7 @@ public class PlayerHUD : NetworkBehaviour
     public GameObject currentCardShownInPanel;
     public float showStartMessage_t;
     public float showEndTurnMessage_t;
+    public float showAnteTurnMessage_t;
     public float showMessage_t;
     public float[] showTrioScoreText_t;
     public float[] showTrioScoreTextDelay_t;
@@ -135,7 +137,17 @@ public class PlayerHUD : NetworkBehaviour
             if (showEndTurnMessage_t <= 0f)
             {
                 showEndTurnMessage_t = 0f;
-                ShowEndTurnMessagePanel.SetActive(false);
+                showEndTurnMessagePanel.SetActive(false);
+            }
+        }
+
+        if (showAnteTurnMessage_t > 0f)
+        {
+            showAnteTurnMessage_t -= dt;
+            if (showAnteTurnMessage_t <= 0f)
+            {
+                showAnteTurnMessage_t = 0f;
+                showAnteTurnMessagePanel.SetActive(false);
             }
         }
     }
@@ -343,7 +355,7 @@ else
     public void ShowEndTurnMessage()
     {
         showEndTurnMessage_t = 2f;
-        ShowEndTurnMessagePanel.SetActive(true);
+        showEndTurnMessagePanel.SetActive(true);
     }
 
 
@@ -370,9 +382,16 @@ else
         Connect.Instance?.HideConnectPanel();
     }
 
+    public void ShowAnteTurnMessage()
+    {
+        showAnteTurnMessage_t = 2.5f;
+        showAnteTurnMessagePanel.SetActive(true);
+    }
 
 
- 
+
+
+
 
     private void OnDestroy()
     {
