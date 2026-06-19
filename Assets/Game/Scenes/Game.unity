@@ -9481,6 +9481,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2131150095}
+    - target: {fileID: 696509668515779122, guid: 448cf9c253610844588dc6ba1b226150, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1528450961725984957, guid: 448cf9c253610844588dc6ba1b226150, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2778593836306064799, guid: 448cf9c253610844588dc6ba1b226150, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -9573,6 +9581,10 @@ PrefabInstance:
       propertyPath: networkManager
       value: 
       objectReference: {fileID: 180431518}
+    - target: {fileID: 7483335506948219012, guid: 448cf9c253610844588dc6ba1b226150, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
