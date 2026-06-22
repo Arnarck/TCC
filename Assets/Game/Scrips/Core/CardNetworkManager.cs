@@ -192,7 +192,9 @@ public class CardNetworkManager : RelayNetworkManager
         antePrice += anteIncrement;
         for (int i = 0; i < players.Count; i++)
         {
-            players[i].identity.GetComponent<PlayerController>().antePrice = antePrice;
+            PlayerController player = players[i].identity.GetComponent<PlayerController>();
+            player.antePrice = antePrice;
+            player.TargetStartNewRoundAfterAnte();
         }
       
 // Check for win/lose conditions

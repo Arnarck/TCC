@@ -1628,5 +1628,11 @@ public class PlayerController : NetworkBehaviour
         playerHUD.UpdateScore();
     }
 
+    [TargetRpc]
+    public void TargetStartNewRoundAfterAnte()
+    {
+        playerHUD.ShowAnteChargedMessage();
+    }
+
 
 }

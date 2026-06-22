@@ -9,6 +9,7 @@ public class PlayerHUD : NetworkBehaviour
     public GameObject showStartMessagePanel;
     public GameObject showEndTurnMessagePanel;
     public GameObject showAnteTurnMessagePanel;
+    public GameObject anteChargedMessagePanel;
     public RectTransform cardPanel;
     public TextMeshProUGUI cardAbilityDescriptionText;
     public TextMeshProUGUI cardPointsText;
@@ -38,6 +39,7 @@ public class PlayerHUD : NetworkBehaviour
     [Header("INTERNAL")]
     public GameObject currentCardShownInPanel;
     public float showStartMessage_t;
+    public float anteChargedMessage_t;
     public float showEndTurnMessage_t;
     public float showAnteTurnMessage_t;
     public float showMessage_t;
@@ -148,6 +150,16 @@ public class PlayerHUD : NetworkBehaviour
             {
                 showAnteTurnMessage_t = 0f;
                 showAnteTurnMessagePanel.SetActive(false);
+            }
+        }
+
+        if (anteChargedMessage_t > 0f)
+        {
+            anteChargedMessage_t -= dt;
+            if (anteChargedMessage_t <= 0f)
+            {
+                anteChargedMessage_t = 0f;
+                anteChargedMessagePanel.SetActive(false);
             }
         }
     }
@@ -428,5 +440,11 @@ else
             sb.AppendLine($"Player {i + 1}: {p.score}");
         }
         scoreboardText.text = sb.ToString();
+    }
+
+    public void ShowAnteChargedMessage()
+    {
+        anteChargedMessage_t = 2f;
+        anteChargedMessagePanel.SetActive(true);
     }
 }
