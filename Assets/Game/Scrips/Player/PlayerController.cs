@@ -19,6 +19,7 @@ public class PlayerController : NetworkBehaviour
     [Header("INTERNAL")]
     [SyncVar(hook = nameof(UpdateScore))] public int score;
     [SyncVar] public int actionsRemaining;
+    [SyncVar(hook = nameof(UpdateAntePrice))] public int antePrice;
     [SyncVar(hook = nameof(OnRespectF1Changed))] public int respectF1 = 0;
     [SyncVar(hook = nameof(OnRespectF2Changed))] public int respectF2 = 0;
     [SyncVar(hook = nameof(OnRespectF3Changed))] public int respectF3 = 0;
@@ -1053,6 +1054,7 @@ public class PlayerController : NetworkBehaviour
         if (isAnteRound)
         {
             playerHUD.ShowAnteTurnMessage();
+            playerHUD.UpdateScore();
         }
     }
 
@@ -1619,6 +1621,11 @@ public class PlayerController : NetworkBehaviour
         respectF2 = 0;
         respectF3 = 0;
         respectF4 = 0;
+    }
+
+    public void UpdateAntePrice(int oldValue, int newValue)
+    {
+        playerHUD.UpdateScore();
     }
 
 

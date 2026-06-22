@@ -163,6 +163,15 @@ public class PlayerHUD : NetworkBehaviour
     public void UpdateScore()
     {
         scoreText.text = player.score.ToString();
+        if (player.score < player.antePrice)
+        {
+            scoreText.color = Color.red;
+            //scoreText.text += "<size=50%>(Not enough money!)";
+        }
+        else
+        {
+            scoreText.color = Color.green;
+        }
     }
 
     public void UpdateWorldSpaceCanvasScore()

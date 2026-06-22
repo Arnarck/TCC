@@ -190,6 +190,10 @@ public class CardNetworkManager : RelayNetworkManager
         }
         
         antePrice += anteIncrement;
+        for (int i = 0; i < players.Count; i++)
+        {
+            players[i].identity.GetComponent<PlayerController>().antePrice = antePrice;
+        }
       
 // Check for win/lose conditions
 if (players.Count == 1)
@@ -307,6 +311,9 @@ else if (players.Count == 0)
         foreach (var conn in players)
         {
             var pc = conn.identity.GetComponent<PlayerController>();
+
+            pc.antePrice = antePrice;
+
             pc.playerHUD.TargetHideLobby();
             pc.playerHUD.TargetShowMainHUD();
             pc.playerHUD.TargetHideConnectMenu();
