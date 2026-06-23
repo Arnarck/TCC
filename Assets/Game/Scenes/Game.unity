@@ -9553,6 +9553,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2200653908161982829, guid: 448cf9c253610844588dc6ba1b226150, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 86a85dd098733c441989540b4b02548f, type: 3}
+    - target: {fileID: 2763129064681385016, guid: 448cf9c253610844588dc6ba1b226150, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 86a85dd098733c441989540b4b02548f, type: 3}
     - target: {fileID: 2778593836306064799, guid: 448cf9c253610844588dc6ba1b226150, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -9637,6 +9645,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 2131150095}
+    - target: {fileID: 4926386370328268059, guid: 448cf9c253610844588dc6ba1b226150, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6021552588212252485, guid: 448cf9c253610844588dc6ba1b226150, type: 3}
       propertyPath: m_Name
       value: ConnectCanvas
