@@ -18,13 +18,13 @@ MonoBehaviour:
     m_Value: 0
   threshold:
     m_OverrideState: 1
-    m_Value: 4.03
+    m_Value: 1.07
   intensity:
     m_OverrideState: 1
-    m_Value: 2.18
+    m_Value: 1.65
   scatter:
     m_OverrideState: 1
-    m_Value: 0.655
+    m_Value: 0.978
   clamp:
     m_OverrideState: 0
     m_Value: 65472
@@ -151,9 +151,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.ColorCurves
   active: 1
   master:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value:
-      <length>k__BackingField: 2
+      <length>k__BackingField: 5
       m_Loop: 0
       m_ZeroValue: 0
       m_Range: 1
@@ -165,6 +165,33 @@ MonoBehaviour:
           value: 0
           inSlope: 1
           outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.355
+          value: 0.26984125
+          inSlope: 1.1101359
+          outSlope: 1.1101359
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.48
+          value: 0.5185185
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.7275
+          value: 0.6243386
+          inSlope: 0.8890445
+          outSlope: 0.8890445
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -182,9 +209,9 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
   red:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value:
-      <length>k__BackingField: 2
+      <length>k__BackingField: 4
       m_Loop: 0
       m_ZeroValue: 0
       m_Range: 1
@@ -196,6 +223,24 @@ MonoBehaviour:
           value: 0
           inSlope: 1
           outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.3275
+          value: 0.3174603
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.6125
+          value: 0.7037037
+          inSlope: 0.8759909
+          outSlope: 0.8759909
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -301,15 +346,33 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
   satVsSat:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value:
-      <length>k__BackingField: 0
+      <length>k__BackingField: 2
       m_Loop: 0
       m_ZeroValue: 0.5
       m_Range: 1
       m_Curve:
         serializedVersion: 2
-        m_Curve: []
+        m_Curve:
+        - serializedVersion: 3
+          time: 0.42
+          value: 0.4074074
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.6875
+          value: 0.4285714
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -338,7 +401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f335fb1ffd8684294ad653bf1c7564, type: 3}
   m_Name: ColorAdjustments
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.ColorAdjustments
-  active: 1
+  active: 0
   postExposure:
     m_OverrideState: 1
     m_Value: 0
