@@ -437,7 +437,14 @@ else
         for (int i = 0; i < players.Count; i++)
         {
             var p = players[i];
-            sb.AppendLine($"Player {i + 1}: {p.score}");
+            if (player == p)
+            {
+                sb.AppendLine($"Player {i + 1} (you): {p.score}");
+            }
+            else
+            {
+                sb.AppendLine($"Player {i + 1}: {p.score}");
+            }
         }
         scoreboardText.text = sb.ToString();
     }
