@@ -439,11 +439,11 @@ else
             var p = players[i];
             if (player == p)
             {
-                sb.AppendLine($"Player {i + 1} (you): {p.score}");
+                sb.AppendLine($"Player {p.playerIndex + 1} (You): {p.score}");
             }
             else
             {
-                sb.AppendLine($"Player {i + 1}: {p.score}");
+                sb.AppendLine($"Player {p.playerIndex + 1}: {p.score}");
             }
         }
         scoreboardText.text = sb.ToString();

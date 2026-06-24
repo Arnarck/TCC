@@ -95,7 +95,7 @@ public class CardNetworkManager : RelayNetworkManager
             }
             else
             {
-                player.playerHUD.TargetDisplayTurn("Player " + (i + 1) + " turn");
+                player.playerHUD.TargetDisplayTurn("Player " + (currentPlayerTurnIndex + 1) + " turn");
                 player.GetComponentInChildren<vfxTurn>().Desactive();//@VITOR
             }
         }
@@ -310,15 +310,19 @@ else if (players.Count == 0)
     {
         gameStarted = true;
 
+        int playerIndex = 0;
         foreach (var conn in players)
         {
             var pc = conn.identity.GetComponent<PlayerController>();
 
             pc.antePrice = antePrice;
+            pc.playerIndex = playerIndex;
 
             pc.playerHUD.TargetHideLobby();
             pc.playerHUD.TargetShowMainHUD();
             pc.playerHUD.TargetHideConnectMenu();
+
+            playerIndex++;
         }
 
         GI.cardSystem.StartMemorizationPhase();

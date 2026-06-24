@@ -19,6 +19,7 @@ public class PlayerController : NetworkBehaviour
     [Header("INTERNAL")]
     [SyncVar(hook = nameof(UpdateScore))] public int score;
     [SyncVar] public int actionsRemaining;
+    [SyncVar] public int playerIndex;
     [SyncVar(hook = nameof(UpdateAntePrice))] public int antePrice;
     [SyncVar(hook = nameof(OnRespectF1Changed))] public int respectF1 = 0;
     [SyncVar(hook = nameof(OnRespectF2Changed))] public int respectF2 = 0;
