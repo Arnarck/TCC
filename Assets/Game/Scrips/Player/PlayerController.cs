@@ -32,6 +32,7 @@ public class PlayerController : NetworkBehaviour
     public float activateNextCardAbility_t;
     public Card[] trioCards;
 
+    public bool hasShownSwapCardTip;
     public List<Ability_Type> abilitiesToApply;
     public Ability_Type currentAbility;
     public int pointsToChooseToReduce;
@@ -936,10 +937,19 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
-        if (!isLocalPlayer) // Prevents the host from spawning the card twice
+        if (isLocalPlayer) // Prevents the host from spawning the card twice
         {
+            if (cardsInHand.Count >= MAX_CARDS_IN_HAND && !hasShownSwapCardTip)
+            {
+                hasShownSwapCardTip = true;
+                playerHUD.ShowSwapCardTip();
+            }
+        }
+        else 
+        { 
             TargetSpawnCardInHand(go, spawnIndex);
         }
+
     }
 
     // 'cardsInHand' list is being updated in clients so we can reorder the cards easily from server and update it on the clients.
@@ -952,6 +962,12 @@ public class PlayerController : NetworkBehaviour
 
         go.transform.position = cardsSpawnPoints[spawnIndex].position;
         go.transform.rotation = cardsSpawnPoints[spawnIndex].rotation;
+
+        if (cardsInHand.Count >= MAX_CARDS_IN_HAND && !hasShownSwapCardTip)
+        {
+            hasShownSwapCardTip = true;
+            playerHUD.ShowSwapCardTip();
+        }
     }
 
     [Server]

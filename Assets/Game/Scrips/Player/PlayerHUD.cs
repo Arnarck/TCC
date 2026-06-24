@@ -10,6 +10,7 @@ public class PlayerHUD : NetworkBehaviour
     public GameObject showEndTurnMessagePanel;
     public GameObject showAnteTurnMessagePanel;
     public GameObject anteChargedMessagePanel;
+    public GameObject swapCardTipPanel;
     public RectTransform cardPanel;
     public TextMeshProUGUI cardAbilityDescriptionText;
     public TextMeshProUGUI cardPointsText;
@@ -42,6 +43,7 @@ public class PlayerHUD : NetworkBehaviour
     public float anteChargedMessage_t;
     public float showEndTurnMessage_t;
     public float showAnteTurnMessage_t;
+    public float showSwapCardTip_t;
     public float showMessage_t;
     public float[] showTrioScoreText_t;
     public float[] showTrioScoreTextDelay_t;
@@ -160,6 +162,16 @@ public class PlayerHUD : NetworkBehaviour
             {
                 anteChargedMessage_t = 0f;
                 anteChargedMessagePanel.SetActive(false);
+            }
+        }
+
+        if (showSwapCardTip_t > 0f)
+        {
+            showSwapCardTip_t -= dt;
+            if (showSwapCardTip_t <= 0f)
+            {
+                showSwapCardTip_t = 0f;
+                swapCardTipPanel.SetActive(false);
             }
         }
     }
@@ -453,5 +465,11 @@ else
     {
         anteChargedMessage_t = 2f;
         anteChargedMessagePanel.SetActive(true);
+    }
+
+    public void ShowSwapCardTip()
+    {
+        showSwapCardTip_t = 2f;
+        swapCardTipPanel.SetActive(true);
     }
 }
