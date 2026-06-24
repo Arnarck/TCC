@@ -204,11 +204,11 @@ public class PlayerController : NetworkBehaviour
                 {
                     if (selectedPlayer.cardsInHand.Count > 0)
                     {
-                        playerHUD.TargetShowMessage("Agora escolha uma carta da mão do jogador.", 1f);
+                        playerHUD.TargetShowMessage("Now choose a card from player's hand.", 1f);
                     }
                     else
                     {
-                        playerHUD.TargetShowMessage("Este jogador não possui cartas em sua mão. Tente outro jogador.", 1f);
+                        playerHUD.TargetShowMessage("This player has no cards in hand. Try another one.", 1f);
                         selectedPlayer = null;
                         return; // Prevents the 'canSelectOtherPlayer' variable becomes false
                     }
@@ -1269,7 +1269,7 @@ public class PlayerController : NetworkBehaviour
                     if (__Server_HasSomePlayerWithCardsInHand()) 
                     { 
                         pointsToChooseToReduce = 5;
-                        playerHUD.TargetShowMessage("Escolha uma carta de um jogador para reduzir em 5 pontos.", 1f); 
+                        playerHUD.TargetShowMessage("Choose a player's card to reduce by 5 points.", 1f); 
                         break;
                     }
 
@@ -1286,7 +1286,7 @@ public class PlayerController : NetworkBehaviour
                             if (player.cardsInHand.Count > 0)
                             {
                                 canSelectOtherPlayer = true;
-                                playerHUD.TargetShowMessage("Escolha um jogador para roubar uma de suas cartas.", 1f);
+                                playerHUD.TargetShowMessage("Choose a player to steal one of his cards.", 1f);
                                 break;
                             }
                         }
@@ -1309,7 +1309,7 @@ public class PlayerController : NetworkBehaviour
                             if (player.score >= scoreToStolenFromAnotherPlayer)
                             {
                                 canSelectOtherPlayer = true;
-                                playerHUD.TargetShowMessage("Escolha um jogador de quem você quer roubar fichas.", 1f);
+                                playerHUD.TargetShowMessage("Choose a player to steal his chips.", 1f);
                                 break;
                             }
                         }
@@ -1330,7 +1330,7 @@ public class PlayerController : NetworkBehaviour
                             MAX_CARDS_IN_HAND)
                         {
                             canSelectOtherPlayer = true;
-                            playerHUD.TargetShowMessage("Escolha um jogador para preencher sua mão com anões.", 1f);
+                            playerHUD.TargetShowMessage("Choose a player to fill his hand with dwarves.", 1f);
                             break;
                         }
                     }
@@ -1345,7 +1345,7 @@ public class PlayerController : NetworkBehaviour
                     if (__Server_HasSomePlayerWithCardsInHand())
                     {
                         canSelectOtherPlayer = true;
-                        playerHUD.TargetShowMessage("Escolha um jogaodr para transformar uma de suas cartas em um sapo.", 1f);
+                        playerHUD.TargetShowMessage("Choose a player to turn one of his cards into a frog.", 1f);
                         break;
                     }
 
@@ -1353,7 +1353,7 @@ public class PlayerController : NetworkBehaviour
                 }
             case Ability_Type.SHUFFLE_ADJACENT_CARDS:
                 {
-                    playerHUD.TargetShowMessage("Escolha uma carta da mesa para embaralhar as suas adjacentes.", 1f);
+                    playerHUD.TargetShowMessage("Choose a card to shuffle its adjacent cards.", 1f);
                 } break;
             case Ability_Type.NONE:
                 {
@@ -1381,7 +1381,7 @@ public class PlayerController : NetworkBehaviour
 
     public void ServerShowMessageToImproveCard()
     {
-        playerHUD.TargetShowMessage("Escolha uma carta para aumentar em 5 pontos.", 1f);
+        playerHUD.TargetShowMessage("Choose a card to improve by 5 chips.", 1f);
     }
 
     [Command]
