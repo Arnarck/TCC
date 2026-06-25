@@ -4122,7 +4122,7 @@ GameObject:
   - component: {fileID: 851051280}
   - component: {fileID: 851051279}
   m_Layer: 0
-  m_Name: Spot Light (1)
+  m_Name: Light Cards
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7774,7 +7774,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1559899397
 Transform:
   m_ObjectHideFlags: 0

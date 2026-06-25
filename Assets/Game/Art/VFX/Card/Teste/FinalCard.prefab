@@ -54,6 +54,9 @@ VisualEffect:
       - m_Value: 1.33
         m_Name: Size
         m_Overridden: 1
+      - m_Value: 0.03
+        m_Name: SizeStar
+        m_Overridden: 1
     m_Vector2f:
       m_Array:
       - m_Value: {x: 0.46, y: 0.67}
@@ -113,8 +116,8 @@ VisualEffect:
       m_Array:
       - m_Value:
           serializedVersion: 2
-          key0: {r: 2.588408, g: 5.3531737, b: 6.307385, a: 1}
-          key1: {r: 0.6690548, g: 0.8519658, b: 0.9150943, a: 0.8980392}
+          key0: {r: 0.7702183, g: 1.0817401, b: 1.4980392, a: 1}
+          key1: {r: 1.3381096, g: 1.7039316, b: 1.8301886, a: 0.8980392}
           key2: {r: 0, g: 0, b: 0, a: 0.7411765}
           key3: {r: 0, g: 0, b: 0, a: 0}
           key4: {r: 0, g: 0, b: 0, a: 0}
