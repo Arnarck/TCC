@@ -3,9 +3,11 @@ using Mirror;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Reflection;
 
 public class PlayerHUD : NetworkBehaviour
 {
+    
     public GameObject showStartMessagePanel;
     public GameObject showEndTurnMessagePanel;
     public GameObject showAnteTurnMessagePanel;
@@ -54,6 +56,11 @@ public class PlayerHUD : NetworkBehaviour
     public TextMeshProUGUI respectF3Text;
     public TextMeshProUGUI respectF4Text;
 
+    [Header("Respect UI")]
+    public Image f1Badge;
+    public Image f2Badge;
+    public Image f3Badge;
+    public Image f4Badge;
     void Start()
     {
         if (startGameButton != null)
@@ -66,6 +73,11 @@ public class PlayerHUD : NetworkBehaviour
         {
             canvasWorldSpace.SetActive(false);
         }
+
+        f1Badge.enabled = false;
+        f2Badge.enabled = false;
+        f3Badge.enabled = false;
+        f4Badge.enabled = false;   
     }
 
     void OnStartGameClick()
@@ -365,16 +377,20 @@ else
         switch (family)
         {
             case Family_Type.FAMILY_1:
-                if (respectF1Text != null) respectF1Text.text = "F1: " + text;
+                if (respectF1Text != null) respectF1Text.text = "    :" + text;
+                f1Badge.enabled = true;
                 break;
             case Family_Type.FAMILY_2:
-                if (respectF2Text != null) respectF2Text.text = "F2: " + text;
+                if (respectF2Text != null) respectF2Text.text = "    :" + text;
+                f2Badge.enabled = true;
                 break;
             case Family_Type.FAMILY_3:
-                if (respectF3Text != null) respectF3Text.text = "F3: " + text;
+                if (respectF3Text != null) respectF3Text.text = "    :" + text;
+                f3Badge.enabled = true;
                 break;
             case Family_Type.FAMILY_4:
-                if (respectF4Text != null) respectF4Text.text = "F4: " + text;
+                if (respectF4Text != null) respectF4Text.text = "    :" + text;
+                f4Badge.enabled = true;
                 break;
         }
     }
