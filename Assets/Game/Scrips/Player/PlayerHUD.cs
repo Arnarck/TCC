@@ -3,11 +3,16 @@ using Mirror;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Reflection;
 
 public class PlayerHUD : NetworkBehaviour
 {
+    
     public GameObject showStartMessagePanel;
-    public GameObject ShowEndTurnMessagePanel;
+    public GameObject showEndTurnMessagePanel;
+    public GameObject showAnteTurnMessagePanel;
+    public GameObject anteChargedMessagePanel;
+    public GameObject swapCardTipPanel;
     public RectTransform cardPanel;
     public TextMeshProUGUI cardAbilityDescriptionText;
     public TextMeshProUGUI cardPointsText;
@@ -37,7 +42,10 @@ public class PlayerHUD : NetworkBehaviour
     [Header("INTERNAL")]
     public GameObject currentCardShownInPanel;
     public float showStartMessage_t;
+    public float anteChargedMessage_t;
     public float showEndTurnMessage_t;
+    public float showAnteTurnMessage_t;
+    public float showSwapCardTip_t;
     public float showMessage_t;
     public float[] showTrioScoreText_t;
     public float[] showTrioScoreTextDelay_t;
@@ -48,6 +56,11 @@ public class PlayerHUD : NetworkBehaviour
     public TextMeshProUGUI respectF3Text;
     public TextMeshProUGUI respectF4Text;
 
+    [Header("Respect UI")]
+    public Image f1Badge;
+    public Image f2Badge;
+    public Image f3Badge;
+    public Image f4Badge;
     void Start()
     {
         if (startGameButton != null)
@@ -60,6 +73,11 @@ public class PlayerHUD : NetworkBehaviour
         {
             canvasWorldSpace.SetActive(false);
         }
+
+        f1Badge.enabled = false;
+        f2Badge.enabled = false;
+        f3Badge.enabled = false;
+        f4Badge.enabled = false;   
     }
 
     void OnStartGameClick()
@@ -135,7 +153,37 @@ public class PlayerHUD : NetworkBehaviour
             if (showEndTurnMessage_t <= 0f)
             {
                 showEndTurnMessage_t = 0f;
-                ShowEndTurnMessagePanel.SetActive(false);
+                showEndTurnMessagePanel.SetActive(false);
+            }
+        }
+
+        if (showAnteTurnMessage_t > 0f)
+        {
+            showAnteTurnMessage_t -= dt;
+            if (showAnteTurnMessage_t <= 0f)
+            {
+                showAnteTurnMessage_t = 0f;
+                showAnteTurnMessagePanel.SetActive(false);
+            }
+        }
+
+        if (anteChargedMessage_t > 0f)
+        {
+            anteChargedMessage_t -= dt;
+            if (anteChargedMessage_t <= 0f)
+            {
+                anteChargedMessage_t = 0f;
+                anteChargedMessagePanel.SetActive(false);
+            }
+        }
+
+        if (showSwapCardTip_t > 0f)
+        {
+            showSwapCardTip_t -= dt;
+            if (showSwapCardTip_t <= 0f)
+            {
+                showSwapCardTip_t = 0f;
+                swapCardTipPanel.SetActive(false);
             }
         }
     }
@@ -151,6 +199,15 @@ public class PlayerHUD : NetworkBehaviour
     public void UpdateScore()
     {
         scoreText.text = player.score.ToString();
+        if (player.score < player.antePrice)
+        {
+            scoreText.color = Color.red;
+            //scoreText.text += "<size=50%>(Not enough money!)";
+        }
+        else
+        {
+            scoreText.color = Color.green;
+        }
     }
 
     public void UpdateWorldSpaceCanvasScore()
@@ -320,16 +377,20 @@ else
         switch (family)
         {
             case Family_Type.FAMILY_1:
-                if (respectF1Text != null) respectF1Text.text = "F1: " + text;
+                if (respectF1Text != null) respectF1Text.text = "    :" + text;
+                f1Badge.enabled = true;
                 break;
             case Family_Type.FAMILY_2:
-                if (respectF2Text != null) respectF2Text.text = "F2: " + text;
+                if (respectF2Text != null) respectF2Text.text = "    :" + text;
+                f2Badge.enabled = true;
                 break;
             case Family_Type.FAMILY_3:
-                if (respectF3Text != null) respectF3Text.text = "F3: " + text;
+                if (respectF3Text != null) respectF3Text.text = "    :" + text;
+                f3Badge.enabled = true;
                 break;
             case Family_Type.FAMILY_4:
-                if (respectF4Text != null) respectF4Text.text = "F4: " + text;
+                if (respectF4Text != null) respectF4Text.text = "    :" + text;
+                f4Badge.enabled = true;
                 break;
         }
     }
@@ -343,7 +404,7 @@ else
     public void ShowEndTurnMessage()
     {
         showEndTurnMessage_t = 2f;
-        ShowEndTurnMessagePanel.SetActive(true);
+        showEndTurnMessagePanel.SetActive(true);
     }
 
 
@@ -370,9 +431,16 @@ else
         Connect.Instance?.HideConnectPanel();
     }
 
+    public void ShowAnteTurnMessage()
+    {
+        showAnteTurnMessage_t = 2.5f;
+        showAnteTurnMessagePanel.SetActive(true);
+    }
 
 
- 
+
+
+
 
     private void OnDestroy()
     {
@@ -397,8 +465,27 @@ else
         for (int i = 0; i < players.Count; i++)
         {
             var p = players[i];
-            sb.AppendLine($"Player {i + 1}: {p.score}");
+            if (player == p)
+            {
+                sb.AppendLine($"Player {p.playerIndex + 1} (You): {p.score}");
+            }
+            else
+            {
+                sb.AppendLine($"Player {p.playerIndex + 1}: {p.score}");
+            }
         }
         scoreboardText.text = sb.ToString();
+    }
+
+    public void ShowAnteChargedMessage()
+    {
+        anteChargedMessage_t = 2f;
+        anteChargedMessagePanel.SetActive(true);
+    }
+
+    public void ShowSwapCardTip()
+    {
+        showSwapCardTip_t = 2f;
+        swapCardTipPanel.SetActive(true);
     }
 }

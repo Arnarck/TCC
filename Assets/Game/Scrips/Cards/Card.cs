@@ -71,7 +71,7 @@ public enum Ability_Type
 public class Card : NetworkBehaviour
 {
     public Card_Type type;
-    public int points;
+    [SyncVar] public int points;
     public Family_Type familyType;
     public Ability_Type abilityType;
     public GameObject visual;
