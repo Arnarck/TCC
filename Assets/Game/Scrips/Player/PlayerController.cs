@@ -250,7 +250,9 @@ public class PlayerController : NetworkBehaviour
         int cardsToSpawn = MAX_CARDS_IN_HAND - player.cardsInHand.Count;
         for (int i = 0; i < cardsToSpawn; i++)
         {
-            player.__ServerSpawnCardInHand(Card_Type.DWARF, player.cardsInHand.Count);
+            int dwarfIndex = player.cardsInHand.Count;
+            player.__ServerSpawnCardInHand(Card_Type.DWARF, dwarfIndex);
+            player.cardsInHand[dwarfIndex].points = 0;
         }
     }
 
