@@ -95,7 +95,7 @@ public class CardNetworkManager : RelayNetworkManager
             }
             else
             {
-                player.playerHUD.TargetDisplayTurn("Player " + (currentPlayerTurnIndex + 1) + " turn");
+                player.playerHUD.TargetDisplayTurn("Player " + (i + 1) + " turn");
                 player.GetComponentInChildren<vfxTurn>().Desactive();//@VITOR
             }
         }
@@ -114,12 +114,7 @@ public class CardNetworkManager : RelayNetworkManager
 
         GI.cardSystem.ServerUpdateCurrentRound(currentRound);
 
-        // Notify all players that a new round has started
-        for (int i = 0; i < players.Count; i++)
-        {
-            PlayerController player = players[i].identity.GetComponent<PlayerController>();
-            player.TargetStartNewRound(currentRound == 4);
-        }
+
 
         if (currentRound > 0 && currentRound % 5 == 0)
         {
@@ -190,12 +185,6 @@ public class CardNetworkManager : RelayNetworkManager
         }
         
         antePrice += anteIncrement;
-        for (int i = 0; i < players.Count; i++)
-        {
-            PlayerController player = players[i].identity.GetComponent<PlayerController>();
-            player.antePrice = antePrice;
-            player.TargetStartNewRoundAfterAnte();
-        }
       
 // Check for win/lose conditions
 if (players.Count == 1)
@@ -310,19 +299,12 @@ else if (players.Count == 0)
     {
         gameStarted = true;
 
-        int playerIndex = 0;
         foreach (var conn in players)
         {
             var pc = conn.identity.GetComponent<PlayerController>();
-
-            pc.antePrice = antePrice;
-            pc.playerIndex = playerIndex;
-
             pc.playerHUD.TargetHideLobby();
             pc.playerHUD.TargetShowMainHUD();
             pc.playerHUD.TargetHideConnectMenu();
-
-            playerIndex++;
         }
 
         GI.cardSystem.StartMemorizationPhase();

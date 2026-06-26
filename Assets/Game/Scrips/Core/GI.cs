@@ -22,19 +22,19 @@ public static class GI
         {
             case Ability_Type.NONE:
                 {
-                    if      (cardType == Card_Type.DWARF) { return "This card is destroyed after being played or discarded"; }
-                    else if (cardType == Card_Type.FROG)  { return "(Requires: Princess (1)): Transform back into a Prince"; }
+                    if      (cardType == Card_Type.DWARF) { return "Essa carta e destruida depois de jogada ou descartada"; }
+                    else if (cardType == Card_Type.FROG)  { return "(Requer: Princesa (1)): Se transforme de volta em principe"; }
 
                     Debug.LogError("No ability description created for " + cardType + " card!");
                     return "";
                 }
-            case Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS:                      return "Choose a Character in your hand. It gains 5 chips";
-            case Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS:                return "Choose a Character in another player's hand. It loses 5 chips";
-            case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:                             return "Choose another player and steal one of their cards";
-            case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE: return "Choose another player, steal 5 chips from them and give them to the player with the lowest score";
-            case Ability_Type.SPAWN_DWARVES_IN_PLAYER_HAND_UNTIL_ITS_FULL:           return "Choose a player and create Dwarves in their hand until it is full";
-            case Ability_Type.TURN_A_PLAYER_CARD_INTO_A_FROG:                        return "Choose another player and turn a random Character in their hand into a Frog";
-            case Ability_Type.SHUFFLE_ADJACENT_CARDS:                                return "Choose a card on the table and shuffle it along with its adjacent cards";
+            case Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS:                      return "Escolha um Personagem na sua mao e ele sera aprimorado em 5 fichas";
+            case Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS:                return "Escolha um Personagem na mao de outro jogador e o rebaixe em 5 fichas";
+            case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:                             return "Escolha outro jogador e roube uma de suas cartas";
+            case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE: return "Escolha outro jogador, roube 5 fichas dele e as de ao jogador com menos";
+            case Ability_Type.SPAWN_DWARVES_IN_PLAYER_HAND_UNTIL_ITS_FULL:           return "Escolha um jogador e crie anoes em sua mao ate que ela esteja cheia";
+            case Ability_Type.TURN_A_PLAYER_CARD_INTO_A_FROG:                        return "Escolha outro jogador e transforme um dos personagem aleatorio em sua mao em um sapo";
+            case Ability_Type.SHUFFLE_ADJACENT_CARDS:                                return "Escolha uma carta da mesa, embaralhe ela e as adjacentes";
         }
 
         Debug.LogError("No ability description created for " + abilityType + " ability!");
