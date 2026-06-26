@@ -14,13 +14,13 @@ public class vfxTurn : MonoBehaviour
     public void Active()//List<GameObject> cards)
     {
         //listCard = cards;
-        //OnLight();
-        //OnCanvaCard();
+        OnLight();
+        OnCanvaCard();
     }
     public void Desactive()
     {
-        //OffLight();
-        //OffCanvaCard();
+        OffLight();
+        OffCanvaCard();
     }
     
 
