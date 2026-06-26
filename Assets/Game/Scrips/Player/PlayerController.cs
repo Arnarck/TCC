@@ -247,8 +247,7 @@ public class PlayerController : NetworkBehaviour
     [Server]
     public void __ServerSpawnDwarvesInPlayerHand(PlayerController player)
     {
-        int cardsToSpawn = MAX_CARDS_IN_HAND - player.cardsInHand.Count;
-        for (int i = 0; i < cardsToSpawn; i++)
+        if (player.cardsInHand.Count < MAX_CARDS_IN_HAND)
         {
             int dwarfIndex = player.cardsInHand.Count;
             player.__ServerSpawnCardInHand(Card_Type.DWARF, dwarfIndex);
