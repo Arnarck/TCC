@@ -71,7 +71,7 @@ public enum Ability_Type
 public class Card : NetworkBehaviour
 {
     public Card_Type type;
-    [SyncVar] public int points;
+    [SyncVar(hook = nameof(UpdatePoints))] public int points;
     public Family_Type familyType;
     public Ability_Type abilityType;
     public GameObject visual;
@@ -136,4 +136,13 @@ public class Card : NetworkBehaviour
     {
         GI.playerHUD.HideCardAbilityPanel();
     }
+
+    public void UpdatePoints(int oldValue, int newValue)
+    {
+        if (newValue < 0)
+        {
+            points = 0;
+        }
+    }
 }
+
