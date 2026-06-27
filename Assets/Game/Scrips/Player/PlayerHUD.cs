@@ -63,6 +63,7 @@ public class PlayerHUD : NetworkBehaviour
     public Image f4Badge;
     void Start()
     {
+
         if (startGameButton != null)
             startGameButton.onClick.AddListener(OnStartGameClick);
 
