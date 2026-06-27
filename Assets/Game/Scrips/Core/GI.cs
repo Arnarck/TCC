@@ -28,7 +28,7 @@ public static class GI
                     Debug.LogError("No ability description created for " + cardType + " card!");
                     return "";
                 }
-            case Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS:                      return "Choose a Character in your hand. It gains 5 chips";
+            case Ability_Type.IMPROVE_ANOTHER_CARD_BY_X_POINTS:                      return "Choose a Character in your hand. It gains 3 chips";
             case Ability_Type.REDUCE_ANOTHER_PLAYER_CARD_BY_X_POINTS:                return "Choose a Character in another player's hand. It loses 5 chips";
             case Ability_Type.STEAL_ANOTHER_PLAYER_CARD:                             return "Choose another player and steal one of their cards";
             case Ability_Type.STEAL_PLAYER_SCORE_AND_GIVE_TO_PLAYER_WITH_LESS_SCORE: return "Choose another player, steal 5 chips from them and give them to the player with the lowest score";

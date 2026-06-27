@@ -1254,7 +1254,7 @@ public class PlayerController : NetworkBehaviour
                 {
                     if (cardsInHand.Count > 0)
                     {
-                        pointsToChooseToImprove = 5;
+                        pointsToChooseToImprove = 3;
                         ServerShowMessageToImproveCard();
                     }
                     else
@@ -1382,7 +1382,7 @@ public class PlayerController : NetworkBehaviour
 
     public void ServerShowMessageToImproveCard()
     {
-        playerHUD.TargetShowMessage("Choose a card to improve by 5 chips.", 1f);
+        playerHUD.TargetShowMessage("Choose a card to improve by 3 chips.", 1f);
     }
 
     [Command]
