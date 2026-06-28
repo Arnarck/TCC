@@ -486,7 +486,7 @@ else
 
     public void ShowSwapCardTip()
     {
-        showSwapCardTip_t = 2f;
+        showSwapCardTip_t = 8f;
         swapCardTipPanel.SetActive(true);
     }
 }
