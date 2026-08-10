@@ -1,0 +1,233 @@
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class PlayerController : MonoBehaviour
+{
+    public const int MAX_CARDS_IN_HAND = 5;
+
+    public PlayerHUD playerHUD;
+    public Transform cameraStartPoint;
+    public Transform cameraPointWhenChoosingCards;
+    public Camera player_camera;
+    public Transform[] trio_spawn_points;
+    public Transform[] cards_spawn_points;
+    public List<Card> selected_cards;
+    public Card[] cards_in_hand;
+    public List<Card> cards_in_trio;
+
+    [Header("INTERNAL")]
+    public int score;
+    public int actionsRemaining;
+    public bool game_stopped;
+
+    public List<Ability_Type> abilities_to_apply;
+    public Ability_Type current_ability;
+
+    void Awake()
+    {
+        GI.player = this;
+    }
+
+    private void Start()
+    {
+        current_ability = Ability_Type.NONE;
+        cards_in_hand = new Card[MAX_CARDS_IN_HAND];
+    }
+
+    private void Update()
+    {
+        if (GI.card_system.is_memorization_phase || game_stopped)
+        {
+            return;
+        }
+
+        float dt = Time.deltaTime;
+
+        { // Select Card
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = player_camera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 6))
+                {
+                    Card card = hit.collider.gameObject.GetComponent<Card>();
+                    if (card.is_in_desk)
+                    {
+                        if (selected_cards.Count > 0)
+                        {
+                            // Swap card in hand with card in the desk
+                            Card card_to_move_to_desk = selected_cards[selected_cards.Count - 1];
+                            int index_in_hand = remove_card_from_hand(card_to_move_to_desk);
+
+                            int index_in_desk = GI.card_system.remove_card_from_desk(card);
+                            add_card_to_hand(card, index_in_hand);
+
+                            GI.card_system.add_card_to_desk(card_to_move_to_desk, index_in_desk);
+                        }
+                        else if (has_available_space_in_hand())
+                        {
+                            // Add card to hand
+                            GI.card_system.remove_card_from_desk(card);
+
+                            int first_available_index = -1;
+                            for (int i = 0; i < cards_in_hand.Length; i++)
+                            {
+                                if (cards_in_hand[i] == null)
+                                {
+                                    first_available_index = i;
+                                    break;
+                                }
+                            }
+                            add_card_to_hand(card, first_available_index);
+                        }
+                    }
+                    else if (!card.is_in_desk && is_card_in_hand(card))
+                    {
+                        if (selected_cards.Contains(card))
+                        {
+                            deselect_card(card);
+                        }
+                        else
+                        {
+                            select_card(card);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Trio
+        if (Input.GetKeyDown(KeyCode.Space) && selected_cards.Count == 3)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                Card card = selected_cards[0];
+                remove_card_from_hand(card);
+
+                cards_in_trio.Add(card);
+
+                Transform trio_spawn_point = trio_spawn_points[i];
+                card.transform.position = trio_spawn_point.position;
+                card.transform.rotation = trio_spawn_point.rotation;
+            }
+
+            // Reorder cards
+            int first_available_index = -1;
+            for (int i = 0; i < cards_in_hand.Length; i++)
+            {
+                if (cards_in_hand[i] == null && first_available_index < 0)
+                {
+                    // Sets the first available index
+                    first_available_index = i;
+                }
+                else if (cards_in_hand[i] != null && first_available_index >= 0)
+                {
+                    // Moves the card to the first available index
+                    Card card = cards_in_hand[i];
+                    cards_in_hand[first_available_index] = card;
+                    cards_in_hand[i] = null;
+
+                    Transform spawn_point = cards_spawn_points[first_available_index];
+                    card.transform.position = spawn_point.position;
+                    card.transform.rotation = spawn_point.rotation;
+
+                    i = first_available_index;
+                    first_available_index = -1;
+                }
+            }
+        }
+    }
+
+    public bool has_available_space_in_hand()
+    {
+        for (int i = 0; i < cards_in_hand.Length; i++)
+        {
+            if (cards_in_hand[i] == null)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool is_card_in_hand(Card card)
+    {
+        for (int i = 0; i < cards_in_hand.Length; i++)
+        {
+            if (cards_in_hand[i] == card)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void select_card(Card card)
+    {
+        card.transform.position += Vector3.up*0.1f;
+        selected_cards.Add(card);
+    }
+
+    public void deselect_card(Card card)
+    {
+        if (!selected_cards.Contains(card)) 
+        { 
+            return; 
+        }
+
+        card.transform.position -= Vector3.up * 0.1f;
+        selected_cards.Remove(card);
+    }
+
+    public void add_card_to_hand(Card card, int index)
+    {
+        card.is_in_desk = false;
+        cards_in_hand[index] = card;
+
+        card.transform.position = cards_spawn_points[index].position;
+        card.transform.rotation = cards_spawn_points[index].rotation;
+    }
+
+    public int remove_card_from_hand(Card card)
+    {
+        deselect_card(card);
+        for (int i = 0; i < cards_in_hand.Length; i++)
+        {
+            if (cards_in_hand[i] == card)
+            {
+                cards_in_hand[i] = null;
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public void TargetPlayStealVFX(int cardToStealIndex, int spawnedCardIndex, PlayerController playerToStealFrom)
+    {
+        Card spawnedCard = cards_in_hand[spawnedCardIndex];
+        spawnedCard.transform.position = playerToStealFrom.cards_spawn_points[cardToStealIndex].position;
+        spawnedCard.transform.rotation = playerToStealFrom.cards_spawn_points[cardToStealIndex].rotation;
+
+        vfxSteal vfx = spawnedCard.GetComponent<vfxSteal>(); //@VITOR 
+
+        vfx.pontoA = playerToStealFrom.cards_spawn_points[cardToStealIndex];
+        //vfx.pontoBpos = cardsSpawnPoints[spawnedCardIndex].position;
+        //vfx.pontoBrot = cardsSpawnPoints[spawnedCardIndex].rotation;
+        vfx.pontoB = cards_spawn_points[spawnedCardIndex];
+        vfx.Active();
+    }
+
+    public void ShuffleCardVFX(List<GameObject> Listcard, GameObject pos)
+    {
+        float delay = 1f;
+
+        for(int i = 0; i < Listcard.Count; i++){
+        Listcard[i].GetComponentInChildren<vfxShuffle>().Active( pos, delay);
+        Debug.Log(Listcard[i].gameObject.GetInstanceID());
+        }
+    }
+}
