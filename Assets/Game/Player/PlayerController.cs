@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("INTERNAL")]
     public int score;
-    public int actionsRemaining;
+    public int actions_remaining;
     public bool game_stopped;
 
     public List<Ability_Type> abilities_to_apply;
@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     {
         current_ability = Ability_Type.NONE;
         cards_in_hand = new Card[MAX_CARDS_IN_HAND];
+        actions_remaining = 2;
     }
 
     private void Update()
@@ -64,6 +65,7 @@ public class PlayerController : MonoBehaviour
                             add_card_to_hand(card, index_in_hand);
 
                             GI.card_system.add_card_to_desk(card_to_move_to_desk, index_in_desk);
+                            decrease_actions_remaining();
                         }
                         else if (has_available_space_in_hand())
                         {
@@ -80,6 +82,7 @@ public class PlayerController : MonoBehaviour
                                 }
                             }
                             add_card_to_hand(card, first_available_index);
+                            decrease_actions_remaining();
                         }
                     }
                     else if (!card.is_in_desk && is_card_in_hand(card))
@@ -136,7 +139,14 @@ public class PlayerController : MonoBehaviour
                     first_available_index = -1;
                 }
             }
+
+            decrease_actions_remaining();
         }
+    }
+
+    public void decrease_actions_remaining()
+    {
+        actions_remaining--;
     }
 
     public bool has_available_space_in_hand()
