@@ -12,8 +12,9 @@ And as a static class, it will persist across scenes, so we can use it to store 
 public static class GI
 {
     public static CardSystem card_system;
-    public static PlayerHUD playerHUD;
+    public static PlayerHUD player_hud;
     public static PlayerController player;
+    public static Boss boss;
 
     public static string GetCardAbilityDescription(Card_Type cardType, Ability_Type abilityType)
     {

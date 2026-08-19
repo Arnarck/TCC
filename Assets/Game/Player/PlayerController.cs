@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     public List<Card> cards_in_trio;
 
     [Header("INTERNAL")]
-    public int score;
+    public int points;
     public int actions_remaining;
     public bool game_stopped;
 
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (GI.card_system.is_memorization_phase || game_stopped)
+        if (GI.card_system.is_memorization_phase || !GI.card_system.is_player_turn || game_stopped)
         {
             return;
         }
@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Trio
-        if (Input.GetKeyDown(KeyCode.Space) && selected_cards.Count == 3)
+        if (Input.GetKeyDown(KeyCode.Space) && selected_cards.Count == 3 && actions_remaining > 0)
         {
             for (int i = 0; i < 3; i++)
             {
@@ -144,9 +144,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void start_game()
+    {
+        points = 100;
+        GI.player_hud.update_points_text();
+    }
+
+    public void start_turn()
+    {
+        actions_remaining = 2;
+    }
+
+    public void remove_points(int amount)
+    {
+        points -= amount;
+        if (points <= 0)
+        {
+            Debug.Log("Game Over");
+        }
+    }
+
     public void decrease_actions_remaining()
     {
         actions_remaining--;
+        if (actions_remaining <= 0)
+        {
+            GI.card_system.update_turn();
+        }
     }
 
     public bool has_available_space_in_hand()

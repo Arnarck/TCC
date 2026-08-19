@@ -16,6 +16,7 @@ public class CardSystem : MonoBehaviour
     public Transform[] cards_spawn_points;
 
     [Header("INTERNAL")]
+    public bool is_player_turn;
     public bool is_memorization_phase;
     public float memorization_time = 10f;
     public Card[] cards_in_desk;
@@ -29,13 +30,7 @@ public class CardSystem : MonoBehaviour
 
     private void Start()
     {
-        // Spawn random cards
-        cards_in_desk = new Card[cards_spawn_points.Length];
-        for (int i = 0; i < cards_spawn_points.Length; i++)
-        {
-            GameObject go = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)], cards_parent);
-            add_card_to_desk(go.GetComponent<Card>(), i);
-        }
+        start_game();
     }
 
     public int remove_card_from_desk(Card card)
@@ -60,5 +55,33 @@ public class CardSystem : MonoBehaviour
         card.transform.position = spawn_point.position;
         card.transform.rotation = spawn_point.rotation;
         card.is_in_desk = true;
+    }
+
+    public void start_game()
+    {
+        // Spawn random cards
+        cards_in_desk = new Card[cards_spawn_points.Length];
+        for (int i = 0; i < cards_spawn_points.Length; i++)
+        {
+            GameObject go = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)], cards_parent);
+            add_card_to_desk(go.GetComponent<Card>(), i);
+        }
+
+        is_player_turn = true;
+        GI.player.start_turn();
+    }
+
+    public void update_turn()
+    {
+        if (is_player_turn)
+        {
+            is_player_turn = false;
+            GI.boss.start_turn();
+        }
+        else
+        {
+            is_player_turn = true;
+            GI.player.start_turn();
+        }
     }
 }
