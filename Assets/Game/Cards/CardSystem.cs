@@ -67,8 +67,10 @@ public class CardSystem : MonoBehaviour
             add_card_to_desk(go.GetComponent<Card>(), i);
         }
 
-        is_player_turn = true;
-        GI.player.start_turn();
+        GI.player.start_game();
+        GI.boss.start_game();
+
+        __start_player_turn();
     }
 
     public void update_turn()
@@ -77,11 +79,20 @@ public class CardSystem : MonoBehaviour
         {
             is_player_turn = false;
             GI.boss.start_turn();
+            GI.player_hud.hide_player_turn_message();
+            GI.player_hud.show_boss_turn_message();
         }
         else
         {
-            is_player_turn = true;
-            GI.player.start_turn();
+            __start_player_turn();
         }
+    }
+
+    public void __start_player_turn()
+    {
+        is_player_turn = true;
+        GI.player.start_turn();
+        GI.player_hud.hide_boss_turn_message();
+        GI.player_hud.show_player_turn_message();
     }
 }

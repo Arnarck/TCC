@@ -56,6 +56,11 @@ public class Boss : MonoBehaviour
         }
     }
 
+    public void start_game()
+    {
+
+    }
+
     public void start_turn()
     {
         finish_turn_t = 2f;

@@ -29,13 +29,6 @@ public class PlayerController : MonoBehaviour
         GI.player = this;
     }
 
-    private void Start()
-    {
-        current_ability = Ability_Type.NONE;
-        cards_in_hand = new Card[MAX_CARDS_IN_HAND];
-        actions_remaining = 2;
-    }
-
     private void Update()
     {
         if (GI.card_system.is_memorization_phase || !GI.card_system.is_player_turn || game_stopped)
@@ -146,6 +139,9 @@ public class PlayerController : MonoBehaviour
 
     public void start_game()
     {
+        current_ability = Ability_Type.NONE;
+        cards_in_hand = new Card[MAX_CARDS_IN_HAND];
+
         points = 100;
         GI.player_hud.update_points_text();
     }
@@ -153,6 +149,7 @@ public class PlayerController : MonoBehaviour
     public void start_turn()
     {
         actions_remaining = 2;
+        GI.player_hud.update_actions_remaining_text();
     }
 
     public void remove_points(int amount)
@@ -160,8 +157,11 @@ public class PlayerController : MonoBehaviour
         points -= amount;
         if (points <= 0)
         {
+            points = 0;
             Debug.Log("Game Over");
         }
+
+        GI.player_hud.update_points_text();
     }
 
     public void decrease_actions_remaining()
@@ -171,6 +171,8 @@ public class PlayerController : MonoBehaviour
         {
             GI.card_system.update_turn();
         }
+
+        GI.player_hud.update_actions_remaining_text();
     }
 
     public bool has_available_space_in_hand()
