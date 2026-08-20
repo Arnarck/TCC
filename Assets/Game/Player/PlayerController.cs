@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour
 {
     public const int MAX_CARDS_IN_HAND = 5;
 
-    public PlayerHUD playerHUD;
     public Transform cameraStartPoint;
     public Transform cameraPointWhenChoosingCards;
     public Camera player_camera;
@@ -17,9 +16,10 @@ public class PlayerController : MonoBehaviour
     public List<Card> cards_in_trio;
 
     [Header("INTERNAL")]
-    public int points;
+    public int health;
     public int actions_remaining;
     public bool game_stopped;
+    public bool game_over;
 
     public List<Ability_Type> abilities_to_apply;
     public Ability_Type current_ability;
@@ -29,8 +29,24 @@ public class PlayerController : MonoBehaviour
         GI.player = this;
     }
 
+    private void Start()
+    {
+        resume_game();
+    }
+
     private void Update()
     {
+        if (game_over)
+        {
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (game_stopped) { resume_game(); }
+            else              { stop_game(); }
+        }
+
         if (GI.card_system.is_memorization_phase || !GI.card_system.is_player_turn || game_stopped)
         {
             return;
@@ -96,19 +112,23 @@ public class PlayerController : MonoBehaviour
         // Trio
         if (Input.GetKeyDown(KeyCode.Space) && selected_cards.Count == 3 && actions_remaining > 0)
         {
+            // Place cards in desk
             for (int i = 0; i < 3; i++)
             {
                 Card card = selected_cards[0];
                 remove_card_from_hand(card);
 
                 cards_in_trio.Add(card);
+                card.make_trio();
 
                 Transform trio_spawn_point = trio_spawn_points[i];
                 card.transform.position = trio_spawn_point.position;
                 card.transform.rotation = trio_spawn_point.rotation;
+
+                GI.boss.take_damage(card.points);
             }
 
-            // Reorder cards
+            // Reorder cards in hand
             int first_available_index = -1;
             for (int i = 0; i < cards_in_hand.Length; i++)
             {
@@ -142,8 +162,8 @@ public class PlayerController : MonoBehaviour
         current_ability = Ability_Type.NONE;
         cards_in_hand = new Card[MAX_CARDS_IN_HAND];
 
-        points = 100;
-        GI.player_hud.update_points_text();
+        health = 100;
+        GI.player_hud.update_player_health_text();
     }
 
     public void start_turn()
@@ -152,16 +172,16 @@ public class PlayerController : MonoBehaviour
         GI.player_hud.update_actions_remaining_text();
     }
 
-    public void remove_points(int amount)
+    public void take_damage(int amount)
     {
-        points -= amount;
-        if (points <= 0)
+        health -= amount;
+        if (health <= 0)
         {
-            points = 0;
-            Debug.Log("Game Over");
+            health = 0;
+            lose();
         }
 
-        GI.player_hud.update_points_text();
+        GI.player_hud.update_player_health_text();
     }
 
     public void decrease_actions_remaining()
@@ -242,28 +262,35 @@ public class PlayerController : MonoBehaviour
         return -1;
     }
 
-    public void TargetPlayStealVFX(int cardToStealIndex, int spawnedCardIndex, PlayerController playerToStealFrom)
+    public void stop_game()
     {
-        Card spawnedCard = cards_in_hand[spawnedCardIndex];
-        spawnedCard.transform.position = playerToStealFrom.cards_spawn_points[cardToStealIndex].position;
-        spawnedCard.transform.rotation = playerToStealFrom.cards_spawn_points[cardToStealIndex].rotation;
+        Time.timeScale = 0f;
+        game_stopped = true;
 
-        vfxSteal vfx = spawnedCard.GetComponent<vfxSteal>(); //@VITOR 
-
-        vfx.pontoA = playerToStealFrom.cards_spawn_points[cardToStealIndex];
-        //vfx.pontoBpos = cardsSpawnPoints[spawnedCardIndex].position;
-        //vfx.pontoBrot = cardsSpawnPoints[spawnedCardIndex].rotation;
-        vfx.pontoB = cards_spawn_points[spawnedCardIndex];
-        vfx.Active();
+        GI.player_hud.show_pause();
     }
 
-    public void ShuffleCardVFX(List<GameObject> Listcard, GameObject pos)
+    public void resume_game()
     {
-        float delay = 1f;
+        Time.timeScale = 1f;
+        game_stopped = false;
 
-        for(int i = 0; i < Listcard.Count; i++){
-        Listcard[i].GetComponentInChildren<vfxShuffle>().Active( pos, delay);
-        Debug.Log(Listcard[i].gameObject.GetInstanceID());
-        }
+        GI.player_hud.hide_pause();
+    }
+
+    public void win()
+    {
+        Time.timeScale = 0f;
+        game_over = true;
+
+        GI.player_hud.show_win();
+    }
+
+    public void lose()
+    {
+        Time.timeScale = 0f;
+        game_over = true;
+
+        GI.player_hud.show_lose();
     }
 }

@@ -80,10 +80,30 @@ public class Card : MonoBehaviour
     [Header("INTERNAL")]
     public int improved_points;
     public bool is_in_desk;
+    public float disable_t;
 
     private void Start()
     {
         is_in_desk = true;
+    }
+
+    private void Update()
+    {
+        if (GI.player.game_stopped)
+        {
+            return;
+        }
+
+        float dt = Time.deltaTime;
+
+        if (disable_t > 0f)
+        {
+            disable_t -= dt;
+            if (disable_t <= 0f)
+            {
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     public void turn_card()
@@ -92,5 +112,9 @@ public class Card : MonoBehaviour
         is_revealed = !is_revealed;
     }
 
+    public void make_trio()
+    {
+        disable_t = 2f;
+    }
 }
 
