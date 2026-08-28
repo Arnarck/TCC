@@ -23,6 +23,30 @@ public class CardSystem : MonoBehaviour
     public float memorization_time = 10f;
     public Card[] cards_in_desk;
 
+    [ContextMenu("Fill Desk With Cards")]
+    public void DEBUG_spawn_cards_in_desk()
+    {
+        cards_in_desk = new Card[cards_spawn_points.Length];
+        for (int i = 0; i < cards_spawn_points.Length; i++)
+        {
+            GameObject go = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)], cards_spawn_points[i]);
+            add_card_to_desk(go.GetComponent<Card>(), i);
+        }
+    }
+
+    [ContextMenu("Remove Cards From Desk")]
+    public void DEBUG_remove_cards_from_desk()
+    {
+        for (int i = 0; i < cards_in_desk.Length; i++)
+        {
+            Card card = cards_in_desk[i];
+            if (card != null)
+            {
+                DestroyImmediate(card.gameObject);
+            }
+        }
+    }
+
 
     private void Awake()
     {
