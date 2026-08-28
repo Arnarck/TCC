@@ -6,8 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public const int MAX_CARDS_IN_HAND = 5;
 
-    public Transform cameraStartPoint;
-    public Transform cameraPointWhenChoosingCards;
+    public Transform camera_memorization_phase_view;
     public Camera player_camera;
     public Transform[] trio_spawn_points;
     public Transform[] cards_spawn_points;
@@ -20,6 +19,8 @@ public class PlayerController : MonoBehaviour
     public int actions_remaining;
     public bool game_stopped;
     public bool game_over;
+    public Vector3 camera_start_position;
+    public Quaternion camera_start_rotation;
 
     public List<Ability_Type> abilities_to_apply;
     public Ability_Type current_ability;
@@ -162,6 +163,9 @@ public class PlayerController : MonoBehaviour
         current_ability = Ability_Type.NONE;
         cards_in_hand = new Card[MAX_CARDS_IN_HAND];
 
+        camera_start_position = player_camera.transform.position;
+        camera_start_rotation = player_camera.transform.rotation;
+
         health = 100;
         GI.player_hud.update_player_health_text();
     }
@@ -261,6 +265,18 @@ public class PlayerController : MonoBehaviour
         }
 
         return -1;
+    }
+
+    public void enable_memorization_phase_camera_view()
+    {
+        player_camera.transform.position = camera_memorization_phase_view.transform.position;
+        player_camera.transform.rotation = camera_memorization_phase_view.transform.rotation;
+    }
+
+    public void enable_gameplay_camera_view()
+    {
+        player_camera.transform.position = camera_start_position;
+        player_camera.transform.rotation = camera_start_rotation;
     }
 
     public void stop_game()

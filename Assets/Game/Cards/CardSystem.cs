@@ -18,6 +18,7 @@ public class CardSystem : MonoBehaviour
     [Header("INTERNAL")]
     public bool is_player_turn;
     public bool is_memorization_phase;
+    public float memorization_phase_t;
     public float memorization_time = 10f;
     public Card[] cards_in_desk;
 
@@ -35,7 +36,23 @@ public class CardSystem : MonoBehaviour
 
     private void Update()
     {
-        
+        if (GI.player.game_stopped)
+        {
+            return;
+        }
+
+        float dt = Time.deltaTime;
+
+        if (is_memorization_phase)
+        {
+            memorization_phase_t -= dt;
+            if (memorization_phase_t <= 0f)
+            {
+                is_memorization_phase = false;
+                GI.player.enable_gameplay_camera_view();
+                GI.player_hud.end_memorization_phase();
+            }
+        }
     }
 
     public int remove_card_from_desk(Card card)
@@ -82,6 +99,8 @@ public class CardSystem : MonoBehaviour
         GI.player.add_card_to_hand(card_to_hand_1, 0);
         GI.player.add_card_to_hand(card_to_hand_2, 1);
 
+        start_memorization_phase();
+
         __start_player_turn();
     }
 
@@ -98,6 +117,14 @@ public class CardSystem : MonoBehaviour
         {
             __start_player_turn();
         }
+    }
+
+    public void start_memorization_phase()
+    {
+        is_memorization_phase = true;
+        memorization_phase_t = 10f;
+        GI.player.enable_memorization_phase_camera_view();
+        GI.player_hud.start_memorization_phase();
     }
 
     public void __start_player_turn()

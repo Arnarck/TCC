@@ -14,6 +14,7 @@ public class PlayerHUD : MonoBehaviour
     public GameObject pause_menu;
     public GameObject win_menu;
     public GameObject lose_menu;
+    public GameObject gameplay_hud;
 
     private void Awake()
     {
@@ -53,6 +54,16 @@ public class PlayerHUD : MonoBehaviour
     public void hide_boss_turn_message()
     {
         boss_turn_message.SetActive(false);
+    }
+
+    public void start_memorization_phase()
+    {
+        gameplay_hud.SetActive(false);
+    }
+
+    public void end_memorization_phase()
+    {
+        gameplay_hud.SetActive(true);
     }
 
     public void show_pause()

@@ -631,7 +631,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5521379529617207664}
   m_Layer: 0
-  m_Name: Camera Point When Choosing Cards
+  m_Name: Camera - Memorization Phase View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -779,37 +779,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1 &4109441495637539270
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6202461141448282232}
-  m_Layer: 0
-  m_Name: Camera Start Point
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6202461141448282232
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4109441495637539270}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.24088982, y: 0.0008975916, z: -0.00009864851, w: 0.9705521}
-  m_LocalPosition: {x: 0, y: 1.802, z: 0.27999997}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 787918651976658566}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4433382203868146167
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,7 +815,6 @@ Transform:
   - {fileID: 6983368029006906744}
   - {fileID: 5496245075781868148}
   - {fileID: 4923404294846544140}
-  - {fileID: 6202461141448282232}
   - {fileID: 5521379529617207664}
   - {fileID: 1516164243793114917}
   - {fileID: 5032848160047344608}
@@ -865,8 +833,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f087752ce379bb6469759b6d5130c098, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  cameraStartPoint: {fileID: 6202461141448282232}
-  cameraPointWhenChoosingCards: {fileID: 5521379529617207664}
+  cameraStartPoint: {fileID: 0}
+  camera_memorization_phase_view: {fileID: 5521379529617207664}
   player_camera: {fileID: 6879715664851187150}
   trio_spawn_points:
   - {fileID: 3597199971761029288}
@@ -885,6 +853,8 @@ MonoBehaviour:
   actions_remaining: 0
   game_stopped: 0
   game_over: 0
+  camera_start_position: {x: 0, y: 0, z: 0}
+  camera_start_rotation: {x: 0, y: 0, z: 0, w: 0}
   abilities_to_apply: 
   current_ability: 0
 --- !u!114 &8633702489533866404
