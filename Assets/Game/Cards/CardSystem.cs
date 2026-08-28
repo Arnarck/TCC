@@ -17,6 +17,7 @@ public class CardSystem : MonoBehaviour
 
     [Header("INTERNAL")]
     public int round_count; // A round is a player turn + a boss turn
+    public bool game_started;
     public bool is_player_turn;
     public bool is_memorization_phase;
     public float memorization_phase_t;
@@ -61,7 +62,7 @@ public class CardSystem : MonoBehaviour
 
     private void Update()
     {
-        if (GI.player.game_stopped)
+        if (GI.player.game_stopped || !game_started)
         {
             return;
         }
@@ -106,7 +107,12 @@ public class CardSystem : MonoBehaviour
 
     public void start_game()
     {
+        game_started = true;
         round_count = 0;
+        GI.player.gameObject.SetActive(true);
+        GI.boss.gameObject.SetActive(true);
+        GI.player_first_person.gameObject.SetActive(false);
+
 
         // Spawn random cards to desk
         spawn_cards_in_desk();
@@ -124,6 +130,14 @@ public class CardSystem : MonoBehaviour
         start_memorization_phase();
 
         __start_player_turn();
+    }
+
+    public void end_game()
+    {
+        game_started = false;
+        GI.player.gameObject.SetActive(false);
+        GI.boss.gameObject.SetActive(false);
+        GI.player_first_person.init();
     }
 
     public void update_turn()

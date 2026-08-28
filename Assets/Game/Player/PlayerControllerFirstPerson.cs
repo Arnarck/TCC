@@ -13,11 +13,16 @@ public class PlayerControllerFirstPerson : MonoBehaviour
     public Vector3 dp;
     public Vector3 ddp;
 
+    private void Awake()
+    {
+        GI.player_first_person = this;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        // @DELETE because this is just to set GI variable
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -74,5 +79,14 @@ public class PlayerControllerFirstPerson : MonoBehaviour
     public float acc()
     {
         return acceleration;
+    }
+
+    public void init()
+    {
+        camera_transform.gameObject.SetActive(true);
+        gameObject.SetActive(true);
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }

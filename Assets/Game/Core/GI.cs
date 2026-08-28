@@ -14,6 +14,7 @@ public static class GI
     public static CardSystem card_system;
     public static PlayerHUD player_hud;
     public static PlayerController player;
+    public static PlayerControllerFirstPerson player_first_person;
     public static Boss boss;
 
     public static string GetCardAbilityDescription(Card_Type cardType, Ability_Type abilityType)
