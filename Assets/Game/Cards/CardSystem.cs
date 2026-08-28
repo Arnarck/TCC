@@ -16,7 +16,7 @@ public class CardSystem : MonoBehaviour
     public Transform[] cards_spawn_points;
 
     [Header("INTERNAL")]
-    public int round_count;
+    public int round_count; // A round is a player turn + a boss turn
     public bool is_player_turn;
     public bool is_memorization_phase;
     public float memorization_phase_t;
@@ -85,12 +85,7 @@ public class CardSystem : MonoBehaviour
         round_count = 0;
 
         // Spawn random cards to desk
-        cards_in_desk = new Card[cards_spawn_points.Length];
-        for (int i = 0; i < cards_spawn_points.Length; i++)
-        {
-            GameObject go = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)], cards_parent);
-            add_card_to_desk(go.GetComponent<Card>(), i);
-        }
+        spawn_cards_in_desk();
 
         // Start player and boss
         GI.player.start_game();
@@ -120,9 +115,12 @@ public class CardSystem : MonoBehaviour
         else
         {
             // Switch to player turn
-            round_count++; // A round is a player turn + a boss turn
+            round_count++;
             if (round_count % 3 == 0)
             {
+                // Memorization Phase
+                remove_cards_from_desk();
+                spawn_cards_in_desk();
                 start_memorization_phase();
             }
 
@@ -136,6 +134,28 @@ public class CardSystem : MonoBehaviour
         memorization_phase_t = 10f;
         GI.player.enable_memorization_phase_camera_view();
         GI.player_hud.start_memorization_phase();
+    }
+
+    public void spawn_cards_in_desk()
+    {
+        cards_in_desk = new Card[cards_spawn_points.Length];
+        for (int i = 0; i < cards_spawn_points.Length; i++)
+        {
+            GameObject go = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)], cards_parent);
+            add_card_to_desk(go.GetComponent<Card>(), i);
+        }
+    }
+
+    public void remove_cards_from_desk()
+    {
+        for (int i = 0; i < cards_in_desk.Length; i++)
+        {
+            Card card = cards_in_desk[i];
+            if (card != null)
+            {
+                Destroy(card.gameObject);
+            }
+        }
     }
 
     public void __start_player_turn()
