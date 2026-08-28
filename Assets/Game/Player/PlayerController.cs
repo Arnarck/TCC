@@ -243,6 +243,7 @@ public class PlayerController : MonoBehaviour
         card.is_in_desk = false;
         cards_in_hand[index] = card;
 
+        card.transform.parent   = cards_spawn_points[index];
         card.transform.position = cards_spawn_points[index].position;
         card.transform.rotation = cards_spawn_points[index].rotation;
     }

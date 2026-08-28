@@ -33,6 +33,11 @@ public class CardSystem : MonoBehaviour
         start_game();
     }
 
+    private void Update()
+    {
+        
+    }
+
     public int remove_card_from_desk(Card card)
     {
         for (int i = 0; i < cards_in_desk.Length; i++)
@@ -59,7 +64,7 @@ public class CardSystem : MonoBehaviour
 
     public void start_game()
     {
-        // Spawn random cards
+        // Spawn random cards to desk
         cards_in_desk = new Card[cards_spawn_points.Length];
         for (int i = 0; i < cards_spawn_points.Length; i++)
         {
@@ -67,8 +72,15 @@ public class CardSystem : MonoBehaviour
             add_card_to_desk(go.GetComponent<Card>(), i);
         }
 
+        // Start player and boss
         GI.player.start_game();
         GI.boss.start_game();
+
+        // Spawn cards to player hand
+        Card card_to_hand_1 = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)]).GetComponent<Card>();
+        Card card_to_hand_2 = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)]).GetComponent<Card>();
+        GI.player.add_card_to_hand(card_to_hand_1, 0);
+        GI.player.add_card_to_hand(card_to_hand_2, 1);
 
         __start_player_turn();
     }

@@ -82,11 +82,6 @@ public class Card : MonoBehaviour
     public bool is_in_desk;
     public float disable_t;
 
-    private void Start()
-    {
-        is_in_desk = true;
-    }
-
     private void Update()
     {
         if (GI.player.game_stopped)
