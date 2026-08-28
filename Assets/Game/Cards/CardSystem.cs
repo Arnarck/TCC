@@ -16,6 +16,7 @@ public class CardSystem : MonoBehaviour
     public Transform[] cards_spawn_points;
 
     [Header("INTERNAL")]
+    public int round_count;
     public bool is_player_turn;
     public bool is_memorization_phase;
     public float memorization_phase_t;
@@ -81,6 +82,8 @@ public class CardSystem : MonoBehaviour
 
     public void start_game()
     {
+        round_count = 0;
+
         // Spawn random cards to desk
         cards_in_desk = new Card[cards_spawn_points.Length];
         for (int i = 0; i < cards_spawn_points.Length; i++)
@@ -108,6 +111,7 @@ public class CardSystem : MonoBehaviour
     {
         if (is_player_turn)
         {
+            // Switch to boss turn
             is_player_turn = false;
             GI.boss.start_turn();
             GI.player_hud.hide_player_turn_message();
@@ -115,6 +119,13 @@ public class CardSystem : MonoBehaviour
         }
         else
         {
+            // Switch to player turn
+            round_count++; // A round is a player turn + a boss turn
+            if (round_count % 3 == 0)
+            {
+                start_memorization_phase();
+            }
+
             __start_player_turn();
         }
     }
