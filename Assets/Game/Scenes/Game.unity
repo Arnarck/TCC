@@ -6688,6 +6688,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4433382203868146167, guid: 11d9d03b73e74194b84cb8ab992b3ce7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19621,6 +19625,10 @@ PrefabInstance:
     - target: {fileID: 510000207809440837, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
       propertyPath: m_Name
       value: Card System
+      objectReference: {fileID: 0}
+    - target: {fileID: 510000207809440837, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6739868955388663515, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
       propertyPath: m_LocalPosition.x
