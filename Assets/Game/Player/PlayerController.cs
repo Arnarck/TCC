@@ -62,7 +62,8 @@ public class PlayerController : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 6))
                 {
-                    Card card = hit.collider.gameObject.GetComponent<Card>();
+                    CardCollider card_collider = hit.collider.gameObject.GetComponent<CardCollider>();
+                    Card card = card_collider.card;
                     if (card.is_in_desk)
                     {
                         if (selected_cards.Count > 0)
@@ -234,7 +235,7 @@ public class PlayerController : MonoBehaviour
 
     public void select_card(Card card)
     {
-        card.transform.position += Vector3.up*0.1f;
+        card.select_card.Active();
         selected_cards.Add(card);
     }
 
@@ -245,7 +246,7 @@ public class PlayerController : MonoBehaviour
             return; 
         }
 
-        card.transform.position -= Vector3.up * 0.1f;
+        card.select_card.Active();
         selected_cards.Remove(card);
     }
 

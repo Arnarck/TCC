@@ -84,7 +84,7 @@ public class CardSystem : MonoBehaviour
                 
                 for (int i = 0; i < cards_in_desk.Length; i++)
                 {
-                    cards_in_desk[i].visual.GetComponent<ToTurn>().Active();
+                    cards_in_desk[i].to_turn.Active();
                 }
             }
         }
@@ -194,7 +194,7 @@ public class CardSystem : MonoBehaviour
             Card card = go.GetComponent<Card>();
             add_card_to_desk(card, i);
 
-            card.visual.GetComponent<ToTurn>().Active();
+            card.to_turn.Active();
         }
     }
 

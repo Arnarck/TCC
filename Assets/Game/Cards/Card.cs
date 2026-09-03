@@ -73,7 +73,17 @@ public class Card : MonoBehaviour
     public int points;
     public Family_Type family_type;
     public Ability_Type ability_type;
+
+    [Header("VFX")]
     public GameObject visual;
+    public vfxSteal vfx_steal;
+    public TeleportCard teleport_card;
+    public ActiveCard active_card;
+    public SelectCard select_card;
+    public ToTurn to_turn;
+    public vfxTransform vfx_transform;
+    public vfxHandFull vfx_hand_full;
+    public vfxShuffle vfx_shuffle;
 
     public bool is_revealed = true;
 
@@ -103,7 +113,7 @@ public class Card : MonoBehaviour
 
     public void turn_card()
     {
-        visual.GetComponent<ToTurn>().Active();
+        to_turn.Active();
         is_revealed = !is_revealed;
     }
 
