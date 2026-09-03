@@ -49,7 +49,7 @@ public class vfxSteal : MonoBehaviour, iVFX
             transform.position = Vector3.Lerp(pontoA.position, pontoB.position, animation_t);
             transform.rotation = Quaternion.Lerp(pontoA.rotation, pontoB.rotation, animation_t);
 
-            if (Vector3.Distance(transform.position, pontoB.position) < 0.1f)
+            if (animation_t >= 1f)
             {
                 indoParaB = !indoParaB;
                 anim.SetTrigger("EndSteal");
@@ -60,7 +60,7 @@ public class vfxSteal : MonoBehaviour, iVFX
     public void Active()
     {
         
-        anim.SetTrigger("ToTurn");
+        //anim.SetTrigger("ToTurn");
         anim.SetTrigger("StartSteal");
         ActiveMov();
     }

@@ -20526,6 +20526,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2163931753016736439, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
+      propertyPath: memorization_time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2163931753016736439, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
       propertyPath: start_playing_game
       value: 1
       objectReference: {fileID: 0}

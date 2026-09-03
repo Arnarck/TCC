@@ -81,7 +81,8 @@ public class PlayerController : MonoBehaviour
                         else if (has_available_space_in_hand())
                         {
                             // Add card to hand
-                            GI.card_system.remove_card_from_desk(card);
+                            int index_in_desk = GI.card_system.remove_card_from_desk(card);
+                            card.vfx_steal.pontoA = GI.card_system.cards_spawn_points[index_in_desk];
 
                             int first_available_index = -1;
                             for (int i = 0; i < cards_in_hand.Length; i++)
@@ -92,7 +93,7 @@ public class PlayerController : MonoBehaviour
                                     break;
                                 }
                             }
-                            add_card_to_hand(card, first_available_index);
+                            add_card_to_hand(card, first_available_index, animate: true);
                             decrease_actions_remaining();
                         }
                     }
@@ -250,14 +251,22 @@ public class PlayerController : MonoBehaviour
         selected_cards.Remove(card);
     }
 
-    public void add_card_to_hand(Card card, int index)
+    public void add_card_to_hand(Card card, int index, bool animate = false)
     {
         card.is_in_desk = false;
         cards_in_hand[index] = card;
 
-        card.transform.parent   = cards_spawn_points[index];
-        card.transform.position = cards_spawn_points[index].position;
-        card.transform.rotation = cards_spawn_points[index].rotation;
+        if (animate)
+        {
+            card.vfx_steal.pontoB = cards_spawn_points[index];
+            card.vfx_steal.Active();
+        }
+        else
+        {
+            card.transform.parent   = cards_spawn_points[index];
+            card.transform.position = cards_spawn_points[index].position;
+            card.transform.rotation = cards_spawn_points[index].rotation;
+        }
     }
 
     public int remove_card_from_hand(Card card)

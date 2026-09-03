@@ -6,6 +6,7 @@ public class CardSystem : MonoBehaviour
 {
     public const int MAX_CARDS_IN_DESK = 16;
 
+    public float memorization_time = 10f;
     public bool start_playing_game;
     public Transform cards_parent;
     public GameObject[] cards_prefabs;
@@ -17,7 +18,6 @@ public class CardSystem : MonoBehaviour
     public bool is_player_turn;
     public bool is_memorization_phase;
     public float memorization_phase_t;
-    public float memorization_time = 10f;
     public Card[] cards_in_desk;
 
     [ContextMenu("Fill Desk With Cards")]
@@ -180,7 +180,7 @@ public class CardSystem : MonoBehaviour
     public void start_memorization_phase()
     {
         is_memorization_phase = true;
-        memorization_phase_t = 10f;
+        memorization_phase_t = memorization_time;
         GI.player_card_game.enable_memorization_phase_camera_view();
         GI.player_hud.start_memorization_phase();
     }
