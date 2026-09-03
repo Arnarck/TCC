@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public int actions_remaining;
     public bool game_stopped;
     public bool game_over;
+    public float disable_trio_cards_t;
     public Vector3 camera_start_position;
     public Quaternion camera_start_rotation;
 
@@ -112,6 +113,31 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (disable_trio_cards_t > 0f)
+        {
+            disable_trio_cards_t -= dt;
+            if (disable_trio_cards_t <= 0f)
+            {
+                // Disable card
+                Card card = cards_in_trio[0];
+                cards_in_trio.RemoveAt(0);
+
+                card.gameObject.SetActive(false);
+
+
+                // Enable next card (if there is any)
+                if (cards_in_trio.Count > 0)
+                {
+                    activate_trio_card_ability(cards_in_trio[0]);
+                    disable_trio_cards_t = 2f;
+                }
+                else
+                {
+                    maybe_update_turn();
+                }
+            }
+        }
+
         // Trio
         if (Input.GetKeyDown(KeyCode.Space) && selected_cards.Count == 3 && actions_remaining > 0)
         {
@@ -122,14 +148,14 @@ public class PlayerController : MonoBehaviour
                 remove_card_from_hand(card);
 
                 cards_in_trio.Add(card);
-                card.make_trio();
 
                 Transform trio_spawn_point = trio_spawn_points[i];
                 card.transform.position = trio_spawn_point.position;
                 card.transform.rotation = trio_spawn_point.rotation;
-
-                GI.boss.take_damage(card.points);
             }
+
+            activate_trio_card_ability(cards_in_trio[0]);
+            disable_trio_cards_t = 2f;
 
             // Reorder cards in hand
             int first_available_index = -1;
@@ -158,6 +184,12 @@ public class PlayerController : MonoBehaviour
 
             decrease_actions_remaining();
         }
+    }
+
+    public void activate_trio_card_ability(Card card)
+    {
+        card.active_card.Active(card.transform.position, card.transform.rotation);
+        GI.boss.take_damage(card.points);
     }
 
     public void init()
@@ -200,12 +232,17 @@ public class PlayerController : MonoBehaviour
     public void decrease_actions_remaining()
     {
         actions_remaining--;
-        if (actions_remaining <= 0)
+        maybe_update_turn();
+
+        GI.player_hud.update_actions_remaining_text();
+    }
+
+    public void maybe_update_turn()
+    {
+        if (actions_remaining <= 0 && cards_in_trio.Count < 1)
         {
             GI.card_system.update_turn();
         }
-
-        GI.player_hud.update_actions_remaining_text();
     }
 
     public bool has_available_space_in_hand()

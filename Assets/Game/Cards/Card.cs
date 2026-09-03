@@ -100,26 +100,12 @@ public class Card : MonoBehaviour
         }
 
         float dt = Time.deltaTime;
-
-        if (disable_t > 0f)
-        {
-            disable_t -= dt;
-            if (disable_t <= 0f)
-            {
-                gameObject.SetActive(false);
-            }
-        }
     }
 
     public void turn_card()
     {
         to_turn.Active();
         is_revealed = !is_revealed;
-    }
-
-    public void make_trio()
-    {
-        disable_t = 2f;
     }
 }
 

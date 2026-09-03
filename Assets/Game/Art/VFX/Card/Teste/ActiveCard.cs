@@ -31,8 +31,9 @@ public class ActiveCard : MonoBehaviour
         startPosition = transform.position;
         startRotation = transform.rotation;
 
-        GetComponent<SelectCard>().Active();
-        StartCoroutine(WaitForDelay());
+        anim.SetTrigger("Active");
+        //GetComponent<SelectCard>().Active();
+        //StartCoroutine(WaitForDelay());
 
         active = true;
     }
