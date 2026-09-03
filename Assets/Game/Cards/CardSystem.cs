@@ -77,9 +77,15 @@ public class CardSystem : MonoBehaviour
             memorization_phase_t -= dt;
             if (memorization_phase_t <= 0f)
             {
+                // End memorization phase
                 is_memorization_phase = false;
                 GI.player_card_game.enable_gameplay_camera_view();
                 GI.player_hud.end_memorization_phase();
+                
+                for (int i = 0; i < cards_in_desk.Length; i++)
+                {
+                    cards_in_desk[i].visual.GetComponent<ToTurn>().Active();
+                }
             }
         }
     }
@@ -125,7 +131,7 @@ public class CardSystem : MonoBehaviour
         GI.player_card_game.start_game();
         GI.boss.start_game();
 
-        // Spawn cards to player hand
+        // Spawn cards in player hand
         Card card_to_hand_1 = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)]).GetComponent<Card>();
         Card card_to_hand_2 = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)]).GetComponent<Card>();
         GI.player_card_game.add_card_to_hand(card_to_hand_1, 0);
@@ -185,7 +191,10 @@ public class CardSystem : MonoBehaviour
         for (int i = 0; i < cards_spawn_points.Length; i++)
         {
             GameObject go = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)], cards_parent);
-            add_card_to_desk(go.GetComponent<Card>(), i);
+            Card card = go.GetComponent<Card>();
+            add_card_to_desk(card, i);
+
+            card.visual.GetComponent<ToTurn>().Active();
         }
     }
 
