@@ -2845,6 +2845,10 @@ PrefabInstance:
       propertyPath: camera_sensitivity_y
       value: 350
       objectReference: {fileID: 0}
+    - target: {fileID: 1146202492839286433, guid: a6e04d56a7d87f649a44cae746946966, type: 3}
+      propertyPath: interaction_distance
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1363063048626686373, guid: a6e04d56a7d87f649a44cae746946966, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.527

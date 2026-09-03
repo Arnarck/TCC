@@ -65,7 +65,7 @@ public class CardSystem : MonoBehaviour
 
     private void Update()
     {
-        if (GI.player.game_stopped || !playing_card_game)
+        if (GI.player_card_game.game_stopped || !playing_card_game)
         {
             return;
         }
@@ -78,7 +78,7 @@ public class CardSystem : MonoBehaviour
             if (memorization_phase_t <= 0f)
             {
                 is_memorization_phase = false;
-                GI.player.enable_gameplay_camera_view();
+                GI.player_card_game.enable_gameplay_camera_view();
                 GI.player_hud.end_memorization_phase();
             }
         }
@@ -112,7 +112,7 @@ public class CardSystem : MonoBehaviour
     {
         playing_card_game = true;
         round_count = 0;
-        GI.player.init();
+        GI.player_card_game.init();
         GI.boss.init();
         GI.player_first_person.gameObject.SetActive(false);
         GI.player_hud.show_card_game_hud();
@@ -122,14 +122,14 @@ public class CardSystem : MonoBehaviour
         spawn_cards_in_desk();
 
         // Start player and boss
-        GI.player.start_game();
+        GI.player_card_game.start_game();
         GI.boss.start_game();
 
         // Spawn cards to player hand
         Card card_to_hand_1 = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)]).GetComponent<Card>();
         Card card_to_hand_2 = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)]).GetComponent<Card>();
-        GI.player.add_card_to_hand(card_to_hand_1, 0);
-        GI.player.add_card_to_hand(card_to_hand_2, 1);
+        GI.player_card_game.add_card_to_hand(card_to_hand_1, 0);
+        GI.player_card_game.add_card_to_hand(card_to_hand_2, 1);
 
         start_memorization_phase();
 
@@ -139,7 +139,7 @@ public class CardSystem : MonoBehaviour
     public void end_game()
     {
         playing_card_game = false;
-        GI.player.gameObject.SetActive(false);
+        GI.player_card_game.gameObject.SetActive(false);
         GI.boss.gameObject.SetActive(false);
         GI.player_first_person.init();
         GI.player_hud.show_first_person_hud();
@@ -175,7 +175,7 @@ public class CardSystem : MonoBehaviour
     {
         is_memorization_phase = true;
         memorization_phase_t = 10f;
-        GI.player.enable_memorization_phase_camera_view();
+        GI.player_card_game.enable_memorization_phase_camera_view();
         GI.player_hud.start_memorization_phase();
     }
 
@@ -204,7 +204,7 @@ public class CardSystem : MonoBehaviour
     public void __start_player_turn()
     {
         is_player_turn = true;
-        GI.player.start_turn();
+        GI.player_card_game.start_turn();
         GI.player_hud.hide_boss_turn_message();
         GI.player_hud.show_player_turn_message();
     }

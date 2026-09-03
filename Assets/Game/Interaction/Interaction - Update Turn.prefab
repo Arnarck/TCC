@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 258659523580152088}
   - component: {fileID: 9005031632608625730}
   - component: {fileID: 1216628193714262888}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Interaction - Update Turn
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -28,7 +28,7 @@ public class PlayerHUD : MonoBehaviour
 
     public void update_player_health_text()
     {
-        player_health_text.text = "Chips: " + GI.player.health;
+        player_health_text.text = "Chips: " + GI.player_card_game.health;
     }
 
     public void update_boss_health_text()
@@ -38,7 +38,7 @@ public class PlayerHUD : MonoBehaviour
 
     public void update_actions_remaining_text()
     {
-        actions_remaining_text.text = "Actions Remaining: " + GI.player.actions_remaining;
+        actions_remaining_text.text = "Actions Remaining: " + GI.player_card_game.actions_remaining;
     }
 
     public void show_player_turn_message()
@@ -120,7 +120,14 @@ public class PlayerHUD : MonoBehaviour
 
     public void resume()
     {
-        GI.player.resume_game();
+        if (GI.card_system.playing_card_game)
+        {
+            GI.player_card_game.resume_game();
+        }
+        else
+        {
+            GI.player_first_person.resume_game();
+        }
     }
 
     public void play_again()

@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 3124604226232559905}
   - component: {fileID: 8255546964508812033}
   - component: {fileID: 4259521264404555238}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Interaction - Start or End Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -84,7 +84,7 @@ public class Card : MonoBehaviour
 
     private void Update()
     {
-        if (GI.player.game_stopped)
+        if (GI.player_card_game.game_stopped)
         {
             return;
         }

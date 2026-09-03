@@ -35,7 +35,7 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GI.player.game_stopped)
+        if (GI.player_card_game.game_stopped)
         {
             return;
         }
@@ -50,11 +50,11 @@ public class Boss : MonoBehaviour
                 int ability_to_use = Random.Range(0, (int)Boss_Abilities.COUNT);
                 if (ability_to_use == 0)
                 {
-                    GI.player.take_damage(5);
+                    GI.player_card_game.take_damage(5);
                 }
                 else
                 {
-                    GI.player.take_damage(15);
+                    GI.player_card_game.take_damage(15);
                 }
 
                 GI.card_system.update_turn();
@@ -84,7 +84,7 @@ public class Boss : MonoBehaviour
         if (health <= 0)
         {
             health = 0;
-            GI.player.win();
+            GI.player_card_game.win();
         }
 
         GI.player_hud.update_boss_health_text();

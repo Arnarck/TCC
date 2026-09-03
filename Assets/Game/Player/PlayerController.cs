@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        GI.player = this;
+        GI.player_card_game = this;
     }
 
     private void Start()

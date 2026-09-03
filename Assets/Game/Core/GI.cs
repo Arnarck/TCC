@@ -13,7 +13,7 @@ public static class GI
 {
     public static CardSystem card_system;
     public static PlayerHUD player_hud;
-    public static PlayerController player;
+    public static PlayerController player_card_game;
     public static PlayerControllerFirstPerson player_first_person;
     public static Boss boss;
 
