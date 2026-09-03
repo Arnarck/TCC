@@ -21,8 +21,7 @@ public class PlayerControllerFirstPerson : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // @DELETE because this is just to set GI variable
-        gameObject.SetActive(false);
+        
     }
 
     // Update is called once per frame
@@ -50,8 +49,8 @@ public class PlayerControllerFirstPerson : MonoBehaviour
         }
 
         { // Camera
-            float amount_x =  Input.GetAxis("Mouse X")*camera_sensitivity_x;
-            float amount_y = -Input.GetAxis("Mouse Y")*camera_sensitivity_y;
+            float amount_x =  Input.GetAxis("Mouse X")*camera_sensitivity_x*dt;
+            float amount_y = -Input.GetAxis("Mouse Y")*camera_sensitivity_y*dt;
             transform.Rotate(Vector3.up*amount_x);
             camera_transform.Rotate(Vector3.right*amount_y);
 

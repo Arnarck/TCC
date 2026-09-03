@@ -158,6 +158,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void init()
+    {
+        gameObject.SetActive(true);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     public void start_game()
     {
         current_ability = Ability_Type.NONE;

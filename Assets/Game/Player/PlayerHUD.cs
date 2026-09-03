@@ -14,7 +14,12 @@ public class PlayerHUD : MonoBehaviour
     public GameObject pause_menu;
     public GameObject win_menu;
     public GameObject lose_menu;
-    public GameObject gameplay_hud;
+    public GameObject card_game_hud;
+
+    [Header("FIRST PERSON")]
+    public GameObject first_person_hud;
+    public GameObject interaction_panel;
+    public TextMeshProUGUI interaction_text;
 
     private void Awake()
     {
@@ -58,12 +63,35 @@ public class PlayerHUD : MonoBehaviour
 
     public void start_memorization_phase()
     {
-        gameplay_hud.SetActive(false);
+        card_game_hud.SetActive(false);
     }
 
     public void end_memorization_phase()
     {
-        gameplay_hud.SetActive(true);
+        card_game_hud.SetActive(true);
+    }
+
+    public void show_card_game_hud()
+    {
+        card_game_hud.SetActive(true);
+        first_person_hud.SetActive(false);
+    }
+
+    public void show_first_person_hud()
+    {
+        first_person_hud.SetActive(true);
+        card_game_hud.SetActive(false);
+    }
+
+    public void show_interaction_message(string message)
+    {
+        interaction_panel.SetActive(true);
+        interaction_text.text = message;
+    }
+
+    public void hide_interaction_message()
+    {
+        interaction_panel.SetActive(false);
     }
 
     public void show_pause()

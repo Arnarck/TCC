@@ -62,6 +62,11 @@ public class Boss : MonoBehaviour
         }
     }
 
+    public void init()
+    {
+        gameObject.SetActive(true);
+    }
+
     public void start_game()
     {
         health = 100;

@@ -2,22 +2,18 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-// @Note: 'Command' attributes will not work here. Since the server spawns this object, it has no client to address authority to it.
-// The objects needs authority (an client as a owner) to make 'Command' attributes work, so the server can know at which client the
-// object belongs to.
-// That's why 'SpawnCard' and 'DestroyCard' are only called inside 'Command' attributes or inside the NetworkManager. Only the server
-// can call this object's methods.
 public class CardSystem : MonoBehaviour
 {
     public const int MAX_CARDS_IN_DESK = 16;
 
+    public bool start_playing_game;
     public Transform cards_parent;
     public GameObject[] cards_prefabs;
     public Transform[] cards_spawn_points;
 
     [Header("INTERNAL")]
     public int round_count; // A round is a player turn + a boss turn
-    public bool game_started;
+    public bool playing_card_game;
     public bool is_player_turn;
     public bool is_memorization_phase;
     public float memorization_phase_t;
@@ -57,12 +53,19 @@ public class CardSystem : MonoBehaviour
 
     private void Start()
     {
-        start_game();
+        if (start_playing_game)
+        {
+            start_game();
+        }
+        else
+        {
+            end_game();
+        }
     }
 
     private void Update()
     {
-        if (GI.player.game_stopped || !game_started)
+        if (GI.player.game_stopped || !playing_card_game)
         {
             return;
         }
@@ -107,11 +110,12 @@ public class CardSystem : MonoBehaviour
 
     public void start_game()
     {
-        game_started = true;
+        playing_card_game = true;
         round_count = 0;
-        GI.player.gameObject.SetActive(true);
-        GI.boss.gameObject.SetActive(true);
+        GI.player.init();
+        GI.boss.init();
         GI.player_first_person.gameObject.SetActive(false);
+        GI.player_hud.show_card_game_hud();
 
 
         // Spawn random cards to desk
@@ -134,10 +138,11 @@ public class CardSystem : MonoBehaviour
 
     public void end_game()
     {
-        game_started = false;
+        playing_card_game = false;
         GI.player.gameObject.SetActive(false);
         GI.boss.gameObject.SetActive(false);
         GI.player_first_person.init();
+        GI.player_hud.show_first_person_hud();
     }
 
     public void update_turn()

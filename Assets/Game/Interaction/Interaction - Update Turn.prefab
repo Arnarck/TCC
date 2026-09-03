@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9005031632608625730}
   - component: {fileID: 1216628193714262888}
   m_Layer: 0
-  m_Name: Interaction - Finish Turn
+  m_Name: Interaction - Update Turn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c65a05d33122884291b85732586db8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FinishTurnInteraction
-  type: 0
+  type: 1
 --- !u!135 &1216628193714262888
 SphereCollider:
   m_ObjectHideFlags: 0
