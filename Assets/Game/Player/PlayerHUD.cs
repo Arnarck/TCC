@@ -15,15 +15,33 @@ public class PlayerHUD : MonoBehaviour
     public GameObject win_menu;
     public GameObject lose_menu;
     public GameObject card_game_hud;
+    public TextMeshProUGUI boss_attack_text;
 
     [Header("FIRST PERSON")]
     public GameObject first_person_hud;
     public GameObject interaction_panel;
     public TextMeshProUGUI interaction_text;
 
+    [Header("INTERNAL")]
+    public float boss_attack_text_t;
+
     private void Awake()
     {
         GI.player_hud = this;
+    }
+
+    private void Update()
+    {
+        float dt = Time.deltaTime;
+
+        if (boss_attack_text_t > 0f)
+        {
+            boss_attack_text_t -= dt;
+            if (boss_attack_text_t <= 0f)
+            {
+                boss_attack_text.enabled = false;
+            }
+        }
     }
 
     public void update_player_health_text()
@@ -39,6 +57,13 @@ public class PlayerHUD : MonoBehaviour
     public void update_actions_remaining_text()
     {
         actions_remaining_text.text = "Actions Remaining: " + GI.player_card_game.actions_remaining;
+    }
+
+    public void show_boss_attack_text(string text)
+    {
+        boss_attack_text.enabled = true;
+        boss_attack_text.text = text;
+        boss_attack_text_t = 2f;
     }
 
     public void show_player_turn_message()

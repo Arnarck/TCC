@@ -51,10 +51,12 @@ public class Boss : MonoBehaviour
                 if (ability_to_use == 0)
                 {
                     GI.player_card_game.take_damage(5);
+                    GI.player_hud.show_boss_attack_text("Boss used light attack. Player damaged by 5 chips");
                 }
                 else
                 {
                     GI.player_card_game.take_damage(15);
+                    GI.player_hud.show_boss_attack_text("Boss used heavy attack. Player damaged by 15 chips");
                 }
 
                 GI.card_system.update_turn();
