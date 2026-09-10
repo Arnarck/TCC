@@ -64,6 +64,18 @@ PrefabInstance:
       value: "Anima\xE7\xF5esTartaruga"
       objectReference: {fileID: 0}
     - target: {fileID: 6878676081711844282, guid: edc37b507cbd8bc47b8cb75cf9aae928, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.09380526
+      objectReference: {fileID: 0}
+    - target: {fileID: 6878676081711844282, guid: edc37b507cbd8bc47b8cb75cf9aae928, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.09380526
+      objectReference: {fileID: 0}
+    - target: {fileID: 6878676081711844282, guid: edc37b507cbd8bc47b8cb75cf9aae928, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.09380526
+      objectReference: {fileID: 0}
+    - target: {fileID: 6878676081711844282, guid: edc37b507cbd8bc47b8cb75cf9aae928, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
