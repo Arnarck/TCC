@@ -22,9 +22,12 @@ public enum Boss_Abilities
 public class Boss : MonoBehaviour
 {
     public Boss_Type type;
+    public Animator animator;
+    public int max_health;
 
     [Header("INTERNAL")]
     public int health;
+    public int previous_health;
     public float finish_turn_t;
 
     void Awake()
@@ -59,6 +62,7 @@ public class Boss : MonoBehaviour
                     GI.player_hud.show_boss_attack_text("Boss used heavy attack. Player damaged by 15 chips");
                 }
 
+                previous_health = health;
                 GI.card_system.update_turn();
             }
         }
@@ -71,13 +75,20 @@ public class Boss : MonoBehaviour
 
     public void start_game()
     {
-        health = 100;
+        health = max_health;
         GI.player_hud.update_boss_health_text();
     }
 
     public void start_turn()
     {
         finish_turn_t = 2f;
+
+        int half_health = max_health / 2;
+        if (health <= half_health && previous_health > half_health)
+        {
+            animator.SetTrigger("EnterPhase2");
+            finish_turn_t += 3.5f;
+        }
     }
 
     public void take_damage(int amount)
