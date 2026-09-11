@@ -16,10 +16,13 @@ public class PlayerController : MonoBehaviour
 
     [Header("INTERNAL")]
     public int health;
+    public int current_trio_card_to_disable;
     public int actions_remaining;
     public bool game_stopped;
     public bool game_over;
+    public bool applying_trio_card_abilities;
     public float disable_trio_cards_t;
+    public Family_Type[] families_in_trio;
     public Vector3 camera_start_position;
     public Quaternion camera_start_rotation;
 
@@ -34,6 +37,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         resume_game();
+
+        families_in_trio = new Family_Type[3];
     }
 
     private void Update()
@@ -118,21 +123,21 @@ public class PlayerController : MonoBehaviour
             disable_trio_cards_t -= dt;
             if (disable_trio_cards_t <= 0f)
             {
-                // Disable card
-                Card card = cards_in_trio[0];
-                cards_in_trio.RemoveAt(0);
+                current_trio_card_to_disable++;
 
-                card.gameObject.SetActive(false);
+                Card card = cards_in_trio[current_trio_card_to_disable];
 
+                activate_trio_card_ability(cards_in_trio[current_trio_card_to_disable]);
+                card.disable_from_trio();
 
                 // Enable next card (if there is any)
-                if (cards_in_trio.Count > 0)
+                if (current_trio_card_to_disable < cards_in_trio.Count - 1)
                 {
-                    activate_trio_card_ability(cards_in_trio[0]);
                     disable_trio_cards_t = 2f;
                 }
                 else
                 {
+                    applying_trio_card_abilities = false;
                     maybe_update_turn();
                 }
             }
@@ -148,14 +153,16 @@ public class PlayerController : MonoBehaviour
                 remove_card_from_hand(card);
 
                 cards_in_trio.Add(card);
+                families_in_trio[i] = card.family_type;
 
                 Transform trio_spawn_point = trio_spawn_points[i];
                 card.transform.position = trio_spawn_point.position;
                 card.transform.rotation = trio_spawn_point.rotation;
             }
 
-            activate_trio_card_ability(cards_in_trio[0]);
-            disable_trio_cards_t = 2f;
+            disable_trio_cards_t = 1f;
+            current_trio_card_to_disable = -1;
+            applying_trio_card_abilities = true;
 
             // Reorder cards in hand
             int first_available_index = -1;
@@ -188,7 +195,6 @@ public class PlayerController : MonoBehaviour
 
     public void activate_trio_card_ability(Card card)
     {
-        card.active_card.Active(card.transform.position, card.transform.rotation);
         GI.boss.take_damage(card.points);
     }
 
@@ -209,12 +215,20 @@ public class PlayerController : MonoBehaviour
 
         health = 100;
         GI.player_hud.update_player_health_text();
+        applying_trio_card_abilities = false;
     }
 
     public void start_turn()
     {
         actions_remaining = 2;
         GI.player_hud.update_actions_remaining_text();
+
+        // Reset trio data
+        cards_in_trio.Clear();
+        for (int i = 0; i < families_in_trio.Length; i++)
+        {
+            families_in_trio[i] = Family_Type.COUNT;
+        }
     }
 
     public void take_damage(int amount)
@@ -239,7 +253,7 @@ public class PlayerController : MonoBehaviour
 
     public void maybe_update_turn()
     {
-        if (actions_remaining <= 0 && cards_in_trio.Count < 1)
+        if (actions_remaining <= 0 && !applying_trio_card_abilities)
         {
             GI.card_system.update_turn();
         }

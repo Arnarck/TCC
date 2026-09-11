@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 
 public enum Boss_Type
@@ -12,8 +13,15 @@ public enum Boss_Type
 
 public enum Boss_Abilities
 {
-    REMOVE_PLAYER_POINTS,
-    REMOVE_A_LOT_OF_PLAYER_POINTS,
+    // Cat
+    ADD_CHIPS,
+    DEMOTE_CHARACTERS_FROM_FAMILY_X,
+    REPLACE_PLAYER_CARD,
+    STEAL_PLAYER_POINTS,
+
+    // Witch
+
+    // Kame
 
     COUNT
 }
@@ -24,11 +32,13 @@ public class Boss : MonoBehaviour
     public Boss_Type type;
     public Animator animator;
     public int max_health;
+    public GameObject bad_apple_card_prefab;
 
     [Header("INTERNAL")]
     public int health;
     public int previous_health;
     public float finish_turn_t;
+    public Boss_Abilities cheat_ability_to_use;
 
     void Awake()
     {
@@ -50,16 +60,68 @@ public class Boss : MonoBehaviour
             finish_turn_t -= dt;
             if (finish_turn_t <= 0f)
             {
-                int ability_to_use = Random.Range(0, (int)Boss_Abilities.COUNT);
-                if (ability_to_use == 0)
+                switch (cheat_ability_to_use)
                 {
-                    GI.player_card_game.take_damage(5);
-                    GI.player_hud.show_boss_attack_text("Boss used light attack. Player damaged by 5 chips");
-                }
-                else
-                {
-                    GI.player_card_game.take_damage(15);
-                    GI.player_hud.show_boss_attack_text("Boss used heavy attack. Player damaged by 15 chips");
+                    case Boss_Abilities.ADD_CHIPS:
+                        {
+                            add_health(10);
+                            GI.player_hud.show_boss_attack_text("Added 10 health");
+                        } break;
+                    case Boss_Abilities.DEMOTE_CHARACTERS_FROM_FAMILY_X:
+                        {
+                            Family_Type[] families_in_trio = GI.player_card_game.families_in_trio;
+                            Family_Type family_to_reduce_points = families_in_trio[Random.Range(0, GI.player_card_game.families_in_trio.Length)];
+
+                            bool points_removed = false;
+                            for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                            {
+                                Card card = GI.player_card_game.cards_in_hand[i];
+                                if (card && card.family_type == family_to_reduce_points)
+                                {
+                                    card.remove_points(2);
+                                    points_removed = true;
+                                }
+                            }
+
+                            if (points_removed)
+                            {
+                                GI.player_hud.show_boss_attack_text("Removed 2 points from family " + family_to_reduce_points.ToString());
+                            }
+                        } break;
+                    case Boss_Abilities.REPLACE_PLAYER_CARD:
+                        {
+                            // Fill cards
+                            List<Card> available_cards = new List<Card>();
+                            for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                            {
+                                Card card = GI.player_card_game.cards_in_hand[i];
+                                if (card)
+                                {
+                                    available_cards.Add(card);
+                                }
+                            }
+
+                            // Remove from hand
+                            Card card_to_remove = available_cards[Random.Range(0, available_cards.Count)];
+                            int index = GI.player_card_game.remove_card_from_hand(card_to_remove);
+                            card_to_remove.destroy();
+
+                            // Add Bad Apple to hand
+                            Card bad_apple_card = Instantiate(bad_apple_card_prefab).GetComponent<Card>();
+                            GI.player_card_game.add_card_to_hand(bad_apple_card, index);
+
+                            GI.player_hud.show_boss_attack_text("Added Bad Apple to player's hand");
+                        } break;
+                    case Boss_Abilities.STEAL_PLAYER_POINTS:
+                        {
+                            int points_to_steal = 10;
+
+                            GI.player_card_game.take_damage(points_to_steal);
+                            add_health(points_to_steal);
+
+                            GI.player_hud.show_boss_attack_text("Stolen " + points_to_steal + " points from player");
+                        } break;
+                    default: break;
                 }
 
                 previous_health = health;
@@ -89,6 +151,17 @@ public class Boss : MonoBehaviour
             animator.SetTrigger("EnterPhase2");
             finish_turn_t += 3.5f;
         }
+    }
+
+    public void add_health(int amount)
+    {
+        health += amount;
+        if (health > max_health)
+        {
+            health = max_health;
+        }
+
+        GI.player_hud.update_boss_health_text();
     }
 
     public void take_damage(int amount)

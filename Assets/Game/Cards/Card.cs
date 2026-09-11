@@ -100,12 +100,41 @@ public class Card : MonoBehaviour
         }
 
         float dt = Time.deltaTime;
+
+        if (disable_t > 0f)
+        {
+            disable_t -= dt;
+            if (disable_t <= 0f)
+            {
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     public void turn_card()
     {
         to_turn.Active();
         is_revealed = !is_revealed;
+    }
+
+    public void remove_points(int amount)
+    {
+        points -= amount;
+        if (points < 0)
+        {
+            points = 0;
+        }
+    }
+
+    public void disable_from_trio()
+    {
+        active_card.Active(transform.position, transform.rotation); // VFX
+        disable_t = 2f;
+    }
+
+    public void destroy()
+    {
+        gameObject.SetActive(false);
     }
 }
 
