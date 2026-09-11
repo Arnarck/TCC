@@ -132,6 +132,11 @@ public class Card : MonoBehaviour
         disable_t = 2f;
     }
 
+    public void add_points(int amount)
+    {
+        points += amount;
+    }
+
     public void destroy()
     {
         gameObject.SetActive(false);

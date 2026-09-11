@@ -20,6 +20,10 @@ public enum Boss_Abilities
     STEAL_PLAYER_POINTS,
 
     // Witch
+    SPAWN_DWARF_IN_PLAYER_HAND,
+    DEMOTE_CARDS_IN_A_COLUMN,
+    PROMOTE_CARD_IN_PLAYER_HAND,
+    SPAWN_ANNOYING_DWARF_TO_PLAYER_HAND,
 
     // Kame
 
@@ -32,11 +36,16 @@ public class Boss : MonoBehaviour
     public Boss_Type type;
     public Animator animator;
     public int max_health;
+    public DemoteCardCollider demote_cards_collider;
     public GameObject bad_apple_card_prefab;
+    public GameObject dwarf_card_prefab;
+    public GameObject annoying_dwarf_card_prefab;
 
     [Header("INTERNAL")]
     public int health;
     public int previous_health;
+    public int replace_player_cards_t;
+    public int demote_cards_in_column_t;
     public float finish_turn_t;
     public Boss_Abilities cheat_ability_to_use;
 
@@ -60,6 +69,49 @@ public class Boss : MonoBehaviour
             finish_turn_t -= dt;
             if (finish_turn_t <= 0f)
             {
+                // Replace Player Card ability
+                if (replace_player_cards_t > 0)
+                {
+                    replace_player_cards_t -= 1;
+                    if (replace_player_cards_t <= 0)
+                    {
+                        // Fill cards
+                        List<Card> available_cards = new List<Card>();
+                        for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                        {
+                            Card card = GI.player_card_game.cards_in_hand[i];
+                            if (card)
+                            {
+                                available_cards.Add(card);
+                            }
+                        }
+
+                        // Remove from hand
+                        Card card_to_remove = available_cards[Random.Range(0, available_cards.Count)];
+                        int index = GI.player_card_game.remove_card_from_hand(card_to_remove);
+                        card_to_remove.destroy();
+
+                        // Add Bad Apple to hand
+                        Card bad_apple_card = Instantiate(bad_apple_card_prefab).GetComponent<Card>();
+                        GI.player_card_game.add_card_to_hand(bad_apple_card, index);
+
+                        GI.player_hud.show_boss_attack_text("Added Bad Apple to player's hand");
+                    }
+                }
+
+                // Demote Cards In Column ability
+                if (demote_cards_in_column_t > 0)
+                {
+                    demote_cards_in_column_t -= 1;
+                    if (demote_cards_in_column_t < 1)
+                    {
+                        int points_to_remove = 10;
+                        demote_cards_collider.demote_cards_inside_collider(points_to_remove);
+                        GI.player_hud.show_boss_attack_text("Demoted cards in a columnn by " + points_to_remove + " points");
+                    }
+
+                }
+
                 switch (cheat_ability_to_use)
                 {
                     case Boss_Abilities.ADD_CHIPS:
@@ -90,27 +142,10 @@ public class Boss : MonoBehaviour
                         } break;
                     case Boss_Abilities.REPLACE_PLAYER_CARD:
                         {
-                            // Fill cards
-                            List<Card> available_cards = new List<Card>();
-                            for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                            if (replace_player_cards_t < 1)
                             {
-                                Card card = GI.player_card_game.cards_in_hand[i];
-                                if (card)
-                                {
-                                    available_cards.Add(card);
-                                }
+                                replace_player_cards_t = 2;
                             }
-
-                            // Remove from hand
-                            Card card_to_remove = available_cards[Random.Range(0, available_cards.Count)];
-                            int index = GI.player_card_game.remove_card_from_hand(card_to_remove);
-                            card_to_remove.destroy();
-
-                            // Add Bad Apple to hand
-                            Card bad_apple_card = Instantiate(bad_apple_card_prefab).GetComponent<Card>();
-                            GI.player_card_game.add_card_to_hand(bad_apple_card, index);
-
-                            GI.player_hud.show_boss_attack_text("Added Bad Apple to player's hand");
                         } break;
                     case Boss_Abilities.STEAL_PLAYER_POINTS:
                         {
@@ -120,6 +155,56 @@ public class Boss : MonoBehaviour
                             add_health(points_to_steal);
 
                             GI.player_hud.show_boss_attack_text("Stolen " + points_to_steal + " points from player");
+                        } break;
+                    case Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND:
+                        {
+                            bool success = spawn_card_in_player_hand(dwarf_card_prefab);
+                            if (success)
+                            {
+                                GI.player_hud.show_boss_attack_text("Spawned a Dwarf in player's hand");
+                            }
+
+                        } break;
+                    case Boss_Abilities.DEMOTE_CARDS_IN_A_COLUMN:
+                        {
+                            if (demote_cards_in_column_t < 1)
+                            {
+                                demote_cards_in_column_t = 2;
+                                demote_cards_collider.gameObject.SetActive(true);
+                                demote_cards_collider.cards_inside_collider.Clear();
+
+                                Transform[] columns_spawn_points = GI.card_system.columns_spawn_points;
+                                demote_cards_collider.transform.position = 
+                                    columns_spawn_points[Random.Range(0, columns_spawn_points.Length)].position;
+                            }
+
+                        } break;
+                    case Boss_Abilities.PROMOTE_CARD_IN_PLAYER_HAND:
+                        {
+                            bool points_added = false;
+                            for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                            {
+                                Card card = GI.player_card_game.cards_in_hand[i];
+                                if (card)
+                                {
+                                    card.add_points(1);
+                                    points_added = true;
+                                    break;
+                                }
+                            }
+
+                            if (points_added)
+                            {
+                                GI.player_hud.show_boss_attack_text("Added 1 point to a player's card");
+                            }
+                        } break;
+                    case Boss_Abilities.SPAWN_ANNOYING_DWARF_TO_PLAYER_HAND:
+                        {
+                            bool success = spawn_card_in_player_hand(annoying_dwarf_card_prefab);
+                            if (success)
+                            {
+                                GI.player_hud.show_boss_attack_text("Spawned an Annoying Dwarf in player's hand");
+                            }
                         } break;
                     default: break;
                 }
@@ -133,6 +218,22 @@ public class Boss : MonoBehaviour
     public void init()
     {
         gameObject.SetActive(true);
+    }
+
+    public bool spawn_card_in_player_hand(GameObject card_prefab)
+    {
+        for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+        {
+            if (!GI.player_card_game.cards_in_hand[i])
+            {
+                Card card = Instantiate(card_prefab).GetComponent<Card>();
+
+                GI.player_card_game.add_card_to_hand(card, i);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void start_game()

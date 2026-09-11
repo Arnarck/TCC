@@ -172,6 +172,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa84be36fe0ac6f4db011aa2e8e4d0fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardDesk
+  memorization_time: 1
+  start_playing_game: 1
   cards_parent: {fileID: 2819827882987716055}
   cards_prefabs:
   - {fileID: 3253797605370002477, guid: 7008ca063a8f19e48906394fa101de70, type: 3}
@@ -181,6 +183,12 @@ MonoBehaviour:
   - {fileID: 8840090129706520789, guid: a803554ed9d270a4c8a15c34461c77a5, type: 3}
   - {fileID: 4396930041969506992, guid: 1b121f51ad231c843b888fd4311a3502, type: 3}
   - {fileID: 3772981495411103067, guid: a6c87a1af133c1e49b76df5831858ba9, type: 3}
+  columns_spawn_points:
+  - {fileID: 1017633283121655049}
+  - {fileID: 2898660221636755223}
+  - {fileID: 512408468211468077}
+  - {fileID: 5581585363536933431}
+  - {fileID: 7788526842104751801}
   cards_spawn_points:
   - {fileID: 2566705865606977060}
   - {fileID: 1017633283121655049}
@@ -198,11 +206,26 @@ MonoBehaviour:
   - {fileID: 5993470836397736295}
   - {fileID: 6839890720988141971}
   round_count: 0
+  playing_card_game: 0
   is_player_turn: 0
   is_memorization_phase: 1
   memorization_phase_t: 0
-  memorization_time: 10
-  cards_in_desk: []
+  cards_in_desk:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &533129919592656136
 GameObject:
   m_ObjectHideFlags: 0

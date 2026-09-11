@@ -10,6 +10,7 @@ public class CardSystem : MonoBehaviour
     public bool start_playing_game;
     public Transform cards_parent;
     public GameObject[] cards_prefabs;
+    public Transform[] columns_spawn_points;
     public Transform[] cards_spawn_points;
 
     [Header("INTERNAL")]
