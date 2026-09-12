@@ -14,22 +14,22 @@ public enum Boss_Type
 public enum Boss_Abilities
 {
     // Cat
-    ADD_CHIPS,
-    DEMOTE_CHARACTERS_FROM_FAMILY_X,
-    REPLACE_PLAYER_CARD,
-    STEAL_PLAYER_POINTS,
+    ADD_CHIPS,                                      // Deep Pockets
+    DEMOTE_CHARACTERS_FROM_FAMILY_X,                // Destroy Reputation
+    REPLACE_PLAYER_CARD,                            // Bad Company
+    STEAL_PLAYER_POINTS,                            // Light Paws
 
     // Witch
-    SPAWN_DWARF_IN_PLAYER_HAND,
-    DEMOTE_CARDS_IN_A_COLUMN,
-    PROMOTE_CARD_IN_PLAYER_HAND,
-    SPAWN_ANNOYING_DWARF_TO_PLAYER_HAND,
+    SPAWN_DWARF_IN_PLAYER_HAND,                     // Little Infestation
+    DEMOTE_CARDS_IN_A_COLUMN,                       // Poison Pie
+    PROMOTE_CARD_IN_PLAYER_HAND,                    // Irresistible Cake
+    SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND,            // Growing Infestation
 
     // Kame
     DEMOTE_CARD_BY_X_POINTS,
     BLOW_UP,
     BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN,
-    PROMOTE_A_FAMILY_AND_DEMOTE_ALL_OTHER_FAMILIES,
+    PROMOTE_A_FAMILY_AND_DEMOTE_ALL_OTHER_FAMILIES, //
     DESTROY_A_CARD_FROM_PLAYER_HAND,
 
     COUNT
@@ -234,7 +234,7 @@ public class Boss : MonoBehaviour
                                 GI.player_hud.show_boss_attack_text("Added 1 point to a player's card");
                             }
                         } break;
-                    case Boss_Abilities.SPAWN_ANNOYING_DWARF_TO_PLAYER_HAND:
+                    case Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND:
                         {
                             bool success = spawn_card_in_player_hand(annoying_dwarf_card_prefab);
                             if (success)
@@ -377,18 +377,18 @@ public class Boss : MonoBehaviour
         {
             case Boss_Type.CAT:
                 {
-                    if (card_ability_count_in_desk() < 3)
+                    if (card_count_in_desk() < 3)
                     {
                         if (current_turn % 2 == 0)
                         {
                             // Place two cards
-                            add_first_cat_ability();
+                            spawn_random_between_two_cards(Boss_Abilities.ADD_CHIPS, Boss_Abilities.STEAL_PLAYER_POINTS);
 
-                            if (card_ability_count_in_desk() < 3)
+                            if (card_count_in_desk() < 3)
                             {
-                                if (is_card_ability_in_desk(Boss_Abilities.DEMOTE_CHARACTERS_FROM_FAMILY_X))
+                                if (is_card_in_desk(Boss_Abilities.DEMOTE_CHARACTERS_FROM_FAMILY_X))
                                     spawn_card_in_desk(Boss_Abilities.REPLACE_PLAYER_CARD);
-                                else if (is_card_ability_in_desk(Boss_Abilities.REPLACE_PLAYER_CARD))
+                                else if (is_card_in_desk(Boss_Abilities.REPLACE_PLAYER_CARD))
                                     spawn_card_in_desk(Boss_Abilities.DEMOTE_CHARACTERS_FROM_FAMILY_X);
                                 else
                                 {
@@ -402,15 +402,100 @@ public class Boss : MonoBehaviour
                         else
                         {
                             // Place one card
-                            add_first_cat_ability();
+                            spawn_random_between_two_cards(Boss_Abilities.ADD_CHIPS, Boss_Abilities.STEAL_PLAYER_POINTS);
+                        }
+                    }
+                } break;
+            case Boss_Type.WITCH:
+                {
+                    if (card_count_in_desk() < 5)
+                    {
+                        if (current_turn % 2 == 0)
+                        {
+                            // Place two cards
+                            bool spawned_first_card = false;
+                            if (!is_card_in_desk(Boss_Abilities.PROMOTE_CARD_IN_PLAYER_HAND))
+                            {
+                                spawn_card_in_desk(Boss_Abilities.PROMOTE_CARD_IN_PLAYER_HAND);
+                                spawned_first_card = true;
+                            }
+
+                            int card_count_to_spawn = 2;
+                            if (spawned_first_card)
+                                card_count_to_spawn = 1;
+                            for (int i = 0; i < card_count_to_spawn; i++)
+                            {
+                                if (card_count_in_desk() < 5)
+                                    spawn_witch_cards();
+                            }
+                        }
+                        else
+                        {
+                            // Place one card
+                            if (!is_card_in_desk(Boss_Abilities.PROMOTE_CARD_IN_PLAYER_HAND))
+                                spawn_card_in_desk(Boss_Abilities.PROMOTE_CARD_IN_PLAYER_HAND);
+                            else
+                            {
+                                spawn_witch_cards();
+                            }
                         }
                     }
                 } break;
             default: break;
         }
     }
+
+    public void spawn_witch_cards()
+    {
+        if (is_only_card_in_desk(Boss_Abilities.PROMOTE_CARD_IN_PLAYER_HAND))
+        {
+            int random_value = Random.Range(0, 3);
+            if (random_value == 0)
+                spawn_card_in_desk(Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND);
+            else if (random_value == 1)
+                spawn_card_in_desk(Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND);
+            else
+                spawn_card_in_desk(Boss_Abilities.DEMOTE_CARDS_IN_A_COLUMN);
+        }
+        else if (is_card_in_desk(Boss_Abilities.PROMOTE_CARD_IN_PLAYER_HAND) && (
+                 is_card_in_desk(Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND) ||
+                 is_card_in_desk(Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND) ||
+                 is_card_in_desk(Boss_Abilities.DEMOTE_CARDS_IN_A_COLUMN)))
+        {
+            if (!is_card_in_desk(Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND))
+                spawn_card_in_desk(Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND);
+            else if (!is_card_in_desk(Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND))
+                spawn_card_in_desk(Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND);
+            else if (!is_card_in_desk(Boss_Abilities.DEMOTE_CARDS_IN_A_COLUMN))
+                spawn_card_in_desk(Boss_Abilities.DEMOTE_CARDS_IN_A_COLUMN);
+            else
+                spawn_random_between_two_cards(Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND,
+                                               Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND);
+
+        }
+        else
+            spawn_random_between_two_cards(Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND,
+                                           Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND);
+    }
+
+    public bool is_only_card_in_desk(Boss_Abilities ability)
+    {
+        bool only_card_in_desk = false;
+        for (int i = 0; i < cards_in_desk.Length; i++)
+        {
+            if (cards_in_desk[i])
+            {
+                if (cards_in_desk[i].ability_type == ability)
+                    only_card_in_desk = true;
+                else
+                    return false;
+            }
+        }
+
+        return only_card_in_desk;
+    }
     
-    public bool is_card_ability_in_desk(Boss_Abilities ability)
+    public bool is_card_in_desk(Boss_Abilities ability)
     {
         for (int i = 0; i < cards_in_desk.Length; i++)
         {
@@ -465,7 +550,7 @@ public class Boss : MonoBehaviour
         }
     }
 
-    public int card_ability_count_in_desk()
+    public int card_count_in_desk()
     {
         int count = 0;
         for (int i = 0; i < cards_in_desk.Length; i++)
@@ -479,15 +564,15 @@ public class Boss : MonoBehaviour
         return count;
     }
 
-    public void add_first_cat_ability()
+    public void spawn_random_between_two_cards(Boss_Abilities ability_1, Boss_Abilities ability_2)
     {
         if (Random.Range(0, 2) == 0)
         {
-            spawn_card_in_desk(Boss_Abilities.ADD_CHIPS); // Deep Pockets
+            spawn_card_in_desk(ability_1);
         }
         else
         {
-            spawn_card_in_desk(Boss_Abilities.STEAL_PLAYER_POINTS); // Light Paws
+            spawn_card_in_desk(ability_2);
         }
     }
 
