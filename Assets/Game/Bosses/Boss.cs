@@ -46,6 +46,8 @@ public class Boss : MonoBehaviour
     public GameObject bad_apple_card_prefab;
     public GameObject dwarf_card_prefab;
     public GameObject annoying_dwarf_card_prefab;
+    public BossCard[] boss_card_list;
+    public Transform[] cards_spawn_points;
 
     [Header("INTERNAL")]
     public int health;
@@ -54,11 +56,18 @@ public class Boss : MonoBehaviour
     public int demote_cards_in_column_t;
     public int blow_up_t;
     public float finish_turn_t;
+    public int current_turn;
     public Boss_Abilities cheat_ability_to_use;
+    public BossCard[] cards_in_desk;
 
     void Awake()
     {
         GI.boss = this;
+    }
+
+    private void Start()
+    {
+        cards_in_desk = new BossCard[cards_spawn_points.Length];
     }
 
     // Update is called once per frame
@@ -128,7 +137,18 @@ public class Boss : MonoBehaviour
                     }
                 }
 
-                switch (cheat_ability_to_use)
+                // Create list of possible abilities to choose
+                List<BossCard> available_abilities = new List<BossCard>(); // @TODO: Cache this if we have performance problems
+                for (int i = 0; i < cards_in_desk.Length; i++)
+                {
+                    if (cards_in_desk[i])
+                    {
+                        available_abilities.Add(cards_in_desk[i]);
+                    }
+                }
+
+                BossCard card_to_use = available_abilities[Random.Range(0, available_abilities.Count)];
+                switch (card_to_use.ability_type)
                 {
                     case Boss_Abilities.ADD_CHIPS:
                         {
@@ -304,6 +324,7 @@ public class Boss : MonoBehaviour
                     default: break;
                 }
 
+                remove_card_from_desk(card_to_use);
                 previous_health = health;
                 GI.card_system.update_turn();
             }
@@ -335,10 +356,13 @@ public class Boss : MonoBehaviour
     {
         health = max_health;
         GI.player_hud.update_boss_health_text();
+
+        current_turn = 0;
     }
 
     public void start_turn()
     {
+        current_turn++;
         finish_turn_t = 2f;
 
         int half_health = max_health / 2;
@@ -346,6 +370,124 @@ public class Boss : MonoBehaviour
         {
             animator.SetTrigger("EnterPhase2");
             finish_turn_t += 3.5f;
+        }
+
+        // Add cards to desk
+        switch (type)
+        {
+            case Boss_Type.CAT:
+                {
+                    if (card_ability_count_in_desk() < 3)
+                    {
+                        if (current_turn % 2 == 0)
+                        {
+                            // Place two cards
+                            add_first_cat_ability();
+
+                            if (card_ability_count_in_desk() < 3)
+                            {
+                                if (is_card_ability_in_desk(Boss_Abilities.DEMOTE_CHARACTERS_FROM_FAMILY_X))
+                                    spawn_card_in_desk(Boss_Abilities.REPLACE_PLAYER_CARD);
+                                else if (is_card_ability_in_desk(Boss_Abilities.REPLACE_PLAYER_CARD))
+                                    spawn_card_in_desk(Boss_Abilities.DEMOTE_CHARACTERS_FROM_FAMILY_X);
+                                else
+                                {
+                                    if (Random.Range(0, 2) == 0)
+                                        spawn_card_in_desk(Boss_Abilities.DEMOTE_CHARACTERS_FROM_FAMILY_X); // Destroy Reputation
+                                    else
+                                        spawn_card_in_desk(Boss_Abilities.REPLACE_PLAYER_CARD); // Bad Company
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // Place one card
+                            add_first_cat_ability();
+                        }
+                    }
+                } break;
+            default: break;
+        }
+    }
+    
+    public bool is_card_ability_in_desk(Boss_Abilities ability)
+    {
+        for (int i = 0; i < cards_in_desk.Length; i++)
+        {
+            if (cards_in_desk[i] && cards_in_desk[i].ability_type == ability)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void spawn_card_in_desk(Boss_Abilities ability)
+    {
+        // Find the prefab
+        GameObject card_to_spawn = null;
+        for (int i = 0; i < boss_card_list.Length; i++)
+        {
+            if (boss_card_list[i].ability_type == ability)
+            {
+                card_to_spawn = boss_card_list[i].gameObject;
+                break;
+            }
+        }
+
+        // Spawn in first available position
+        for (int i = 0; i < cards_in_desk.Length; i++)
+        {
+            if (!cards_in_desk[i])
+            {
+                BossCard card = Instantiate(card_to_spawn).GetComponent<BossCard>();
+                card.transform.position = cards_spawn_points[i].position;
+                card.transform.rotation = cards_spawn_points[i].rotation;
+
+                cards_in_desk[i] = card;
+                break;
+            }
+        }
+    }
+
+    public void remove_card_from_desk(BossCard card)
+    {
+        for (int i = 0; i < cards_in_desk.Length; i++)
+        {
+            if (cards_in_desk[i] == card)
+            {
+                cards_in_desk[i] = null;
+                card.destroy();
+
+                break;
+            }
+        }
+    }
+
+    public int card_ability_count_in_desk()
+    {
+        int count = 0;
+        for (int i = 0; i < cards_in_desk.Length; i++)
+        {
+            if (cards_in_desk[i])
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public void add_first_cat_ability()
+    {
+        if (Random.Range(0, 2) == 0)
+        {
+            spawn_card_in_desk(Boss_Abilities.ADD_CHIPS); // Deep Pockets
+        }
+        else
+        {
+            spawn_card_in_desk(Boss_Abilities.STEAL_PLAYER_POINTS); // Light Paws
         }
     }
 
