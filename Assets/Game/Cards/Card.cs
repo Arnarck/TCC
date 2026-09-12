@@ -88,6 +88,7 @@ public class Card : MonoBehaviour
     public bool is_revealed = true;
 
     [Header("INTERNAL")]
+    public bool blow_up_if_selected;
     public int improved_points;
     public bool is_in_desk;
     public float disable_t;
@@ -124,6 +125,22 @@ public class Card : MonoBehaviour
         {
             points = 0;
         }
+    }
+
+    public void add_to_player_hand()
+    {
+        if (blow_up_if_selected)
+        {
+            GI.player_card_game.lose();
+            return;
+        }
+
+        is_in_desk = false;
+    }
+
+    public void add_to_desk()
+    {
+        is_in_desk = true;
     }
 
     public void disable_from_trio()

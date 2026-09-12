@@ -1,8 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class DemoteCardCollider : MonoBehaviour
+public class MultiCardSelector : MonoBehaviour
 {
+    public bool blow_up_if_a_card_is_selected;
+
+    [Header("INTERNAL")]
     public List<Card> cards_inside_collider;
 
     private void OnEnable()
@@ -16,6 +19,10 @@ public class DemoteCardCollider : MonoBehaviour
         if (collider.gameObject.TryGetComponent(out card_collider) && card_collider.card.is_in_desk)
         {
             cards_inside_collider.Add(card_collider.card);
+            if (blow_up_if_a_card_is_selected)
+            {
+                card_collider.card.blow_up_if_selected = true;
+            }
         }
     }
 
@@ -25,6 +32,10 @@ public class DemoteCardCollider : MonoBehaviour
         if (collider.gameObject.TryGetComponent(out card_collider) && card_collider.card.is_in_desk)
         {
             cards_inside_collider.Remove(card_collider.card);
+            if (blow_up_if_a_card_is_selected)
+            {
+                card_collider.card.blow_up_if_selected = false;
+            }
         }
     }
 

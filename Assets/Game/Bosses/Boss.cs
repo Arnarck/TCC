@@ -26,6 +26,11 @@ public enum Boss_Abilities
     SPAWN_ANNOYING_DWARF_TO_PLAYER_HAND,
 
     // Kame
+    DEMOTE_CARD_BY_X_POINTS,
+    BLOW_UP,
+    BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN,
+    PROMOTE_A_FAMILY_AND_DEMOTE_ALL_OTHER_FAMILIES,
+    DESTROY_A_CARD_FROM_PLAYER_HAND,
 
     COUNT
 }
@@ -36,7 +41,8 @@ public class Boss : MonoBehaviour
     public Boss_Type type;
     public Animator animator;
     public int max_health;
-    public DemoteCardCollider demote_cards_collider;
+    public MultiCardSelector demote_cards_collider;
+    public MultiCardSelector blow_up_cards_collider;
     public GameObject bad_apple_card_prefab;
     public GameObject dwarf_card_prefab;
     public GameObject annoying_dwarf_card_prefab;
@@ -46,6 +52,7 @@ public class Boss : MonoBehaviour
     public int previous_health;
     public int replace_player_cards_t;
     public int demote_cards_in_column_t;
+    public int blow_up_t;
     public float finish_turn_t;
     public Boss_Abilities cheat_ability_to_use;
 
@@ -109,7 +116,16 @@ public class Boss : MonoBehaviour
                         demote_cards_collider.demote_cards_inside_collider(points_to_remove);
                         GI.player_hud.show_boss_attack_text("Demoted cards in a columnn by " + points_to_remove + " points");
                     }
+                }
 
+                // Blow Up
+                if (blow_up_t > 0)
+                {
+                    blow_up_t -= 1;
+                    if (blow_up_t < 1)
+                    {
+                        GI.player_card_game.lose();
+                    }
                 }
 
                 switch (cheat_ability_to_use)
@@ -206,6 +222,84 @@ public class Boss : MonoBehaviour
                                 GI.player_hud.show_boss_attack_text("Spawned an Annoying Dwarf in player's hand");
                             }
 
+                        } break;
+                    case Boss_Abilities.DEMOTE_CARD_BY_X_POINTS:
+                        {
+                            for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                            {
+                                Card card = GI.player_card_game.cards_in_hand[i];
+                                if (card)
+                                {
+                                    card.remove_points(2);
+                                    GI.player_hud.show_boss_attack_text("Removed 2 points from a player's card");
+
+                                    break;
+                                }
+                            }
+                        } break;
+                    case Boss_Abilities.BLOW_UP:
+                        {
+                            if (blow_up_t < 1)
+                            {
+                                blow_up_t = 4;
+                            }
+                            break;
+                        }
+                    case Boss_Abilities.BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN:
+                        {
+                            if (!blow_up_cards_collider.gameObject.activeInHierarchy)
+                            {
+                                blow_up_cards_collider.gameObject.SetActive(true);
+                                blow_up_cards_collider.cards_inside_collider.Clear();
+
+                                Transform[] columns_spawn_points = GI.card_system.columns_spawn_points;
+                                blow_up_cards_collider.transform.position =
+                                    columns_spawn_points[Random.Range(0, columns_spawn_points.Length)].position;
+                            }
+                        } break;
+                    case Boss_Abilities.PROMOTE_A_FAMILY_AND_DEMOTE_ALL_OTHER_FAMILIES:
+                        {
+                            List<Card> available_cards = new List<Card>();
+                            for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                            {
+                                Card card = GI.player_card_game.cards_in_hand[i];
+                                if (card)
+                                {
+                                    available_cards.Add(card);
+                                }
+                            }
+
+                            Family_Type family_to_increase_points = available_cards[Random.Range(0, available_cards.Count)].family_type;
+                            for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                            {
+                                Card card = GI.player_card_game.cards_in_hand[i];
+                                if (card)
+                                {
+                                    if (card.family_type == family_to_increase_points)
+                                    {
+                                        card.add_points(5);
+                                    }
+                                    else
+                                    {
+                                        card.remove_points(10);
+                                    }
+                                }
+                            }
+
+                            GI.player_hud.show_boss_attack_text("Added 5 points to " + family_to_increase_points.ToString() + ". Removed" +
+                                "10 points for the other families");
+                        } break;
+                    case Boss_Abilities.DESTROY_A_CARD_FROM_PLAYER_HAND:
+                        {
+                            List<Card> available_cards = new List<Card>();
+                            for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                            {
+                                available_cards.Add(GI.player_card_game.cards_in_hand[i]);
+                            }
+
+                            Card card_to_remove = available_cards[Random.Range(0, available_cards.Count)];
+                            GI.player_card_game.remove_card_from_hand(card_to_remove);
+                            card_to_remove.destroy();
                         } break;
                     default: break;
                 }

@@ -304,7 +304,7 @@ public class PlayerController : MonoBehaviour
 
     public void add_card_to_hand(Card card, int index, bool animate = false)
     {
-        card.is_in_desk = false;
+        card.add_to_player_hand();
         cards_in_hand[index] = card;
 
         if (animate)

@@ -10,6 +10,7 @@ public class CardSystem : MonoBehaviour
     public bool start_playing_game;
     public Transform cards_parent;
     public GameObject[] cards_prefabs;
+    public Transform[] rows_spawn_points;
     public Transform[] columns_spawn_points;
     public Transform[] cards_spawn_points;
 
@@ -112,7 +113,7 @@ public class CardSystem : MonoBehaviour
         Transform spawn_point = cards_spawn_points[index];
         card.transform.position = spawn_point.position;
         card.transform.rotation = spawn_point.rotation;
-        card.is_in_desk = true;
+        card.add_to_desk();
     }
 
     public void start_game()
