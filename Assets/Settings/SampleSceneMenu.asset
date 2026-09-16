@@ -18,10 +18,10 @@ MonoBehaviour:
     m_Value: 0
   threshold:
     m_OverrideState: 1
-    m_Value: 1.18
+    m_Value: 1.14
   intensity:
     m_OverrideState: 1
-    m_Value: 0.88
+    m_Value: 0.84
   scatter:
     m_OverrideState: 0
     m_Value: 1
@@ -71,10 +71,10 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.355
+    m_Value: 0.4
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.502
+    m_Value: 0.91
   rounded:
     m_OverrideState: 0
     m_Value: 0
@@ -96,7 +96,7 @@ MonoBehaviour:
     m_Value: 2
   intensity:
     m_OverrideState: 1
-    m_Value: 0.47
+    m_Value: 0.51
   response:
     m_OverrideState: 1
     m_Value: 0
@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: SampleSceneProfile
+  m_Name: SampleSceneMenu
   m_EditorClassIdentifier: 
   components:
   - {fileID: 849379129802519247}
@@ -254,17 +254,17 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.17602997
-          value: 0.3333333
-          inSlope: 1
-          outSlope: 1
+          time: 0.1835206
+          value: 0.27642274
+          inSlope: 0.25707108
+          outSlope: 0.25707108
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.32958803
-          value: 0.36585367
+          time: 0.30120483
+          value: 0.39354837
           inSlope: 0.60639566
           outSlope: 0.60639566
           tangentMode: 0
@@ -272,8 +272,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.61048687
-          value: 0.73170733
+          time: 0.6596386
+          value: 0.7354839
           inSlope: 1.5031127
           outSlope: 1.5031127
           tangentMode: 0
@@ -321,8 +321,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.32958803
-          value: 0.3414634
+          time: 0.40449437
+          value: 0.45528454
           inSlope: 1.6326518
           outSlope: 1.6326518
           tangentMode: 0
@@ -330,8 +330,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.6292135
-          value: 0.59349597
+          time: 0.5505618
+          value: 0.49593496
           inSlope: 1.2294809
           outSlope: 1.2294809
           tangentMode: 0
@@ -370,8 +370,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.19101124
-          value: 0.17073172
+          time: 0.14457831
+          value: 0.13548386
           inSlope: 1
           outSlope: 1
           tangentMode: 0
@@ -379,8 +379,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.27715355
-          value: 0.32520324
+          time: 0.41265061
+          value: 0.09677422
           inSlope: 0.16476412
           outSlope: 0.16476412
           tangentMode: 0
@@ -388,8 +388,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.58426964
-          value: 0.63414633
+          time: 0.6566265
+          value: 0.7677419
           inSlope: 1.2000954
           outSlope: 1.2000954
           tangentMode: 0
@@ -532,7 +532,7 @@ MonoBehaviour:
     m_Value: 0
   contrast:
     m_OverrideState: 1
-    m_Value: 10
+    m_Value: 29
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 1, g: 0.8563032, b: 0, a: 1}
@@ -541,7 +541,7 @@ MonoBehaviour:
     m_Value: 180
   saturation:
     m_OverrideState: 1
-    m_Value: 45
+    m_Value: 52
 --- !u!114 &7391319092446245454
 MonoBehaviour:
   m_ObjectHideFlags: 3
