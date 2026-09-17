@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
                             int index_in_hand = remove_card_from_hand(card_to_move_to_desk);
 
                             int index_in_desk = GI.card_system.remove_card_from_desk(card);
-                            add_card_to_hand(card, index_in_hand);
+                            add_card_to_hand(card, index_in_hand, true);
 
                             GI.card_system.add_card_to_desk(card_to_move_to_desk, index_in_desk);
                             decrease_actions_remaining();
