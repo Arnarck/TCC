@@ -52,7 +52,7 @@ public class vfxSteal : MonoBehaviour, iVFX
             if (animation_t >= 1f)
             {
                 indoParaB = !indoParaB;
-                anim.SetTrigger("EndSteal");
+                //anim.SetTrigger("EndSteal");
                 ActiveMov();
             }
         }
@@ -61,7 +61,7 @@ public class vfxSteal : MonoBehaviour, iVFX
     {
         
         //anim.SetTrigger("ToTurn");
-        anim.SetTrigger("StartSteal");
+        //anim.SetTrigger("StartSteal");
         ActiveMov();
     }
     void ActiveMov()

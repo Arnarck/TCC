@@ -13,6 +13,7 @@ public class CardSystem : MonoBehaviour
     public Transform[] rows_spawn_points;
     public Transform[] columns_spawn_points;
     public Transform[] cards_spawn_points;
+    public Transform deckPoint;
 
     [Header("INTERNAL")]
     public int round_count; // A round is a player turn + a boss turn
@@ -110,9 +111,11 @@ public class CardSystem : MonoBehaviour
     {
         cards_in_desk[index] = card;
 
-        Transform spawn_point = cards_spawn_points[index];
-        card.transform.position = spawn_point.position;
-        card.transform.rotation = spawn_point.rotation;
+        Transform spawn_point = cards_spawn_points[index]; 
+        //card.transform.position = spawn_point.position;   @VITOR
+        card.transform.rotation = spawn_point.rotation;  
+        
+        card.distribute_cards(deckPoint, spawn_point);        //@VITOR
         card.add_to_desk();
     }
 

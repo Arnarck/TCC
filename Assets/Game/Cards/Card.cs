@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-
 public enum Card_Type
 {
     IMPROVE,
@@ -84,6 +83,7 @@ public class Card : MonoBehaviour
     public vfxTransform vfx_transform;
     public vfxHandFull vfx_hand_full;
     public vfxShuffle vfx_shuffle;
+    public vfxDistribute vfx_distribute;
 
     public bool is_revealed = true;
 
@@ -116,6 +116,10 @@ public class Card : MonoBehaviour
     {
         to_turn.Active();
         is_revealed = !is_revealed;
+    }
+    public void distribute_cards(Transform pointA, Transform pointB) //@VITOR
+    {
+        vfx_distribute.Active(pointA, pointB);
     }
 
     public void remove_points(int amount)
