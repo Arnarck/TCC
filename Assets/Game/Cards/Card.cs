@@ -5,7 +5,7 @@ public enum Card_Type
     // Family 1
     WOODEN_HOUSE_PIG,
     PUSS_IN_BOOTS,
-    BAD_QUEEN,
+    BAD_WITCH,
     BIG_BAD_WOLF,
 
     // Family 2
@@ -28,9 +28,9 @@ public enum Card_Type
 
 public enum Family_Type
 {
-    FAMILY_1,
-    FAMILY_2,
-    FAMILY_3,
+    PAW,
+    CANDY,
+    LOTUS,
 
     COUNT // Used as a way of knowing how many elements there is in this enum.
 }
