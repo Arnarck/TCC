@@ -26,11 +26,11 @@ public enum Boss_Abilities
     SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND,            // Growing Infestation
 
     // Kame
-    DEMOTE_CARD_BY_X_POINTS,
-    BLOW_UP,
-    BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN,
-    PROMOTE_A_FAMILY_AND_DEMOTE_ALL_OTHER_FAMILIES, //
-    DESTROY_A_CARD_FROM_PLAYER_HAND,
+    DEMOTE_CARD_BY_X_POINTS,                        // Drinks
+    BLOW_UP,                                        // T4
+    BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN,    // Turtle Mine
+    PROMOTE_A_FAMILY_AND_DEMOTE_ALL_OTHER_FAMILIES, // Favorites
+    DESTROY_A_CARD_FROM_PLAYER_HAND,                // Good Stuff
 
     COUNT
 }
@@ -441,8 +441,60 @@ public class Boss : MonoBehaviour
                         }
                     }
                 } break;
+            case Boss_Type.KAME:
+                {
+                    if (card_count_in_desk() < 7)
+                    {
+                        if (current_turn == 1)
+                        {
+                            spawn_card_in_desk(Boss_Abilities.BLOW_UP);
+                            spawn_card_in_desk(Boss_Abilities.BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN);
+                        }
+                        else
+                        {
+                            // Spawn first card
+                            spawn_first_kame_card();
+
+                            // Spawn second card
+                            bool spawned_second_card = false;
+                            if (!is_card_in_desk(Boss_Abilities.BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN))
+                            {
+                                int value2 = Random.Range(0, 2);
+                                if (value2 == 0)
+                                    spawned_second_card = spawn_card_in_desk(Boss_Abilities.BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN);
+                                else
+                                    spawned_second_card = spawn_card_in_desk(Boss_Abilities.PROMOTE_A_FAMILY_AND_DEMOTE_ALL_OTHER_FAMILIES);
+                            }
+                            else if (is_card_in_desk(Boss_Abilities.PROMOTE_A_FAMILY_AND_DEMOTE_ALL_OTHER_FAMILIES))
+                            {
+                                spawned_second_card = spawn_card_in_desk(Boss_Abilities.BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN);
+                            }
+
+                            if (!spawned_second_card && !is_card_in_desk(Boss_Abilities.BLOW_UP) && 
+                                                         is_card_in_desk(Boss_Abilities.BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN) &&
+                                                         is_card_in_desk(Boss_Abilities.PROMOTE_A_FAMILY_AND_DEMOTE_ALL_OTHER_FAMILIES))
+                            {
+                                spawned_second_card = spawn_card_in_desk(Boss_Abilities.BLOW_UP);
+                            }
+
+                            if (!spawned_second_card)
+                            {
+                                spawn_first_kame_card();
+                            }
+                        }
+                    }
+                } break;
             default: break;
         }
+    }
+
+    public void spawn_first_kame_card()
+    {
+        int value = Random.Range(0, 2);
+        if (value == 0)
+            spawn_card_in_desk(Boss_Abilities.DEMOTE_CARD_BY_X_POINTS);
+        else
+            spawn_card_in_desk(Boss_Abilities.DESTROY_A_CARD_FROM_PLAYER_HAND);
     }
 
     public void spawn_witch_cards()
@@ -508,7 +560,7 @@ public class Boss : MonoBehaviour
         return false;
     }
 
-    public void spawn_card_in_desk(Boss_Abilities ability)
+    public bool spawn_card_in_desk(Boss_Abilities ability)
     {
         // Find the prefab
         GameObject card_to_spawn = null;
@@ -531,9 +583,11 @@ public class Boss : MonoBehaviour
                 card.transform.rotation = cards_spawn_points[i].rotation;
 
                 cards_in_desk[i] = card;
-                break;
+                return true;
             }
         }
+
+        return false;
     }
 
     public void remove_card_from_desk(BossCard card)
