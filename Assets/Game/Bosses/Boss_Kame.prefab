@@ -60,10 +60,11 @@ MonoBehaviour:
   dwarf_card_prefab: {fileID: 3253797605370002477, guid: 7008ca063a8f19e48906394fa101de70, type: 3}
   annoying_dwarf_card_prefab: {fileID: 3253797605370002477, guid: 7008ca063a8f19e48906394fa101de70, type: 3}
   boss_card_list:
-  - {fileID: -7648149308236499770, guid: db66181344c7d054ea36f03001999214, type: 3}
-  - {fileID: -7648149308236499770, guid: 8f8cc6e6b1749c54181cccdbbd2f80c9, type: 3}
-  - {fileID: -7648149308236499770, guid: 5fd23a490031dc94da75a5896426700b, type: 3}
-  - {fileID: -7648149308236499770, guid: 9ac7af0184a81b943a79f7b6261028cd, type: 3}
+  - {fileID: 8192989332366468930, guid: ff81183a265a5114abbec143e912bde7, type: 3}
+  - {fileID: 7578432272041545540, guid: 204d9db27bdde2b4a9a8bf019461a741, type: 3}
+  - {fileID: 5332401344732638870, guid: fa3cfd5a797e0254c92862d471d5ead4, type: 3}
+  - {fileID: 2420419673886416589, guid: 64a487f1068036e49a86fcfa6ca8d02b, type: 3}
+  - {fileID: 3444466693956177796, guid: fb3f179374f726249b1a3632f7250d17, type: 3}
   cards_spawn_points:
   - {fileID: 8013942180065033465}
   - {fileID: 5741790695830729039}
