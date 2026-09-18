@@ -83,6 +83,7 @@ public class Card : MonoBehaviour
     public int improved_points;
     public bool is_in_desk;
     public float disable_t;
+    public bool promoted_at_start_of_turn;
 
     private void Update()
     {

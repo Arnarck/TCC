@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour
 
                 for (int i = 0; i < cards_in_trio.Count; i++)
                 {
-                    activate_trio_card_ability(cards_in_trio[i]);
+                    activate_card_ability(cards_in_trio[i]);
                 }
 
                 disable_trio_cards_t = 1f;
@@ -192,7 +192,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void activate_trio_card_ability(Card card)
+    public void activate_card_ability(Card card)
     {
         int card_index = cards_in_trio.IndexOf(card);
         switch (card.type)
@@ -232,10 +232,16 @@ public class PlayerController : MonoBehaviour
                     }
                 }
                 break;
-            
+            case Card_Type.UGLY_DUCK:
+                {
+                    if (!cards_in_trio.Contains(card))
+                    {
+                        card.add_points(2);
+                    }
+                }
+                break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
-        GI.boss.take_damage(card.points);
     }
 
     public void update_trio_card_position(Card card)
@@ -269,6 +275,17 @@ public class PlayerController : MonoBehaviour
     {
         actions_remaining = 2;
         GI.player_hud.update_actions_remaining_text();
+
+        // Promote all UGLY DUCKS once
+        for (int i = 0; i < cards_in_hand.Length; i++)
+        {
+            Card card = cards_in_hand[i];
+            if (card && card.type == Card_Type.UGLY_DUCK && !card.promoted_at_start_of_turn)
+            {
+                activate_card_ability(card);
+                card.promoted_at_start_of_turn = true;
+            }
+        }
 
         // Reset trio data
         cards_in_trio.Clear();
@@ -330,6 +347,19 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < cards_in_hand.Length; i++)
         {
             if (cards_in_hand[i] == card)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool is_card_in_hand(Card_Type type)
+    {
+        for (int i = 0; i < cards_in_hand.Length; i++)
+        {
+            if (cards_in_hand[i].type == type)
             {
                 return true;
             }
