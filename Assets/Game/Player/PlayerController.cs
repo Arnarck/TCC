@@ -208,18 +208,20 @@ public class PlayerController : MonoBehaviour
             case Card_Type.WOODEN_HOUSE_PIG:
                 {
                     take_damage(3);
-                    if (card_index > 0)
+                    if (card_index < cards_in_trio.Count - 1)
                     {
                         // Swap cards in array
-                        Card previous_card = cards_in_trio[card_index - 1];
-                        cards_in_trio[card_index] = previous_card;
-                        cards_in_trio[card_index - 1] = card;
+                        int next_index = card_index + 1;
+                        Card next_card = cards_in_trio[next_index];
+                        cards_in_trio[card_index] = next_card;
+                        cards_in_trio[next_index] = card;
 
                         update_trio_card_position(card);
-                        update_trio_card_position(previous_card);
+                        update_trio_card_position(next_card);
                     }
                 }
                 break;
+
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
         GI.boss.take_damage(card.points);
