@@ -22218,7 +22218,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9005031632608625730, guid: b24302fa4d4883f4885c7833a0cb9aec, type: 3}
       propertyPath: type
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22365,7 +22365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 713691153594473402, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: m_Name
-      value: Boss
+      value: BossBase
       objectReference: {fileID: 0}
     - target: {fileID: 713691153594473402, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: m_IsActive
@@ -22509,22 +22509,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card System
       objectReference: {fileID: 0}
-    - target: {fileID: 510000207809440837, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2163931753016736439, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
       propertyPath: deckPoint
       value: 
       objectReference: {fileID: 694869722}
-    - target: {fileID: 2163931753016736439, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
-      propertyPath: memorization_time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2163931753016736439, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
-      propertyPath: start_playing_game
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6739868955388663515, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

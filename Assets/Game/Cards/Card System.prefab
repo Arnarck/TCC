@@ -176,13 +176,22 @@ MonoBehaviour:
   start_playing_game: 1
   cards_parent: {fileID: 2819827882987716055}
   cards_prefabs:
-  - {fileID: 3253797605370002477, guid: 7008ca063a8f19e48906394fa101de70, type: 3}
-  - {fileID: 8433363071428617254, guid: d1a1b32860fafe7418b23e2af7d5b5da, type: 3}
-  - {fileID: 4934787232951914250, guid: 4670f6bc2fcaa0246845fd5b3665b4f4, type: 3}
-  - {fileID: 7791721712499757964, guid: 3ace44350b0b26a4dbbf0a70ae1b458c, type: 3}
-  - {fileID: 8840090129706520789, guid: a803554ed9d270a4c8a15c34461c77a5, type: 3}
-  - {fileID: 4396930041969506992, guid: 1b121f51ad231c843b888fd4311a3502, type: 3}
-  - {fileID: 3772981495411103067, guid: a6c87a1af133c1e49b76df5831858ba9, type: 3}
+  - {fileID: 8419625781598965185, guid: 3a5295d06810737459c8a9aed8b25cbd, type: 3}
+  - {fileID: 8419625781598965185, guid: 4a28a19a39517794c8e04c81fdd33fbb, type: 3}
+  - {fileID: 8419625781598965185, guid: 582cf5ff2f9fdb644831706a37dcb4ea, type: 3}
+  - {fileID: 8419625781598965185, guid: f57cea2e6decba14ca8adabe96d08d2e, type: 3}
+  - {fileID: 8419625781598965185, guid: 52dc931b5b6d68f41ac4f78fe957ba74, type: 3}
+  - {fileID: 8419625781598965185, guid: c777b9ed1098e5142b758e1276dfc27a, type: 3}
+  - {fileID: 8419625781598965185, guid: 99f83ba7b6e694245a8c504a1ab00925, type: 3}
+  - {fileID: 8419625781598965185, guid: b6ea1437b5e7d364ba01745d235f34cc, type: 3}
+  - {fileID: 8419625781598965185, guid: a717ee601c4a14149b9a5414d679c5a1, type: 3}
+  - {fileID: 8419625781598965185, guid: 2330af7ac313fc14ca03cc07d8e02d4c, type: 3}
+  - {fileID: 8419625781598965185, guid: 21713973fa00d6c4ebe1bd9d6d4785cd, type: 3}
+  - {fileID: 8419625781598965185, guid: 51df542397a52bf4db1dc816a5e9a66e, type: 3}
+  - {fileID: 8419625781598965185, guid: 8262fb7a043d230419a652c9e808149e, type: 3}
+  - {fileID: 8419625781598965185, guid: c60fff72cc09043438e16ade6fb5aeee, type: 3}
+  - {fileID: 8419625781598965185, guid: 1fde8ff9d3ca9604aa2e66e9e2a8be54, type: 3}
+  rows_spawn_points: []
   columns_spawn_points:
   - {fileID: 1017633283121655049}
   - {fileID: 2898660221636755223}
@@ -205,6 +214,7 @@ MonoBehaviour:
   - {fileID: 7788526842104751801}
   - {fileID: 5993470836397736295}
   - {fileID: 6839890720988141971}
+  deckPoint: {fileID: 0}
   round_count: 0
   playing_card_game: 0
   is_player_turn: 0
