@@ -210,7 +210,6 @@ public class PlayerController : MonoBehaviour
                     take_damage(3);
                     if (card_index < cards_in_trio.Count - 1)
                     {
-                        // Swap cards in array
                         int next_index = card_index + 1;
                         Card next_card = cards_in_trio[next_index];
                         cards_in_trio[card_index] = next_card;
@@ -219,9 +218,21 @@ public class PlayerController : MonoBehaviour
                         update_trio_card_position(card);
                         update_trio_card_position(next_card);
                     }
+                } break;
+            case Card_Type.BRICK_HOUSE_PIG:
+                {
+                    add_health(4);
+                    card.add_points(2);
+                    if (card_index > 0)
+                    {
+                        for (int i = card_index - 1; i >= 0; i--)
+                        {
+                            cards_in_trio[i].remove_points(2);
+                        }
+                    }
                 }
                 break;
-
+            
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
         GI.boss.take_damage(card.points);
