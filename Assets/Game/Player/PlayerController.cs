@@ -150,9 +150,7 @@ public class PlayerController : MonoBehaviour
                     cards_in_trio.Add(card);
                     families_in_trio[i] = card.family_type;
 
-                    Transform trio_spawn_point = trio_spawn_points[i];
-                    card.transform.position = trio_spawn_point.position;
-                    card.transform.rotation = trio_spawn_point.rotation;
+                    update_trio_card_position(card);
                 }
 
                 for (int i = 0; i < cards_in_trio.Count; i++)
@@ -207,9 +205,32 @@ public class PlayerController : MonoBehaviour
                         cards_in_trio[i].add_points(2);
                     }
                 } break;
+            case Card_Type.WOODEN_HOUSE_PIG:
+                {
+                    take_damage(3);
+                    if (card_index > 0)
+                    {
+                        // Swap cards in array
+                        Card previous_card = cards_in_trio[card_index - 1];
+                        cards_in_trio[card_index] = previous_card;
+                        cards_in_trio[card_index - 1] = card;
+
+                        update_trio_card_position(card);
+                        update_trio_card_position(previous_card);
+                    }
+                }
+                break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
         GI.boss.take_damage(card.points);
+    }
+
+    public void update_trio_card_position(Card card)
+    {
+        int index = cards_in_trio.IndexOf(card);
+
+        card.transform.position = trio_spawn_points[index].position;
+        card.transform.rotation = trio_spawn_points[index].rotation;
     }
 
     public void init()
