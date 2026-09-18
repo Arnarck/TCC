@@ -238,8 +238,16 @@ public class PlayerController : MonoBehaviour
                     {
                         card.add_points(2);
                     }
-                }
-                break;
+                } break;
+            case Card_Type.GEPETTO:
+                {
+                    GI.boss.add_health(3);
+                    if (card_index == 1)
+                    {
+                        cards_in_trio[0].add_points(2);
+                        cards_in_trio[2].add_points(2);
+                    }
+                } break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
     }
