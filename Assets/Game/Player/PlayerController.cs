@@ -26,9 +26,6 @@ public class PlayerController : MonoBehaviour
     public Vector3 camera_start_position;
     public Quaternion camera_start_rotation;
 
-    public List<Ability_Type> abilities_to_apply;
-    public Ability_Type current_ability;
-
     void Awake()
     {
         GI.player_card_game = this;
@@ -126,8 +123,6 @@ public class PlayerController : MonoBehaviour
                 current_trio_card_to_disable++;
 
                 Card card = cards_in_trio[current_trio_card_to_disable];
-
-                activate_trio_card_ability(cards_in_trio[current_trio_card_to_disable]);
                 card.disable_from_trio();
 
                 // Enable next card (if there is any)
@@ -143,58 +138,77 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // Trio
-        if (Input.GetKeyDown(KeyCode.Space) && selected_cards.Count == 3 && actions_remaining > 0)
-        {
-            // Place cards in desk
-            for (int i = 0; i < 3; i++)
+        { // Trio
+            if (Input.GetKeyDown(KeyCode.Space) && selected_cards.Count == 3 && actions_remaining > 0)
             {
-                Card card = selected_cards[0];
-                remove_card_from_hand(card);
-
-                cards_in_trio.Add(card);
-                families_in_trio[i] = card.family_type;
-
-                Transform trio_spawn_point = trio_spawn_points[i];
-                card.transform.position = trio_spawn_point.position;
-                card.transform.rotation = trio_spawn_point.rotation;
-            }
-
-            disable_trio_cards_t = 1f;
-            current_trio_card_to_disable = -1;
-            applying_trio_card_abilities = true;
-
-            // Reorder cards in hand
-            int first_available_index = -1;
-            for (int i = 0; i < cards_in_hand.Length; i++)
-            {
-                if (cards_in_hand[i] == null && first_available_index < 0)
+                // Place cards in desk
+                for (int i = 0; i < 3; i++)
                 {
-                    // Sets the first available index
-                    first_available_index = i;
+                    Card card = selected_cards[0];
+                    remove_card_from_hand(card);
+
+                    cards_in_trio.Add(card);
+                    families_in_trio[i] = card.family_type;
+
+                    Transform trio_spawn_point = trio_spawn_points[i];
+                    card.transform.position = trio_spawn_point.position;
+                    card.transform.rotation = trio_spawn_point.rotation;
                 }
-                else if (cards_in_hand[i] != null && first_available_index >= 0)
+
+                for (int i = 0; i < cards_in_trio.Count; i++)
                 {
-                    // Moves the card to the first available index
-                    Card card = cards_in_hand[i];
-                    cards_in_hand[first_available_index] = card;
-                    cards_in_hand[i] = null;
-
-                    Transform spawn_point = cards_spawn_points[first_available_index];
-                    card.transform.position = spawn_point.position;
-                    card.transform.rotation = spawn_point.rotation;
-
-                    i = first_available_index;
-                    first_available_index = -1;
+                    activate_trio_card_ability(cards_in_trio[i]);
                 }
-            }
 
-            decrease_actions_remaining();
+                disable_trio_cards_t = 1f;
+                current_trio_card_to_disable = -1;
+                applying_trio_card_abilities = true;
+
+                // Reorder cards in hand
+                int first_available_index = -1;
+                for (int i = 0; i < cards_in_hand.Length; i++)
+                {
+                    if (cards_in_hand[i] == null && first_available_index < 0)
+                    {
+                        // Sets the first available index
+                        first_available_index = i;
+                    }
+                    else if (cards_in_hand[i] != null && first_available_index >= 0)
+                    {
+                        // Moves the card to the first available index
+                        Card card = cards_in_hand[i];
+                        cards_in_hand[first_available_index] = card;
+                        cards_in_hand[i] = null;
+
+                        Transform spawn_point = cards_spawn_points[first_available_index];
+                        card.transform.position = spawn_point.position;
+                        card.transform.rotation = spawn_point.rotation;
+
+                        i = first_available_index;
+                        first_available_index = -1;
+                    }
+                }
+
+                decrease_actions_remaining();
+            }
         }
     }
 
     public void activate_trio_card_ability(Card card)
     {
+        int card_index = cards_in_trio.IndexOf(card);
+        switch (card.type)
+        {
+            case Card_Type.STRAW_HOUSE_PIG:
+                {
+                    add_health(1);
+                    for (int i = card_index + 1; i < cards_in_trio.Count; i++)
+                    {
+                        cards_in_trio[i].add_points(2);
+                    }
+                } break;
+            default: Debug.Assert(false, "ability not implemented for " + card.type); break;
+        }
         GI.boss.take_damage(card.points);
     }
 
@@ -207,7 +221,6 @@ public class PlayerController : MonoBehaviour
 
     public void start_game()
     {
-        current_ability = Ability_Type.NONE;
         cards_in_hand = new Card[MAX_CARDS_IN_HAND];
 
         camera_start_position = player_camera.transform.position;
@@ -229,6 +242,12 @@ public class PlayerController : MonoBehaviour
         {
             families_in_trio[i] = Family_Type.COUNT;
         }
+    }
+
+    public void add_health(int amount)
+    {
+        health += amount;
+        GI.player_hud.update_player_health_text();
     }
 
     public void take_damage(int amount)
