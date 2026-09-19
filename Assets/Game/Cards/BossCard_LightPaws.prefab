@@ -9,6 +9,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: attack_1
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: attack_2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: ability_type
       value: 3
       objectReference: {fileID: 0}
@@ -54,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6513423077981549246, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: m_Name
-      value: Boss Card Base Variant
+      value: BossCard_LightPaws
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
