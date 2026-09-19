@@ -205,6 +205,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool is_family_type_in_trio(Family_Type family)
+    {
+        for (int i = 0; i < cards_in_trio.Count; i++)
+        {
+            if (cards_in_trio[i].family_type == family)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public int family_count_in_trio(Family_Type family)
+    {
+        int count = 0;
+        for (int i = 0; i < cards_in_trio.Count; i++)
+        {
+            if (cards_in_trio[i].family_type == family)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
     public void activate_card_ability(Card card)
     {
         int card_index = cards_in_trio.IndexOf(card);
@@ -213,20 +240,26 @@ public class PlayerController : MonoBehaviour
         {
             case Card_Type.STRAW_HOUSE_PIG:
                 {
-                    for (int i = card_index + 1; i < cards_in_trio.Count; i++)
+                    if (is_family_type_in_trio(Family_Type.PAW) && is_family_type_in_trio(Family_Type.LOTUS))
                     {
-                        cards_in_trio[i].improve_points(2);
+                        for (int i = card_index + 1; i < cards_in_trio.Count; i++)
+                        {
+                            cards_in_trio[i].improve_points(2);
+                        }
                     }
                 } break;
             case Card_Type.WOODEN_HOUSE_PIG:
                 {
-                    if (card_index < cards_in_trio.Count - 1)
+                    if (family_count_in_trio(Family_Type.PAW) == 2)
                     {
-                        cards_in_trio[card_index + 1].swap_attacks();
-                    }
-                    else
-                    {
-                        card.swap_attacks();
+                        if (card_index < cards_in_trio.Count - 1)
+                        {
+                            cards_in_trio[card_index + 1].swap_attacks();
+                        }
+                        else
+                        {
+                            card.swap_attacks();
+                        }
                     }
                 } break;
             case Card_Type.BRICK_HOUSE_PIG:
@@ -250,26 +283,34 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.GEPETTO:
                 {
-                    if (card_index == 1)
+                    if (family_count_in_trio(Family_Type.LOTUS) == 2)
                     {
-                        cards_in_trio[0].improve_points(2);
-                        cards_in_trio[2].improve_points(2);
+                        if (card_index == 1)
+                        {
+                            cards_in_trio[0].improve_points(2);
+                            cards_in_trio[2].improve_points(2);
+                        }
                     }
                 } break;
             case Card_Type.BAD_WITCH:
                 {
-                    List<BossCard> available_cards = new List<BossCard>();
-                    for (int i = 0; i < GI.boss.cards_in_desk.Length; i++)
+                    if (is_family_type_in_trio(Family_Type.PAW) && 
+                        is_family_type_in_trio(Family_Type.CANDY) &&
+                        is_family_type_in_trio(Family_Type.LOTUS))
                     {
-                        if (GI.boss.cards_in_desk[i])
+                        List<BossCard> available_cards = new List<BossCard>();
+                        for (int i = 0; i < GI.boss.cards_in_desk.Length; i++)
                         {
-                            available_cards.Add(GI.boss.cards_in_desk[i]);
+                            if (GI.boss.cards_in_desk[i])
+                            {
+                                available_cards.Add(GI.boss.cards_in_desk[i]);
+                            }
                         }
-                    }
 
-                    if (available_cards.Count > 0)
-                    {
-                        available_cards[Random.Range(0, available_cards.Count)].turn_off(1);
+                        if (available_cards.Count > 0)
+                        {
+                            available_cards[Random.Range(0, available_cards.Count)].turn_off(1);
+                        }
                     }
                 } break;
             case Card_Type.PUSS_IN_BOOTS:
