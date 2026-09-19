@@ -199,7 +199,7 @@ public class PlayerController : MonoBehaviour
         {
             case Card_Type.STRAW_HOUSE_PIG:
                 {
-                    add_health(1);
+                    card.do_attack();
                     for (int i = card_index + 1; i < cards_in_trio.Count; i++)
                     {
                         cards_in_trio[i].add_points(2);
@@ -207,21 +207,19 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.WOODEN_HOUSE_PIG:
                 {
-                    take_damage(3);
+                    card.do_attack();
                     if (card_index < cards_in_trio.Count - 1)
                     {
-                        int next_index = card_index + 1;
-                        Card next_card = cards_in_trio[next_index];
-                        cards_in_trio[card_index] = next_card;
-                        cards_in_trio[next_index] = card;
-
-                        update_trio_card_position(card);
-                        update_trio_card_position(next_card);
+                        cards_in_trio[card_index + 1].swap_attacks();
+                    }
+                    else
+                    {
+                        card.swap_attacks();
                     }
                 } break;
             case Card_Type.BRICK_HOUSE_PIG:
                 {
-                    add_health(4);
+                    card.do_attack();
                     card.add_points(2);
                     if (card_index > 0)
                     {
@@ -241,7 +239,7 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.GEPETTO:
                 {
-                    GI.boss.add_health(3);
+                    card.do_attack();
                     if (card_index == 1)
                     {
                         cards_in_trio[0].add_points(2);

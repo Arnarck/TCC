@@ -53,12 +53,20 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: attack_1
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: family_type
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: ability_type
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: attack_amount
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6513423077981549246, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: m_Name
