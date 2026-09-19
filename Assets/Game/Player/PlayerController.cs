@@ -309,7 +309,13 @@ public class PlayerController : MonoBehaviour
 
                         if (available_cards.Count > 0)
                         {
-                            available_cards[Random.Range(0, available_cards.Count)].turn_off(1);
+                            int random_index = Random.Range(0, available_cards.Count);
+                            BossCard boss_card = available_cards[random_index];
+
+                            boss_card.turn_off(1);
+
+                            if      (boss_card.attack_1 == Attack_Type.HEAL_PLAYER) boss_card.swap_attack(ref boss_card.attack_1);
+                            else if (boss_card.attack_2 == Attack_Type.HEAL_PLAYER) boss_card.swap_attack(ref boss_card.attack_2);
                         }
                     }
                 } break;

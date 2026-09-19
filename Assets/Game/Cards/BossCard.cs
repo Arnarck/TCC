@@ -35,11 +35,11 @@ public class BossCard : MonoBehaviour
 
     public void swap_attacks()
     {
-        __swap_attack(ref attack_1);
-        __swap_attack(ref attack_2);
+        swap_attack(ref attack_1);
+        swap_attack(ref attack_2);
     }
 
-    public void __swap_attack(ref Attack_Type type)
+    public void swap_attack(ref Attack_Type type)
     {
         switch (type)
         {
