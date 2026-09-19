@@ -436,6 +436,18 @@ public class PlayerController : MonoBehaviour
                         boss_card.turn_off(1);
                     }
                 } break;
+            case Card_Type.HUMAN_FROG:
+                {
+                    if (family_count_in_trio(Family_Type.LOTUS) == 3)
+                    {
+                        card.improve_points(5);
+                    }
+                    else
+                    {
+                        if (card_index > 0) { cards_in_trio[card_index - 1].remove_points(5); }
+                        if (card_index < 2) { cards_in_trio[card_index + 1].remove_points(5); }
+                    }
+                } break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
     }
