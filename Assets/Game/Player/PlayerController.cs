@@ -395,6 +395,20 @@ public class PlayerController : MonoBehaviour
                         }
                     }
                 } break;
+            case Card_Type.GRANNY:
+                {
+                    if (family_count_in_trio(Family_Type.LOTUS) == 3)
+                    {
+                        for (int i = 0; i < GI.card_system.cards_in_desk.Length; i++)
+                        {
+                            Card card_in_desk = GI.card_system.cards_in_desk[i];
+                            if (card_in_desk)
+                            {
+                                card_in_desk.improve_points(2);
+                            }
+                        }
+                    }
+                } break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
     }
