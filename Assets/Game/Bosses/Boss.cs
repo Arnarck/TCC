@@ -141,192 +141,210 @@ public class Boss : MonoBehaviour
                 List<BossCard> available_abilities = new List<BossCard>(); // @TODO: Cache this if we have performance problems
                 for (int i = 0; i < cards_in_desk.Length; i++)
                 {
-                    if (cards_in_desk[i])
+                    if (cards_in_desk[i] && cards_in_desk[i].turn_off_t <= 0)
                     {
                         available_abilities.Add(cards_in_desk[i]);
                     }
                 }
 
                 // Use ability
-                BossCard card_to_use = available_abilities[Random.Range(0, available_abilities.Count)];
-                card_to_use.do_attack();
-                switch (card_to_use.ability_type)
+                BossCard card_to_use = null;
+                if (available_abilities.Count > 0)
                 {
-                    case Boss_Abilities.ADD_CHIPS:
-                        {
-                            add_health(10);
-                            GI.player_hud.show_boss_attack_text("Added 10 health");
-                        } break;
-                    case Boss_Abilities.DEMOTE_CHARACTERS_FROM_FAMILY_X:
-                        {
-                            Family_Type[] families_in_trio = GI.player_card_game.families_in_trio;
-                            Family_Type family_to_reduce_points = families_in_trio[Random.Range(0, GI.player_card_game.families_in_trio.Length)];
+                    card_to_use = available_abilities[Random.Range(0, available_abilities.Count)];
+                    card_to_use.do_attack();
 
-                            bool points_removed = false;
-                            for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                    switch (card_to_use.ability_type)
+                    {
+                        case Boss_Abilities.ADD_CHIPS:
                             {
-                                Card card = GI.player_card_game.cards_in_hand[i];
-                                if (card && card.family_type == family_to_reduce_points)
-                                {
-                                    card.remove_points(2);
-                                    points_removed = true;
-                                }
-                            }
-
-                            if (points_removed)
-                            {
-                                GI.player_hud.show_boss_attack_text("Removed 2 points from family " + family_to_reduce_points.ToString());
-                            }
-                        } break;
-                    case Boss_Abilities.REPLACE_PLAYER_CARD:
-                        {
-                            if (replace_player_cards_t < 1)
-                            {
-                                replace_player_cards_t = 2;
-                            }
-                        } break;
-                    case Boss_Abilities.STEAL_PLAYER_POINTS:
-                        {
-                            int points_to_steal = 10;
-
-                            GI.player_card_game.take_damage(points_to_steal);
-                            add_health(points_to_steal);
-
-                            GI.player_hud.show_boss_attack_text("Stolen " + points_to_steal + " points from player");
-                        } break;
-                    case Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND:
-                        {
-                            bool success = spawn_card_in_player_hand(dwarf_card_prefab);
-                            if (success)
-                            {
-                                GI.player_hud.show_boss_attack_text("Spawned a Dwarf in player's hand");
-                            }
-
-                        } break;
-                    case Boss_Abilities.DEMOTE_CARDS_IN_A_COLUMN:
-                        {
-                            if (demote_cards_in_column_t < 1)
-                            {
-                                demote_cards_in_column_t = 2;
-                                demote_cards_collider.gameObject.SetActive(true);
-                                demote_cards_collider.cards_inside_collider.Clear();
-
-                                Transform[] columns_spawn_points = GI.card_system.columns_spawn_points;
-                                demote_cards_collider.transform.position = 
-                                    columns_spawn_points[Random.Range(0, columns_spawn_points.Length)].position;
-                            }
-
-                        } break;
-                    case Boss_Abilities.PROMOTE_CARD_IN_PLAYER_HAND:
-                        {
-                            bool points_added = false;
-                            for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
-                            {
-                                Card card = GI.player_card_game.cards_in_hand[i];
-                                if (card)
-                                {
-                                    card.add_points(1);
-                                    points_added = true;
-                                    break;
-                                }
-                            }
-
-                            if (points_added)
-                            {
-                                GI.player_hud.show_boss_attack_text("Added 1 point to a player's card");
-                            }
-                        } break;
-                    case Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND:
-                        {
-                            bool success = spawn_card_in_player_hand(annoying_dwarf_card_prefab);
-                            if (success)
-                            {
-                                GI.player_hud.show_boss_attack_text("Spawned an Annoying Dwarf in player's hand");
-                            }
-
-                        } break;
-                    case Boss_Abilities.DEMOTE_CARD_BY_X_POINTS:
-                        {
-                            for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
-                            {
-                                Card card = GI.player_card_game.cards_in_hand[i];
-                                if (card)
-                                {
-                                    card.remove_points(2);
-                                    GI.player_hud.show_boss_attack_text("Removed 2 points from a player's card");
-
-                                    break;
-                                }
-                            }
-                        } break;
-                    case Boss_Abilities.BLOW_UP:
-                        {
-                            if (blow_up_t < 1)
-                            {
-                                blow_up_t = 4;
+                                add_health(10);
+                                GI.player_hud.show_boss_attack_text("Added 10 health");
                             }
                             break;
-                        }
-                    case Boss_Abilities.BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN:
-                        {
-                            if (!blow_up_cards_collider.gameObject.activeInHierarchy)
+                        case Boss_Abilities.DEMOTE_CHARACTERS_FROM_FAMILY_X:
                             {
-                                blow_up_cards_collider.gameObject.SetActive(true);
-                                blow_up_cards_collider.cards_inside_collider.Clear();
+                                Family_Type[] families_in_trio = GI.player_card_game.families_in_trio;
+                                Family_Type family_to_reduce_points = families_in_trio[Random.Range(0, GI.player_card_game.families_in_trio.Length)];
 
-                                Transform[] columns_spawn_points = GI.card_system.columns_spawn_points;
-                                blow_up_cards_collider.transform.position =
-                                    columns_spawn_points[Random.Range(0, columns_spawn_points.Length)].position;
-                            }
-                        } break;
-                    case Boss_Abilities.PROMOTE_A_FAMILY_AND_DEMOTE_ALL_OTHER_FAMILIES:
-                        {
-                            List<Card> available_cards = new List<Card>();
-                            for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
-                            {
-                                Card card = GI.player_card_game.cards_in_hand[i];
-                                if (card)
+                                bool points_removed = false;
+                                for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
                                 {
-                                    available_cards.Add(card);
-                                }
-                            }
-
-                            Family_Type family_to_increase_points = available_cards[Random.Range(0, available_cards.Count)].family_type;
-                            for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
-                            {
-                                Card card = GI.player_card_game.cards_in_hand[i];
-                                if (card)
-                                {
-                                    if (card.family_type == family_to_increase_points)
+                                    Card card = GI.player_card_game.cards_in_hand[i];
+                                    if (card && card.family_type == family_to_reduce_points)
                                     {
-                                        card.add_points(5);
-                                    }
-                                    else
-                                    {
-                                        card.remove_points(10);
+                                        card.remove_points(2);
+                                        points_removed = true;
                                     }
                                 }
-                            }
 
-                            GI.player_hud.show_boss_attack_text("Added 5 points to " + family_to_increase_points.ToString() + ". Removed" +
-                                "10 points for the other families");
-                        } break;
-                    case Boss_Abilities.DESTROY_A_CARD_FROM_PLAYER_HAND:
-                        {
-                            List<Card> available_cards = new List<Card>();
-                            for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                                if (points_removed)
+                                {
+                                    GI.player_hud.show_boss_attack_text("Removed 2 points from family " + family_to_reduce_points.ToString());
+                                }
+                            }
+                            break;
+                        case Boss_Abilities.REPLACE_PLAYER_CARD:
                             {
-                                available_cards.Add(GI.player_card_game.cards_in_hand[i]);
+                                if (replace_player_cards_t < 1)
+                                {
+                                    replace_player_cards_t = 2;
+                                }
                             }
+                            break;
+                        case Boss_Abilities.STEAL_PLAYER_POINTS:
+                            {
+                                int points_to_steal = 10;
 
-                            Card card_to_remove = available_cards[Random.Range(0, available_cards.Count)];
-                            GI.player_card_game.remove_card_from_hand(card_to_remove);
-                            card_to_remove.destroy();
-                        } break;
-                    default: break;
+                                GI.player_card_game.take_damage(points_to_steal);
+                                add_health(points_to_steal);
+
+                                GI.player_hud.show_boss_attack_text("Stolen " + points_to_steal + " points from player");
+                            }
+                            break;
+                        case Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND:
+                            {
+                                bool success = spawn_card_in_player_hand(dwarf_card_prefab);
+                                if (success)
+                                {
+                                    GI.player_hud.show_boss_attack_text("Spawned a Dwarf in player's hand");
+                                }
+
+                            }
+                            break;
+                        case Boss_Abilities.DEMOTE_CARDS_IN_A_COLUMN:
+                            {
+                                if (demote_cards_in_column_t < 1)
+                                {
+                                    demote_cards_in_column_t = 2;
+                                    demote_cards_collider.gameObject.SetActive(true);
+                                    demote_cards_collider.cards_inside_collider.Clear();
+
+                                    Transform[] columns_spawn_points = GI.card_system.columns_spawn_points;
+                                    demote_cards_collider.transform.position =
+                                        columns_spawn_points[Random.Range(0, columns_spawn_points.Length)].position;
+                                }
+
+                            }
+                            break;
+                        case Boss_Abilities.PROMOTE_CARD_IN_PLAYER_HAND:
+                            {
+                                bool points_added = false;
+                                for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                                {
+                                    Card card = GI.player_card_game.cards_in_hand[i];
+                                    if (card)
+                                    {
+                                        card.add_points(1);
+                                        points_added = true;
+                                        break;
+                                    }
+                                }
+
+                                if (points_added)
+                                {
+                                    GI.player_hud.show_boss_attack_text("Added 1 point to a player's card");
+                                }
+                            }
+                            break;
+                        case Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND:
+                            {
+                                bool success = spawn_card_in_player_hand(annoying_dwarf_card_prefab);
+                                if (success)
+                                {
+                                    GI.player_hud.show_boss_attack_text("Spawned an Annoying Dwarf in player's hand");
+                                }
+
+                            }
+                            break;
+                        case Boss_Abilities.DEMOTE_CARD_BY_X_POINTS:
+                            {
+                                for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                                {
+                                    Card card = GI.player_card_game.cards_in_hand[i];
+                                    if (card)
+                                    {
+                                        card.remove_points(2);
+                                        GI.player_hud.show_boss_attack_text("Removed 2 points from a player's card");
+
+                                        break;
+                                    }
+                                }
+                            }
+                            break;
+                        case Boss_Abilities.BLOW_UP:
+                            {
+                                if (blow_up_t < 1)
+                                {
+                                    blow_up_t = 4;
+                                }
+                                break;
+                            }
+                        case Boss_Abilities.BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN:
+                            {
+                                if (!blow_up_cards_collider.gameObject.activeInHierarchy)
+                                {
+                                    blow_up_cards_collider.gameObject.SetActive(true);
+                                    blow_up_cards_collider.cards_inside_collider.Clear();
+
+                                    Transform[] columns_spawn_points = GI.card_system.columns_spawn_points;
+                                    blow_up_cards_collider.transform.position =
+                                        columns_spawn_points[Random.Range(0, columns_spawn_points.Length)].position;
+                                }
+                            }
+                            break;
+                        case Boss_Abilities.PROMOTE_A_FAMILY_AND_DEMOTE_ALL_OTHER_FAMILIES:
+                            {
+                                List<Card> available_cards = new List<Card>();
+                                for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                                {
+                                    Card card = GI.player_card_game.cards_in_hand[i];
+                                    if (card)
+                                    {
+                                        available_cards.Add(card);
+                                    }
+                                }
+
+                                Family_Type family_to_increase_points = available_cards[Random.Range(0, available_cards.Count)].family_type;
+                                for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                                {
+                                    Card card = GI.player_card_game.cards_in_hand[i];
+                                    if (card)
+                                    {
+                                        if (card.family_type == family_to_increase_points)
+                                        {
+                                            card.add_points(5);
+                                        }
+                                        else
+                                        {
+                                            card.remove_points(10);
+                                        }
+                                    }
+                                }
+
+                                GI.player_hud.show_boss_attack_text("Added 5 points to " + family_to_increase_points.ToString() + ". Removed" +
+                                    "10 points for the other families");
+                            }
+                            break;
+                        case Boss_Abilities.DESTROY_A_CARD_FROM_PLAYER_HAND:
+                            {
+                                List<Card> available_cards = new List<Card>();
+                                for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+                                {
+                                    available_cards.Add(GI.player_card_game.cards_in_hand[i]);
+                                }
+
+                                Card card_to_remove = available_cards[Random.Range(0, available_cards.Count)];
+                                GI.player_card_game.remove_card_from_hand(card_to_remove);
+                                card_to_remove.destroy();
+                            }
+                            break;
+                        default: break;
+                    }
+
+                    remove_card_from_desk(card_to_use);
                 }
 
-                remove_card_from_desk(card_to_use);
                 previous_health = health;
                 GI.card_system.update_turn();
             }

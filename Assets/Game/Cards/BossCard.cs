@@ -8,6 +8,12 @@ public class BossCard : MonoBehaviour
     public Attack_Type attack_1;
     public Attack_Type attack_2;
     public int attack_amount;
+    public int turn_off_t;
+
+    public void turn_off(int turns)
+    {
+        turn_off_t += turns;
+    }
 
     public void do_attack()
     {

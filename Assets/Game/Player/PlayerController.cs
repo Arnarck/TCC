@@ -195,11 +195,11 @@ public class PlayerController : MonoBehaviour
     public void activate_card_ability(Card card)
     {
         int card_index = cards_in_trio.IndexOf(card);
+        card.do_attack();
         switch (card.type)
         {
             case Card_Type.STRAW_HOUSE_PIG:
                 {
-                    card.do_attack();
                     for (int i = card_index + 1; i < cards_in_trio.Count; i++)
                     {
                         cards_in_trio[i].add_points(2);
@@ -207,7 +207,6 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.WOODEN_HOUSE_PIG:
                 {
-                    card.do_attack();
                     if (card_index < cards_in_trio.Count - 1)
                     {
                         cards_in_trio[card_index + 1].swap_attacks();
@@ -219,7 +218,6 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.BRICK_HOUSE_PIG:
                 {
-                    card.do_attack();
                     card.add_points(2);
                     if (card_index > 0)
                     {
@@ -239,12 +237,31 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.GEPETTO:
                 {
-                    card.do_attack();
                     if (card_index == 1)
                     {
                         cards_in_trio[0].add_points(2);
                         cards_in_trio[2].add_points(2);
                     }
+                } break;
+            case Card_Type.BAD_WITCH:
+                {
+                    List<BossCard> available_cards = new List<BossCard>();
+                    for (int i = 0; i < GI.boss.cards_in_desk.Length; i++)
+                    {
+                        if (GI.boss.cards_in_desk[i])
+                        {
+                            available_cards.Add(GI.boss.cards_in_desk[i]);
+                        }
+                    }
+
+                    if (available_cards.Count > 0)
+                    {
+                        available_cards[Random.Range(0, available_cards.Count)].turn_off(1);
+                    }
+                } break;
+            case Card_Type.PUSS_IN_BOOTS:
+                {
+
                 } break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
