@@ -102,6 +102,7 @@ public class Card : MonoBehaviour
     public bool promoted_at_start_of_turn;
     public int remove_points_t;
     public int points_to_remove_after_x_turns;
+    public bool has_improved_after_a_trio;
 
     private void Update()
     {
@@ -120,6 +121,12 @@ public class Card : MonoBehaviour
                 gameObject.SetActive(false);
             }
         }
+    }
+
+    public void improve_points_after_a_trio_to_self_demote_after_turn(int amount)
+    {
+        points += amount;
+        has_improved_after_a_trio = true;
     }
 
     public void turn_card()
@@ -199,7 +206,7 @@ public class Card : MonoBehaviour
         disable_t = 2f;
     }
 
-    public void add_points(int amount)
+    public void improve_points(int amount)
     {
         points += amount;
     }

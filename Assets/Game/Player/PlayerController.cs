@@ -187,6 +187,19 @@ public class PlayerController : MonoBehaviour
                     }
                 }
 
+                // Activate Sleeping Beauty ability
+                if (is_card_in_hand(Card_Type.SLEEPING_BEAUTY))
+                {
+                    for (int i = 0; i < cards_in_hand.Length; i++)
+                    {
+                        Card current_card = cards_in_hand[i];
+                        if (current_card && current_card.type == Card_Type.SLEEPING_BEAUTY)
+                        {
+                            activate_card_ability(current_card);
+                        }
+                    }
+                }
+
                 decrease_actions_remaining();
             }
         }
@@ -202,7 +215,7 @@ public class PlayerController : MonoBehaviour
                 {
                     for (int i = card_index + 1; i < cards_in_trio.Count; i++)
                     {
-                        cards_in_trio[i].add_points(2);
+                        cards_in_trio[i].improve_points(2);
                     }
                 } break;
             case Card_Type.WOODEN_HOUSE_PIG:
@@ -218,7 +231,7 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.BRICK_HOUSE_PIG:
                 {
-                    card.add_points(2);
+                    card.improve_points(2);
                     if (card_index > 0)
                     {
                         for (int i = card_index - 1; i >= 0; i--)
@@ -232,15 +245,15 @@ public class PlayerController : MonoBehaviour
                 {
                     if (!cards_in_trio.Contains(card))
                     {
-                        card.add_points(2);
+                        card.improve_points(2);
                     }
                 } break;
             case Card_Type.GEPETTO:
                 {
                     if (card_index == 1)
                     {
-                        cards_in_trio[0].add_points(2);
-                        cards_in_trio[2].add_points(2);
+                        cards_in_trio[0].improve_points(2);
+                        cards_in_trio[2].improve_points(2);
                     }
                 } break;
             case Card_Type.BAD_WITCH:
@@ -288,7 +301,7 @@ public class PlayerController : MonoBehaviour
                         Card current_card = cards_in_hand[i];
                         if (current_card && current_card.family_type == family_to_promote)
                         {
-                            current_card.add_points(2);
+                            current_card.improve_points(2);
                         }
                     }
                 } break;
@@ -322,11 +335,14 @@ public class PlayerController : MonoBehaviour
                         }
                     }
 
-                    card.add_points(points_to_improve);
+                    card.improve_points(points_to_improve);
                 } break;
             case Card_Type.SLEEPING_BEAUTY:
                 {
-
+                    if (!cards_in_trio.Contains(card))
+                    {
+                        card.improve_points_after_a_trio_to_self_demote_after_turn(4);
+                    }
                 } break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
@@ -406,6 +422,20 @@ public class PlayerController : MonoBehaviour
         actions_remaining--;
         maybe_update_turn();
 
+        // Demote Sleeping Beauty once
+        if (actions_remaining < 1 && is_card_in_hand(Card_Type.SLEEPING_BEAUTY))
+        {
+            for (int i = 0; i < cards_in_hand.Length; i++)
+            {
+                Card current_card = cards_in_hand[i];
+                if (current_card && current_card.type == Card_Type.SLEEPING_BEAUTY && current_card.has_improved_after_a_trio)
+                {
+                    current_card.remove_points(2);
+                    current_card.has_improved_after_a_trio = false;
+                }
+            }
+        }
+
         GI.player_hud.update_actions_remaining_text();
     }
 
@@ -447,7 +477,8 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < cards_in_hand.Length; i++)
         {
-            if (cards_in_hand[i].type == type)
+            Card card = cards_in_hand[i];
+            if (card && card.type == type)
             {
                 return true;
             }
