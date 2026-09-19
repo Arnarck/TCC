@@ -261,7 +261,23 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.PUSS_IN_BOOTS:
                 {
+                    // Swap cards in hand
+                    for (int i = 0; i < cards_in_hand.Length; i++)
+                    {
+                        if (cards_in_hand[i])
+                        {
+                            cards_in_hand[i].swap_attacks();
+                        }
+                    }
 
+                    // Swap cards in trio
+                    for (int i = 0; i < cards_in_trio.Count; i++)
+                    {
+                        if (cards_in_trio[i] != card)
+                        {
+                            cards_in_trio[i].swap_attacks();
+                        }
+                    }
                 } break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
