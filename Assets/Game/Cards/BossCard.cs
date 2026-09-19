@@ -12,7 +12,7 @@ public class BossCard : MonoBehaviour
 
     public void turn_off(int turns)
     {
-        turn_off_t += turns;
+        turn_off_t = turns;
     }
 
     public void do_attack()

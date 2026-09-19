@@ -415,6 +415,27 @@ public class PlayerController : MonoBehaviour
                         }
                     }
                 } break;
+            case Card_Type.PINOCCHIO:
+                {
+                    // Get available cards
+                    List<BossCard> available_cards = new List<BossCard>();
+                    for (int i = 0; i < GI.boss.cards_in_desk.Length; i++)
+                    {
+                        if (GI.boss.cards_in_desk[i])
+                        {
+                            available_cards.Add(GI.boss.cards_in_desk[i]);
+                        }
+                    }
+
+                    // Choose a card to turn off
+                    if (available_cards.Count > 0)
+                    {
+                        int random_index = Random.Range(0, available_cards.Count);
+                        BossCard boss_card = available_cards[random_index];
+
+                        boss_card.turn_off(1);
+                    }
+                } break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
     }
