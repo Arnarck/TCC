@@ -279,6 +279,19 @@ public class PlayerController : MonoBehaviour
                         }
                     }
                 } break;
+            case Card_Type.LITTLE_RED_RIDING_HOOD:
+                {
+                    Family_Type family_to_promote = Family_Type.LOTUS;
+
+                    for (int i = 0; i < cards_in_hand.Length; i++)
+                    {
+                        Card current_card = cards_in_hand[i];
+                        if (current_card && current_card.family_type == family_to_promote)
+                        {
+                            current_card.add_points(2);
+                        }
+                    }
+                } break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
     }
