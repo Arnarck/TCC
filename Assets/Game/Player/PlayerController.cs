@@ -299,6 +299,35 @@ public class PlayerController : MonoBehaviour
                         card.add_points_temporarily(8, 3);
                     }
                 } break;
+            case Card_Type.BIG_BAD_WOLF:
+                {
+                    // Demote cards in hand
+                    int points_to_improve = 0;
+                    for (int i = 0; i < cards_in_hand.Length; i++)
+                    {
+                        if (cards_in_hand[i])
+                        {
+                            cards_in_hand[i].remove_points(1);
+                            points_to_improve++;
+                        }
+                    }
+
+                    // Demote cards in trio
+                    for (int i = 0; i < cards_in_trio.Count; i++)
+                    {
+                        if (cards_in_trio[i] != card)
+                        {
+                            cards_in_trio[i].remove_points(1);
+                            points_to_improve++;
+                        }
+                    }
+
+                    card.add_points(points_to_improve);
+                } break;
+            case Card_Type.SLEEPING_BEAUTY:
+                {
+
+                } break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
     }
