@@ -292,6 +292,13 @@ public class PlayerController : MonoBehaviour
                         }
                     }
                 } break;
+            case Card_Type.CINDERELLA:
+                {
+                    if (!cards_in_trio.Contains(card))
+                    {
+                        card.add_points_temporarily(8, 3);
+                    }
+                } break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
     }
@@ -452,6 +459,11 @@ public class PlayerController : MonoBehaviour
             card.transform.parent   = cards_spawn_points[index];
             card.transform.position = cards_spawn_points[index].position;
             card.transform.rotation = cards_spawn_points[index].rotation;
+        }
+
+        if (card.type == Card_Type.CINDERELLA)
+        {
+            activate_card_ability(card);
         }
     }
 

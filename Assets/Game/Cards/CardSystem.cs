@@ -160,15 +160,39 @@ public class CardSystem : MonoBehaviour
     {
         if (is_player_turn)
         {
-            // Switch to boss turn
+            // Player Turn ends. Switch to boss turn
             is_player_turn = false;
             GI.boss.start_turn();
             GI.player_hud.hide_player_turn_message();
             GI.player_hud.show_boss_turn_message();
+
+            // Remove points after some turns
+            for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
+            {
+                Card current_card = GI.player_card_game.cards_in_hand[i];
+                if (current_card && current_card.remove_points_t > 0)
+                {
+                    current_card.remove_points_t--;
+                    if (current_card.remove_points_t <= 0)
+                    {
+                        current_card.remove_points(current_card.points_to_remove_after_x_turns);
+                    }
+                }
+            }
         }
         else
         {
-            // Switch to player turn
+            // Boss turn ends. Switch to player turn
+            // Decrease cards disabled time
+            for (int i = 0; i < GI.boss.cards_in_desk.Length; i++)
+            {
+                BossCard current_card = GI.boss.cards_in_desk[i];
+                if (current_card && current_card.turn_off_t > 0)
+                {
+                    current_card.turn_off_t--;
+                }
+            }
+
             round_count++;
             if (round_count % 3 == 0)
             {

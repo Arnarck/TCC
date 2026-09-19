@@ -100,6 +100,8 @@ public class Card : MonoBehaviour
     public bool is_in_desk;
     public float disable_t;
     public bool promoted_at_start_of_turn;
+    public int remove_points_t;
+    public int points_to_remove_after_x_turns;
 
     private void Update()
     {
@@ -200,6 +202,14 @@ public class Card : MonoBehaviour
     public void add_points(int amount)
     {
         points += amount;
+    }
+
+    public void add_points_temporarily(int amount, int turns)
+    {
+        points += amount;
+
+        remove_points_t = turns;
+        points_to_remove_after_x_turns = amount;
     }
 
     public void destroy()
