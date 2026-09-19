@@ -385,6 +385,16 @@ public class PlayerController : MonoBehaviour
                         card.improve_points_after_a_trio_to_self_demote_after_turn(4);
                     }
                 } break;
+            case Card_Type.PRINCESS_AND_FROG:
+                {
+                    if (!is_family_type_in_trio(Family_Type.PAW))
+                    {
+                        for (int i = 0; i < cards_in_trio.Count; i++)
+                        {
+                            cards_in_trio[i].improve_points(2);
+                        }
+                    }
+                } break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
     }
