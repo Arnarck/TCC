@@ -19,10 +19,10 @@ public class BossCard : MonoBehaviour
     {
         switch (type)
         {
-            case Attack_Type.DAMAGE_BOSS: { GI.boss.take_damage(attack_amount); } break;
-            case Attack_Type.HEAL_BOSS: { GI.boss.add_health(attack_amount); } break;
+            case Attack_Type.DAMAGE_BOSS:   { GI.boss.take_damage(attack_amount); } break;
+            case Attack_Type.HEAL_BOSS:     { GI.boss.add_health(attack_amount); } break;
             case Attack_Type.DAMAGE_PLAYER: { GI.player_card_game.take_damage(attack_amount); } break;
-            case Attack_Type.HEAL_PLAYER: { GI.player_card_game.add_health(attack_amount); } break;
+            case Attack_Type.HEAL_PLAYER:   { GI.player_card_game.add_health(attack_amount); } break;
             default: break;
         }
     }
@@ -37,10 +37,10 @@ public class BossCard : MonoBehaviour
     {
         switch (type)
         {
-            case Attack_Type.DAMAGE_BOSS: { type = Attack_Type.HEAL_BOSS; } break;
-            case Attack_Type.HEAL_BOSS: { type = Attack_Type.DAMAGE_BOSS; } break;
+            case Attack_Type.DAMAGE_BOSS:   { type = Attack_Type.HEAL_BOSS; } break;
+            case Attack_Type.HEAL_BOSS:     { type = Attack_Type.DAMAGE_BOSS; } break;
             case Attack_Type.DAMAGE_PLAYER: { type = Attack_Type.HEAL_PLAYER; } break;
-            case Attack_Type.HEAL_PLAYER: { type = Attack_Type.DAMAGE_PLAYER; } break;
+            case Attack_Type.HEAL_PLAYER:   { type = Attack_Type.DAMAGE_PLAYER; } break;
             default: break;
         }
     }

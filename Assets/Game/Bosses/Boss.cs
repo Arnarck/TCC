@@ -147,7 +147,9 @@ public class Boss : MonoBehaviour
                     }
                 }
 
+                // Use ability
                 BossCard card_to_use = available_abilities[Random.Range(0, available_abilities.Count)];
+                card_to_use.do_attack();
                 switch (card_to_use.ability_type)
                 {
                     case Boss_Abilities.ADD_CHIPS:
