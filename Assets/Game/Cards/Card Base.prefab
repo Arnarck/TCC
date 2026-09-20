@@ -362,6 +362,10 @@ MonoBehaviour:
   points: 1
   family_type: 0
   ability_type: 0
+  skinned_mesh_renderer: {fileID: 987351274131268789}
+  attack_1: 0
+  attack_2: 0
+  attack_amount: 0
   visual: {fileID: 324965723128377004}
   vfx_steal: {fileID: 4175897918176164850}
   teleport_card: {fileID: 8716728022781185275}
@@ -377,6 +381,10 @@ MonoBehaviour:
   improved_points: 0
   is_in_desk: 0
   disable_t: 0
+  promoted_at_start_of_turn: 0
+  remove_points_t: 0
+  points_to_remove_after_x_turns: 0
+  has_improved_after_a_trio: 0
 --- !u!114 &4175897918176164850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -704,6 +712,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cff5144cef07ac41ae364a6e3f4bb65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::vfxHandFull
+--- !u!137 &987351274131268789 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 716597931684540716, guid: 5961de5866757f044933a9437fca93dd, type: 3}
+  m_PrefabInstance: {fileID: 306834959132890521}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1099686122327728673 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 792851747378624440, guid: 5961de5866757f044933a9437fca93dd, type: 3}
