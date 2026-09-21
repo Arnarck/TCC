@@ -323,8 +323,7 @@ public class Boss : MonoBehaviour
 
                                 GI.player_hud.show_boss_attack_text("Added 5 points to " + family_to_increase_points.ToString() + ". Removed" +
                                     "10 points for the other families");
-                            }
-                            break;
+                            } break;
                         case Boss_Abilities.DESTROY_A_CARD_FROM_PLAYER_HAND:
                             {
                                 List<Card> available_cards = new List<Card>();
@@ -336,8 +335,40 @@ public class Boss : MonoBehaviour
                                 Card card_to_remove = available_cards[Random.Range(0, available_cards.Count)];
                                 GI.player_card_game.remove_card_from_hand(card_to_remove);
                                 card_to_remove.destroy();
-                            }
-                            break;
+
+                                GI.player_hud.show_boss_attack_text("Destroyed " + card_to_remove.gameObject.name + "from player's hand");
+                            } break;
+                        case Boss_Abilities.REMOVE_PLAYER_POINTS_WHEN_SELECTING_A_CARD_FROM_A_ROW:
+                            {
+                                remove_points_cards_collider.gameObject.SetActive(true);
+                                spawn_multicard_selector_in_desk(remove_points_cards_collider, GI.card_system.rows_spawn_points);
+
+                                GI.player_hud.show_boss_attack_text("A new row was selected to remove player points");
+                            } break;
+                        case Boss_Abilities.DESTROY_CARD_FROM_TABLE_AND_REPLACE_WITH_ANNOYING_DWARF:
+                            {
+                                List<Card> available_cards = new List<Card>();
+                                for (int i = 0; i < GI.card_system.cards_in_desk.Length; i++)
+                                {
+                                    Card card_in_desk = GI.card_system.cards_in_desk[i];
+                                    if (card_in_desk)
+                                    {
+                                        available_cards.Add(card_in_desk);
+                                    }
+                                }
+
+                                // Remove card from desk
+                                int index_to_remove = Random.Range(0, available_cards.Count);
+                                Card card_to_remove_from_desk = available_cards[index_to_remove];
+                                GI.card_system.remove_card_from_desk(card_to_remove_from_desk);
+                                card_to_remove_from_desk.destroy();
+
+                                // Spawn card
+                                Card card_to_spawn = Instantiate(annoying_dwarf_card_prefab).GetComponent<Card>();
+                                GI.card_system.add_card_to_desk(card_to_spawn, index_to_remove);
+
+                                GI.player_hud.show_boss_attack_text("A card in desk was overwritten by an Annoying Dwarf");
+                            } break;
                         default: break;
                     }
 
@@ -406,9 +437,10 @@ public class Boss : MonoBehaviour
             if (type == Boss_Type.CAT)
             {
                 spawn_card_in_desk(Boss_Abilities.REMOVE_PLAYER_POINTS_WHEN_SELECTING_A_CARD_FROM_A_ROW);
-
-                remove_points_cards_collider.gameObject.SetActive(true);
-                spawn_multicard_selector_in_desk(remove_points_cards_collider, GI.card_system.rows_spawn_points);
+            }
+            else if (type == Boss_Type.WITCH)
+            {
+                spawn_card_in_desk(Boss_Abilities.DESTROY_CARD_FROM_TABLE_AND_REPLACE_WITH_ANNOYING_DWARF);
             }
         }
 

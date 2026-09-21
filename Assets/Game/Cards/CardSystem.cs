@@ -96,6 +96,7 @@ public class CardSystem : MonoBehaviour
                 if (GI.boss.type == Boss_Type.CAT && GI.boss.is_phase_2)
                 {
                     GI.boss.spawn_multicard_selector_in_desk(GI.boss.remove_points_cards_collider, rows_spawn_points);
+                    GI.player_hud.show_boss_attack_text("A new row was selected to remove player points");
                 }
             }
         }
@@ -119,7 +120,8 @@ public class CardSystem : MonoBehaviour
     {
         cards_in_desk[index] = card;
 
-        Transform spawn_point = cards_spawn_points[index]; 
+        Transform spawn_point = cards_spawn_points[index];
+        card.transform.SetParent(cards_parent);
         //card.transform.position = spawn_point.position;   @VITOR
         card.transform.rotation = spawn_point.rotation;  
         
