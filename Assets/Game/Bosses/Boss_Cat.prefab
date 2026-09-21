@@ -40,13 +40,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1696937730908502513, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696937730908502513, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696937730908502513, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029100898860855006, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: ability
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: type
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: boss_card_list.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: 'boss_card_list.Array.data[0]'
@@ -64,6 +80,14 @@ PrefabInstance:
       propertyPath: 'boss_card_list.Array.data[3]'
       value: 
       objectReference: {fileID: 4449838240400673068, guid: cfc5827148d683443b1c49902a55f5cd, type: 3}
+    - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: 'boss_card_list.Array.data[4]'
+      value: 
+      objectReference: {fileID: 6134391737945989932, guid: b52ec647bd997c248aa3638ccf87779a, type: 3}
+    - target: {fileID: 7741278066488088001, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

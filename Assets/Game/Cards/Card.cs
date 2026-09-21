@@ -23,6 +23,11 @@ public enum Card_Type
     GRANNY, // Invocable
     PINOCCHIO, // Invocable
 
+    // Bosses
+    BAD_APPLE,
+    USELESS_DWARF,
+    ANNOYING_DWARF,
+
     COUNT
 }
 
@@ -96,6 +101,7 @@ public class Card : MonoBehaviour
 
     [Header("INTERNAL")]
     public bool blow_up_if_selected;
+    public bool remove_player_points_when_selected;
     public int improved_points;
     public bool is_in_desk;
     public float disable_t;
@@ -157,6 +163,11 @@ public class Card : MonoBehaviour
         }
 
         is_in_desk = false;
+
+        if (remove_player_points_when_selected)
+        {
+            GI.player_card_game.take_damage(5);
+        }
     }
 
     public void do_attack()

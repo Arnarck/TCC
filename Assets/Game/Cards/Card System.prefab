@@ -191,7 +191,10 @@ MonoBehaviour:
   - {fileID: 8419625781598965185, guid: 8262fb7a043d230419a652c9e808149e, type: 3}
   - {fileID: 8419625781598965185, guid: c60fff72cc09043438e16ade6fb5aeee, type: 3}
   - {fileID: 8419625781598965185, guid: 1fde8ff9d3ca9604aa2e66e9e2a8be54, type: 3}
-  rows_spawn_points: []
+  rows_spawn_points:
+  - {fileID: 3540209220968112020}
+  - {fileID: 512408468211468077}
+  - {fileID: 541944624454070801}
   columns_spawn_points:
   - {fileID: 1017633283121655049}
   - {fileID: 2898660221636755223}

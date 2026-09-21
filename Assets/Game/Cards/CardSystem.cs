@@ -80,14 +80,22 @@ public class CardSystem : MonoBehaviour
             memorization_phase_t -= dt;
             if (memorization_phase_t <= 0f)
             {
-                // End memorization phase
+                // Ends memorization phase
                 is_memorization_phase = false;
                 GI.player_card_game.enable_gameplay_camera_view();
                 GI.player_hud.end_memorization_phase();
                 
+                // Animation
                 for (int i = 0; i < cards_in_desk.Length; i++)
                 {
                     cards_in_desk[i].to_turn.Active();
+                }
+
+                // Reorder phase 2 card ability position
+                //@TODO: Player cancels the card
+                if (GI.boss.type == Boss_Type.CAT && GI.boss.is_phase_2)
+                {
+                    GI.boss.spawn_multicard_selector_in_desk(GI.boss.remove_points_cards_collider, rows_spawn_points);
                 }
             }
         }

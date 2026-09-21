@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class MultiCardSelector : MonoBehaviour
 {
-    public bool blow_up_if_a_card_is_selected;
+    public Boss_Abilities ability;
 
     [Header("INTERNAL")]
     public List<Card> cards_inside_collider;
@@ -19,9 +19,13 @@ public class MultiCardSelector : MonoBehaviour
         if (collider.gameObject.TryGetComponent(out card_collider) && card_collider.card.is_in_desk)
         {
             cards_inside_collider.Add(card_collider.card);
-            if (blow_up_if_a_card_is_selected)
+            if (ability == Boss_Abilities.BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN)
             {
                 card_collider.card.blow_up_if_selected = true;
+            }
+            else if (ability == Boss_Abilities.REMOVE_PLAYER_POINTS_WHEN_SELECTING_A_CARD_FROM_A_ROW)
+            {
+                card_collider.card.remove_player_points_when_selected = true;
             }
         }
     }
@@ -32,9 +36,13 @@ public class MultiCardSelector : MonoBehaviour
         if (collider.gameObject.TryGetComponent(out card_collider) && card_collider.card.is_in_desk)
         {
             cards_inside_collider.Remove(card_collider.card);
-            if (blow_up_if_a_card_is_selected)
+            if (ability == Boss_Abilities.BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN)
             {
                 card_collider.card.blow_up_if_selected = false;
+            }
+            else if (ability == Boss_Abilities.REMOVE_PLAYER_POINTS_WHEN_SELECTING_A_CARD_FROM_A_ROW)
+            {
+                card_collider.card.remove_player_points_when_selected = false;
             }
         }
     }

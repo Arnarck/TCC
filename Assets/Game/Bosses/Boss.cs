@@ -32,6 +32,11 @@ public enum Boss_Abilities
     PROMOTE_A_FAMILY_AND_DEMOTE_ALL_OTHER_FAMILIES, // Favorites
     DESTROY_A_CARD_FROM_PLAYER_HAND,                // Good Stuff
 
+    // Phase 2
+    REMOVE_PLAYER_POINTS_WHEN_SELECTING_A_CARD_FROM_A_ROW,   // Wonderland
+    DESTROY_CARD_FROM_TABLE_AND_REPLACE_WITH_ANNOYING_DWARF, // Secret Ingredient
+    DESTROY_TRIO_CARD_ON_THE_LEFT,                           // Tough Shell
+
     COUNT
 }
 
@@ -43,6 +48,7 @@ public class Boss : MonoBehaviour
     public int max_health;
     public MultiCardSelector demote_cards_collider;
     public MultiCardSelector blow_up_cards_collider;
+    public MultiCardSelector remove_points_cards_collider;
     public GameObject bad_apple_card_prefab;
     public GameObject dwarf_card_prefab;
     public GameObject annoying_dwarf_card_prefab;
@@ -57,6 +63,7 @@ public class Boss : MonoBehaviour
     public int blow_up_t;
     public float finish_turn_t;
     public int current_turn;
+    public bool is_phase_2;
     public Boss_Abilities cheat_ability_to_use;
     public BossCard[] cards_in_desk;
 
@@ -218,11 +225,7 @@ public class Boss : MonoBehaviour
                                 {
                                     demote_cards_in_column_t = 2;
                                     demote_cards_collider.gameObject.SetActive(true);
-                                    demote_cards_collider.cards_inside_collider.Clear();
-
-                                    Transform[] columns_spawn_points = GI.card_system.columns_spawn_points;
-                                    demote_cards_collider.transform.position =
-                                        columns_spawn_points[Random.Range(0, columns_spawn_points.Length)].position;
+                                    spawn_multicard_selector_in_desk(demote_cards_collider, GI.card_system.columns_spawn_points);
                                 }
 
                             }
@@ -285,11 +288,7 @@ public class Boss : MonoBehaviour
                                 if (!blow_up_cards_collider.gameObject.activeInHierarchy)
                                 {
                                     blow_up_cards_collider.gameObject.SetActive(true);
-                                    blow_up_cards_collider.cards_inside_collider.Clear();
-
-                                    Transform[] columns_spawn_points = GI.card_system.columns_spawn_points;
-                                    blow_up_cards_collider.transform.position =
-                                        columns_spawn_points[Random.Range(0, columns_spawn_points.Length)].position;
+                                    spawn_multicard_selector_in_desk(blow_up_cards_collider, GI.card_system.columns_spawn_points);
                                 }
                             }
                             break;
@@ -380,19 +379,39 @@ public class Boss : MonoBehaviour
         current_turn = 0;
     }
 
+    public void spawn_multicard_selector_in_desk(MultiCardSelector card_selector, Transform[] spawn_points)
+    {
+        card_selector.cards_inside_collider.Clear();
+        remove_points_cards_collider.transform.position = spawn_points[Random.Range(0, spawn_points.Length)].position;
+    }
+
     public void start_turn()
     {
         current_turn++;
         finish_turn_t = 2f;
 
+        bool entered_phase_2 = false;
         int half_health = max_health / 2;
         if (health <= half_health && previous_health > half_health)
         {
             animator.SetTrigger("EnterPhase2");
             finish_turn_t += 3.5f;
+            is_phase_2 = true;
+            entered_phase_2 = true;
         }
 
         // Add cards to desk
+        if (entered_phase_2)
+        {
+            if (type == Boss_Type.CAT)
+            {
+                spawn_card_in_desk(Boss_Abilities.REMOVE_PLAYER_POINTS_WHEN_SELECTING_A_CARD_FROM_A_ROW);
+
+                remove_points_cards_collider.gameObject.SetActive(true);
+                spawn_multicard_selector_in_desk(remove_points_cards_collider, GI.card_system.rows_spawn_points);
+            }
+        }
+
         switch (type)
         {
             case Boss_Type.CAT:
