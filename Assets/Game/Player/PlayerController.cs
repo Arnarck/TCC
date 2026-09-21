@@ -527,16 +527,24 @@ public class PlayerController : MonoBehaviour
         maybe_update_turn();
 
         // Demote Sleeping Beauty once
-        if (actions_remaining < 1 && is_card_in_hand(Card_Type.SLEEPING_BEAUTY))
+        if (actions_remaining < 1)
         {
-            for (int i = 0; i < cards_in_hand.Length; i++)
+            if (is_card_in_hand(Card_Type.SLEEPING_BEAUTY))
             {
-                Card current_card = cards_in_hand[i];
-                if (current_card && current_card.type == Card_Type.SLEEPING_BEAUTY && current_card.has_improved_after_a_trio)
+                for (int i = 0; i < cards_in_hand.Length; i++)
                 {
-                    current_card.remove_points(2);
-                    current_card.has_improved_after_a_trio = false;
+                    Card current_card = cards_in_hand[i];
+                    if (current_card && current_card.type == Card_Type.SLEEPING_BEAUTY && current_card.has_improved_after_a_trio)
+                    {
+                        current_card.remove_points(2);
+                        current_card.has_improved_after_a_trio = false;
+                    }
                 }
+            }
+
+            if (is_card_in_hand(Card_Type.ANNOYING_DWARF))
+            {
+                take_damage(2);
             }
         }
 
