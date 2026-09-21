@@ -138,7 +138,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        { // Trio
+        { // Make Trio
             if (Input.GetKeyDown(KeyCode.Space) && selected_cards.Count == 3 && actions_remaining > 0)
             {
                 // Place cards in desk
@@ -147,10 +147,18 @@ public class PlayerController : MonoBehaviour
                     Card card = selected_cards[0];
                     remove_card_from_hand(card);
 
-                    cards_in_trio.Add(card);
-                    families_in_trio[i] = card.family_type;
+                    if (i == 0 && GI.boss.is_card_in_desk(Boss_Abilities.DESTROY_TRIO_CARD_ON_THE_LEFT))
+                    {
+                        card.destroy();
+                    }
+                    else
+                    {
+                        cards_in_trio.Add(card);
+                        families_in_trio[i] = card.family_type;
 
-                    update_trio_card_position(card);
+                        update_trio_card_position(card);
+                    }
+
                 }
 
                 for (int i = 0; i < cards_in_trio.Count; i++)

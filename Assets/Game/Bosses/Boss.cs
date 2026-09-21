@@ -64,7 +64,6 @@ public class Boss : MonoBehaviour
     public float finish_turn_t;
     public int current_turn;
     public bool is_phase_2;
-    public Boss_Abilities cheat_ability_to_use;
     public BossCard[] cards_in_desk;
 
     void Awake()
@@ -148,7 +147,9 @@ public class Boss : MonoBehaviour
                 List<BossCard> available_abilities = new List<BossCard>(); // @TODO: Cache this if we have performance problems
                 for (int i = 0; i < cards_in_desk.Length; i++)
                 {
-                    if (cards_in_desk[i] && cards_in_desk[i].turn_off_t <= 0)
+                    if (cards_in_desk[i] && 
+                        cards_in_desk[i].turn_off_t <= 0 && 
+                        cards_in_desk[i].ability_type != Boss_Abilities.DESTROY_TRIO_CARD_ON_THE_LEFT)
                     {
                         available_abilities.Add(cards_in_desk[i]);
                     }
@@ -369,6 +370,10 @@ public class Boss : MonoBehaviour
 
                                 GI.player_hud.show_boss_attack_text("A card in desk was overwritten by an Annoying Dwarf");
                             } break;
+                        case Boss_Abilities.DESTROY_TRIO_CARD_ON_THE_LEFT:
+                            {
+                                // Implemented in PlayerController.cs
+                            } break;
                         default: break;
                     }
 
@@ -441,6 +446,10 @@ public class Boss : MonoBehaviour
             else if (type == Boss_Type.WITCH)
             {
                 spawn_card_in_desk(Boss_Abilities.DESTROY_CARD_FROM_TABLE_AND_REPLACE_WITH_ANNOYING_DWARF);
+            }
+            else
+            {
+                spawn_card_in_desk(Boss_Abilities.DESTROY_TRIO_CARD_ON_THE_LEFT);
             }
         }
 
