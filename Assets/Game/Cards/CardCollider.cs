@@ -3,6 +3,7 @@ using UnityEngine;
 public class CardCollider : MonoBehaviour
 {
     public Card card;
+    public BossCard boss_card;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

@@ -51,6 +51,11 @@ public class BossCard : MonoBehaviour
         }
     }
 
+    public void disable_ability()
+    {
+        GI.boss.remove_card_from_desk(this, true);
+    }
+
     public void destroy()
     {
         gameObject.SetActive(false);

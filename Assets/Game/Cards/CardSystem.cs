@@ -93,7 +93,9 @@ public class CardSystem : MonoBehaviour
 
                 // Reorder phase 2 card ability position
                 //@TODO: Player cancels the card
-                if (GI.boss.type == Boss_Type.CAT && GI.boss.is_phase_2)
+                if (GI.boss.type == Boss_Type.CAT 
+                    && GI.boss.is_phase_2 && 
+                    GI.boss.is_card_in_desk(Boss_Abilities.REMOVE_PLAYER_POINTS_WHEN_SELECTING_A_CARD_FROM_A_ROW))
                 {
                     GI.boss.spawn_multicard_selector_in_desk(GI.boss.remove_points_cards_collider, rows_spawn_points);
                     GI.player_hud.show_boss_attack_text("A new row was selected to remove player points");

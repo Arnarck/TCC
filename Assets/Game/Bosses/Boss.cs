@@ -130,6 +130,8 @@ public class Boss : MonoBehaviour
                         int points_to_remove = 10;
                         demote_cards_collider.demote_cards_inside_collider(points_to_remove);
                         GI.player_hud.show_boss_attack_text("Demoted cards in a columnn by " + points_to_remove + " points");
+
+                        demote_cards_collider.gameObject.SetActive(false);
                     }
                 }
 
@@ -670,15 +672,40 @@ public class Boss : MonoBehaviour
         return false;
     }
 
-    public void remove_card_from_desk(BossCard card)
+    public void remove_card_from_desk(BossCard card, bool remove_ongoing_ability = false)
     {
         for (int i = 0; i < cards_in_desk.Length; i++)
         {
             if (cards_in_desk[i] == card)
             {
                 cards_in_desk[i] = null;
-                card.destroy();
 
+                if (remove_ongoing_ability)
+                {
+                    switch (card.ability_type)
+                    {
+                        case Boss_Abilities.REPLACE_PLAYER_CARD:
+                            {
+                                replace_player_cards_t = 0;
+                            } break;
+                        case Boss_Abilities.DEMOTE_CARDS_IN_A_COLUMN:
+                            {
+                                demote_cards_in_column_t = 0;
+                                demote_cards_collider.gameObject.SetActive(false);
+                            } break;
+                        case Boss_Abilities.BLOW_UP:
+                            {
+                                blow_up_t = 0;
+                            } break;
+                        case Boss_Abilities.REMOVE_PLAYER_POINTS_WHEN_SELECTING_A_CARD_FROM_A_ROW:
+                            {
+                                remove_points_cards_collider.gameObject.SetActive(false);
+                            } break;
+                        default: break;
+                    }
+                }
+
+                card.destroy();
                 break;
             }
         }

@@ -66,50 +66,60 @@ public class PlayerController : MonoBehaviour
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 6))
                 {
                     CardCollider card_collider = hit.collider.gameObject.GetComponent<CardCollider>();
-                    Card card = card_collider.card;
-                    if (card.is_in_desk)
+                    Card card          = card_collider.card;
+                    BossCard boss_card = card_collider.boss_card;
+
+                    if (card)
                     {
-                        if (selected_cards.Count > 0)
+                        if (card.is_in_desk)
                         {
-                            // Swap card in hand with card in the desk
-                            Card card_to_move_to_desk = selected_cards[selected_cards.Count - 1];
-                            int index_in_hand = remove_card_from_hand(card_to_move_to_desk);
-
-                            int index_in_desk = GI.card_system.remove_card_from_desk(card);
-                            add_card_to_hand(card, index_in_hand, true);
-
-                            GI.card_system.add_card_to_desk(card_to_move_to_desk, index_in_desk);
-                            decrease_actions_remaining();
-                        }
-                        else if (has_available_space_in_hand())
-                        {
-                            // Add card to hand
-                            int index_in_desk = GI.card_system.remove_card_from_desk(card);
-                            card.vfx_steal.pontoA = GI.card_system.cards_spawn_points[index_in_desk];
-
-                            int first_available_index = -1;
-                            for (int i = 0; i < cards_in_hand.Length; i++)
+                            if (selected_cards.Count > 0)
                             {
-                                if (cards_in_hand[i] == null)
-                                {
-                                    first_available_index = i;
-                                    break;
-                                }
+                                // Swap card in hand with card in the desk
+                                Card card_to_move_to_desk = selected_cards[selected_cards.Count - 1];
+                                int index_in_hand = remove_card_from_hand(card_to_move_to_desk);
+
+                                int index_in_desk = GI.card_system.remove_card_from_desk(card);
+                                add_card_to_hand(card, index_in_hand, true);
+
+                                GI.card_system.add_card_to_desk(card_to_move_to_desk, index_in_desk);
+                                decrease_actions_remaining();
                             }
-                            add_card_to_hand(card, first_available_index, animate: true);
-                            decrease_actions_remaining();
+                            else if (has_available_space_in_hand())
+                            {
+                                // Add card to hand
+                                int index_in_desk = GI.card_system.remove_card_from_desk(card);
+                                card.vfx_steal.pontoA = GI.card_system.cards_spawn_points[index_in_desk];
+
+                                int first_available_index = -1;
+                                for (int i = 0; i < cards_in_hand.Length; i++)
+                                {
+                                    if (cards_in_hand[i] == null)
+                                    {
+                                        first_available_index = i;
+                                        break;
+                                    }
+                                }
+                                add_card_to_hand(card, first_available_index, animate: true);
+                                decrease_actions_remaining();
+                            }
+                        }
+                        else if (!card.is_in_desk && is_card_in_hand(card))
+                        {
+                            if (selected_cards.Contains(card))
+                            {
+                                deselect_card(card);
+                            }
+                            else
+                            {
+                                select_card(card);
+                            }
                         }
                     }
-                    else if (!card.is_in_desk && is_card_in_hand(card))
+                    else if (boss_card)
                     {
-                        if (selected_cards.Contains(card))
-                        {
-                            deselect_card(card);
-                        }
-                        else
-                        {
-                            select_card(card);
-                        }
+                        boss_card.disable_ability();
+                        decrease_actions_remaining();
                     }
                 }
             }

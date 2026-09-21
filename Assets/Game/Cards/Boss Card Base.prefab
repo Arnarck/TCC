@@ -359,6 +359,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossCard
   ability_type: 0
+  attack_1: 0
+  attack_2: 0
+  attack_amount: 0
+  turn_off_t: 0
 --- !u!114 &4175897918176164850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -708,3 +712,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardCollider
   card: {fileID: 0}
+  boss_card: {fileID: -7648149308236499770}
