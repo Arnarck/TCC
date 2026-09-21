@@ -118,8 +118,13 @@ public class PlayerController : MonoBehaviour
                     }
                     else if (boss_card)
                     {
-                        boss_card.disable_ability();
-                        decrease_actions_remaining();
+                        if (health >= boss_card.cost_to_disable_ability)
+                        {
+                            boss_card.disable_ability();
+                            decrease_actions_remaining();
+
+                            take_damage(boss_card.cost_to_disable_ability);
+                        }
                     }
                 }
             }
@@ -181,29 +186,7 @@ public class PlayerController : MonoBehaviour
                 applying_trio_card_abilities = true;
 
                 // Reorder cards in hand
-                int first_available_index = -1;
-                for (int i = 0; i < cards_in_hand.Length; i++)
-                {
-                    if (cards_in_hand[i] == null && first_available_index < 0)
-                    {
-                        // Sets the first available index
-                        first_available_index = i;
-                    }
-                    else if (cards_in_hand[i] != null && first_available_index >= 0)
-                    {
-                        // Moves the card to the first available index
-                        Card card = cards_in_hand[i];
-                        cards_in_hand[first_available_index] = card;
-                        cards_in_hand[i] = null;
-
-                        Transform spawn_point = cards_spawn_points[first_available_index];
-                        card.transform.position = spawn_point.position;
-                        card.transform.rotation = spawn_point.rotation;
-
-                        i = first_available_index;
-                        first_available_index = -1;
-                    }
-                }
+                reorder_cards_in_hand();
 
                 // Activate Sleeping Beauty ability
                 if (is_card_in_hand(Card_Type.SLEEPING_BEAUTY))
@@ -219,6 +202,33 @@ public class PlayerController : MonoBehaviour
                 }
 
                 decrease_actions_remaining();
+            }
+        }
+    }
+
+    public void reorder_cards_in_hand()
+    {
+        int first_available_index = -1;
+        for (int i = 0; i < cards_in_hand.Length; i++)
+        {
+            if (cards_in_hand[i] == null && first_available_index < 0)
+            {
+                // Sets the first available index
+                first_available_index = i;
+            }
+            else if (cards_in_hand[i] != null && first_available_index >= 0)
+            {
+                // Moves the card to the first available index
+                Card card = cards_in_hand[i];
+                cards_in_hand[first_available_index] = card;
+                cards_in_hand[i] = null;
+
+                Transform spawn_point = cards_spawn_points[first_available_index];
+                card.transform.position = spawn_point.position;
+                card.transform.rotation = spawn_point.rotation;
+
+                i = first_available_index;
+                first_available_index = -1;
             }
         }
     }

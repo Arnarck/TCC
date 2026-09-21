@@ -337,6 +337,7 @@ public class Boss : MonoBehaviour
 
                                 Card card_to_remove = available_cards[Random.Range(0, available_cards.Count)];
                                 GI.player_card_game.remove_card_from_hand(card_to_remove);
+                                GI.player_card_game.reorder_cards_in_hand();
                                 card_to_remove.destroy();
 
                                 GI.player_hud.show_boss_attack_text("Destroyed " + card_to_remove.gameObject.name + "from player's hand");

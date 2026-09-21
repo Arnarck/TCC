@@ -3,6 +3,7 @@ using UnityEngine;
 public class BossCard : MonoBehaviour
 {
     public Boss_Abilities ability_type;
+    public int cost_to_disable_ability = 5;
 
     [Header("ATTACK")]
     public Attack_Type attack_1;
