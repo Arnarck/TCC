@@ -219,11 +219,24 @@ public class CardSystem : MonoBehaviour
         cards_in_desk = new Card[cards_spawn_points.Length];
         for (int i = 0; i < cards_spawn_points.Length; i++)
         {
-            GameObject go = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)], cards_parent);
-            Card card = go.GetComponent<Card>();
-            add_card_to_desk(card, i);
+            Card card_to_spawn = cards_prefabs[Random.Range(0, cards_prefabs.Length)].GetComponent<Card>();
 
-            card.to_turn.Active();
+            if (card_to_spawn.type != Card_Type.HUMAN_FROG &&
+                card_to_spawn.type != Card_Type.GRANNY &&
+                card_to_spawn.type != Card_Type.PINOCCHIO)
+            {
+                // Spawn a card
+                GameObject go = Instantiate(card_to_spawn.gameObject, cards_parent);
+                Card card = go.GetComponent<Card>();
+                add_card_to_desk(card, i);
+
+                card.to_turn.Active();
+            }
+            else
+            {
+                // Prevents from spawning less than the total of existing cards spawn points
+                i--;
+            }
         }
     }
 
