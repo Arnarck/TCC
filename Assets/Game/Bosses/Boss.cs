@@ -282,8 +282,8 @@ public class Boss : MonoBehaviour
                                 {
                                     blow_up_t = 4;
                                 }
-                                break;
                             }
+                            break;
                         case Boss_Abilities.BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN:
                             {
                                 if (!blow_up_cards_collider.gameObject.activeInHierarchy)
