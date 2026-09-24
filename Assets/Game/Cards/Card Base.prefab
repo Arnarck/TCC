@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 2507695349026446606}
   - component: {fileID: 5917914737427504582}
   - component: {fileID: 4175897918176164850}
+  - component: {fileID: 5831660402248999775}
   m_Layer: 6
   m_Name: Card Base
   m_TagString: Untagged
@@ -343,6 +344,7 @@ MonoBehaviour:
   vfx_hand_full: {fileID: 896317773165402044}
   vfx_shuffle: {fileID: 168571935335869311}
   vfx_distribute: {fileID: 7369331595345078974}
+  vfx_create: {fileID: 2229543774974174157}
   is_revealed: 1
   blow_up_if_selected: 0
   remove_player_points_when_selected: 0
@@ -372,6 +374,29 @@ MonoBehaviour:
   animation_t: 0
   startPosition: {x: 0, y: 0, z: 0}
   startRotation: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5831660402248999775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6513423077981549246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a074d529cf945029ef7cf40540c9df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Splines::UnityEngine.Splines.SplineAnimate
+  m_Target: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_LoopMode: 0
+  m_Method: 1
+  m_Duration: 1
+  m_MaxSpeed: 10
+  m_EasingMode: 0
+  m_AlignmentMode: 1
+  m_ObjectForwardAxis: 2
+  m_ObjectUpAxis: 1
+  m_StartOffset: 0
 --- !u!1 &6788717154150967009
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,7 +566,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 54212930437593909, guid: 5961de5866757f044933a9437fca93dd, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 2229543774974174157}
   m_SourcePrefab: {fileID: 100100000, guid: 5961de5866757f044933a9437fca93dd, type: 3}
 --- !u!114 &168571935335869311 stripped
 MonoBehaviour:
@@ -559,6 +587,20 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 54212930437593909, guid: 5961de5866757f044933a9437fca93dd, type: 3}
   m_PrefabInstance: {fileID: 306834959132890521}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2229543774974174157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324965723128377004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 200a78023dc8e814da768d1fbc8bc0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::vfxCreate
+  splineAnimate: {fileID: 5831660402248999775}
+  maxSpeed: 5
 --- !u!114 &896317773165402044 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 590609822193091109, guid: 5961de5866757f044933a9437fca93dd, type: 3}

@@ -19,6 +19,7 @@
   <Project Path="Unity.VisualScripting.Core.Editor.csproj" />
   <Project Path="Unity.RenderPipelines.Universal.Editor.csproj" />
   <Project Path="Unity.PerformanceTesting.Editor.csproj" />
+  <Project Path="Unity.Splines.csproj" />
   <Project Path="UnityEngine.TestRunner.csproj" />
   <Project Path="Unity.Burst.csproj" />
   <Project Path="Unity.Services.Core.Environments.Editor.csproj" />
@@ -47,6 +48,7 @@
   <Project Path="Unity.Services.Multiplayer.Editor.Shared.csproj" />
   <Project Path="Unity.VisualScripting.Flow.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="Unity.Splines.Editor.csproj" />
   <Project Path="Unity.PerformanceTesting.csproj" />
   <Project Path="Unity.Services.Multiplayer.Editor.Matchmaker.Authoring.csproj" />
   <Project Path="Unity.TextMeshPro.csproj" />
@@ -78,6 +80,7 @@
   <Project Path="Unity.VisualScripting.SettingsProvider.Editor.csproj" />
   <Project Path="UnityEditor.UI.Analytics.csproj" />
   <Project Path="Unity.Services.Core.Threading.csproj" />
+  <Project Path="Unity.Settings.Editor.csproj" />
   <Project Path="Unity.InputSystem.TestFramework.csproj" />
   <Project Path="Unity.Services.Multiplayer.Editor.csproj" />
   <Project Path="Unity.ShaderGraph.Utilities.csproj" />

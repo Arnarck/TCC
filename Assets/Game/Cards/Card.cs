@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Splines;
 
 public enum Card_Type
 {
@@ -96,6 +97,7 @@ public class Card : MonoBehaviour
     public vfxHandFull vfx_hand_full;
     public vfxShuffle vfx_shuffle;
     public vfxDistribute vfx_distribute;
+    public vfxCreate vfx_create;
 
     public bool is_revealed = true;
 
@@ -143,6 +145,10 @@ public class Card : MonoBehaviour
     public void distribute_cards(Transform pointA, Transform pointB) //@VITOR
     {
         vfx_distribute.Active(pointA, pointB);
+    }
+    public void create_card(SplineContainer spline, Transform target_hand_pos)//@VITOR
+    {
+        vfx_create.Active(spline, target_hand_pos);
     }
 
     public void remove_points(int amount)

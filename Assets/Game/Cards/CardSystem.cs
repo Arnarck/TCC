@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.Splines;
 
 public class CardSystem : MonoBehaviour
 {
@@ -22,6 +23,10 @@ public class CardSystem : MonoBehaviour
     public bool is_memorization_phase;
     public float memorization_phase_t;
     public Card[] cards_in_desk;
+
+    [Header("SPLINES")]
+
+    public SplineContainer spline_create;
 
     [ContextMenu("Fill Desk With Cards")]
     public void DEBUG_spawn_cards_in_desk()
@@ -56,6 +61,7 @@ public class CardSystem : MonoBehaviour
 
     private void Start()
     {
+        
         if (start_playing_game)
         {
             start_game();
