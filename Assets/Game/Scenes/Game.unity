@@ -2834,15 +2834,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2904,6 +2904,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 427892040499214152, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a33b999014a00504fa277b221a6ee86e, type: 2}
     - target: {fileID: 919132149155446097, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_Name
       value: FinalCard (4)
@@ -6336,15 +6340,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6406,6 +6410,14 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 427892040499214152, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a33b999014a00504fa277b221a6ee86e, type: 2}
+    - target: {fileID: 427892040499214152, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a33b999014a00504fa277b221a6ee86e, type: 2}
     - target: {fileID: 919132149155446097, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_Name
       value: FinalCard
@@ -8036,15 +8048,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8106,6 +8118,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 427892040499214152, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a33b999014a00504fa277b221a6ee86e, type: 2}
     - target: {fileID: 919132149155446097, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_Name
       value: FinalCard (5)
@@ -8849,15 +8865,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8919,6 +8935,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 427892040499214152, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a33b999014a00504fa277b221a6ee86e, type: 2}
     - target: {fileID: 919132149155446097, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_Name
       value: FinalCard (1)
@@ -11287,18 +11307,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 694869722}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.29
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.29
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.29
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -11338,64 +11346,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -6522695966643703301, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: -5985511120280745365, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: -4151352799506212149, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: -1689137151616660966, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
+    - target: {fileID: 427892040499214152, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a33b999014a00504fa277b221a6ee86e, type: 2}
     - target: {fileID: 919132149155446097, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_Name
       value: FinalCard (6)
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: 1790183945725220954, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: 4422334275584885353, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: 4819001077394492298, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: 6480623767174774313, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: 6632833556695587233, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: 6905609870639353253, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: 7036213049465896255, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5866666021909216657, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -19017,15 +18976,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19087,6 +19046,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 427892040499214152, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a33b999014a00504fa277b221a6ee86e, type: 2}
     - target: {fileID: 919132149155446097, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_Name
       value: FinalCard (2)
@@ -19205,15 +19168,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.29
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19275,6 +19238,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 427892040499214152, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a33b999014a00504fa277b221a6ee86e, type: 2}
     - target: {fileID: 919132149155446097, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_Name
       value: FinalCard (3)
