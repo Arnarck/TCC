@@ -83,7 +83,6 @@ MonoBehaviour:
   finish_turn_t: 0
   current_turn: 0
   is_phase_2: 0
-  cheat_ability_to_use: 11
   cards_in_desk: []
 --- !u!1 &1558778880363051955
 GameObject:

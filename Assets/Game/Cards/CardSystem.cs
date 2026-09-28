@@ -14,9 +14,11 @@ public class CardSystem : MonoBehaviour
     public Transform[] rows_spawn_points;
     public Transform[] columns_spawn_points;
     public Transform[] cards_spawn_points;
+    public Boss[] bosses_in_game;
     public Transform deckPoint;
 
     [Header("INTERNAL")]
+    public int current_boss_index;
     public int round_count; // A round is a player turn + a boss turn
     public bool playing_card_game;
     public bool is_player_turn;
@@ -61,7 +63,8 @@ public class CardSystem : MonoBehaviour
 
     private void Start()
     {
-        
+        current_boss_index = -1; // Incremented at start_game()
+
         if (start_playing_game)
         {
             start_game();
@@ -139,6 +142,9 @@ public class CardSystem : MonoBehaviour
 
     public void start_game()
     {
+        current_boss_index++;
+        GI.boss = bosses_in_game[current_boss_index];
+
         playing_card_game = true;
         round_count = 0;
         GI.player_card_game.init();
@@ -148,6 +154,7 @@ public class CardSystem : MonoBehaviour
 
 
         // Spawn random cards to desk
+        remove_cards_from_desk();
         spawn_cards_in_desk();
 
         // Start player and boss

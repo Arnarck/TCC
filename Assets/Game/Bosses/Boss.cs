@@ -66,11 +66,6 @@ public class Boss : MonoBehaviour
     public bool is_phase_2;
     public BossCard[] cards_in_desk;
 
-    void Awake()
-    {
-        GI.boss = this;
-    }
-
     private void Start()
     {
         cards_in_desk = new BossCard[cards_spawn_points.Length];
@@ -751,13 +746,27 @@ public class Boss : MonoBehaviour
 
     public void take_damage(int amount)
     {
-        health -= amount*3; // @TODO: Remove the '*3'
+        health -= amount;
         if (health <= 0)
         {
             health = 0;
-            GI.player_card_game.win();
         }
 
         GI.player_hud.update_boss_health_text();
+    }
+
+    public void maybe_kill_boss()
+    {
+        if (health > 0f) { return; }
+
+        gameObject.SetActive(false);
+        if (GI.card_system.current_boss_index < GI.card_system.bosses_in_game.Length - 1)
+        {
+            GI.card_system.start_game();
+        }
+        else
+        {
+            GI.player_card_game.win();
+        }
     }
 }

@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public List<Card> cards_in_trio;
 
     [Header("INTERNAL")]
+    public bool game_started;
     public int health;
     public int current_trio_card_to_disable;
     public int actions_remaining;
@@ -148,7 +149,14 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     applying_trio_card_abilities = false;
-                    maybe_update_turn();
+                    if (GI.boss.health <= 0)
+                    {
+                        GI.boss.maybe_kill_boss();
+                    }
+                    else
+                    {
+                        maybe_update_turn();
+                    }
                 }
             }
         }
@@ -523,6 +531,28 @@ public class PlayerController : MonoBehaviour
 
     public void start_game()
     {
+        // Clears data from previous match
+        if (game_started)
+        {
+            for (int i = 0; i < cards_in_hand.Length; i++)
+            {
+                if (cards_in_hand[i])
+                {
+                    cards_in_hand[i].destroy();
+                    cards_in_hand[i] = null;
+                }
+            }
+            selected_cards.Clear();
+
+            for (int i = 0; i < cards_in_trio.Count; i++)
+            {
+                cards_in_trio[i].destroy();
+            }
+            cards_in_trio.Clear();
+        }
+
+        game_started = true;
+
         cards_in_hand = new Card[MAX_CARDS_IN_HAND];
 
         camera_start_position = player_camera.transform.position;
