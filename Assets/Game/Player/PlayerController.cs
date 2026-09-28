@@ -12,9 +12,10 @@ public class PlayerController : MonoBehaviour
     public Transform[] cards_spawn_points;
     public List<Card> selected_cards;
     public Card[] cards_in_hand;
-    public List<Card> cards_in_trio;
 
     [Header("INTERNAL")]
+    public List<Card> cards_in_trio;
+    public List<Card_Type> card_types_in_trio;
     public bool game_started;
     public int health;
     public int current_trio_card_to_disable;
@@ -184,16 +185,17 @@ public class PlayerController : MonoBehaviour
                     else
                     {
                         cards_in_trio.Add(card);
+                        card_types_in_trio.Add(card.type);
                         families_in_trio[i] = card.family_type;
 
                         update_trio_card_position(card);
                     }
                 }
 
+                bool can_make_secret_interactions = true;
                 for (int i = 0; i < cards_in_trio.Count; i++)
                 {
-                    // Activate ability
-                    activate_card_ability(cards_in_trio[i]);
+                    Card card = cards_in_trio[i];
 
                     // Disable boss cards abilities
                     if (GI.boss.type == Boss_Type.WITCH)
@@ -212,6 +214,37 @@ public class PlayerController : MonoBehaviour
                             }
                         }
                     }
+
+                    // Interactions
+                    if (can_make_secret_interactions)
+                    {
+                        if (card.type == Card_Type.BIG_BAD_WOLF && (card_types_in_trio.Contains(Card_Type.WOODEN_HOUSE_PIG) ||
+                                                                    card_types_in_trio.Contains(Card_Type.BRICK_HOUSE_PIG) ||
+                                                                    card_types_in_trio.Contains(Card_Type.STRAW_HOUSE_PIG)))
+                        {
+                            can_make_secret_interactions = false;
+
+                            int index = card_types_in_trio.IndexOf(Card_Type.WOODEN_HOUSE_PIG);
+                            if (index == -1) index = card_types_in_trio.IndexOf(Card_Type.BRICK_HOUSE_PIG);
+                            if (index == -1) index = card_types_in_trio.IndexOf(Card_Type.STRAW_HOUSE_PIG);
+
+                            card.improve_points(card.attack_amount);
+                            card.ignore_card_ability = true;
+
+                            cards_in_trio[index].destroy();
+                            cards_in_trio.RemoveAt(index);
+                            card_types_in_trio.RemoveAt(index);
+                            families_in_trio[index] = Family_Type.COUNT;
+
+                            if (index < i)
+                            {
+                                i--;
+                            }
+                        }
+                    }
+
+                    // Activate ability
+                    activate_card_ability(cards_in_trio[i]);
                 }
 
                 disable_trio_cards_t = 1f;
@@ -310,6 +343,9 @@ public class PlayerController : MonoBehaviour
     {
         int card_index = cards_in_trio.IndexOf(card);
         card.do_attack();
+
+        if (card.ignore_card_ability) { return; }
+
         switch (card.type)
         {
             case Card_Type.STRAW_HOUSE_PIG:
@@ -606,6 +642,7 @@ public class PlayerController : MonoBehaviour
 
         // Reset trio data
         cards_in_trio.Clear();
+        card_types_in_trio.Clear();
         for (int i = 0; i < families_in_trio.Length; i++)
         {
             families_in_trio[i] = Family_Type.COUNT;

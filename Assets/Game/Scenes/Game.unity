@@ -16205,8 +16205,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 444048134244434680, guid: 1a4764442fa87a847bdf526dbaa42635, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.031
+      objectReference: {fileID: 0}
+    - target: {fileID: 444048134244434680, guid: 1a4764442fa87a847bdf526dbaa42635, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.018
+      value: 0.003
       objectReference: {fileID: 0}
     - target: {fileID: 444048134244434680, guid: 1a4764442fa87a847bdf526dbaa42635, type: 3}
       propertyPath: m_LocalPosition.z
@@ -16243,10 +16247,6 @@ PrefabInstance:
     - target: {fileID: 1852225901178280553, guid: 1a4764442fa87a847bdf526dbaa42635, type: 3}
       propertyPath: m_Name
       value: Boss_Cat
-      objectReference: {fileID: 0}
-    - target: {fileID: 1852225901178280553, guid: 1a4764442fa87a847bdf526dbaa42635, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
