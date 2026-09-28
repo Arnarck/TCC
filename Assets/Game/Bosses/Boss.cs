@@ -461,7 +461,7 @@ public class Boss : MonoBehaviour
                         if (current_turn % 2 == 0)
                         {
                             // Place two cards
-                            spawn_random_between_two_cards(Boss_Abilities.ADD_CHIPS, Boss_Abilities.STEAL_PLAYER_POINTS);
+                            spawn_cat_first_card();
 
                             if (card_count_in_desk() < 3)
                             {
@@ -481,7 +481,7 @@ public class Boss : MonoBehaviour
                         else
                         {
                             // Place one card
-                            spawn_random_between_two_cards(Boss_Abilities.ADD_CHIPS, Boss_Abilities.STEAL_PLAYER_POINTS);
+                            spawn_cat_first_card();
                         }
                     }
                 } break;
@@ -567,45 +567,61 @@ public class Boss : MonoBehaviour
         }
     }
 
+    public void spawn_cat_first_card()
+    {
+        if (!is_phase_2)
+            spawn_random_between_two_cards(Boss_Abilities.ADD_CHIPS, Boss_Abilities.STEAL_PLAYER_POINTS);
+        else
+            spawn_random_between_two_cards(Boss_Abilities.STEAL_PLAYER_POINTS, Boss_Abilities.STEAL_PLAYER_POINTS);
+    }
+
     public void spawn_first_kame_card()
     {
         int value = Random.Range(0, 2);
         if (value == 0)
-            spawn_card_in_desk(Boss_Abilities.DEMOTE_CARD_BY_X_POINTS);
+        {
+            if (!is_phase_2)
+                spawn_card_in_desk(Boss_Abilities.DEMOTE_CARD_BY_X_POINTS);
+            else
+                spawn_card_in_desk(Boss_Abilities.DESTROY_A_CARD_FROM_PLAYER_HAND);
+        }
         else
             spawn_card_in_desk(Boss_Abilities.DESTROY_A_CARD_FROM_PLAYER_HAND);
     }
 
     public void spawn_witch_cards()
     {
+        Boss_Abilities dwarf_or_annoying_dwarf = Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND;
+        if (is_phase_2) { dwarf_or_annoying_dwarf = Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND; }
+
         if (is_only_card_in_desk(Boss_Abilities.PROMOTE_CARD_IN_PLAYER_HAND))
         {
             int random_value = Random.Range(0, 3);
             if (random_value == 0)
-                spawn_card_in_desk(Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND);
+                spawn_card_in_desk(dwarf_or_annoying_dwarf);
             else if (random_value == 1)
                 spawn_card_in_desk(Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND);
             else
                 spawn_card_in_desk(Boss_Abilities.DEMOTE_CARDS_IN_A_COLUMN);
         }
         else if (is_card_in_desk(Boss_Abilities.PROMOTE_CARD_IN_PLAYER_HAND) && (
-                 is_card_in_desk(Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND) ||
+                 is_card_in_desk(dwarf_or_annoying_dwarf) ||
                  is_card_in_desk(Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND) ||
                  is_card_in_desk(Boss_Abilities.DEMOTE_CARDS_IN_A_COLUMN)))
         {
-            if (!is_card_in_desk(Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND))
-                spawn_card_in_desk(Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND);
+            if (!is_card_in_desk(dwarf_or_annoying_dwarf))
+                spawn_card_in_desk(dwarf_or_annoying_dwarf);
             else if (!is_card_in_desk(Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND))
                 spawn_card_in_desk(Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND);
             else if (!is_card_in_desk(Boss_Abilities.DEMOTE_CARDS_IN_A_COLUMN))
                 spawn_card_in_desk(Boss_Abilities.DEMOTE_CARDS_IN_A_COLUMN);
             else
-                spawn_random_between_two_cards(Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND,
+                spawn_random_between_two_cards(dwarf_or_annoying_dwarf,
                                                Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND);
 
         }
         else
-            spawn_random_between_two_cards(Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND,
+            spawn_random_between_two_cards(dwarf_or_annoying_dwarf,
                                            Boss_Abilities.SPAWN_ANNOYING_DWARF_IN_PLAYER_HAND);
     }
 

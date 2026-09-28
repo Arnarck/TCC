@@ -12,9 +12,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss_Cat
       objectReference: {fileID: 0}
+    - target: {fileID: 713691153594473402, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619735222948234027, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.003
+      objectReference: {fileID: 0}
     - target: {fileID: 1619735222948234027, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.354
+      value: 1.645
       objectReference: {fileID: 0}
     - target: {fileID: 1619735222948234027, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: m_LocalRotation.w
