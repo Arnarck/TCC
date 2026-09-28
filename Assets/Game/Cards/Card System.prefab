@@ -177,6 +177,7 @@ MonoBehaviour:
   cards_parent: {fileID: 2819827882987716055}
   deckPoint: {fileID: 0}
   granny_card_prefab: {fileID: 8419625781598965185, guid: c777b9ed1098e5142b758e1276dfc27a, type: 3}
+  pinocchio_card_prefab: {fileID: 8419625781598965185, guid: a717ee601c4a14149b9a5414d679c5a1, type: 3}
   cards_prefabs:
   - {fileID: 8419625781598965185, guid: 3a5295d06810737459c8a9aed8b25cbd, type: 3}
   - {fileID: 8419625781598965185, guid: 4a28a19a39517794c8e04c81fdd33fbb, type: 3}

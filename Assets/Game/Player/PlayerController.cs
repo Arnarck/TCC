@@ -249,6 +249,15 @@ public class PlayerController : MonoBehaviour
 
                             destroy_card_from_trio(card_types_in_trio.IndexOf(Card_Type.BIG_BAD_WOLF));
                         }
+                        else if (card.type == Card_Type.GEPETTO && card_types_in_trio.Contains(Card_Type.BAD_WITCH) &&
+                                                                   card_types_in_trio.Contains(Card_Type.WOODEN_HOUSE_PIG))
+                        {
+                            can_make_secret_interactions = false;
+                            card.ignore_card_ability = true;
+
+                            Card card_to_spawn = Instantiate(GI.card_system.pinocchio_card_prefab).GetComponent<Card>();
+                            add_card_to_hand(card_to_spawn, get_first_available_index_in_hand());
+                        }
                     }
 
                     // Activate ability

@@ -21681,6 +21681,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8419625781598965185, guid: c777b9ed1098e5142b758e1276dfc27a, type: 3}
     - target: {fileID: 2163931753016736439, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
+      propertyPath: pinocchio_card_prefab
+      value: 
+      objectReference: {fileID: 8419625781598965185, guid: a717ee601c4a14149b9a5414d679c5a1, type: 3}
+    - target: {fileID: 2163931753016736439, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
       propertyPath: bosses_in_game.Array.size
       value: 3
       objectReference: {fileID: 0}
