@@ -4,12 +4,16 @@ public class BossCard : MonoBehaviour
 {
     public Boss_Abilities ability_type;
     public int cost_to_disable_ability = 5;
+    public Family_Type[] families_to_disable_card;
 
     [Header("ATTACK")]
     public Attack_Type attack_1;
     public Attack_Type attack_2;
     public int attack_amount;
     public int turn_off_t;
+
+    [Header("INTERNAL")]
+    public int current_family_to_disable;
 
     public void turn_off(int turns)
     {

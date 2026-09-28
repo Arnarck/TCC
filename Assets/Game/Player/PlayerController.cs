@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
                             }
                         }
                     }
-                    else if (boss_card)
+                    else if (boss_card && GI.boss.type == Boss_Type.CAT)
                     {
                         if (health >= boss_card.cost_to_disable_ability)
                         {
@@ -173,12 +173,30 @@ public class PlayerController : MonoBehaviour
 
                         update_trio_card_position(card);
                     }
-
                 }
 
                 for (int i = 0; i < cards_in_trio.Count; i++)
                 {
+                    // Activate ability
                     activate_card_ability(cards_in_trio[i]);
+
+                    // Disable boss cards abilities
+                    if (GI.boss.type == Boss_Type.WITCH)
+                    {
+                        for (int j = 0; j < GI.boss.cards_in_desk.Length; j++)
+                        {
+                            BossCard boss_card = GI.boss.cards_in_desk[j];
+                            if (boss_card && 
+                                cards_in_trio[i].family_type == boss_card.families_to_disable_card[boss_card.current_family_to_disable])
+                            {
+                                boss_card.current_family_to_disable++;
+                                if (boss_card.current_family_to_disable >= boss_card.families_to_disable_card.Length)
+                                {
+                                    boss_card.disable_ability();
+                                }
+                            }
+                        }
+                    }
                 }
 
                 disable_trio_cards_t = 1f;

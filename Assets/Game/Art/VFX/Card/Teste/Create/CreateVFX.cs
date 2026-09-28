@@ -17,7 +17,7 @@ public class vfxCreate : MonoBehaviour
 
         splineAnimate.MaxSpeed = maxSpeed;
 
-        splineAnimate.SetTarget(spline);  //@VITOR mexemo no Spline animation voltar la pra ver se deu BO quando for testar.
+        //splineAnimate.SetTarget(spline);  //@VITOR mexemo no Spline animation voltar la pra ver se deu BO quando for testar.
         splineAnimate.Play();
        
     }
