@@ -10,12 +10,13 @@ public class CardSystem : MonoBehaviour
     public float memorization_time = 10f;
     public bool start_playing_game;
     public Transform cards_parent;
+    public Transform deckPoint;
+    public GameObject granny_card_prefab;
     public GameObject[] cards_prefabs;
     public Transform[] rows_spawn_points;
     public Transform[] columns_spawn_points;
     public Transform[] cards_spawn_points;
     public Boss[] bosses_in_game;
-    public Transform deckPoint;
 
     [Header("INTERNAL")]
     public int current_boss_index;

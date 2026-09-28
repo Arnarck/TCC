@@ -224,22 +224,30 @@ public class PlayerController : MonoBehaviour
                         {
                             can_make_secret_interactions = false;
 
+                            card.improve_points(card.attack_amount);
+                            card.ignore_card_ability = true;
+
                             int index = card_types_in_trio.IndexOf(Card_Type.WOODEN_HOUSE_PIG);
                             if (index == -1) index = card_types_in_trio.IndexOf(Card_Type.BRICK_HOUSE_PIG);
                             if (index == -1) index = card_types_in_trio.IndexOf(Card_Type.STRAW_HOUSE_PIG);
 
-                            card.improve_points(card.attack_amount);
-                            card.ignore_card_ability = true;
-
-                            cards_in_trio[index].destroy();
-                            cards_in_trio.RemoveAt(index);
-                            card_types_in_trio.RemoveAt(index);
-                            families_in_trio[index] = Family_Type.COUNT;
+                            destroy_card_from_trio(index);
 
                             if (index < i)
                             {
                                 i--;
                             }
+                        }
+                        else if (card.type == Card_Type.LITTLE_RED_RIDING_HOOD && card_types_in_trio.Contains(Card_Type.BIG_BAD_WOLF) &&
+                                has_available_space_in_hand())
+                        {
+                            can_make_secret_interactions = false;
+                            card.ignore_card_ability = true;
+
+                            Card card_to_spawn = Instantiate(GI.card_system.granny_card_prefab).GetComponent<Card>();
+                            add_card_to_hand(card_to_spawn, get_first_available_index_in_hand());
+
+                            destroy_card_from_trio(card_types_in_trio.IndexOf(Card_Type.BIG_BAD_WOLF));
                         }
                     }
 
@@ -270,6 +278,14 @@ public class PlayerController : MonoBehaviour
                 decrease_actions_remaining();
             }
         }
+    }
+
+    public void destroy_card_from_trio(int index)
+    {
+        cards_in_trio[index].destroy();
+        cards_in_trio.RemoveAt(index);
+        card_types_in_trio.RemoveAt(index);
+        families_in_trio[index] = Family_Type.COUNT;
     }
 
     public int get_first_available_index_in_hand()

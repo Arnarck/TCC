@@ -175,6 +175,8 @@ MonoBehaviour:
   memorization_time: 1
   start_playing_game: 1
   cards_parent: {fileID: 2819827882987716055}
+  deckPoint: {fileID: 0}
+  granny_card_prefab: {fileID: 8419625781598965185, guid: c777b9ed1098e5142b758e1276dfc27a, type: 3}
   cards_prefabs:
   - {fileID: 8419625781598965185, guid: 3a5295d06810737459c8a9aed8b25cbd, type: 3}
   - {fileID: 8419625781598965185, guid: 4a28a19a39517794c8e04c81fdd33fbb, type: 3}
@@ -214,7 +216,11 @@ MonoBehaviour:
   - {fileID: 7788526842104751801}
   - {fileID: 5993470836397736295}
   - {fileID: 6839890720988141971}
-  deckPoint: {fileID: 0}
+  bosses_in_game:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  current_boss_index: 0
   round_count: 0
   playing_card_game: 0
   is_player_turn: 0
@@ -236,6 +242,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  spline_create: {fileID: 0}
 --- !u!1 &533129919592656136
 GameObject:
   m_ObjectHideFlags: 0
