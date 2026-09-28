@@ -78,7 +78,6 @@ public enum Ability_Type
 public class Card : MonoBehaviour
 {
     public Card_Type type;
-    public int points;
     public Family_Type family_type;
     public Ability_Type ability_type;
 
@@ -103,6 +102,7 @@ public class Card : MonoBehaviour
     public bool is_revealed = true;
 
     [Header("INTERNAL")]
+    public bool ignore_card_ability;
     public bool blow_up_if_selected;
     public bool remove_player_points_when_selected;
     public int improved_points;
@@ -134,7 +134,7 @@ public class Card : MonoBehaviour
 
     public void improve_points_after_a_trio_to_self_demote_after_turn(int amount)
     {
-        points += amount;
+        attack_amount += amount;
         has_improved_after_a_trio = true;
     }
 
@@ -154,10 +154,10 @@ public class Card : MonoBehaviour
 
     public void remove_points(int amount)
     {
-        points -= amount;
-        if (points < 0)
+        attack_amount -= amount;
+        if (attack_amount < 0)
         {
-            points = 0;
+            attack_amount = 0;
         }
     }
 
@@ -226,12 +226,12 @@ public class Card : MonoBehaviour
 
     public void improve_points(int amount)
     {
-        points += amount;
+        attack_amount += amount;
     }
 
     public void add_points_temporarily(int amount, int turns)
     {
-        points += amount;
+        attack_amount += amount;
 
         remove_points_t = turns;
         points_to_remove_after_x_turns = amount;
