@@ -494,6 +494,14 @@ public class PlayerController : MonoBehaviour
                         if (card_index < 2) { cards_in_trio[card_index + 1].remove_points(5); }
                     }
                 } break;
+            case Card_Type.USELESS_DWARF:
+                {
+                    // Nothing
+                } break;
+            case Card_Type.ANNOYING_DWARF:
+                {
+                    // Implemented at decrease_actions_remaining()
+                } break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }
     }
