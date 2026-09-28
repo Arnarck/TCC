@@ -52,6 +52,7 @@ public class Boss : MonoBehaviour
     public GameObject bad_apple_card_prefab;
     public GameObject dwarf_card_prefab;
     public GameObject annoying_dwarf_card_prefab;
+    public GameObject dizzinnes_card_prefab;
     public BossCard[] boss_card_list;
     public Transform[] cards_spawn_points;
 

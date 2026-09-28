@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
                             }
                         }
                     }
-                    else if (boss_card && GI.boss.type == Boss_Type.CAT)
+                    else if (boss_card && (GI.boss.type == Boss_Type.CAT || GI.boss.type == Boss_Type.KAME))
                     {
                         if (health >= boss_card.cost_to_disable_ability)
                         {
@@ -125,6 +125,13 @@ public class PlayerController : MonoBehaviour
                             decrease_actions_remaining();
 
                             take_damage(boss_card.cost_to_disable_ability);
+
+                            int available_index = get_first_available_index_in_hand();
+                            if (boss_card.ability_type == Boss_Abilities.DEMOTE_CARD_BY_X_POINTS && available_index > -1)
+                            {
+                                Card dizziness_card = Instantiate(GI.boss.dizzinnes_card_prefab).GetComponent<Card>();
+                                add_card_to_hand(dizziness_card, available_index);
+                            }
                         }
                     }
                 }
@@ -230,6 +237,19 @@ public class PlayerController : MonoBehaviour
                 decrease_actions_remaining();
             }
         }
+    }
+
+    public int get_first_available_index_in_hand()
+    {
+        for (int i = 0; i < cards_in_hand.Length; i++)
+        {
+            if (!cards_in_hand[i])
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     public void reorder_cards_in_hand()
@@ -509,6 +529,11 @@ public class PlayerController : MonoBehaviour
             case Card_Type.ANNOYING_DWARF:
                 {
                     // Implemented at decrease_actions_remaining()
+                }
+                break;
+            case Card_Type.DIZZINESS:
+                {
+                    // Nothing
                 } break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
         }

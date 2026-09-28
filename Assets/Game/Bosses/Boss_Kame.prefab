@@ -12,17 +12,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss_Kame
       objectReference: {fileID: 0}
+    - target: {fileID: 713691153594473402, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1213747459633320590, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.054
+      objectReference: {fileID: 0}
     - target: {fileID: 1619735222948234027, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1619735222948234027, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.035
       objectReference: {fileID: 0}
     - target: {fileID: 1619735222948234027, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1.594
       objectReference: {fileID: 0}
     - target: {fileID: 1619735222948234027, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: m_LocalRotation.w
@@ -52,6 +60,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: dizzinnes_card_prefab
+      value: 
+      objectReference: {fileID: 8419625781598965185, guid: bbc29c976b8405e4bb509328a42fde7b, type: 3}
     - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: boss_card_list.Array.size
       value: 6

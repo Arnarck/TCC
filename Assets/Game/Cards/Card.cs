@@ -28,6 +28,7 @@ public enum Card_Type
     BAD_APPLE,
     USELESS_DWARF,
     ANNOYING_DWARF,
+    DIZZINESS,
 
     COUNT
 }
