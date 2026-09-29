@@ -1,9 +1,21 @@
 using UnityEngine;
 
+
+public enum Boss_Card_Disable_Type
+{
+    NONE,
+    CHIPS,
+    FAMILY,
+
+    COUNT
+}
+
+
 public class BossCard : MonoBehaviour
 {
     public Boss_Abilities ability_type;
     public int cost_to_disable_ability = 5;
+    public Boss_Card_Disable_Type disable_type;
     public Family_Type[] families_to_disable_card;
 
     [Header("ATTACK")]

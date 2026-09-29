@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
                             }
                         }
                     }
-                    else if (boss_card && (GI.boss.type == Boss_Type.CAT || GI.boss.type == Boss_Type.KAME))
+                    else if (boss_card && boss_card.disable_type == Boss_Card_Disable_Type.CHIPS)
                     {
                         if (health >= boss_card.cost_to_disable_ability)
                         {
@@ -199,19 +199,17 @@ public class PlayerController : MonoBehaviour
                     Card card = cards_in_trio[i];
 
                     // Disable boss cards abilities
-                    if (GI.boss.type == Boss_Type.WITCH)
+                    for (int j = 0; j < GI.boss.cards_in_desk.Length; j++)
                     {
-                        for (int j = 0; j < GI.boss.cards_in_desk.Length; j++)
+                        BossCard boss_card = GI.boss.cards_in_desk[j];
+                        if (boss_card && 
+                            boss_card.disable_type == Boss_Card_Disable_Type.FAMILY &&
+                            cards_in_trio[i].family_type == boss_card.families_to_disable_card[boss_card.current_family_to_disable])
                         {
-                            BossCard boss_card = GI.boss.cards_in_desk[j];
-                            if (boss_card && 
-                                cards_in_trio[i].family_type == boss_card.families_to_disable_card[boss_card.current_family_to_disable])
+                            boss_card.current_family_to_disable++;
+                            if (boss_card.current_family_to_disable >= boss_card.families_to_disable_card.Length)
                             {
-                                boss_card.current_family_to_disable++;
-                                if (boss_card.current_family_to_disable >= boss_card.families_to_disable_card.Length)
-                                {
-                                    boss_card.disable_ability();
-                                }
+                                boss_card.disable_ability();
                             }
                         }
                     }
