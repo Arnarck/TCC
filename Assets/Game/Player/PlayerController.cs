@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public bool game_stopped;
     public bool game_over;
     public bool applying_trio_card_abilities;
+    public bool improve_upcoming_pinocchios;
     public float disable_trio_cards_t;
     public Family_Type[] families_in_trio;
     public Vector3 camera_start_position;
@@ -310,6 +311,13 @@ public class PlayerController : MonoBehaviour
 
                             // Sabotage Boss ability
                             sabotage_random_boss_ability();
+                        }
+                        else if (card.type == Card_Type.GEPETTO && card_types_in_trio.Contains(Card_Type.PINOCCHIO))
+                        {
+                            int card_index = card_types_in_trio.IndexOf(Card_Type.PINOCCHIO);
+                            cards_in_trio[card_index].improve_points(3);
+
+                            improve_upcoming_pinocchios = true;
                         }
                     }
 
@@ -851,6 +859,11 @@ public class PlayerController : MonoBehaviour
         if (card.type == Card_Type.CINDERELLA)
         {
             activate_card_ability(card);
+        }
+
+        if (card.type == Card_Type.PINOCCHIO && improve_upcoming_pinocchios)
+        {
+            card.improve_points(3);
         }
     }
 
