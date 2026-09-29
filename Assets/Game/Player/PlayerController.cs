@@ -272,6 +272,13 @@ public class PlayerController : MonoBehaviour
                                 card_to_sabotage.turn_off(1);
                             }
                         }
+                        else if (card.type == Card_Type.GRANNY && card_types_in_trio.Contains(Card_Type.BRICK_HOUSE_PIG))
+                        {
+                            card.improve_points(4);
+
+                            int card_index = card_types_in_trio.IndexOf(Card_Type.BRICK_HOUSE_PIG);
+                            cards_in_trio[card_index].improve_points(4);
+                        }
                     }
 
                     // Activate ability
