@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa84be36fe0ac6f4db011aa2e8e4d0fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardDesk
-  memorization_time: 1
+  memorization_time: 7
   start_playing_game: 1
   cards_parent: {fileID: 2819827882987716055}
   deckPoint: {fileID: 0}
