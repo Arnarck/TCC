@@ -314,10 +314,23 @@ public class PlayerController : MonoBehaviour
                         }
                         else if (card.type == Card_Type.GEPETTO && card_types_in_trio.Contains(Card_Type.PINOCCHIO))
                         {
+                            can_make_secret_interactions = false;
+                            card.ignore_card_ability = true;
+
                             int card_index = card_types_in_trio.IndexOf(Card_Type.PINOCCHIO);
                             cards_in_trio[card_index].improve_points(3);
 
                             improve_upcoming_pinocchios = true;
+                        }
+                        else if (card.type == Card_Type.BAD_WITCH && card_types_in_trio.Contains(Card_Type.PINOCCHIO) && 
+                                                                     has_available_space_in_hand())
+                        {
+                            can_make_secret_interactions = false;
+                            card.ignore_card_ability = true;
+
+                            Card card_to_spawn = Instantiate(GI.card_system.pinocchio_card_prefab).GetComponent<Card>();
+                            card_to_spawn.attack_1 = Attack_Type.DAMAGE_PLAYER;
+                            add_card_to_hand(card_to_spawn, get_first_available_index_in_hand());
                         }
                     }
 
