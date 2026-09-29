@@ -420,6 +420,44 @@ public class Boss : MonoBehaviour
         remove_points_cards_collider.transform.position = spawn_points[Random.Range(0, spawn_points.Length)].position;
     }
 
+    public List<BossCard> get_available_cards()
+    {
+        List<BossCard> available_cards = new List<BossCard>();
+        for (int i = 0; i < GI.boss.cards_in_desk.Length; i++)
+        {
+            if (GI.boss.cards_in_desk[i])
+            {
+                available_cards.Add(GI.boss.cards_in_desk[i]);
+            }
+        }
+
+        return available_cards;
+    }
+
+    public BossCard get_a_random_card_from_desk()
+    {
+        // Get available cards
+        List<BossCard> available_cards = new List<BossCard>();
+        for (int i = 0; i < GI.boss.cards_in_desk.Length; i++)
+        {
+            if (GI.boss.cards_in_desk[i])
+            {
+                available_cards.Add(GI.boss.cards_in_desk[i]);
+            }
+        }
+
+        // Choose a random card
+        if (available_cards.Count < 1)
+        {
+            return null;
+        }
+        else
+        {
+            int random_index = Random.Range(0, available_cards.Count);
+            return available_cards[random_index];
+        }
+    }
+
     public void start_turn()
     {
         current_turn++;

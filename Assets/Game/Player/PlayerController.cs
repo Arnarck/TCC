@@ -258,6 +258,20 @@ public class PlayerController : MonoBehaviour
                             Card card_to_spawn = Instantiate(GI.card_system.pinocchio_card_prefab).GetComponent<Card>();
                             add_card_to_hand(card_to_spawn, get_first_available_index_in_hand());
                         }
+                        else if (card.type == Card_Type.BAD_WITCH && card_types_in_trio.Contains(Card_Type.SLEEPING_BEAUTY))
+                        {
+                            can_make_secret_interactions = false;
+                            card.ignore_card_ability = true;
+
+                            int sleeping_beauty_index = card_types_in_trio.IndexOf(Card_Type.SLEEPING_BEAUTY);
+                            cards_in_trio[sleeping_beauty_index].remove_points(cards_in_trio[sleeping_beauty_index].attack_amount);
+
+                            BossCard card_to_sabotage = GI.boss.get_a_random_card_from_desk();
+                            if (card_to_sabotage)
+                            {
+                                card_to_sabotage.turn_off(1);
+                            }
+                        }
                     }
 
                     // Activate ability
@@ -433,20 +447,10 @@ public class PlayerController : MonoBehaviour
                         is_family_type_in_trio(Family_Type.CANDY) &&
                         is_family_type_in_trio(Family_Type.LOTUS))
                     {
-                        List<BossCard> available_cards = new List<BossCard>();
-                        for (int i = 0; i < GI.boss.cards_in_desk.Length; i++)
-                        {
-                            if (GI.boss.cards_in_desk[i])
-                            {
-                                available_cards.Add(GI.boss.cards_in_desk[i]);
-                            }
-                        }
+                        BossCard boss_card = GI.boss.get_a_random_card_from_desk();
 
-                        if (available_cards.Count > 0)
+                        if (boss_card)
                         {
-                            int random_index = Random.Range(0, available_cards.Count);
-                            BossCard boss_card = available_cards[random_index];
-
                             boss_card.turn_off(1);
 
                             if      (boss_card.attack_1 == Attack_Type.HEAL_PLAYER) boss_card.swap_attack(ref boss_card.attack_1);
@@ -552,22 +556,9 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.PINOCCHIO:
                 {
-                    // Get available cards
-                    List<BossCard> available_cards = new List<BossCard>();
-                    for (int i = 0; i < GI.boss.cards_in_desk.Length; i++)
+                    BossCard boss_card = GI.boss.get_a_random_card_from_desk();
+                    if (boss_card)
                     {
-                        if (GI.boss.cards_in_desk[i])
-                        {
-                            available_cards.Add(GI.boss.cards_in_desk[i]);
-                        }
-                    }
-
-                    // Choose a card to turn off
-                    if (available_cards.Count > 0)
-                    {
-                        int random_index = Random.Range(0, available_cards.Count);
-                        BossCard boss_card = available_cards[random_index];
-
                         boss_card.turn_off(1);
                     }
                 } break;
