@@ -266,14 +266,13 @@ public class PlayerController : MonoBehaviour
                             int sleeping_beauty_index = card_types_in_trio.IndexOf(Card_Type.SLEEPING_BEAUTY);
                             cards_in_trio[sleeping_beauty_index].remove_points(cards_in_trio[sleeping_beauty_index].attack_amount);
 
-                            BossCard card_to_sabotage = GI.boss.get_a_random_card_from_desk();
-                            if (card_to_sabotage)
-                            {
-                                card_to_sabotage.turn_off(1);
-                            }
+                            sabotage_random_boss_ability();
                         }
                         else if (card.type == Card_Type.GRANNY && card_types_in_trio.Contains(Card_Type.BRICK_HOUSE_PIG))
                         {
+                            can_make_secret_interactions = false;
+                            card.ignore_card_ability = true;
+
                             card.improve_points(4);
 
                             int card_index = card_types_in_trio.IndexOf(Card_Type.BRICK_HOUSE_PIG);
@@ -281,19 +280,36 @@ public class PlayerController : MonoBehaviour
                         }
                         else if (card.type == Card_Type.GRANNY && card_types_in_trio.Contains(Card_Type.LITTLE_RED_RIDING_HOOD))
                         {
+                            can_make_secret_interactions = false;
+                            card.ignore_card_ability = true;
+
                             int card_index = card_types_in_trio.IndexOf(Card_Type.LITTLE_RED_RIDING_HOOD);
                             cards_in_trio[card_index].improve_points(6);
                         }
                         else if (card.type == Card_Type.PRINCESS_AND_FROG && (card_types_in_trio.Contains(Card_Type.SLEEPING_BEAUTY) ||
                                                                               card_types_in_trio.Contains(Card_Type.CINDERELLA)))
                         {
+                            can_make_secret_interactions = false;
+                            card.ignore_card_ability = true;
+
                             card.destroy();
 
-                            Card card_to_spawn = Instantiate(GI.card_system.human_frog_card_prefab).GetComponent<Card>();
-                            cards_in_trio[i]      = card_to_spawn;
-                            card_types_in_trio[i] = card_to_spawn.type;
-                            families_in_trio[i]   = card_to_spawn.family_type;
-                            update_trio_card_position(card_to_spawn);
+                            spawn_card_in_trio(GI.card_system.human_frog_card_prefab, i);
+                        }
+                        else if (card.type == Card_Type.BAD_WITCH && card_types_in_trio.Contains(Card_Type.HUMAN_FROG))
+                        {
+                            can_make_secret_interactions = false;
+                            card.ignore_card_ability = true;
+
+                            // Remove Human Frog
+                            int index_to_remove = card_types_in_trio.IndexOf(Card_Type.HUMAN_FROG);
+                            cards_in_trio[index_to_remove].destroy();
+
+                            // Spawn Princess and Frog
+                            spawn_card_in_trio(GI.card_system.get_card_prefab(Card_Type.PRINCESS_AND_FROG), index_to_remove);
+
+                            // Sabotage Boss ability
+                            sabotage_random_boss_ability();
                         }
                     }
 
@@ -324,6 +340,25 @@ public class PlayerController : MonoBehaviour
                 decrease_actions_remaining();
             }
         }
+    }
+
+    public void sabotage_random_boss_ability()
+    {
+        BossCard card_to_sabotage = GI.boss.get_a_random_card_from_desk();
+        if (card_to_sabotage)
+        {
+            card_to_sabotage.turn_off(1);
+        }
+    }
+
+    public void spawn_card_in_trio(GameObject card_prefab, int index)
+    {
+        Card card_to_spawn = Instantiate(card_prefab).GetComponent<Card>();
+
+        cards_in_trio[index]      = card_to_spawn;
+        card_types_in_trio[index] = card_to_spawn.type;
+        families_in_trio[index]   = card_to_spawn.family_type;
+        update_trio_card_position(card_to_spawn);
     }
 
     public void destroy_card_from_trio(int index)
@@ -471,7 +506,6 @@ public class PlayerController : MonoBehaviour
                         is_family_type_in_trio(Family_Type.LOTUS))
                     {
                         BossCard boss_card = GI.boss.get_a_random_card_from_desk();
-
                         if (boss_card)
                         {
                             boss_card.turn_off(1);
@@ -579,11 +613,7 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.PINOCCHIO:
                 {
-                    BossCard boss_card = GI.boss.get_a_random_card_from_desk();
-                    if (boss_card)
-                    {
-                        boss_card.turn_off(1);
-                    }
+                    sabotage_random_boss_ability();
                 } break;
             case Card_Type.HUMAN_FROG:
                 {

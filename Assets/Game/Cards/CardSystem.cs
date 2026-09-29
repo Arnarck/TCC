@@ -116,6 +116,19 @@ public class CardSystem : MonoBehaviour
         }
     }
 
+    public GameObject get_card_prefab(Card_Type type)
+    {
+        for (int i = 0; i < cards_prefabs.Length; i++)
+        {
+            if (cards_prefabs[i].GetComponent<Card>().type == type)
+            {
+                return cards_prefabs[i];
+            }
+        }
+
+        return null;
+    }
+
     public int remove_card_from_desk(Card card)
     {
         for (int i = 0; i < cards_in_desk.Length; i++)
