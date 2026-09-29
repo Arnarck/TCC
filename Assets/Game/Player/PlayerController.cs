@@ -279,6 +279,11 @@ public class PlayerController : MonoBehaviour
                             int card_index = card_types_in_trio.IndexOf(Card_Type.BRICK_HOUSE_PIG);
                             cards_in_trio[card_index].improve_points(4);
                         }
+                        else if (card.type == Card_Type.GRANNY && card_types_in_trio.Contains(Card_Type.LITTLE_RED_RIDING_HOOD))
+                        {
+                            int card_index = card_types_in_trio.IndexOf(Card_Type.LITTLE_RED_RIDING_HOOD);
+                            cards_in_trio[card_index].improve_points(6);
+                        }
                     }
 
                     // Activate ability
