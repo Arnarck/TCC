@@ -160,6 +160,11 @@ public class PlayerHUD : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    public void back_to_main_menu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void quit()
     {
 #if UNITY_EDITOR
