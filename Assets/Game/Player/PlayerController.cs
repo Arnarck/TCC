@@ -284,6 +284,17 @@ public class PlayerController : MonoBehaviour
                             int card_index = card_types_in_trio.IndexOf(Card_Type.LITTLE_RED_RIDING_HOOD);
                             cards_in_trio[card_index].improve_points(6);
                         }
+                        else if (card.type == Card_Type.PRINCESS_AND_FROG && (card_types_in_trio.Contains(Card_Type.SLEEPING_BEAUTY) ||
+                                                                              card_types_in_trio.Contains(Card_Type.CINDERELLA)))
+                        {
+                            card.destroy();
+
+                            Card card_to_spawn = Instantiate(GI.card_system.human_frog_card_prefab).GetComponent<Card>();
+                            cards_in_trio[i]      = card_to_spawn;
+                            card_types_in_trio[i] = card_to_spawn.type;
+                            families_in_trio[i]   = card_to_spawn.family_type;
+                            update_trio_card_position(card_to_spawn);
+                        }
                     }
 
                     // Activate ability

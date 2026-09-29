@@ -13,6 +13,7 @@ public class CardSystem : MonoBehaviour
     public Transform deckPoint;
     public GameObject granny_card_prefab;
     public GameObject pinocchio_card_prefab;
+    public GameObject human_frog_card_prefab;
     public GameObject[] cards_prefabs;
     public Transform[] rows_spawn_points;
     public Transform[] columns_spawn_points;
