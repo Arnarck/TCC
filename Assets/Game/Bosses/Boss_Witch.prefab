@@ -48,6 +48,22 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3073297909207456529, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9805495
+      objectReference: {fileID: 0}
+    - target: {fileID: 3073297909207456529, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.1962723
+      objectReference: {fileID: 0}
+    - target: {fileID: 5019899958937097629, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99312764
+      objectReference: {fileID: 0}
+    - target: {fileID: 5019899958937097629, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.11703657
+      objectReference: {fileID: 0}
     - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: type
       value: 1
@@ -80,9 +96,54 @@ PrefabInstance:
       propertyPath: 'boss_card_list.Array.data[4]'
       value: 
       objectReference: {fileID: 6134391737945989932, guid: 498d0622d4e418a468ee0dc522fdc07f, type: 3}
+    - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: cards_spawn_points.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: 'cards_spawn_points.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: 'cards_spawn_points.Array.data[1]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: 'cards_spawn_points.Array.data[2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: 'cards_spawn_points.Array.data[3]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: 'cards_spawn_points.Array.data[4]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: 'cards_spawn_points.Array.data[5]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: 'cards_spawn_points.Array.data[6]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8950773549217389424, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8950773549217389424, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8950773549217389424, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 8212283479160638869, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+    - {fileID: 4421741345668304110, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1619735222948234027, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       insertIndex: 0
