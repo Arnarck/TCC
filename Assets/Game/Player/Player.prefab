@@ -95,6 +95,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1516164243793114917}
   m_LocalEulerAnglesHint: {x: -75.004, y: -22.263, z: 202.579}
+--- !u!1 &594434197081541986
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8011847188336913489}
+  m_Layer: 8
+  m_Name: Camera Point - Card View
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8011847188336913489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 594434197081541986}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.2756373, y: 0.0008890898, z: -0.00014714968, w: 0.96126133}
+  m_LocalPosition: {x: 0, y: 1.332, z: 0.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1983945160428268087}
+  m_LocalEulerAnglesHint: {x: 32, y: 0.11, z: 0.014}
 --- !u!1 &780137178508132952
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,37 +652,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7557591649770667577}
   m_LocalEulerAnglesHint: {x: 0, y: 14.011, z: 180}
---- !u!1 &4045142701136068673
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5521379529617207664}
-  m_Layer: 0
-  m_Name: Camera - Memorization Phase View
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5521379529617207664
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4045142701136068673}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 2.211, z: 1.665}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 787918651976658566}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &4072903007498915113
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,10 +814,10 @@ Transform:
   - {fileID: 3969858489735548982}
   - {fileID: 6983368029006906744}
   - {fileID: 4923404294846544140}
-  - {fileID: 5521379529617207664}
   - {fileID: 1516164243793114917}
   - {fileID: 5032848160047344608}
   - {fileID: 7557591649770667577}
+  - {fileID: 1983945160428268087}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5302235777089728819
@@ -832,8 +832,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f087752ce379bb6469759b6d5130c098, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  camera_memorization_phase_view: {fileID: 5521379529617207664}
   player_camera: {fileID: 6879715664851187150}
+  update_camera_point_animation_speed: 5
   trio_spawn_points:
   - {fileID: 3597199971761029288}
   - {fileID: 5009719691958880348}
@@ -846,17 +846,30 @@ MonoBehaviour:
   - {fileID: 5182996965587502121}
   selected_cards: []
   cards_in_hand: []
-  cards_in_trio: []
+  camera_points:
+  - {fileID: 8011847188336913489}
+  - {fileID: 8749446121332709308}
+  - {fileID: 3989723289927344145}
+  - {fileID: 7833659584405430796}
+  - {fileID: 8137458287244711193}
+  game_started: 0
   health: 0
   current_trio_card_to_disable: 0
   actions_remaining: 0
   game_stopped: 0
+  current_camera_point: 0
   game_over: 0
   applying_trio_card_abilities: 0
+  do_update_camera_point_animation: 0
+  improve_upcoming_pinocchios: 0
   disable_trio_cards_t: 0
-  families_in_trio: 
+  previous_camera_point: 0
+  update_camera_point_t: 0
   camera_start_position: {x: 0, y: 0, z: 0}
   camera_start_rotation: {x: 0, y: 0, z: 0, w: 0}
+  cards_in_trio: []
+  card_types_in_trio: 
+  families_in_trio: 
 --- !u!114 &8633702489533866404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -923,6 +936,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1516164243793114917}
   m_LocalEulerAnglesHint: {x: -66.472, y: -63.225, z: 233.374}
+--- !u!1 &4628598743904301215
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8137458287244711193}
+  m_Layer: 0
+  m_Name: Camera Point - Boss View
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8137458287244711193
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4628598743904301215}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.07799419, y: -0, z: -0, w: 0.99695385}
+  m_LocalPosition: {x: 0, y: 1.367, z: 2.28}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1983945160428268087}
+  m_LocalEulerAnglesHint: {x: 8.947, y: 0, z: 0}
+--- !u!1 &4726397769801421879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8749446121332709308}
+  m_Layer: 8
+  m_Name: Camera Point - Default
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8749446121332709308
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4726397769801421879}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.14021155, y: 0.00089843787, z: -0.000026114403, w: 0.9901212}
+  m_LocalPosition: {x: 0, y: 1.423, z: 0.154}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1983945160428268087}
+  m_LocalEulerAnglesHint: {x: 16.12, y: 0.106, z: 0.012}
 --- !u!1 &5761090541413298112
 GameObject:
   m_ObjectHideFlags: 0
@@ -1596,6 +1671,42 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7557591649770667577}
   m_LocalEulerAnglesHint: {x: 0, y: -14.011, z: 180}
+--- !u!1 &7203729172555461968
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1983945160428268087}
+  m_Layer: 8
+  m_Name: Camera Points
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1983945160428268087
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7203729172555461968}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8011847188336913489}
+  - {fileID: 8749446121332709308}
+  - {fileID: 3989723289927344145}
+  - {fileID: 7833659584405430796}
+  - {fileID: 8137458287244711193}
+  m_Father: {fileID: 787918651976658566}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7726893762713086641
 GameObject:
   m_ObjectHideFlags: 0
@@ -1733,6 +1844,68 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &8526181822636126240
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3989723289927344145}
+  m_Layer: 0
+  m_Name: Camera Point - Desk View
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3989723289927344145
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8526181822636126240}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 2.211, z: 1.665}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1983945160428268087}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1 &8551373321905431871
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7833659584405430796}
+  m_Layer: 0
+  m_Name: Camera Point - Boss Cards View
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7833659584405430796
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8551373321905431871}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 1.724, z: 2.365}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1983945160428268087}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1001 &6518957852539909434
 PrefabInstance:
   m_ObjectHideFlags: 0

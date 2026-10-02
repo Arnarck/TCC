@@ -6,28 +6,33 @@ public class PlayerController : MonoBehaviour
 {
     public const int MAX_CARDS_IN_HAND = 5;
 
-    public Transform camera_memorization_phase_view;
     public Camera player_camera;
+    public float update_camera_point_animation_speed;
     public Transform[] trio_spawn_points;
     public Transform[] cards_spawn_points;
     public List<Card> selected_cards;
     public Card[] cards_in_hand;
+    public Transform[] camera_points;
 
     [Header("INTERNAL")]
-    public List<Card> cards_in_trio;
-    public List<Card_Type> card_types_in_trio;
     public bool game_started;
     public int health;
     public int current_trio_card_to_disable;
     public int actions_remaining;
     public bool game_stopped;
+    public int current_camera_point;
     public bool game_over;
     public bool applying_trio_card_abilities;
+    public bool do_update_camera_point_animation;
     public bool improve_upcoming_pinocchios;
     public float disable_trio_cards_t;
-    public Family_Type[] families_in_trio;
+    public int previous_camera_point;
+    public float update_camera_point_t;
     public Vector3 camera_start_position;
     public Quaternion camera_start_rotation;
+    public List<Card> cards_in_trio;
+    public List<Card_Type> card_types_in_trio;
+    public Family_Type[] families_in_trio;
 
     void Awake()
     {
@@ -60,6 +65,32 @@ public class PlayerController : MonoBehaviour
         }
 
         float dt = Time.deltaTime;
+
+        { // Update Camera
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                update_camera_point(current_camera_point + 1);
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                update_camera_point(current_camera_point - 1);
+            }
+
+            if (update_camera_point_t > 0f)
+            {
+                update_camera_point_t -= dt*update_camera_point_animation_speed;
+                if (update_camera_point_t <= 0f)
+                {
+                    update_camera_point_t = 0f;
+                }
+
+                Transform start  = camera_points[previous_camera_point];
+                Transform target = camera_points[current_camera_point];
+
+                player_camera.transform.position =    Vector3.Lerp(start.position, target.position, 1f - update_camera_point_t);
+                player_camera.transform.rotation = Quaternion.Lerp(start.rotation, target.rotation, 1f - update_camera_point_t);
+            }
+        }
 
         { // Select Card
             if (Input.GetMouseButtonDown(0))
@@ -358,6 +389,23 @@ public class PlayerController : MonoBehaviour
 
                 decrease_actions_remaining();
             }
+        }
+    }
+
+    public void update_camera_point(int point, bool update_immediately = false)
+    {
+        previous_camera_point = current_camera_point;
+        current_camera_point = Mathf.Clamp(point, 0, camera_points.Length - 1);
+
+        if (update_immediately)
+        {
+            player_camera.transform.position = camera_points[current_camera_point].position;
+            player_camera.transform.rotation = camera_points[current_camera_point].rotation;
+        }
+        else
+        {
+            do_update_camera_point_animation = true;
+            update_camera_point_t = 1f;
         }
     }
 
@@ -895,14 +943,12 @@ public class PlayerController : MonoBehaviour
 
     public void enable_memorization_phase_camera_view()
     {
-        player_camera.transform.position = camera_memorization_phase_view.transform.position;
-        player_camera.transform.rotation = camera_memorization_phase_view.transform.rotation;
+        update_camera_point(2, update_immediately: true);
     }
 
     public void enable_gameplay_camera_view()
     {
-        player_camera.transform.position = camera_start_position;
-        player_camera.transform.rotation = camera_start_rotation;
+        update_camera_point(1);
     }
 
     public void stop_game()
