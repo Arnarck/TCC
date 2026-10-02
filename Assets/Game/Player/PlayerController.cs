@@ -7,12 +7,14 @@ public class PlayerController : MonoBehaviour
     public const int MAX_CARDS_IN_HAND = 5;
 
     public Camera player_camera;
-    public float update_camera_point_animation_speed;
     public Transform[] trio_spawn_points;
     public Transform[] cards_spawn_points;
     public List<Card> selected_cards;
     public Card[] cards_in_hand;
-    public Transform[] camera_points;
+
+    [Header("CAMERA ANIMATION")]
+    public Transform camera_points_parent;
+    public float update_camera_point_animation_speed;
 
     [Header("INTERNAL")]
     public bool game_started;
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour
     public Quaternion camera_start_rotation;
     public List<Card> cards_in_trio;
     public List<Card_Type> card_types_in_trio;
+    public Transform[] camera_points;
     public Family_Type[] families_in_trio;
 
     void Awake()
@@ -44,6 +47,12 @@ public class PlayerController : MonoBehaviour
         resume_game();
 
         families_in_trio = new Family_Type[3];
+
+        camera_points = new Transform[camera_points_parent.childCount];
+        for (int i = 0; i < camera_points.Length; i++)
+        {
+            camera_points[i] = camera_points_parent.GetChild(i);
+        }
     }
 
     private void Update()
@@ -392,10 +401,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void update_camera_point(int point, bool update_immediately = false)
+    public void update_camera_point(int next_point, bool update_immediately = false)
     {
         previous_camera_point = current_camera_point;
-        current_camera_point = Mathf.Clamp(point, 0, camera_points.Length - 1);
+        current_camera_point = Mathf.Clamp(next_point, 0, camera_points.Length - 1);
 
         if (update_immediately)
         {

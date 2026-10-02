@@ -833,7 +833,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   player_camera: {fileID: 6879715664851187150}
-  update_camera_point_animation_speed: 5
   trio_spawn_points:
   - {fileID: 3597199971761029288}
   - {fileID: 5009719691958880348}
@@ -846,12 +845,8 @@ MonoBehaviour:
   - {fileID: 5182996965587502121}
   selected_cards: []
   cards_in_hand: []
-  camera_points:
-  - {fileID: 8011847188336913489}
-  - {fileID: 8749446121332709308}
-  - {fileID: 3989723289927344145}
-  - {fileID: 7833659584405430796}
-  - {fileID: 8137458287244711193}
+  camera_points_parent: {fileID: 1983945160428268087}
+  update_camera_point_animation_speed: 5
   game_started: 0
   health: 0
   current_trio_card_to_disable: 0
@@ -869,6 +864,12 @@ MonoBehaviour:
   camera_start_rotation: {x: 0, y: 0, z: 0, w: 0}
   cards_in_trio: []
   card_types_in_trio: 
+  camera_points:
+  - {fileID: 8011847188336913489}
+  - {fileID: 8749446121332709308}
+  - {fileID: 3989723289927344145}
+  - {fileID: 7833659584405430796}
+  - {fileID: 8137458287244711193}
   families_in_trio: 
 --- !u!114 &8633702489533866404
 MonoBehaviour:
