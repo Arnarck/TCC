@@ -147,6 +147,10 @@ public class Card : MonoBehaviour
     {
         vfx_distribute.Active(pointA, pointB);
     }
+    public void MoveCard(Transform pointA, Transform pointB, float speed) //@VITOR
+    {
+        vfx_distribute.Active(pointA, pointB, speed);
+    }
     public void create_card(SplineContainer spline, Transform target_hand_pos)//@VITOR
     {
         vfx_create.Active(spline, target_hand_pos);

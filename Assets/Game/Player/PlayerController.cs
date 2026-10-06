@@ -720,12 +720,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void update_trio_card_position(Card card)
+    public void update_trio_card_position(Card card) //@VITOR
     {
         int index = cards_in_trio.IndexOf(card);
 
-        card.transform.position = trio_spawn_points[index].position;
-        card.transform.rotation = trio_spawn_points[index].rotation;
+        //card.transform.position = trio_spawn_points[index].position;
+        //card.transform.rotation = trio_spawn_points[index].rotation;
+        card.MoveCard(card.transform, trio_spawn_points[index], 1.0f);
     }
 
     public void init()

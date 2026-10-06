@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class vfxDistribute : MonoBehaviour
@@ -6,6 +7,8 @@ public class vfxDistribute : MonoBehaviour
     Transform pointA, pointB;
     float animation_t;
     public float velocidade = 5.0f;
+    float speed = 5f;
+
     public GameObject card;
     public void Active(Transform pointA, Transform pointB)
     {
@@ -14,6 +17,14 @@ public class vfxDistribute : MonoBehaviour
         this.pointA = pointA;
         this.pointB = pointB;
     }
+    public void Active(Transform pointA, Transform pointB, float speed)
+    {
+        active = true;
+
+        this.pointA = pointA;
+        this.pointB = pointB;
+        this.speed = speed;
+    }
 
     void Update()
     {
@@ -21,7 +32,7 @@ public class vfxDistribute : MonoBehaviour
         {
              if (animation_t < 1f)
             {
-                animation_t += Time.deltaTime*velocidade;
+                animation_t += Time.deltaTime*speed;
                 if (animation_t >= 1f)
                 {
                     animation_t = 1f;
@@ -29,10 +40,12 @@ public class vfxDistribute : MonoBehaviour
             }
 
             card.transform.position = Vector3.Lerp(pointA.position, pointB.position, animation_t);
+            card.transform.rotation = Quaternion.Lerp(pointA.rotation, pointB.rotation, speed);
 
             if (animation_t >= 1f)
             {
                 active = false;
+                speed = velocidade;
             }
         }
     }

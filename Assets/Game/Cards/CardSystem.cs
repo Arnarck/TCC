@@ -150,7 +150,7 @@ public class CardSystem : MonoBehaviour
         Transform spawn_point = cards_spawn_points[index];
         card.transform.SetParent(cards_parent);
         //card.transform.position = spawn_point.position;   @VITOR
-        card.transform.rotation = spawn_point.rotation;  
+        //card.transform.rotation = spawn_point.rotation;  @VITOR
         
         card.distribute_cards(deckPoint, spawn_point);        //@VITOR
         card.add_to_desk();
