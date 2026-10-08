@@ -16,7 +16,7 @@ public class DeskInteraction : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GI.player_card_game.game_stopped) 
+        if (GI.player_card_game.game_stopped || GI.card_system.is_memorization_phase)
         { 
             return; 
         }
