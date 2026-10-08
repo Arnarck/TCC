@@ -265,7 +265,7 @@ public class PlayerController : MonoBehaviour
                         {
                             can_make_secret_interactions = false;
 
-                            card.improve_points(card.attack_amount);
+                            card.add_points(card.attack_amount);
                             card.ignore_card_ability = true;
 
                             int index = card_types_in_trio.IndexOf(Card_Type.WOODEN_HOUSE_PIG);
@@ -314,10 +314,10 @@ public class PlayerController : MonoBehaviour
                             can_make_secret_interactions = false;
                             card.ignore_card_ability = true;
 
-                            card.improve_points(4);
+                            card.add_points(4);
 
                             int card_index = card_types_in_trio.IndexOf(Card_Type.BRICK_HOUSE_PIG);
-                            cards_in_trio[card_index].improve_points(4);
+                            cards_in_trio[card_index].add_points(4);
                         }
                         else if (card.type == Card_Type.GRANNY && card_types_in_trio.Contains(Card_Type.LITTLE_RED_RIDING_HOOD))
                         {
@@ -325,7 +325,7 @@ public class PlayerController : MonoBehaviour
                             card.ignore_card_ability = true;
 
                             int card_index = card_types_in_trio.IndexOf(Card_Type.LITTLE_RED_RIDING_HOOD);
-                            cards_in_trio[card_index].improve_points(6);
+                            cards_in_trio[card_index].add_points(6);
                         }
                         else if (card.type == Card_Type.PRINCESS_AND_FROG && (card_types_in_trio.Contains(Card_Type.SLEEPING_BEAUTY) ||
                                                                               card_types_in_trio.Contains(Card_Type.CINDERELLA)))
@@ -358,7 +358,7 @@ public class PlayerController : MonoBehaviour
                             card.ignore_card_ability = true;
 
                             int card_index = card_types_in_trio.IndexOf(Card_Type.PINOCCHIO);
-                            cards_in_trio[card_index].improve_points(3);
+                            cards_in_trio[card_index].add_points(3);
 
                             improve_upcoming_pinocchios = true;
                         }
@@ -379,6 +379,14 @@ public class PlayerController : MonoBehaviour
                         {
                             gain_tokens_from_three_pigs_interaction_count--;
                             add_health(2);
+                        }
+                        else if (card.type == Card_Type.PUSS_IN_BOOTS && (card_types_in_trio.Contains(Card_Type.BAD_WITCH) ||
+                                                                          card_types_in_trio.Contains(Card_Type.BIG_BAD_WOLF)))
+                        {
+                            if (card.attack_1 == Attack_Type.HEAL_PLAYER || card.attack_2 == Attack_Type.HEAL_PLAYER)
+                            {
+                                card.add_points(card.attack_amount);
+                            }
                         }
                     }
 
@@ -537,7 +545,7 @@ public class PlayerController : MonoBehaviour
                     {
                         for (int i = card_index + 1; i < cards_in_trio.Count; i++)
                         {
-                            cards_in_trio[i].improve_points(2);
+                            cards_in_trio[i].add_points(2);
                         }
                     }
                 } break;
@@ -557,7 +565,7 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.BRICK_HOUSE_PIG:
                 {
-                    card.improve_points(2);
+                    card.add_points(2);
                     if (card_index > 0)
                     {
                         for (int i = card_index - 1; i >= 0; i--)
@@ -571,7 +579,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (!cards_in_trio.Contains(card))
                     {
-                        card.improve_points(2);
+                        card.add_points(2);
                     }
                 } break;
             case Card_Type.GEPETTO:
@@ -580,8 +588,8 @@ public class PlayerController : MonoBehaviour
                     {
                         if (card_index == 1)
                         {
-                            cards_in_trio[0].improve_points(2);
-                            cards_in_trio[2].improve_points(2);
+                            cards_in_trio[0].add_points(2);
+                            cards_in_trio[2].add_points(2);
                         }
                     }
                 } break;
@@ -630,7 +638,7 @@ public class PlayerController : MonoBehaviour
                         Card current_card = cards_in_hand[i];
                         if (current_card && current_card.family_type == family_to_promote)
                         {
-                            current_card.improve_points(2);
+                            current_card.add_points(2);
                         }
                     }
                 } break;
@@ -664,7 +672,7 @@ public class PlayerController : MonoBehaviour
                         }
                     }
 
-                    card.improve_points(points_to_improve);
+                    card.add_points(points_to_improve);
                 } break;
             case Card_Type.SLEEPING_BEAUTY:
                 {
@@ -679,7 +687,7 @@ public class PlayerController : MonoBehaviour
                     {
                         for (int i = 0; i < cards_in_trio.Count; i++)
                         {
-                            cards_in_trio[i].improve_points(2);
+                            cards_in_trio[i].add_points(2);
                         }
                     }
                 } break;
@@ -692,7 +700,7 @@ public class PlayerController : MonoBehaviour
                             Card card_in_desk = GI.card_system.cards_in_desk[i];
                             if (card_in_desk)
                             {
-                                card_in_desk.improve_points(2);
+                                card_in_desk.add_points(2);
                             }
                         }
                     }
@@ -705,7 +713,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (family_count_in_trio(Family_Type.LOTUS) == 3)
                     {
-                        card.improve_points(5);
+                        card.add_points(5);
                     }
                     else
                     {
@@ -942,7 +950,7 @@ public class PlayerController : MonoBehaviour
 
         if (card.type == Card_Type.PINOCCHIO && improve_upcoming_pinocchios)
         {
-            card.improve_points(3);
+            card.add_points(3);
         }
     }
 

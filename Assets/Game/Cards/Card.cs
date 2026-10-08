@@ -228,7 +228,7 @@ public class Card : MonoBehaviour
         disable_t = 2f;
     }
 
-    public void improve_points(int amount)
+    public void add_points(int amount)
     {
         attack_amount += amount;
     }

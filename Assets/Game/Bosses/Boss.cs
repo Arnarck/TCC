@@ -237,7 +237,7 @@ public class Boss : MonoBehaviour
                                     Card card = GI.player_card_game.cards_in_hand[i];
                                     if (card)
                                     {
-                                        card.improve_points(1);
+                                        card.add_points(1);
                                         points_added = true;
                                         break;
                                     }
@@ -311,7 +311,7 @@ public class Boss : MonoBehaviour
                                     {
                                         if (card.family_type == family_to_increase_points)
                                         {
-                                            card.improve_points(5);
+                                            card.add_points(5);
                                         }
                                         else
                                         {
