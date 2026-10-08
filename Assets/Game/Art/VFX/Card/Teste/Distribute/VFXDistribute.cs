@@ -32,20 +32,21 @@ public class vfxDistribute : MonoBehaviour
         {
              if (animation_t < 1f)
             {
-                animation_t += Time.deltaTime*speed;
+                animation_t += (Time.deltaTime*speed);
                 if (animation_t >= 1f)
                 {
                     animation_t = 1f;
                 }
             }
 
-            card.transform.position = Vector3.Lerp(pointA.position, pointB.position, animation_t);
-            card.transform.rotation = Quaternion.Lerp(pointA.rotation, pointB.rotation, speed);
+            card.transform.position = Vector3.Lerp(pointA.position, pointB.position, animation_t );
+            card.transform.rotation = Quaternion.Lerp(pointA.rotation, pointB.rotation, animation_t );
 
             if (animation_t >= 1f)
             {
-                active = false;
                 speed = velocidade;
+                animation_t = 0;
+                active = false;
             }
         }
     }

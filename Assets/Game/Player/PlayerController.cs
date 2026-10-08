@@ -494,8 +494,10 @@ public class PlayerController : MonoBehaviour
                 cards_in_hand[i] = null;
 
                 Transform spawn_point = cards_spawn_points[first_available_index];
-                card.transform.position = spawn_point.position;
-                card.transform.rotation = spawn_point.rotation;
+                //card.transform.position = spawn_point.position;
+                //card.transform.rotation = spawn_point.rotation;
+                
+                card.MoveCard(card.transform, spawn_point, 5f);
 
                 i = first_available_index;
                 first_available_index = -1;
