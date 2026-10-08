@@ -25,17 +25,18 @@ public class ActiveCard : MonoBehaviour
 
     public void Active(Vector3 pos, Quaternion rot)
     {
-        pontoBpos = pos;
+        /*pontoBpos = pos;
         pontoBrot = rot;
 
         startPosition = transform.position;
         startRotation = transform.rotation;
 
-        anim.SetTrigger("Active");
+        anim.SetTrigger("Active");*/
         //GetComponent<SelectCard>().Active();
         //StartCoroutine(WaitForDelay());
 
-        active = true;
+        //active = true;
+        anim.SetTrigger("Active");
     }
     private void ActiveVFX()
     {
@@ -43,19 +44,19 @@ public class ActiveCard : MonoBehaviour
     }
      public void Update()
     {
-        if(active)
-        {
-            if (animation_t < 1f)
-            {
-                animation_t += Time.deltaTime*velocidade;
-                if (animation_t >= 1f)
-                {
-                    animation_t = 1f;
-                }
-            }
-            transform.parent.position = Vector3.Lerp(startPosition, pontoBpos, animation_t);
-            transform.parent.rotation = Quaternion.Lerp(startRotation, pontoBrot, animation_t);
-        }
+        //if(active)
+        //{
+        //    if (animation_t < 1f)
+        //    {
+        //        animation_t += Time.deltaTime*velocidade;
+        //        if (animation_t >= 1f)
+        //        {
+        //            animation_t = 1f;
+        //        }
+        //    }
+        //    transform.parent.position = Vector3.Lerp(startPosition, pontoBpos, animation_t);
+        //    transform.parent.rotation = Quaternion.Lerp(startRotation, pontoBrot, animation_t);
+        //}
         
     }
     IEnumerator WaitForDelay()
