@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     public float disable_trio_cards_t;
     public int previous_camera_point;
     public float update_camera_point_t;
+    public int gain_tokens_from_three_pigs_interaction_count;
     public Vector3 camera_start_position;
     public Quaternion camera_start_rotation;
     public List<Card> cards_in_trio;
@@ -46,6 +47,7 @@ public class PlayerController : MonoBehaviour
     {
         resume_game();
 
+        gain_tokens_from_three_pigs_interaction_count = 2;
         families_in_trio = new Family_Type[3];
 
         camera_points = new Transform[camera_points_parent.childCount];
@@ -369,6 +371,14 @@ public class PlayerController : MonoBehaviour
                             Card card_to_spawn = Instantiate(GI.card_system.pinocchio_card_prefab).GetComponent<Card>();
                             card_to_spawn.attack_1 = Attack_Type.DAMAGE_PLAYER;
                             add_card_to_hand(card_to_spawn, get_first_available_index_in_hand());
+                        }
+                        else if (card.type == Card_Type.WOODEN_HOUSE_PIG && 
+                                 card_types_in_trio.Contains(Card_Type.STRAW_HOUSE_PIG) &&
+                                 card_types_in_trio.Contains(Card_Type.BRICK_HOUSE_PIG) &&
+                                 gain_tokens_from_three_pigs_interaction_count > 0)
+                        {
+                            gain_tokens_from_three_pigs_interaction_count--;
+                            add_health(2);
                         }
                     }
 
