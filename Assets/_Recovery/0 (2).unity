@@ -1540,7 +1540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StackChips
   spawn: {fileID: 186924766}
-  limit: 10
+  limit: 20
   count: 0
 --- !u!65 &186924769
 BoxCollider:
@@ -9819,7 +9819,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StackChips
   spawn: {fileID: 601655880}
-  limit: 17
+  limit: 12
   count: 0
 --- !u!65 &601655882
 BoxCollider:
@@ -13106,7 +13106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StackChips
   spawn: {fileID: 891206788}
-  limit: 8
+  limit: 10
   count: 0
 --- !u!65 &891206790
 BoxCollider:
@@ -22542,7 +22542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StackChips
   spawn: {fileID: 1755095370}
-  limit: 15
+  limit: 25
   count: 0
 --- !u!65 &1755095373
 BoxCollider:
