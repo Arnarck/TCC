@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5ce7deb1dfcac064088c3e1294970e0a
+guid: bdc9ba70759690b499333f028e1a2baa
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UI TCC2 1_0
+      name: YouWin
       rect:
         serializedVersion: 2
-        x: 19
-        y: 13
-        width: 1075
-        height: 1046
+        x: 765
+        y: 848
+        width: 976
+        height: 168
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,20 +112,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2919ead0b7b8e6a47b4aae634f4c41a3
-      internalID: 1321760790
+      spriteID: e0ac2631bc884004abf1815321aaeee8
+      internalID: 1377796757
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI TCC2 1_1
+      name: YouLose
       rect:
         serializedVersion: 2
-        x: 1323
-        y: 1
-        width: 597
-        height: 1076
+        x: 744
+        y: 602
+        width: 1128
+        height: 173
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,20 +134,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8fa1ceb89fe30fd4883290e39c4cefdd
-      internalID: 28255464
+      spriteID: c7acbaa3f12fd1341bba86339e7a8552
+      internalID: -859746393
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI TCC2 1_2
+      name: PA
       rect:
         serializedVersion: 2
-        x: 1096
-        y: 847
-        width: 172
-        height: 171
+        x: 47
+        y: 314
+        width: 457
+        height: 127
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,20 +156,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f39a8167a94905c49b9ea6114744d195
-      internalID: 916394056
+      spriteID: 8e7e008164fdb1945b304aa128934399
+      internalID: 1854484645
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI TCC2 1_3
+      name: BMM
       rect:
         serializedVersion: 2
-        x: 1117
-        y: 616
-        width: 178
-        height: 178
+        x: 47
+        y: 162
+        width: 786
+        height: 129
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,20 +178,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 37c03c9c6b847ba4fb40c01577588ef2
-      internalID: 476696669
+      spriteID: f585dd3a9c1191d4ba4970894527d11e
+      internalID: 1188105713
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI TCC2 1_4
+      name: Quit
       rect:
         serializedVersion: 2
-        x: 1206
-        y: 357
-        width: 94
-        height: 233
+        x: 77
+        y: 33
+        width: 262
+        height: 118
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,30 +200,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 03acce8b451e8d840acf7e2921ad485f
-      internalID: 233956854
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UI TCC2 1_5
-      rect:
-        serializedVersion: 2
-        x: 1153
-        y: 84
-        width: 75
-        height: 217
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5e44c5658b9ee9942bd79052ff8d2d5c
-      internalID: -1203843596
+      spriteID: 2c006ed65626132439f1d0f45f953853
+      internalID: 807984341
       vertices: []
       indices: 
       edges: []
@@ -232,7 +210,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: e79107531def3094081d76abf08837e2
+    spriteID: 2078037c825762b4bacf603e38f14f24
     internalID: 0
     vertices: []
     indices: 
@@ -242,12 +220,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      UI TCC2 1_0: 1321760790
-      UI TCC2 1_1: 28255464
-      UI TCC2 1_2: 916394056
-      UI TCC2 1_3: 476696669
-      UI TCC2 1_4: 233956854
-      UI TCC2 1_5: -1203843596
+      BMM: 1188105713
+      PA: 1854484645
+      Quit: 807984341
+      YouLose: -859746393
+      YouWin: 1377796757
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
