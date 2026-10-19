@@ -10,7 +10,7 @@ public class VFXChips : MonoBehaviour
     public CardSystem cardSystem;
 
     public List<StackChips> stacks;
-    List<int> blockStacks;
+    List<int> blockStacks = new List<int>();
 
     public Vector3 offset = new Vector3(0, 0.3f, 0);
 
@@ -41,6 +41,7 @@ public class VFXChips : MonoBehaviour
     }
     bool RemoveChips(int quant)  //Retorna false se estiver sem fichas
     {
+        //Debug.Log(blockStacks.Count);
         int i = 0;
         while(quant > 0 && blockStacks.Count != stacks.Count)
         {
