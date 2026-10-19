@@ -723,6 +723,19 @@ public class Boss : MonoBehaviour
         return false;
     }
 
+    public int get_card_in_desk_index(BossCard card)
+    {
+        for (int i = 0; i < cards_in_desk.Length; i++)
+        {
+            if (cards_in_desk[i] && cards_in_desk[i] == card)
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     public void remove_card_from_desk(BossCard card, bool remove_ongoing_ability = false)
     {
         for (int i = 0; i < cards_in_desk.Length; i++)

@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public float update_camera_point_t;
     public int gain_tokens_from_three_pigs_interaction_count;
     public Card card_in_preview;
+    public BossCard boss_card_in_preview;
     public Vector3 camera_start_position;
     public Quaternion camera_start_rotation;
     public List<Card> cards_in_trio;
@@ -80,7 +81,7 @@ public class PlayerController : MonoBehaviour
         float dt = Time.deltaTime;
 
         { // Update Camera
-            if (!card_in_preview)
+            if (!has_a_card_in_preview())
             {
                 if (Input.GetKeyDown(KeyCode.W))
                 {
@@ -109,7 +110,7 @@ public class PlayerController : MonoBehaviour
         }
 
         { // Select Card
-            if (Input.GetMouseButtonDown(0) && !card_in_preview && update_camera_point_t <= 0f)
+            if (Input.GetMouseButtonDown(0) && !has_a_card_in_preview() && update_camera_point_t <= 0f)
             {
                 // Selects a card
 
@@ -209,12 +210,30 @@ public class PlayerController : MonoBehaviour
 
                             card_in_preview = null;
                         }
-                        else if (!card_in_preview)
+                        else if (!has_a_card_in_preview())
                         {
                             card_in_preview = card;
 
                             card.transform.position = card_preview_point.position;
                             card.transform.rotation = card_preview_point.rotation;
+                        }
+                    }
+                    else if (boss_card)
+                    {
+                        if (boss_card_in_preview == boss_card)
+                        {
+                            int index = GI.boss.get_card_in_desk_index(boss_card);
+                            boss_card.transform.position = GI.boss.cards_spawn_points[index].position;
+                            boss_card.transform.rotation = GI.boss.cards_spawn_points[index].rotation;
+
+                            boss_card_in_preview = null;
+                        }
+                        else if (!has_a_card_in_preview())
+                        {
+                            boss_card_in_preview = boss_card;
+
+                            boss_card.transform.position = card_preview_point.position;
+                            boss_card.transform.rotation = card_preview_point.rotation;
                         }
                     }
                 }
@@ -456,6 +475,14 @@ public class PlayerController : MonoBehaviour
                 decrease_actions_remaining();
             }
         }
+    }
+
+    public bool has_a_card_in_preview()
+    {
+        if (card_in_preview)      { return true; }
+        if (boss_card_in_preview) { return true; }
+
+        return false;
     }
 
     public int get_card_in_hand_index(Card card)
