@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public const int MAX_CARDS_IN_HAND = 5;
 
     public Camera player_camera;
+    public Transform card_preview_point;
     public Transform[] trio_spawn_points;
     public Transform[] cards_spawn_points;
     public List<Card> selected_cards;
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour
     public int previous_camera_point;
     public float update_camera_point_t;
     public int gain_tokens_from_three_pigs_interaction_count;
+    public Card card_in_preview;
     public Vector3 camera_start_position;
     public Quaternion camera_start_rotation;
     public List<Card> cards_in_trio;
@@ -78,13 +80,16 @@ public class PlayerController : MonoBehaviour
         float dt = Time.deltaTime;
 
         { // Update Camera
-            if (Input.GetKeyDown(KeyCode.W))
+            if (!card_in_preview)
             {
-                update_camera_point(current_camera_point + 1);
-            }
-            else if (Input.GetKeyDown(KeyCode.S))
-            {
-                update_camera_point(current_camera_point - 1);
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    update_camera_point(current_camera_point + 1);
+                }
+                else if (Input.GetKeyDown(KeyCode.S))
+                {
+                    update_camera_point(current_camera_point - 1);
+                }
             }
 
             if (update_camera_point_t > 0f)
@@ -104,14 +109,16 @@ public class PlayerController : MonoBehaviour
         }
 
         { // Select Card
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !card_in_preview && update_camera_point_t <= 0f)
             {
+                // Selects a card
+
                 Ray ray = player_camera.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 6))
                 {
                     CardCollider card_collider = hit.collider.gameObject.GetComponent<CardCollider>();
-                    Card card          = card_collider.card;
+                    Card card = card_collider.card;
                     BossCard boss_card = card_collider.boss_card;
 
                     if (card)
@@ -176,6 +183,38 @@ public class PlayerController : MonoBehaviour
                                 Card dizziness_card = Instantiate(GI.boss.dizzinnes_card_prefab).GetComponent<Card>();
                                 add_card_to_hand(dizziness_card, available_index);
                             }
+                        }
+                    }
+                }
+            }
+            else if (Input.GetMouseButtonDown(1) && update_camera_point_t <= 0f)
+            {
+                // Previews a card
+
+                Ray ray = player_camera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 6))
+                {
+                    CardCollider card_collider = hit.collider.gameObject.GetComponent<CardCollider>();
+                    Card card = card_collider.card;
+                    BossCard boss_card = card_collider.boss_card;
+
+                    if (card && !card.is_in_desk)
+                    {
+                        if (card_in_preview == card)
+                        {
+                            int index = get_card_in_hand_index(card);
+                            card.transform.position = cards_spawn_points[index].position;
+                            card.transform.rotation = cards_spawn_points[index].rotation;
+
+                            card_in_preview = null;
+                        }
+                        else if (!card_in_preview)
+                        {
+                            card_in_preview = card;
+
+                            card.transform.position = card_preview_point.position;
+                            card.transform.rotation = card_preview_point.rotation;
                         }
                     }
                 }
@@ -417,6 +456,19 @@ public class PlayerController : MonoBehaviour
                 decrease_actions_remaining();
             }
         }
+    }
+
+    public int get_card_in_hand_index(Card card)
+    {
+        for (int i = 0; i < cards_in_hand.Length; i++)
+        {
+            if (cards_in_hand[i] && cards_in_hand[i] == card)
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     public void update_camera_point(int next_point, bool update_immediately = false)
