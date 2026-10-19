@@ -14,6 +14,7 @@ public class PlayerHUD : MonoBehaviour
     public GameObject pause_menu;
     public GameObject win_menu;
     public GameObject lose_menu;
+    public GameObject back_to_main_menu_panel;
     public GameObject card_game_hud;
     public TextMeshProUGUI boss_attack_text;
 
@@ -141,6 +142,24 @@ public class PlayerHUD : MonoBehaviour
     {
         pause_ui.SetActive(true);
         lose_menu.SetActive(true);
+    }
+
+    public void show_pause_menu()
+    {
+        pause_menu.SetActive(true);
+        back_to_main_menu_panel.SetActive(false);
+    }
+
+    public void show_back_to_main_menu_panel()
+    {
+        pause_menu.SetActive(false);
+        back_to_main_menu_panel.SetActive(true);
+    }
+
+    public void hide_back_to_main_menu_panel()
+    {
+        back_to_main_menu_panel.SetActive(false);
+        pause_menu.SetActive(true);
     }
 
     public void resume()
