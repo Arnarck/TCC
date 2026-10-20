@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class vfxTurn : MonoBehaviour
+public class VFXTurn : MonoBehaviour
 {
     
 
@@ -20,10 +20,13 @@ public class vfxTurn : MonoBehaviour
 
     public void OffLight()
     {
-        audioSource.Play();
-        light001.SetActive(false);
+        animator.SetTrigger("Active");
     }
-    
+    private void OffObject()
+    {
+        light001.SetActive(false);
+        
+    }
 
     public void OnAudio()
     {

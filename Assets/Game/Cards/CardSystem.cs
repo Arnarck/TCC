@@ -29,9 +29,10 @@ public class CardSystem : MonoBehaviour
     public float memorization_phase_t;
     public Card[] cards_in_desk;
 
-    [Header("SPLINES")]
+    [Header("Visual Effects")]
 
     public SplineContainer spline_create;
+    public VFXTurn vfxTurn; 
 
     [ContextMenu("Fill Desk With Cards")]
     public void DEBUG_spawn_cards_in_desk()
@@ -205,7 +206,9 @@ public class CardSystem : MonoBehaviour
             is_player_turn = false;
             GI.boss.start_turn();
             GI.player_hud.hide_player_turn_message();
-            GI.player_hud.show_boss_turn_message();
+            GI.player_hud.show_boss_turn_message(); 
+            vfxTurn.OnLight();
+
 
             // Remove points after some turns
             for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
@@ -242,7 +245,7 @@ public class CardSystem : MonoBehaviour
                 spawn_cards_in_desk();
                 start_memorization_phase();
             }
-
+            vfxTurn.OffLight();
             __start_player_turn();
         }
     }
