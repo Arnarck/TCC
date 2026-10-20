@@ -6,7 +6,7 @@ public class StackChips : MonoBehaviour
 {
     
     List<GameObject> stack = new List<GameObject>();
-    public GameObject spawn;
+    GameObject spawn;
     public int limit = 10;
     Vector3 offset;
 
@@ -14,6 +14,11 @@ public class StackChips : MonoBehaviour
     float delay = 1.0f;
     public int count = 0;
     GameObject chip;
+
+    void Start()
+    {
+        spawn = this.gameObject;
+    }
     public int AddChip(GameObject chip, int quant, float delay, Vector3 offset)
     {
         this.chip = chip;

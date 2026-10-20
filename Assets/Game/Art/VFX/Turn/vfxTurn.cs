@@ -7,43 +7,27 @@ public class vfxTurn : MonoBehaviour
 
     //public Animator anim;
     public GameObject light001;
-    List<GameObject> listCard = new List<GameObject>();
-    bool on;
+    public Animator animator;
+
+    public AudioSource audioSource;
 
 
-    public void Active()//List<GameObject> cards)
+    public void OnLight()
     {
-        //listCard = cards;
-        //OnLight();
-        //OnCanvaCard();
-    }
-    public void Desactive()
+        light001.SetActive(true);
+        animator.SetTrigger("Active");
+    } 
+
+    public void OffLight()
     {
-        //OffLight();
-        //OffCanvaCard();
+        audioSource.Play();
+        light001.SetActive(false);
     }
     
 
-    private void OnLight()
+    public void OnAudio()
     {
-        light001.SetActive(true);
-    } 
-     private void OffLight()
-    {
-        light001.SetActive(false);
-    } 
-    private void OnCanvaCard()
-    {
-        //for(int i = 0; i < listCard.Count; i++)
-        //{
-        //    listCard[i].GetComponentInChildren<vfxOutlineConfig>().Active();
-        //}
+        audioSource.Play();
     }
-    private void OffCanvaCard()
-    {
-        //for(int i = 0; i < listCard.Count; i++)
-        //{
-        //    listCard[i].GetComponentInChildren<vfxOutlineConfig>().Desactive();
-        //}
-    }
+
 }
