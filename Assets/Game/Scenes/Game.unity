@@ -4382,6 +4382,75 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6202144882211918728, guid: 383bfa30fec73034595269acf8c64fab, type: 3}
   m_PrefabInstance: {fileID: 435193049}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &438785509
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1883893093}
+    m_Modifications:
+    - target: {fileID: 1976000910278940462, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.1322
+      objectReference: {fileID: 0}
+    - target: {fileID: 1976000910278940462, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.9744
+      objectReference: {fileID: 0}
+    - target: {fileID: 1976000910278940462, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.8944
+      objectReference: {fileID: 0}
+    - target: {fileID: 1976000910278940462, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1976000910278940462, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.089406386
+      objectReference: {fileID: 0}
+    - target: {fileID: 1976000910278940462, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1976000910278940462, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.9959953
+      objectReference: {fileID: 0}
+    - target: {fileID: 1976000910278940462, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1976000910278940462, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 10.259
+      objectReference: {fileID: 0}
+    - target: {fileID: 1976000910278940462, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -180
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897893994245855472, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5696323574223466006, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6513423077981549246, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_Name
+      value: CardTestWolfEatPig
+      objectReference: {fileID: 0}
+    - target: {fileID: 6513423077981549246, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
 --- !u!4 &443069174 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6916710720498708636, guid: 1a4764442fa87a847bdf526dbaa42635, type: 3}
@@ -11911,6 +11980,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1782876365456006362, guid: 5d3551abfec491c4da0064cfac15250d, type: 3}
   m_PrefabInstance: {fileID: 815300301}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &823913424 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1976000910278940462, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+  m_PrefabInstance: {fileID: 438785509}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
@@ -20422,11 +20496,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.0002
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.014865088
+      value: -0.0142
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalRotation.w
@@ -20463,6 +20537,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_Name
       value: FinalCard (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -29561,6 +29639,11 @@ Transform:
   - {fileID: 1102992759}
   m_Father: {fileID: 264019644}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1560830283 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1167882427107165068, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+  m_PrefabInstance: {fileID: 438785509}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1565615511
 GameObject:
   m_ObjectHideFlags: 0
@@ -37815,6 +37898,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 367554357}
+  - {fileID: 823913424}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1883893094
@@ -37834,6 +37918,7 @@ MonoBehaviour:
   - {fileID: 6251830458788330662, guid: 3d48f2e54adab0247a8bff79920b3792, type: 3}
   - {fileID: 5786467513451819823, guid: ccf02db5c5375154d99ecd2801e997ac, type: 3}
   spawn_ThreeLittlePigs: {fileID: 367554357}
+  cardPig: {fileID: 1560830283}
 --- !u!1001 &1888158337
 PrefabInstance:
   m_ObjectHideFlags: 0

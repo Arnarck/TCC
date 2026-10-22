@@ -328,7 +328,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Card
   type: 0
-  points: 1
   family_type: 0
   ability_type: 0
   attack_1: 0
@@ -346,6 +345,7 @@ MonoBehaviour:
   vfx_distribute: {fileID: 7369331595345078974}
   vfx_create: {fileID: 2229543774974174157}
   is_revealed: 1
+  ignore_card_ability: 0
   blow_up_if_selected: 0
   remove_player_points_when_selected: 0
   improved_points: 0
@@ -570,6 +570,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 54212930437593909, guid: 5961de5866757f044933a9437fca93dd, type: 3}
       insertIndex: 3
       addedObject: {fileID: 2229543774974174157}
+    - targetCorrespondingSourceObject: {fileID: 54212930437593909, guid: 5961de5866757f044933a9437fca93dd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8914011768542772534}
   m_SourcePrefab: {fileID: 100100000, guid: 5961de5866757f044933a9437fca93dd, type: 3}
 --- !u!114 &168571935335869311 stripped
 MonoBehaviour:
@@ -601,6 +604,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::vfxCreate
   splineAnimate: {fileID: 5831660402248999775}
   maxSpeed: 5
+--- !u!114 &8914011768542772534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324965723128377004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f7a07c27d594284280dc15386397243, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXWolfEatPig
+  obj: {fileID: 653604417840745064, guid: b6027cb02aae62340bc783c72cbfe708, type: 3}
 --- !u!114 &896317773165402044 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 590609822193091109, guid: 5961de5866757f044933a9437fca93dd, type: 3}

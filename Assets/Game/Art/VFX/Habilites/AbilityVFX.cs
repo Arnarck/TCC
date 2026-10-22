@@ -11,13 +11,22 @@ public class AbilityVFX : MonoBehaviour
     public Transform spawn_ThreeLittlePigs;
     GameObject houseActiveSelf;
 
+    [Header("Wolf eating pigs")]
+
+    public Animator cardPig;
+    
+
     void Update()
     {
         if (Keyboard.current.pKey.wasPressedThisFrame)
         {
-            ThreeLittlePigsVFX(1);
+            PlayAnimVFXWolfEatPig();
         }
         
+    }
+    public void PlayAnimVFXWolfEatPig()
+    {
+        cardPig.SetTrigger("Ability_EatPig");
     }
     public void ThreeLittlePigsVFX(int i)
     {
