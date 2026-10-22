@@ -3582,6 +3582,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1782876365456006362, guid: 5d3551abfec491c4da0064cfac15250d, type: 3}
   m_PrefabInstance: {fileID: 364411027}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &367554356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 367554357}
+  m_Layer: 0
+  m_Name: Spawn_3Porquinhos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &367554357
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367554356}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.9797399, z: -0, w: 0.20027435}
+  m_LocalPosition: {x: -0.5235231, y: 0.946, z: -0.75381804}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1883893093}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &369574857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37753,6 +37784,56 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7694549610653865488, guid: ec29a7ecc37e3e5468666dd1c031b9af, type: 3}
   m_PrefabInstance: {fileID: 1877637185}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1883893092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1883893093}
+  - component: {fileID: 1883893094}
+  m_Layer: 0
+  m_Name: SpawnAbility
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1883893093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883893092}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 367554357}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1883893094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883893092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7895cca9790dff4a9c4ab599d41fdf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityVFX
+  house:
+  - {fileID: 1483330061186180143, guid: ae3f85a5118528b4f9f6f059a2b977e2, type: 3}
+  - {fileID: 6251830458788330662, guid: 3d48f2e54adab0247a8bff79920b3792, type: 3}
+  - {fileID: 5786467513451819823, guid: ccf02db5c5375154d99ecd2801e997ac, type: 3}
+  spawn_ThreeLittlePigs: {fileID: 367554357}
 --- !u!1001 &1888158337
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45791,3 +45872,4 @@ SceneRoots:
   - {fileID: 1486176633}
   - {fileID: 5959620631230597643}
   - {fileID: 1321580203983928330}
+  - {fileID: 1883893093}
