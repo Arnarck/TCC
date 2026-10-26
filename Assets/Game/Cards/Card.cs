@@ -151,9 +151,9 @@ public class Card : MonoBehaviour
     {
         vfx_distribute.Active(pointA, pointB, speed);
     }
-    public void create_card(SplineContainer spline, Transform target_hand_pos)//@VITOR
+    public void create_card()//@VITOR
     {
-        vfx_create.Active(spline, target_hand_pos);
+        vfx_create.Active();//spline, target_hand_pos);
     }
 
     public void remove_points(int amount)

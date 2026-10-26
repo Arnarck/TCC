@@ -602,8 +602,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 200a78023dc8e814da768d1fbc8bc0b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::vfxCreate
-  splineAnimate: {fileID: 5831660402248999775}
-  maxSpeed: 5
+  anim: {fileID: 1167882427107165068}
+  obj: {fileID: 6513423077981549246}
+  pos: {fileID: 0}
 --- !u!114 &8914011768542772534
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,9 +5,13 @@ public class VFXWolfEatPig : MonoBehaviour
     public GameObject obj;
     void PlayNextAnimation()
     {
-        Instantiate(obj, transform.position, transform.rotation);
+        obj = Instantiate(obj, transform.position, transform.rotation);
     }
 
+    public void DestroyThis()
+    {
+        Destroy(obj.gameObject);
+    }
     
 
 }
