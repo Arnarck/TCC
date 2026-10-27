@@ -4430,9 +4430,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -180
       objectReference: {fileID: 0}
+    - target: {fileID: 2897893994245855472, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5696323574223466006, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6513423077981549246, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: m_Name
       value: CardTestWolfEatPig
+      objectReference: {fileID: 0}
+    - target: {fileID: 6513423077981549246, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
