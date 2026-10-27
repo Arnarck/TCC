@@ -4390,22 +4390,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1883893093}
     m_Modifications:
-    - target: {fileID: 1137530776553714710, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1137530776553714710, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1137530776553714710, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1137530776553714710, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1976000910278940462, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.1322
@@ -4446,93 +4430,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -180
       objectReference: {fileID: 0}
-    - target: {fileID: 2653982688642332413, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0.00000044915444
-      objectReference: {fileID: 0}
-    - target: {fileID: 2653982688642332413, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -0.000014288161
-      objectReference: {fileID: 0}
-    - target: {fileID: 2653982688642332413, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -2.0981428e-14
-      objectReference: {fileID: 0}
-    - target: {fileID: 2716756560476291274, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -0.000000413695
-      objectReference: {fileID: 0}
-    - target: {fileID: 2716756560476291274, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0.00000040187516
-      objectReference: {fileID: 0}
-    - target: {fileID: 2716756560476291274, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -7.273604e-15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2897893994245855472, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3449363435891010415, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90.01981
-      objectReference: {fileID: 0}
-    - target: {fileID: 3773400225049930091, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 90.019806
-      objectReference: {fileID: 0}
-    - target: {fileID: 4546502176985233578, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -0.0000013592835
-      objectReference: {fileID: 0}
-    - target: {fileID: 4546502176985233578, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0.000010398642
-      objectReference: {fileID: 0}
-    - target: {fileID: 4546502176985233578, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0.00000009455874
-      objectReference: {fileID: 0}
-    - target: {fileID: 5696323574223466006, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5733068792733646274, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -0.00000063827224
-      objectReference: {fileID: 0}
-    - target: {fileID: 5733068792733646274, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0.0000036294825
-      objectReference: {fileID: 0}
-    - target: {fileID: 5733068792733646274, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0.0000002836765
-      objectReference: {fileID: 0}
-    - target: {fileID: 5989213174568585188, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -76.395004
-      objectReference: {fileID: 0}
-    - target: {fileID: 5989213174568585188, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 168.0775
-      objectReference: {fileID: 0}
-    - target: {fileID: 5989213174568585188, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 17.15817
-      objectReference: {fileID: 0}
     - target: {fileID: 6513423077981549246, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: m_Name
       value: CardTestWolfEatPig
-      objectReference: {fileID: 0}
-    - target: {fileID: 6513423077981549246, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8320830650498491528, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -28313,6 +28213,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7426818557458545323, guid: 34251e010cfd04f4395a6b471e51dc17, type: 3}
   m_PrefabInstance: {fileID: 1451638237}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1459778590 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6513423077981549246, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+  m_PrefabInstance: {fileID: 438785509}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1460014691
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38009,6 +37914,7 @@ MonoBehaviour:
   cardPig: {fileID: 1560830283}
   createVFX: {fileID: 6513423077981549246, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
   target_CreateVFX: {fileID: 823913424}
+  destroy_Card: {fileID: 1459778590}
 --- !u!1001 &1888158337
 PrefabInstance:
   m_ObjectHideFlags: 0

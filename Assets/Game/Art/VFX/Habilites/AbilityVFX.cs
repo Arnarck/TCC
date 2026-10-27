@@ -19,20 +19,27 @@ public class AbilityVFX : MonoBehaviour
     [Header("Create")]
     public GameObject createVFX;
     public Transform target_CreateVFX;
+
+    
+    [Header("Destroy")]
+    public GameObject destroy_Card;
+
+
+
     
 
     void Update()
     {
         if (Keyboard.current.pKey.wasPressedThisFrame)
         {
-            CreateCard();
+            Destroy_This_Card();
         }
         
     }
 
 
 
-    // Habilidade Lobo + Porquinhos
+    // Habilidade Lobo + Porquinhos  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void PlayVFXWolfEatPig(GameObject card)
     {
         card.GetComponent<Animator>().SetTrigger("Ability_EatPig");
@@ -42,7 +49,7 @@ public class AbilityVFX : MonoBehaviour
         cardPig.SetTrigger("Ability_EatPig");
     }
 
-    // Habilidade 3 porquinhos
+    // Habilidade 3 porquinhos ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void ThreeLittlePigsVFX(int i)
     {
         if(Destroy_House()) StartCoroutine(WaitForDestroyingPigsHouse(i));
@@ -71,8 +78,14 @@ public class AbilityVFX : MonoBehaviour
         houseActiveSelf = Instantiate(house[i], spawn_ThreeLittlePigs.position, spawn_ThreeLittlePigs.rotation);
     }
 
+    // Habilidade DestroyCard ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void Destroy_This_Card()
+    {
+        destroy_Card.GetComponentInChildren<AbilityTearUPaCard>().Active();
+    }
 
-    //Testes
+
+    //Testes ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void CreateCard(Transform pos)
     {
         GameObject obj = Instantiate(createVFX, pos.position, pos.rotation);

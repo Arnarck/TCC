@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card_BadApple
       objectReference: {fileID: 0}
+    - target: {fileID: 7007606890606115879, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: torn_card
+      value: 
+      objectReference: {fileID: 7294737389498398251, guid: bf0228de26637cd46af13407c404afda, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
