@@ -7,6 +7,7 @@ public class TitleScreen : MonoBehaviour
     public GameObject painelTitle;
     public GameObject painelMenu;
     public GameObject painelAnimation;
+    public GameObject painelAnimationQuitMenu;
     public Image telaFade;
 
     public float duracaoFade = 0.6f;
@@ -44,6 +45,7 @@ public class TitleScreen : MonoBehaviour
         // Abre o menu enquanto tudo está preto.
         painelMenu.SetActive(true);
         painelAnimation.SetActive(true);
+        painelAnimationQuitMenu.SetActive(true);
         painelTitle.SetActive(false);
 
         // Aguarda a câmera mudar de posição.

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public enum Menu_Type
 {
@@ -20,12 +21,18 @@ public class MainMenu : MonoBehaviour
     public GameObject settings_menu;
 
     [Header("MENU ANIMATION")]
+    public AnimationCurve quit_menu_animation_curve;
+    public float quit_menu_animation_speed;
     public AnimationCurve panel_to_settings_animation_curve;
     public AnimationCurve file_settings_animation_curve;
     public float archive_animation_speed;
     public RectTransform panel_archive;
+    public RectTransform panel_quit;
+    public RectTransform panel_quit_main_menu_point;
+    public RectTransform panel_quit_quit_menu_point;
     public RectTransform panel_archive_main_menu_point;
     public RectTransform panel_archive_settings_menu_point;
+    public RectTransform panel_archive_quit_menu_point;
     public RectTransform[] archives_papers;
     public RectTransform[] archive_papers_end_point_settings_menu;
     public RectTransform[] archive_papers_end_point_main_menu;
@@ -33,9 +40,14 @@ public class MainMenu : MonoBehaviour
     [Header("INTERNAL")]
     public float archive_animation_t;
     public float file_animation_t;
+    public float quit_menu_animation_t;
+    public float start_fog_density;
     public Menu_Type next_menu;
+    public Menu_Type current_menu;
     public Vector3 panel_archive_start_position;
     public Quaternion panel_archive_start_rotation;
+    public Vector3 panel_quit_start_position;
+    public Quaternion panel_quit_start_rotation;
     public Vector3[] archives_start_position;
     public Quaternion[] archives_start_rotation;
 
@@ -47,7 +59,9 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        next_menu = Menu_Type.MAIN;
+        next_menu = Menu_Type.COUNT;
+        current_menu = Menu_Type.MAIN;
+        start_fog_density = RenderSettings.fogDensity;
     }
 
     private void Update()
@@ -62,6 +76,7 @@ public class MainMenu : MonoBehaviour
                 if (file_animation_t <= 0f)
                 {
                     settings_menu.SetActive(true);
+                    current_menu = Menu_Type.SETTINGS;
                 }
             }
             else if (next_menu == Menu_Type.MAIN)
@@ -90,8 +105,58 @@ public class MainMenu : MonoBehaviour
                 if (archive_animation_t <= 0f)
                 {
                     main_menu.SetActive(true);
+                    current_menu = Menu_Type.MAIN;
                 }
             }
+        }
+
+        if (quit_menu_animation_t > 0f)
+        {
+            if (next_menu == Menu_Type.QUIT)
+            {
+                do_quit_animation(panel_archive_quit_menu_point, panel_quit_quit_menu_point);
+                if (quit_menu_animation_t <= 0f)
+                {
+                    quit_menu.SetActive(true);
+                    current_menu = Menu_Type.QUIT;
+                }
+            }
+            else if (next_menu == Menu_Type.MAIN)
+            {
+                do_quit_animation(panel_archive_main_menu_point, panel_quit_main_menu_point, true);
+                if (quit_menu_animation_t <= 0f)
+                {
+                    main_menu.SetActive(true);
+                    current_menu = Menu_Type.MAIN;
+                }
+            }
+            
+        }
+    }
+
+    public void do_quit_animation(RectTransform panel_archive_end_point, RectTransform panel_quit_end_point, bool invert_direction = false)
+    {
+        quit_menu_animation_t -= Time.deltaTime*quit_menu_animation_speed;
+        if (quit_menu_animation_t <= 0f)
+        {
+            quit_menu_animation_t = 0f;
+        }
+        
+        float animation_t = quit_menu_animation_curve.Evaluate(1f - quit_menu_animation_t);
+
+        panel_archive.position = Vector3.Lerp(panel_archive_start_position, panel_archive_end_point.position, animation_t);
+        panel_archive.rotation = Quaternion.Slerp(panel_archive_start_rotation, panel_archive_end_point.rotation, animation_t);
+
+        panel_quit.position = Vector3.Lerp(panel_quit_start_position, panel_quit_end_point.position,  animation_t);
+        panel_quit.rotation = Quaternion.Slerp(panel_quit_start_rotation, panel_quit_end_point.rotation, animation_t);
+
+        if (invert_direction)
+        {
+            RenderSettings.fogDensity = Mathf.Lerp(1f, start_fog_density, animation_t);
+        }
+        else
+        {
+            RenderSettings.fogDensity = Mathf.Lerp(start_fog_density, 1f, animation_t);
         }
     }
 
@@ -164,8 +229,15 @@ public class MainMenu : MonoBehaviour
 
     public void go_to_quit_menu()
     {
-        quit_menu.SetActive(true);
         main_menu.SetActive(false);
+        next_menu = Menu_Type.QUIT;
+        
+        quit_menu_animation_t = 1f;
+        panel_archive_start_position = panel_archive.position;
+        panel_archive_start_rotation = panel_archive.rotation;
+
+        panel_quit_start_position = panel_quit.position;
+        panel_quit_start_rotation = panel_quit.rotation;
     }
 
     public void go_to_main_menu()
@@ -174,7 +246,18 @@ public class MainMenu : MonoBehaviour
         settings_menu.SetActive(false);
 
         next_menu = Menu_Type.MAIN;
-        file_animation_t = 1f;
+
+        if (current_menu == Menu_Type.SETTINGS)
+        {
+            file_animation_t = 1f;
+        }
+        else if (current_menu == Menu_Type.QUIT)
+        {
+            quit_menu_animation_t = 1f;
+            panel_quit_start_position = panel_quit.position;
+            panel_quit_start_rotation = panel_quit.rotation;
+        }
+
         panel_archive_start_position = panel_archive.position;
         panel_archive_start_rotation = panel_archive.rotation;
     }
