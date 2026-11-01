@@ -880,8 +880,8 @@ MonoBehaviour:
   cards_in_hand: []
   camera_points_parent: {fileID: 1983945160428268087}
   update_camera_point_animation_speed: 5
+  card_preview_animation_speed: 10
   game_started: 0
-  is_viewing_card: 0
   health: 0
   current_trio_card_to_disable: 0
   actions_remaining: 0
@@ -895,8 +895,16 @@ MonoBehaviour:
   previous_camera_point: 0
   update_camera_point_t: 0
   gain_tokens_from_three_pigs_interaction_count: 0
+  card_preview_animation_t: 0
+  card_in_preview_start_position: {x: 0, y: 0, z: 0}
+  card_in_preview_end_position: {x: 0, y: 0, z: 0}
+  card_in_preview_start_rotation: {x: 0, y: 0, z: 0, w: 0}
+  card_in_preview_end_rotation: {x: 0, y: 0, z: 0, w: 0}
   camera_start_position: {x: 0, y: 0, z: 0}
   camera_start_rotation: {x: 0, y: 0, z: 0, w: 0}
+  card_in_preview_transform: {fileID: 0}
+  card_in_preview: {fileID: 0}
+  boss_card_in_preview: {fileID: 0}
   cards_in_trio: []
   card_types_in_trio: 
   camera_points:
@@ -919,6 +927,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::vfxTurn
   light001: {fileID: 5019297044131148}
+  animator: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!95 &6052934708369154936
 Animator:
   serializedVersion: 7

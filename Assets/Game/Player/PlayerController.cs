@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
     public Transform camera_points_parent;
     public float update_camera_point_animation_speed;
 
+    [Header("Card Preview Animation")]
+    public float card_preview_animation_speed;
+
     [Header("INTERNAL")]
     public bool game_started;
     public int health;
@@ -32,10 +35,16 @@ public class PlayerController : MonoBehaviour
     public int previous_camera_point;
     public float update_camera_point_t;
     public int gain_tokens_from_three_pigs_interaction_count;
-    public Card card_in_preview;
-    public BossCard boss_card_in_preview;
+    public float card_preview_animation_t;
+    public Vector3 card_in_preview_start_position;
+    public Vector3 card_in_preview_end_position;
+    public Quaternion card_in_preview_start_rotation;
+    public Quaternion card_in_preview_end_rotation;
     public Vector3 camera_start_position;
     public Quaternion camera_start_rotation;
+    public Transform card_in_preview_transform;
+    public Card card_in_preview;
+    public BossCard boss_card_in_preview;
     public List<Card> cards_in_trio;
     public List<Card_Type> card_types_in_trio;
     public Transform[] camera_points;
@@ -205,17 +214,15 @@ public class PlayerController : MonoBehaviour
                         if (card_in_preview == card)
                         {
                             int index = get_card_in_hand_index(card);
-                            card.transform.position = cards_spawn_points[index].position;
-                            card.transform.rotation = cards_spawn_points[index].rotation;
-
                             card_in_preview = null;
+
+                            set_card_preview_animation_values(card.transform, cards_spawn_points[index]);
                         }
                         else if (!has_a_card_in_preview())
                         {
                             card_in_preview = card;
 
-                            card.transform.position = card_preview_point.position;
-                            card.transform.rotation = card_preview_point.rotation;
+                            set_card_preview_animation_values(card_in_preview.transform, card_preview_point);
                         }
                     }
                     else if (boss_card)
@@ -223,20 +230,31 @@ public class PlayerController : MonoBehaviour
                         if (boss_card_in_preview == boss_card)
                         {
                             int index = GI.boss.get_card_in_desk_index(boss_card);
-                            boss_card.transform.position = GI.boss.cards_spawn_points[index].position;
-                            boss_card.transform.rotation = GI.boss.cards_spawn_points[index].rotation;
-
                             boss_card_in_preview = null;
+
+                            set_card_preview_animation_values(boss_card.transform, GI.boss.cards_spawn_points[index]);
                         }
                         else if (!has_a_card_in_preview())
                         {
                             boss_card_in_preview = boss_card;
 
-                            boss_card.transform.position = card_preview_point.position;
-                            boss_card.transform.rotation = card_preview_point.rotation;
+                            set_card_preview_animation_values(boss_card_in_preview.transform, card_preview_point);
                         }
                     }
                 }
+            }
+        }
+
+        { // Card preview animation
+            if (card_preview_animation_t > 0f)
+            {
+                card_preview_animation_t -= dt*card_preview_animation_speed;
+                if (card_preview_animation_t <= 0f)
+                {
+                    card_preview_animation_t = 0f;
+                }
+
+                do_preview_card_animation(card_in_preview_transform.transform);
             }
         }
 
@@ -475,6 +493,25 @@ public class PlayerController : MonoBehaviour
                 decrease_actions_remaining();
             }
         }
+    }
+
+    public void set_card_preview_animation_values(Transform start, Transform end)
+    {
+        card_in_preview_transform = start;
+
+        card_in_preview_start_position = start.position;
+        card_in_preview_start_rotation = start.rotation;
+
+        card_in_preview_end_position = end.position;
+        card_in_preview_end_rotation = end.rotation;
+
+        card_preview_animation_t = 1f;
+    }
+
+    public void do_preview_card_animation(Transform card)
+    {
+        card.position = Vector3.Lerp(card_in_preview_start_position, card_in_preview_end_position, 1f - card_preview_animation_t);
+        card.rotation = Quaternion.Slerp(card_in_preview_start_rotation, card_in_preview_end_rotation, 1f - card_preview_animation_t);
     }
 
     public bool has_a_card_in_preview()
