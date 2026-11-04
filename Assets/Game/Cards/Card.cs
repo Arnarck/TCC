@@ -82,13 +82,16 @@ public class Card : MonoBehaviour
     public Card_Type type;
     public Family_Type family_type;
     public Ability_Type ability_type;
-    [TextArea(5, 20)]public string description;
     public Family_Type[] families_in_trio_to_activate_ability;
 
-    [Header("ATTACK")]
+    [Header("HUD")]
     public TextMeshProUGUI points_text;
     public Image arrow_up_image;
     public Image arrow_down_image;
+    public Image family_type_image;
+    [TextArea(5, 20)]public string ability_description;
+
+    [Header("ATTACK")]
     public Color heal_color;
     public Color damage_color;
     public Attack_Type attack_1;
@@ -123,6 +126,8 @@ public class Card : MonoBehaviour
 
     private void Start()
     {
+        family_type_image.sprite = GI.player_hud.families_sprite[(int)family_type];
+
         update_points_text();
         update_arrow_image(attack_1, arrow_up_image);
         update_arrow_image(attack_1, arrow_down_image);

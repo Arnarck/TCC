@@ -77,7 +77,7 @@ public class PlayerHUD : MonoBehaviour
     public void show_card_preview_hud(Card card)
     {
         card_preview_hud.SetActive(true);
-        card_preview_ability_description_text.text = card.description;
+        card_preview_ability_description_text.text = card.ability_description;
 
         if (card.families_in_trio_to_activate_ability.Length < 1)
         {
