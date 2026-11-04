@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.Splines;
+using UnityEngine.UI;
+using TMPro;
 
 public enum Card_Type
 {
@@ -80,8 +82,15 @@ public class Card : MonoBehaviour
     public Card_Type type;
     public Family_Type family_type;
     public Ability_Type ability_type;
+    [TextArea(5, 20)]public string description;
+    public Family_Type[] families_in_trio_to_activate_ability;
 
     [Header("ATTACK")]
+    public TextMeshProUGUI points_text;
+    public Image arrow_up_image;
+    public Image arrow_down_image;
+    public Color heal_color;
+    public Color damage_color;
     public Attack_Type attack_1;
     public Attack_Type attack_2;
     public int attack_amount;
@@ -105,13 +114,19 @@ public class Card : MonoBehaviour
     public bool ignore_card_ability;
     public bool blow_up_if_selected;
     public bool remove_player_points_when_selected;
-    public int improved_points;
     public bool is_in_desk;
     public float disable_t;
     public bool promoted_at_start_of_turn;
     public int remove_points_t;
     public int points_to_remove_after_x_turns;
     public bool has_improved_after_a_trio;
+
+    private void Start()
+    {
+        update_points_text();
+        update_arrow_image(attack_1, arrow_up_image);
+        update_arrow_image(attack_1, arrow_down_image);
+    }
 
     private void Update()
     {
@@ -128,6 +143,32 @@ public class Card : MonoBehaviour
             if (disable_t <= 0f)
             {
                 gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void update_points_text()
+    {
+        points_text.text = attack_amount.ToString();
+    }
+
+    public void update_arrow_image(Attack_Type attack_type, Image arrow_image)
+    {
+        if (attack_type == Attack_Type.NONE)
+        {
+            arrow_image.enabled = false;
+        }
+        else
+        {
+            if (attack_type == Attack_Type.DAMAGE_BOSS || attack_type == Attack_Type.DAMAGE_PLAYER)
+            {
+                // Damage
+                arrow_image.color = damage_color;
+            }
+            else
+            {
+                // Heal
+                arrow_image.color = heal_color;
             }
         }
     }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
@@ -217,12 +218,14 @@ public class PlayerController : MonoBehaviour
                             card_in_preview = null;
 
                             set_card_preview_animation_values(card.transform, cards_spawn_points[index]);
+                            GI.player_hud.hide_card_preview_hud();
                         }
                         else if (!has_a_card_in_preview())
                         {
                             card_in_preview = card;
 
                             set_card_preview_animation_values(card_in_preview.transform, card_preview_point);
+                            GI.player_hud.show_card_preview_hud(card_in_preview);
                         }
                     }
                     else if (boss_card)
@@ -621,6 +624,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool are_all_families_in_trio(Family_Type[] families)
+    {
+        List<Family_Type> trio_families    = families_in_trio.ToList();
+        List<Family_Type> ability_families = families.ToList();
+
+        for (int i = 0; i < trio_families.Count; i++)
+        {
+            for (int j = 0; j < ability_families.Count; j++)
+            {
+                if (trio_families[i] == ability_families[j])
+                {
+                    trio_families.RemoveAt(i);
+                    ability_families.RemoveAt(j);
+
+                    i--;
+                    break;
+                }
+            }
+        }
+
+        if (ability_families.Count == 0) { return true; }
+        else                             { return false; }
+    }
+
     public bool is_family_type_in_trio(Family_Type family)
     {
         for (int i = 0; i < cards_in_trio.Count; i++)
@@ -659,7 +686,7 @@ public class PlayerController : MonoBehaviour
         {
             case Card_Type.STRAW_HOUSE_PIG:
                 {
-                    if (is_family_type_in_trio(Family_Type.PAW) && is_family_type_in_trio(Family_Type.LOTUS))
+                    if (are_all_families_in_trio(card.families_in_trio_to_activate_ability))
                     {
                         for (int i = card_index + 1; i < cards_in_trio.Count; i++)
                         {
@@ -669,7 +696,7 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.WOODEN_HOUSE_PIG:
                 {
-                    if (family_count_in_trio(Family_Type.PAW) == 2)
+                    if (are_all_families_in_trio(card.families_in_trio_to_activate_ability))
                     {
                         if (card_index < cards_in_trio.Count - 1)
                         {
@@ -702,7 +729,7 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.GEPETTO:
                 {
-                    if (family_count_in_trio(Family_Type.LOTUS) == 2)
+                    if (are_all_families_in_trio(card.families_in_trio_to_activate_ability))
                     {
                         if (card_index == 1)
                         {
@@ -713,9 +740,7 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.BAD_WITCH:
                 {
-                    if (is_family_type_in_trio(Family_Type.PAW) && 
-                        is_family_type_in_trio(Family_Type.CANDY) &&
-                        is_family_type_in_trio(Family_Type.LOTUS))
+                    if (are_all_families_in_trio(card.families_in_trio_to_activate_ability))
                     {
                         BossCard boss_card = GI.boss.get_a_random_card_from_desk();
                         if (boss_card)
@@ -811,7 +836,7 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.GRANNY:
                 {
-                    if (family_count_in_trio(Family_Type.LOTUS) == 3)
+                    if (are_all_families_in_trio(card.families_in_trio_to_activate_ability))
                     {
                         for (int i = 0; i < GI.card_system.cards_in_desk.Length; i++)
                         {
@@ -829,7 +854,7 @@ public class PlayerController : MonoBehaviour
                 } break;
             case Card_Type.HUMAN_FROG:
                 {
-                    if (family_count_in_trio(Family_Type.LOTUS) == 3)
+                    if (are_all_families_in_trio(card.families_in_trio_to_activate_ability))
                     {
                         card.add_points(5);
                     }

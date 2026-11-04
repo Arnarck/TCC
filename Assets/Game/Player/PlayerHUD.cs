@@ -18,6 +18,13 @@ public class PlayerHUD : MonoBehaviour
     public GameObject card_game_hud;
     public TextMeshProUGUI boss_attack_text;
 
+    [Header("CARD PREVIEW HUD")]
+    public GameObject card_preview_hud;
+    public GameObject ability_requirements_panel;
+    public TextMeshProUGUI card_preview_ability_description_text;
+    public Image[] card_preview_ability_requirements_image;
+    public Sprite[] families_sprite;
+
     [Header("FIRST PERSON")]
     public GameObject first_person_hud;
     public GameObject interaction_panel;
@@ -65,6 +72,39 @@ public class PlayerHUD : MonoBehaviour
         boss_attack_text.enabled = true;
         boss_attack_text.text = text;
         boss_attack_text_t = 2f;
+    }
+
+    public void show_card_preview_hud(Card card)
+    {
+        card_preview_hud.SetActive(true);
+        card_preview_ability_description_text.text = card.description;
+
+        if (card.families_in_trio_to_activate_ability.Length < 1)
+        {
+            ability_requirements_panel.SetActive(false);
+        }
+        else
+        {
+            ability_requirements_panel.SetActive(true);
+            for (int i = 0; i < card_preview_ability_requirements_image.Length; i++)
+            {
+                if (i < card.families_in_trio_to_activate_ability.Length)
+                {
+                    card_preview_ability_requirements_image[i].enabled = true;
+                    card_preview_ability_requirements_image[i].sprite = families_sprite[(int)card.families_in_trio_to_activate_ability[i]];
+                }
+                else
+                {
+                    card_preview_ability_requirements_image[i].enabled = false;
+                }
+            }
+        }
+
+    }
+
+    public void hide_card_preview_hud()
+    {
+        card_preview_hud.SetActive(false);
     }
 
     public void show_player_turn_message()
