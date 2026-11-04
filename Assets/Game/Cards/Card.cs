@@ -61,6 +61,8 @@ public enum Keyword_Type
     DEMOTE,
     SWAP,
     SABOTAGE,
+    DESTROY,
+    RECRUIT,
 
     COUNT,
 }
