@@ -55,10 +55,21 @@ public enum Attack_Type
     COUNT
 }
 
+public enum Keyword_Type
+{
+    PROMOTE,
+    DEMOTE,
+    SWAP,
+    SABOTAGE,
+
+    COUNT,
+}
+
 public class Card : MonoBehaviour
 {
     public Card_Type type;
     public Family_Type family_type;
+    public Keyword_Type keyword_type;
     public Family_Type[] families_in_trio_to_activate_ability;
 
     [Header("HUD")]

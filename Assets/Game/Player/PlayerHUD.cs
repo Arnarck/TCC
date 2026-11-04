@@ -21,9 +21,10 @@ public class PlayerHUD : MonoBehaviour
     [Header("CARD PREVIEW HUD")]
     public GameObject card_preview_hud;
     public GameObject ability_requirements_panel;
-    public TextMeshProUGUI card_preview_ability_description_text;
+    public TextMeshProUGUI card_preview_keyword_description_text;
     public Image[] card_preview_ability_requirements_image;
     public Sprite[] families_sprite;
+    [TextArea(3, 15)]public string[] keywords_description;
 
     [Header("FIRST PERSON")]
     public GameObject first_person_hud;
@@ -77,7 +78,7 @@ public class PlayerHUD : MonoBehaviour
     public void show_card_preview_hud(Card card)
     {
         card_preview_hud.SetActive(true);
-        card_preview_ability_description_text.text = card.ability_description;
+        card_preview_keyword_description_text.text = keywords_description[(int)card.keyword_type];
 
         if (card.families_in_trio_to_activate_ability.Length < 1)
         {

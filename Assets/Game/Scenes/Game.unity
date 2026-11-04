@@ -44915,6 +44915,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: keywords_description.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[0]'
+      value: sdfsdf
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[1]'
+      value: asdasdasdasd
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[2]'
+      value: sdasdasdasdaqsc
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[3]'
+      value: \c\cv\cxvcxvcx
+      objectReference: {fileID: 0}
     - target: {fileID: 6005255545553219949, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
       propertyPath: m_Name
       value: Player HUD
