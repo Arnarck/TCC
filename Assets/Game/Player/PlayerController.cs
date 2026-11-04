@@ -1100,6 +1100,7 @@ public class PlayerController : MonoBehaviour
     public int remove_card_from_hand(Card card)
     {
         deselect_card(card);
+        card.disable_card_ability_description_canvas();
         for (int i = 0; i < cards_in_hand.Length; i++)
         {
             if (cards_in_hand[i] == card)

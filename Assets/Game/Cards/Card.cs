@@ -85,6 +85,8 @@ public class Card : MonoBehaviour
     public Family_Type[] families_in_trio_to_activate_ability;
 
     [Header("HUD")]
+    public GameObject ability_description_canvas;
+    public TextMeshProUGUI ability_description_text;
     public TextMeshProUGUI points_text;
     public Image arrow_up_image;
     public Image arrow_down_image;
@@ -150,6 +152,11 @@ public class Card : MonoBehaviour
                 gameObject.SetActive(false);
             }
         }
+    }
+
+    public void disable_card_ability_description_canvas()
+    {
+        ability_description_canvas.SetActive(false);
     }
 
     public void update_points_text()
