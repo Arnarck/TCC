@@ -14,8 +14,10 @@ public enum Boss_Card_Disable_Type
 public class BossCard : MonoBehaviour
 {
     public Boss_Abilities ability_type;
-    public int cost_to_disable_ability = 5;
     public Boss_Card_Disable_Type disable_type;
+    public int cost_to_disable_ability = 5;
+    public Keyword_Type keyword_type;
+    [TextArea(3, 15)]public string ability_description;
     public Family_Type[] families_to_disable_card;
 
     [Header("ATTACK")]

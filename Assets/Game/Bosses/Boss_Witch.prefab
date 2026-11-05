@@ -103,31 +103,31 @@ PrefabInstance:
     - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: 'cards_spawn_points.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7051315257125507882}
     - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: 'cards_spawn_points.Array.data[1]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1069470346944535974}
     - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: 'cards_spawn_points.Array.data[2]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 238665109494615143}
     - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: 'cards_spawn_points.Array.data[3]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 376984208369001375}
     - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: 'cards_spawn_points.Array.data[4]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 347676300508592500}
     - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: 'cards_spawn_points.Array.data[5]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3361728827201693439}
     - target: {fileID: 5511638946335309491, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: 'cards_spawn_points.Array.data[6]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2615179628931413186}
     - target: {fileID: 8950773549217389424, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -150,9 +150,44 @@ PrefabInstance:
       addedObject: {fileID: 8807734621287498956}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+--- !u!4 &238665109494615143 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5202265946172163164, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+  m_PrefabInstance: {fileID: 5439717194671900731}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &347676300508592500 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5741790695830729039, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+  m_PrefabInstance: {fileID: 5439717194671900731}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &376984208369001375 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5640354825058446244, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+  m_PrefabInstance: {fileID: 5439717194671900731}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1069470346944535974 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5019899958937097629, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+  m_PrefabInstance: {fileID: 5439717194671900731}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2615179628931413186 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8013942180065033465, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+  m_PrefabInstance: {fileID: 5439717194671900731}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3361728827201693439 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7339323098930147012, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+  m_PrefabInstance: {fileID: 5439717194671900731}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6703526051076918032 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1619735222948234027, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
+  m_PrefabInstance: {fileID: 5439717194671900731}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7051315257125507882 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3073297909207456529, guid: c52967a8df044b14a8f2afc54dbf4645, type: 3}
   m_PrefabInstance: {fileID: 5439717194671900731}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9057269384321245991

@@ -18,6 +18,13 @@ public class PlayerHUD : MonoBehaviour
     public GameObject card_game_hud;
     public TextMeshProUGUI boss_attack_text;
 
+    [Header("BOSS CARD PREVIEW HUD")]
+    public GameObject boss_card_preview_hud;
+    public GameObject boss_card_families_to_disable_group;
+    public TextMeshProUGUI boss_card_keyword_description_text;
+    public TextMeshProUGUI boss_card_disable_price_text;
+    public Image[] boss_card_families_to_disable_image;
+
     [Header("CARD PREVIEW HUD")]
     public GameObject card_preview_hud;
     public GameObject ability_requirements_panel;
@@ -106,6 +113,44 @@ public class PlayerHUD : MonoBehaviour
     public void hide_card_preview_hud()
     {
         card_preview_hud.SetActive(false);
+    }
+
+    public void show_boss_card_preview_hud(BossCard boss_card)
+    {
+        boss_card_preview_hud.SetActive(true);
+
+        boss_card_keyword_description_text.text = keywords_description[(int)boss_card.keyword_type];
+
+        if (boss_card.disable_type == Boss_Card_Disable_Type.CHIPS)
+        {
+            boss_card_disable_price_text.enabled = true;
+            boss_card_disable_price_text.text = "<color=yellow>" + boss_card.cost_to_disable_ability + "</color> Chips";
+
+            boss_card_families_to_disable_group.SetActive(false);
+        }
+        else if (boss_card.disable_type == Boss_Card_Disable_Type.FAMILY)
+        {
+            boss_card_disable_price_text.enabled = false;
+            boss_card_families_to_disable_group.SetActive(true);
+
+            for (int i = 0; i < boss_card_families_to_disable_image.Length; i++)
+            {
+                if (i < boss_card.current_family_to_disable || i >= boss_card.families_to_disable_card.Length)
+                {
+                    boss_card_families_to_disable_image[i].enabled = false;
+                }
+                else
+                {
+                    boss_card_families_to_disable_image[i].enabled = true;
+                    boss_card_families_to_disable_image[i].sprite = families_sprite[(int)boss_card.families_to_disable_card[i]];
+                }
+            }
+        }
+    }
+
+    public void hide_boss_card_preview_hud()
+    {
+        boss_card_preview_hud.SetActive(false);
     }
 
     public void show_player_turn_message()

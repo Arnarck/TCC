@@ -236,12 +236,14 @@ public class PlayerController : MonoBehaviour
                             boss_card_in_preview = null;
 
                             set_card_preview_animation_values(boss_card.transform, GI.boss.cards_spawn_points[index]);
+                            GI.player_hud.hide_boss_card_preview_hud();
                         }
                         else if (!has_a_card_in_preview())
                         {
                             boss_card_in_preview = boss_card;
 
                             set_card_preview_animation_values(boss_card_in_preview.transform, card_preview_point);
+                            GI.player_hud.show_boss_card_preview_hud(boss_card);
                         }
                     }
                 }

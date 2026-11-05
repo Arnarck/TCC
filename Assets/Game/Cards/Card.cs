@@ -122,7 +122,7 @@ public class Card : MonoBehaviour
 
         update_points_text();
         update_arrow_image(attack_1, arrow_up_image);
-        update_arrow_image(attack_1, arrow_down_image);
+        update_arrow_image(attack_2, arrow_down_image);
     }
 
     private void Update()
