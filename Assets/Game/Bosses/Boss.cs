@@ -65,11 +65,13 @@ public class Boss : MonoBehaviour
     public float finish_turn_t;
     public int current_turn;
     public bool is_phase_2;
+    public bool is_alive;
     public BossCard[] cards_in_desk;
 
     private void Start()
     {
         cards_in_desk = new BossCard[cards_spawn_points.Length];
+        is_alive = true;
     }
 
     // Update is called once per frame
@@ -803,6 +805,8 @@ public class Boss : MonoBehaviour
 
     public void add_health(int amount)
     {
+        if (!is_alive) { return; }
+
         health += amount;
         if (health > max_health)
         {
@@ -818,6 +822,7 @@ public class Boss : MonoBehaviour
         if (health <= 0)
         {
             health = 0;
+            is_alive = false;
         }
 
         GI.player_hud.update_boss_health_text();
