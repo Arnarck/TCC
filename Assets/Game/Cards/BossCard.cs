@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 
 public enum Boss_Card_Disable_Type
@@ -20,6 +22,15 @@ public class BossCard : MonoBehaviour
     [TextArea(3, 15)]public string ability_description;
     public Family_Type[] families_to_disable_card;
 
+    [Header("HUD")]
+    public GameObject ability_description_canvas;
+    public Transform ability_description_canvas_parent;
+    public TextMeshProUGUI ability_description_text;
+    public GameObject disable_price_panel;
+    public GameObject disable_families_panel;
+    public TextMeshProUGUI disable_price_text;
+    public Image[] disable_families_image;
+
     [Header("ATTACK")]
     public Attack_Type attack_1;
     public Attack_Type attack_2;
@@ -28,6 +39,57 @@ public class BossCard : MonoBehaviour
 
     [Header("INTERNAL")]
     public int current_family_to_disable;
+
+    private void Start()
+    {
+        ability_description_canvas.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (ability_description_canvas.activeInHierarchy)
+        {
+            ability_description_canvas_parent.LookAt(GI.player_card_game.player_camera.transform);
+        }
+    }
+
+    public void show_card_ability_description_canvas()
+    {
+        ability_description_canvas.SetActive(true);
+
+        ability_description_text.text = ability_description;
+
+        if (disable_type == Boss_Card_Disable_Type.CHIPS)
+        {
+            disable_price_panel.SetActive(true);
+            disable_families_panel.SetActive(false);
+
+            disable_price_text.text = cost_to_disable_ability.ToString();
+        }
+        else if (disable_type == Boss_Card_Disable_Type.FAMILY)
+        {
+            disable_price_panel.SetActive(false);
+            disable_families_panel.SetActive(true);
+
+            for (int i = 0; i < disable_families_image.Length; i++)
+            {
+                if (i < families_to_disable_card.Length && i >= current_family_to_disable)
+                {
+                    disable_families_image[i].enabled = true;
+                    disable_families_image[i].sprite = GI.player_hud.families_sprite[(int)families_to_disable_card[i]];
+                }
+                else
+                {
+                    disable_families_image[i].enabled = false;
+                }
+            }
+        }
+    }
+
+    public void hide_card_ability_description_canvas()
+    {
+        ability_description_canvas.SetActive(false);
+    }
 
     public void turn_off(int turns)
     {

@@ -11,7 +11,10 @@ public class CardCollider : MonoBehaviour
         {
             card.ability_description_canvas.SetActive(true);
             card.ability_description_text.text = card.ability_description;
-
+        }
+        else if (boss_card && GI.player_card_game.boss_card_in_preview != boss_card)
+        {
+            boss_card.show_card_ability_description_canvas();
         }
     }
 
@@ -20,6 +23,10 @@ public class CardCollider : MonoBehaviour
         if (card && !card.is_in_desk)
         {
             card.disable_card_ability_description_canvas();
+        }
+        else if (boss_card)
+        {
+            boss_card.hide_card_ability_description_canvas();
         }
     }
 }
