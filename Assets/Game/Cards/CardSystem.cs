@@ -209,6 +209,12 @@ public class CardSystem : MonoBehaviour
             GI.player_hud.show_boss_turn_message(); 
             vfxTurn.OnLight();
 
+            GI.player_hud.hide_trio_hud();
+            for (int i = 0; i < GI.player_card_game.selected_cards.Count; i++)
+            {
+                GI.player_card_game.deselect_card(GI.player_card_game.selected_cards[i]);
+                i--;
+            }
 
             // Remove points after some turns
             for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)

@@ -173,10 +173,15 @@ public class PlayerController : MonoBehaviour
                             if (selected_cards.Contains(card))
                             {
                                 deselect_card(card);
+                                GI.player_hud.hide_trio_hud();
                             }
                             else
                             {
                                 select_card(card);
+                                if (selected_cards.Count == 3 && actions_remaining > 0)
+                                {
+                                    GI.player_hud.show_trio_hud();
+                                }
                             }
                         }
                     }
@@ -298,208 +303,213 @@ public class PlayerController : MonoBehaviour
         { // Make Trio
             if (Input.GetKeyDown(KeyCode.Space) && selected_cards.Count == 3 && actions_remaining > 0)
             {
-                // Place cards in desk
-                for (int i = 0; i < 3; i++)
-                {
-                    Card card = selected_cards[0];
-                    remove_card_from_hand(card);
-
-                    if (i == 0 && GI.boss.is_card_in_desk(Boss_Abilities.DESTROY_TRIO_CARD_ON_THE_LEFT))
-                    {
-                        card.destroy();
-                    }
-                    else
-                    {
-                        cards_in_trio.Add(card);
-                        card_types_in_trio.Add(card.type);
-                        families_in_trio[i] = card.family_type;
-
-                        update_trio_card_position(card);
-                    }
-                }
-
-                bool can_make_secret_interactions = true;
-                for (int i = 0; i < cards_in_trio.Count; i++)
-                {
-                    Card card = cards_in_trio[i];
-
-                    // Disable boss cards abilities
-                    for (int j = 0; j < GI.boss.cards_in_desk.Length; j++)
-                    {
-                        BossCard boss_card = GI.boss.cards_in_desk[j];
-                        if (boss_card && 
-                            boss_card.disable_type == Boss_Card_Disable_Type.FAMILY &&
-                            cards_in_trio[i].family_type == boss_card.families_to_disable_card[boss_card.current_family_to_disable])
-                        {
-                            boss_card.current_family_to_disable++;
-                            if (boss_card.current_family_to_disable >= boss_card.families_to_disable_card.Length)
-                            {
-                                boss_card.disable_ability();
-                            }
-                        }
-                    }
-
-                    // Interactions
-                    if (can_make_secret_interactions)
-                    {
-                        if (card.type == Card_Type.BIG_BAD_WOLF && (card_types_in_trio.Contains(Card_Type.WOODEN_HOUSE_PIG) ||
-                                                                    card_types_in_trio.Contains(Card_Type.BRICK_HOUSE_PIG) ||
-                                                                    card_types_in_trio.Contains(Card_Type.STRAW_HOUSE_PIG)))
-                        {
-                            can_make_secret_interactions = false;
-
-                            card.add_points(card.attack_amount);
-                            card.ignore_card_ability = true;
-
-                            int index = card_types_in_trio.IndexOf(Card_Type.WOODEN_HOUSE_PIG);
-                            if (index == -1) index = card_types_in_trio.IndexOf(Card_Type.BRICK_HOUSE_PIG);
-                            if (index == -1) index = card_types_in_trio.IndexOf(Card_Type.STRAW_HOUSE_PIG);
-
-                            destroy_card_from_trio(index);
-
-                            if (index < i)
-                            {
-                                i--;
-                            }
-                        }
-                        else if (card.type == Card_Type.LITTLE_RED_RIDING_HOOD && card_types_in_trio.Contains(Card_Type.BIG_BAD_WOLF) &&
-                                has_available_space_in_hand())
-                        {
-                            can_make_secret_interactions = false;
-                            card.ignore_card_ability = true;
-
-                            Card card_to_spawn = Instantiate(GI.card_system.granny_card_prefab).GetComponent<Card>();
-                            add_card_to_hand(card_to_spawn, get_first_available_index_in_hand());
-
-                            destroy_card_from_trio(card_types_in_trio.IndexOf(Card_Type.BIG_BAD_WOLF));
-                        }
-                        else if (card.type == Card_Type.GEPETTO && card_types_in_trio.Contains(Card_Type.BAD_WITCH) &&
-                                                                   card_types_in_trio.Contains(Card_Type.WOODEN_HOUSE_PIG))
-                        {
-                            can_make_secret_interactions = false;
-                            card.ignore_card_ability = true;
-
-                            Card card_to_spawn = Instantiate(GI.card_system.pinocchio_card_prefab).GetComponent<Card>();
-                            add_card_to_hand(card_to_spawn, get_first_available_index_in_hand());
-                        }
-                        else if (card.type == Card_Type.BAD_WITCH && card_types_in_trio.Contains(Card_Type.SLEEPING_BEAUTY))
-                        {
-                            can_make_secret_interactions = false;
-                            card.ignore_card_ability = true;
-
-                            int sleeping_beauty_index = card_types_in_trio.IndexOf(Card_Type.SLEEPING_BEAUTY);
-                            cards_in_trio[sleeping_beauty_index].remove_points(cards_in_trio[sleeping_beauty_index].attack_amount);
-
-                            sabotage_random_boss_ability();
-                        }
-                        else if (card.type == Card_Type.GRANNY && card_types_in_trio.Contains(Card_Type.BRICK_HOUSE_PIG))
-                        {
-                            can_make_secret_interactions = false;
-                            card.ignore_card_ability = true;
-
-                            card.add_points(4);
-
-                            int card_index = card_types_in_trio.IndexOf(Card_Type.BRICK_HOUSE_PIG);
-                            cards_in_trio[card_index].add_points(4);
-                        }
-                        else if (card.type == Card_Type.GRANNY && card_types_in_trio.Contains(Card_Type.LITTLE_RED_RIDING_HOOD))
-                        {
-                            can_make_secret_interactions = false;
-                            card.ignore_card_ability = true;
-
-                            int card_index = card_types_in_trio.IndexOf(Card_Type.LITTLE_RED_RIDING_HOOD);
-                            cards_in_trio[card_index].add_points(6);
-                        }
-                        else if (card.type == Card_Type.PRINCESS_AND_FROG && (card_types_in_trio.Contains(Card_Type.SLEEPING_BEAUTY) ||
-                                                                              card_types_in_trio.Contains(Card_Type.CINDERELLA)))
-                        {
-                            can_make_secret_interactions = false;
-                            card.ignore_card_ability = true;
-
-                            card.destroy();
-
-                            spawn_card_in_trio(GI.card_system.human_frog_card_prefab, i);
-                        }
-                        else if (card.type == Card_Type.BAD_WITCH && card_types_in_trio.Contains(Card_Type.HUMAN_FROG))
-                        {
-                            can_make_secret_interactions = false;
-                            card.ignore_card_ability = true;
-
-                            // Remove Human Frog
-                            int index_to_remove = card_types_in_trio.IndexOf(Card_Type.HUMAN_FROG);
-                            cards_in_trio[index_to_remove].destroy();
-
-                            // Spawn Princess and Frog
-                            spawn_card_in_trio(GI.card_system.get_card_prefab(Card_Type.PRINCESS_AND_FROG), index_to_remove);
-
-                            // Sabotage Boss ability
-                            sabotage_random_boss_ability();
-                        }
-                        else if (card.type == Card_Type.GEPETTO && card_types_in_trio.Contains(Card_Type.PINOCCHIO))
-                        {
-                            can_make_secret_interactions = false;
-                            card.ignore_card_ability = true;
-
-                            int card_index = card_types_in_trio.IndexOf(Card_Type.PINOCCHIO);
-                            cards_in_trio[card_index].add_points(3);
-
-                            improve_upcoming_pinocchios = true;
-                        }
-                        else if (card.type == Card_Type.BAD_WITCH && card_types_in_trio.Contains(Card_Type.PINOCCHIO) && 
-                                                                     has_available_space_in_hand())
-                        {
-                            can_make_secret_interactions = false;
-                            card.ignore_card_ability = true;
-
-                            Card card_to_spawn = Instantiate(GI.card_system.pinocchio_card_prefab).GetComponent<Card>();
-                            card_to_spawn.attack_1 = Attack_Type.DAMAGE_PLAYER;
-                            add_card_to_hand(card_to_spawn, get_first_available_index_in_hand());
-                        }
-                        else if (card.type == Card_Type.WOODEN_HOUSE_PIG && 
-                                 card_types_in_trio.Contains(Card_Type.STRAW_HOUSE_PIG) &&
-                                 card_types_in_trio.Contains(Card_Type.BRICK_HOUSE_PIG) &&
-                                 gain_tokens_from_three_pigs_interaction_count > 0)
-                        {
-                            gain_tokens_from_three_pigs_interaction_count--;
-                            add_health(2);
-                        }
-                        else if (card.type == Card_Type.PUSS_IN_BOOTS && (card_types_in_trio.Contains(Card_Type.BAD_WITCH) ||
-                                                                          card_types_in_trio.Contains(Card_Type.BIG_BAD_WOLF)))
-                        {
-                            if (card.attack_1 == Attack_Type.HEAL_PLAYER || card.attack_2 == Attack_Type.HEAL_PLAYER)
-                            {
-                                card.add_points(card.attack_amount);
-                            }
-                        }
-                    }
-
-                    // Activate ability
-                    activate_card_ability(cards_in_trio[i]);
-                }
-
-                disable_trio_cards_t = 1f;
-                current_trio_card_to_disable = -1;
-                applying_trio_card_abilities = true;
-
-                // Reorder cards in hand
-                reorder_cards_in_hand();
-
-                // Activate Sleeping Beauty ability
-                if (is_card_in_hand(Card_Type.SLEEPING_BEAUTY))
-                {
-                    for (int i = 0; i < cards_in_hand.Length; i++)
-                    {
-                        Card current_card = cards_in_hand[i];
-                        if (current_card && current_card.type == Card_Type.SLEEPING_BEAUTY)
-                        {
-                            activate_card_ability(current_card);
-                        }
-                    }
-                }
-
-                decrease_actions_remaining();
+                
             }
         }
+    }
+
+    public void make_trio()
+    {
+        // Place cards in desk
+        for (int i = 0; i < 3; i++)
+        {
+            Card card = selected_cards[0];
+            remove_card_from_hand(card);
+
+            if (i == 0 && GI.boss.is_card_in_desk(Boss_Abilities.DESTROY_TRIO_CARD_ON_THE_LEFT))
+            {
+                card.destroy();
+            }
+            else
+            {
+                cards_in_trio.Add(card);
+                card_types_in_trio.Add(card.type);
+                families_in_trio[i] = card.family_type;
+
+                update_trio_card_position(card);
+            }
+        }
+
+        bool can_make_secret_interactions = true;
+        for (int i = 0; i < cards_in_trio.Count; i++)
+        {
+            Card card = cards_in_trio[i];
+
+            // Disable boss cards abilities
+            for (int j = 0; j < GI.boss.cards_in_desk.Length; j++)
+            {
+                BossCard boss_card = GI.boss.cards_in_desk[j];
+                if (boss_card &&
+                    boss_card.disable_type == Boss_Card_Disable_Type.FAMILY &&
+                    cards_in_trio[i].family_type == boss_card.families_to_disable_card[boss_card.current_family_to_disable])
+                {
+                    boss_card.current_family_to_disable++;
+                    if (boss_card.current_family_to_disable >= boss_card.families_to_disable_card.Length)
+                    {
+                        boss_card.disable_ability();
+                    }
+                }
+            }
+
+            // Interactions
+            if (can_make_secret_interactions)
+            {
+                if (card.type == Card_Type.BIG_BAD_WOLF && (card_types_in_trio.Contains(Card_Type.WOODEN_HOUSE_PIG) ||
+                                                            card_types_in_trio.Contains(Card_Type.BRICK_HOUSE_PIG) ||
+                                                            card_types_in_trio.Contains(Card_Type.STRAW_HOUSE_PIG)))
+                {
+                    can_make_secret_interactions = false;
+
+                    card.add_points(card.attack_amount);
+                    card.ignore_card_ability = true;
+
+                    int index = card_types_in_trio.IndexOf(Card_Type.WOODEN_HOUSE_PIG);
+                    if (index == -1) index = card_types_in_trio.IndexOf(Card_Type.BRICK_HOUSE_PIG);
+                    if (index == -1) index = card_types_in_trio.IndexOf(Card_Type.STRAW_HOUSE_PIG);
+
+                    destroy_card_from_trio(index);
+
+                    if (index < i)
+                    {
+                        i--;
+                    }
+                }
+                else if (card.type == Card_Type.LITTLE_RED_RIDING_HOOD && card_types_in_trio.Contains(Card_Type.BIG_BAD_WOLF) &&
+                        has_available_space_in_hand())
+                {
+                    can_make_secret_interactions = false;
+                    card.ignore_card_ability = true;
+
+                    Card card_to_spawn = Instantiate(GI.card_system.granny_card_prefab).GetComponent<Card>();
+                    add_card_to_hand(card_to_spawn, get_first_available_index_in_hand());
+
+                    destroy_card_from_trio(card_types_in_trio.IndexOf(Card_Type.BIG_BAD_WOLF));
+                }
+                else if (card.type == Card_Type.GEPETTO && card_types_in_trio.Contains(Card_Type.BAD_WITCH) &&
+                                                           card_types_in_trio.Contains(Card_Type.WOODEN_HOUSE_PIG))
+                {
+                    can_make_secret_interactions = false;
+                    card.ignore_card_ability = true;
+
+                    Card card_to_spawn = Instantiate(GI.card_system.pinocchio_card_prefab).GetComponent<Card>();
+                    add_card_to_hand(card_to_spawn, get_first_available_index_in_hand());
+                }
+                else if (card.type == Card_Type.BAD_WITCH && card_types_in_trio.Contains(Card_Type.SLEEPING_BEAUTY))
+                {
+                    can_make_secret_interactions = false;
+                    card.ignore_card_ability = true;
+
+                    int sleeping_beauty_index = card_types_in_trio.IndexOf(Card_Type.SLEEPING_BEAUTY);
+                    cards_in_trio[sleeping_beauty_index].remove_points(cards_in_trio[sleeping_beauty_index].attack_amount);
+
+                    sabotage_random_boss_ability();
+                }
+                else if (card.type == Card_Type.GRANNY && card_types_in_trio.Contains(Card_Type.BRICK_HOUSE_PIG))
+                {
+                    can_make_secret_interactions = false;
+                    card.ignore_card_ability = true;
+
+                    card.add_points(4);
+
+                    int card_index = card_types_in_trio.IndexOf(Card_Type.BRICK_HOUSE_PIG);
+                    cards_in_trio[card_index].add_points(4);
+                }
+                else if (card.type == Card_Type.GRANNY && card_types_in_trio.Contains(Card_Type.LITTLE_RED_RIDING_HOOD))
+                {
+                    can_make_secret_interactions = false;
+                    card.ignore_card_ability = true;
+
+                    int card_index = card_types_in_trio.IndexOf(Card_Type.LITTLE_RED_RIDING_HOOD);
+                    cards_in_trio[card_index].add_points(6);
+                }
+                else if (card.type == Card_Type.PRINCESS_AND_FROG && (card_types_in_trio.Contains(Card_Type.SLEEPING_BEAUTY) ||
+                                                                      card_types_in_trio.Contains(Card_Type.CINDERELLA)))
+                {
+                    can_make_secret_interactions = false;
+                    card.ignore_card_ability = true;
+
+                    card.destroy();
+
+                    spawn_card_in_trio(GI.card_system.human_frog_card_prefab, i);
+                }
+                else if (card.type == Card_Type.BAD_WITCH && card_types_in_trio.Contains(Card_Type.HUMAN_FROG))
+                {
+                    can_make_secret_interactions = false;
+                    card.ignore_card_ability = true;
+
+                    // Remove Human Frog
+                    int index_to_remove = card_types_in_trio.IndexOf(Card_Type.HUMAN_FROG);
+                    cards_in_trio[index_to_remove].destroy();
+
+                    // Spawn Princess and Frog
+                    spawn_card_in_trio(GI.card_system.get_card_prefab(Card_Type.PRINCESS_AND_FROG), index_to_remove);
+
+                    // Sabotage Boss ability
+                    sabotage_random_boss_ability();
+                }
+                else if (card.type == Card_Type.GEPETTO && card_types_in_trio.Contains(Card_Type.PINOCCHIO))
+                {
+                    can_make_secret_interactions = false;
+                    card.ignore_card_ability = true;
+
+                    int card_index = card_types_in_trio.IndexOf(Card_Type.PINOCCHIO);
+                    cards_in_trio[card_index].add_points(3);
+
+                    improve_upcoming_pinocchios = true;
+                }
+                else if (card.type == Card_Type.BAD_WITCH && card_types_in_trio.Contains(Card_Type.PINOCCHIO) &&
+                                                             has_available_space_in_hand())
+                {
+                    can_make_secret_interactions = false;
+                    card.ignore_card_ability = true;
+
+                    Card card_to_spawn = Instantiate(GI.card_system.pinocchio_card_prefab).GetComponent<Card>();
+                    card_to_spawn.attack_1 = Attack_Type.DAMAGE_PLAYER;
+                    add_card_to_hand(card_to_spawn, get_first_available_index_in_hand());
+                }
+                else if (card.type == Card_Type.WOODEN_HOUSE_PIG &&
+                         card_types_in_trio.Contains(Card_Type.STRAW_HOUSE_PIG) &&
+                         card_types_in_trio.Contains(Card_Type.BRICK_HOUSE_PIG) &&
+                         gain_tokens_from_three_pigs_interaction_count > 0)
+                {
+                    gain_tokens_from_three_pigs_interaction_count--;
+                    add_health(2);
+                }
+                else if (card.type == Card_Type.PUSS_IN_BOOTS && (card_types_in_trio.Contains(Card_Type.BAD_WITCH) ||
+                                                                  card_types_in_trio.Contains(Card_Type.BIG_BAD_WOLF)))
+                {
+                    if (card.attack_1 == Attack_Type.HEAL_PLAYER || card.attack_2 == Attack_Type.HEAL_PLAYER)
+                    {
+                        card.add_points(card.attack_amount);
+                    }
+                }
+            }
+
+            // Activate ability
+            activate_card_ability(cards_in_trio[i]);
+        }
+
+        disable_trio_cards_t = 1f;
+        current_trio_card_to_disable = -1;
+        applying_trio_card_abilities = true;
+
+        // Reorder cards in hand
+        reorder_cards_in_hand();
+
+        // Activate Sleeping Beauty ability
+        if (is_card_in_hand(Card_Type.SLEEPING_BEAUTY))
+        {
+            for (int i = 0; i < cards_in_hand.Length; i++)
+            {
+                Card current_card = cards_in_hand[i];
+                if (current_card && current_card.type == Card_Type.SLEEPING_BEAUTY)
+                {
+                    activate_card_ability(current_card);
+                }
+            }
+        }
+
+        decrease_actions_remaining();
     }
 
     public void set_card_preview_animation_values(Transform start, Transform end)

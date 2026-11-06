@@ -17,6 +17,7 @@ public class PlayerHUD : MonoBehaviour
     public GameObject tutorial_menu;
     public GameObject back_to_main_menu_panel;
     public GameObject card_game_hud;
+    public GameObject trio_hud;
     public TextMeshProUGUI boss_attack_text;
     public Image pause_button_image;
     public Sprite resumed_sprite;
@@ -152,6 +153,22 @@ public class PlayerHUD : MonoBehaviour
         }
     }
 
+    public void show_trio_hud()
+    {
+        trio_hud.SetActive(true);
+    }
+
+    public void hide_trio_hud()
+    {
+        trio_hud.SetActive(false);
+    }
+
+    public void make_trio()
+    {
+        GI.player_card_game.make_trio();
+        hide_trio_hud();
+    }
+
     public void hide_boss_card_preview_hud()
     {
         boss_card_preview_hud.SetActive(false);
@@ -238,7 +255,7 @@ public class PlayerHUD : MonoBehaviour
         pause_ui.SetActive(false);
         pause_menu.SetActive(false);
         tutorial_menu.SetActive(false);
-        pause_button_image.sprite = resumed_sprite;
+        //pause_button_image.sprite = resumed_sprite; @Luana
     }
 
     public void show_win()
