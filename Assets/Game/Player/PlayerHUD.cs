@@ -17,6 +17,9 @@ public class PlayerHUD : MonoBehaviour
     public GameObject back_to_main_menu_panel;
     public GameObject card_game_hud;
     public TextMeshProUGUI boss_attack_text;
+    public Image pause_button_image;
+    public Sprite resumed_sprite;
+    public Sprite paused_sprite;
 
     [Header("BOSS CARD PREVIEW HUD")]
     public GameObject boss_card_preview_hud;
@@ -210,12 +213,14 @@ public class PlayerHUD : MonoBehaviour
     {
         pause_ui.SetActive(true);
         pause_menu.SetActive(true);
+        pause_button_image.sprite = paused_sprite;
     }
 
     public void hide_pause()
     {
         pause_ui.SetActive(false);
         pause_menu.SetActive(false);
+        pause_button_image.sprite = resumed_sprite;
     }
 
     public void show_win()
@@ -246,6 +251,21 @@ public class PlayerHUD : MonoBehaviour
     {
         back_to_main_menu_panel.SetActive(false);
         pause_menu.SetActive(true);
+    }
+
+    // @Luana
+    // Button on the HUD
+    public void toggle_pause()
+    {
+        if (GI.player_card_game.game_stopped)
+        {
+            GI.player_card_game.resume_game();
+            
+        }
+        else
+        {
+            GI.player_card_game.stop_game();
+        }
     }
 
     public void resume()
