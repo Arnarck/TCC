@@ -1128,34 +1128,42 @@ public class PlayerController : MonoBehaviour
         update_camera_point(1);
     }
 
-    public void stop_game()
+    public void pause_game()
     {
         Time.timeScale = 0f;
         game_stopped = true;
+    }
+
+    public void unpause_game()
+    {
+        Time.timeScale = 1f;
+        game_stopped = false;
+    }
+
+    public void stop_game()
+    {
+        pause_game();
 
         GI.player_hud.show_pause();
     }
 
     public void resume_game()
     {
-        Time.timeScale = 1f;
-        game_stopped = false;
+        unpause_game();
 
         GI.player_hud.hide_pause();
     }
 
     public void win()
     {
-        Time.timeScale = 0f;
-        game_over = true;
+        pause_game();
 
         GI.player_hud.show_win();
     }
 
     public void lose()
     {
-        Time.timeScale = 0f;
-        game_over = true;
+        pause_game();
 
         GI.player_hud.show_lose();
     }

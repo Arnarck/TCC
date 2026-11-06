@@ -14,6 +14,7 @@ public class PlayerHUD : MonoBehaviour
     public GameObject pause_menu;
     public GameObject win_menu;
     public GameObject lose_menu;
+    public GameObject tutorial_menu;
     public GameObject back_to_main_menu_panel;
     public GameObject card_game_hud;
     public TextMeshProUGUI boss_attack_text;
@@ -216,10 +217,27 @@ public class PlayerHUD : MonoBehaviour
         pause_button_image.sprite = paused_sprite;
     }
 
+    public void show_tutorial_menu()
+    {
+        GI.player_card_game.pause_game();
+
+        pause_ui.SetActive(true);
+        tutorial_menu.SetActive(true);
+    }
+
+    public void hide_tutorial_menu()
+    {
+        GI.player_card_game.unpause_game();
+
+        pause_ui.SetActive(false);
+        tutorial_menu.SetActive(false);
+    }
+
     public void hide_pause()
     {
         pause_ui.SetActive(false);
         pause_menu.SetActive(false);
+        tutorial_menu.SetActive(false);
         pause_button_image.sprite = resumed_sprite;
     }
 
