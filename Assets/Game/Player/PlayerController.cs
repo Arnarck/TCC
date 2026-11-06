@@ -6,6 +6,7 @@ using System.Linq;
 public class PlayerController : MonoBehaviour
 {
     public const int MAX_CARDS_IN_HAND = 5;
+    public const int MAX_TOKENS_FROM_THREE_PIGS_INTERACTION = 2;
 
     public Camera player_camera;
     public Transform card_preview_point;
@@ -929,6 +930,7 @@ public class PlayerController : MonoBehaviour
         camera_start_position = player_camera.transform.position;
         camera_start_rotation = player_camera.transform.rotation;
 
+        gain_tokens_from_three_pigs_interaction_count = MAX_TOKENS_FROM_THREE_PIGS_INTERACTION;
         health = 100;
         GI.player_hud.update_player_health_text();
         applying_trio_card_abilities = false;
