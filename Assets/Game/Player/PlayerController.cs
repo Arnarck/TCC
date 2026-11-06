@@ -303,7 +303,8 @@ public class PlayerController : MonoBehaviour
         { // Make Trio
             if (Input.GetKeyDown(KeyCode.Space) && selected_cards.Count == 3 && actions_remaining > 0)
             {
-                
+                make_trio();
+                GI.player_hud.hide_trio_hud();
             }
         }
     }
