@@ -24,6 +24,11 @@ PrefabInstance:
       propertyPath: disable_type
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: ability_description
+      value: "In 2 turns, <b>DESTROY</b> a character in the opponent\u2019s hand
+        and create a \"Bad Apple\" in their hand"
+      objectReference: {fileID: 0}
     - target: {fileID: 1976000910278940462, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

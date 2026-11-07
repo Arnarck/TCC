@@ -17,6 +17,14 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: ability_description
+      value: 'When a character from family [icon] is <b>PLAYED</b>, <b>PROMOTE</b>
+        them by 5 tokens.
+
+        Characters from other families in your hand and
+        trio are <b>DEMOTED</b> by 2 tokens'
+      objectReference: {fileID: 0}
+    - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: families_to_disable_card.Array.size
       value: 2
       objectReference: {fileID: 0}
