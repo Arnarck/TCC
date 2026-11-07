@@ -25336,7 +25336,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1469184716718625344, guid: 2c294340e95c155499dcae95220ae885, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.213
+      value: 0.16299999
       objectReference: {fileID: 0}
     - target: {fileID: 1469184716718625344, guid: 2c294340e95c155499dcae95220ae885, type: 3}
       propertyPath: m_LocalRotation.w
@@ -40687,6 +40687,39 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: keywords_description.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[0]'
+      value: (PROMOTE) Increases the amount of tokens awarded by the affected cards
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[1]'
+      value: (DEMOTE) Decrease the amount of tokens awarded by the affected cards
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[2]'
+      value: (SWAP) Inverts the affected cards between gain/loss. (         /        
+        ) becomes (         /        ).
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[3]'
+      value: '(SABOTAGE) Disables a Boss ability for one turn '
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[4]'
+      value: (TRANSFORM) The affected card transforms into another
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[5]'
+      value: (CREATE) Creates a new card in the player's hand
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[6]'
+      value: (DESTROY) Remove the affected cards from the player's hand or table
+      objectReference: {fileID: 0}
     - target: {fileID: 6005255545553219949, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
       propertyPath: m_Name
       value: Player HUD
