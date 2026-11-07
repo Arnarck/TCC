@@ -84,6 +84,11 @@ PrefabInstance:
       propertyPath: family_type_image
       value: 
       objectReference: {fileID: 6342949060938094895}
+    - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: ability_description
+      value: If this character is in your hand in the end of your turn, <b>lose X
+        tokens</b>
+      objectReference: {fileID: 0}
     - target: {fileID: 6513423077981549246, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: m_Name
       value: Card_AnnoyingDwarf

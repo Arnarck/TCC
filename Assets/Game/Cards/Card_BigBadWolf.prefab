@@ -80,6 +80,13 @@ PrefabInstance:
       propertyPath: attack_amount
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: ability_description
+      value: '<b>DEMOTE</b> all other characters in your hand and trio by 1.
+
+        <b>SELF
+        PROMOTE</b> by 1 for each.'
+      objectReference: {fileID: 0}
     - target: {fileID: 6513423077981549246, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: m_Name
       value: Card_BigBadWolf

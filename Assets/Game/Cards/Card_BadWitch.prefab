@@ -73,6 +73,11 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: ability_description
+      value: "<b>SABOTAGE</b> a opponent\u2019s ability. If this is  [arrow green
+        down], <b>SWAP</b>"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: families_in_trio_to_activate_ability.Array.size
       value: 3
       objectReference: {fileID: 0}
