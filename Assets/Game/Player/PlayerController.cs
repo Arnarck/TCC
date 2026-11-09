@@ -67,7 +67,6 @@ public class PlayerController : MonoBehaviour
     {
         resume_game();
 
-        gain_tokens_from_three_pigs_interaction_count = 2;
         gain_tokens_from_three_pigs_interaction_count = 3;
         families_in_trio = new Family_Type[3];
 
