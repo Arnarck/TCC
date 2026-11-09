@@ -26,6 +26,10 @@ public class PlayerHUD : MonoBehaviour
     [Header("BOSS CARD PREVIEW HUD")]
     public GameObject boss_card_preview_hud;
     public GameObject boss_card_families_to_disable_group;
+    public Image make_trio_image;
+    public Transform trio_image_end_point;
+    public float make_trio_animation_speed;
+    public Button make_trio_button;
     public TextMeshProUGUI boss_card_keyword_description_text;
     public TextMeshProUGUI boss_card_disable_price_text;
     public Image[] boss_card_families_to_disable_image;
@@ -45,10 +49,17 @@ public class PlayerHUD : MonoBehaviour
 
     [Header("INTERNAL")]
     public float boss_attack_text_t;
+    public float trio_animation_t;
+    public Vector3 trio_image_start_position;
 
     private void Awake()
     {
         GI.player_hud = this;
+    }
+
+    private void Start()
+    {
+        trio_image_start_position = make_trio_image.transform.position;
     }
 
     private void Update()
@@ -62,6 +73,24 @@ public class PlayerHUD : MonoBehaviour
             {
                 boss_attack_text.enabled = false;
             }
+        }
+
+        if (trio_animation_t > 0f)
+        {
+            trio_animation_t -= dt*make_trio_animation_speed;
+            if (trio_animation_t <= 0f)
+            {
+                trio_animation_t = 0f;
+                make_trio_image.enabled = false;
+                hide_trio_hud();
+            }
+
+            make_trio_image.transform.position = Vector3.Lerp(make_trio_image.transform.position, trio_image_end_point.position, 
+                                                              1f - trio_animation_t);
+
+            Color c = make_trio_image.color;
+            c.a = trio_animation_t;
+            make_trio_image.color = c;
         }
     }
 
@@ -156,6 +185,13 @@ public class PlayerHUD : MonoBehaviour
     public void show_trio_hud()
     {
         trio_hud.SetActive(true);
+
+        Color c = make_trio_image.color;
+        c.a = 1f;
+        make_trio_image.color = c;
+
+        make_trio_image.enabled = true;
+        make_trio_image.transform.position = trio_image_start_position;
     }
 
     public void hide_trio_hud()
@@ -166,7 +202,12 @@ public class PlayerHUD : MonoBehaviour
     public void make_trio()
     {
         GI.player_card_game.make_trio();
-        hide_trio_hud();
+    }
+
+    public void start_trio_animation()
+    {
+        make_trio_button.gameObject.SetActive(false);
+        trio_animation_t = 1f;
     }
 
     public void hide_boss_card_preview_hud()

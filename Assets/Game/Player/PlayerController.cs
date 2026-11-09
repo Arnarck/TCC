@@ -310,13 +310,14 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && selected_cards.Count == 3 && actions_remaining > 0)
             {
                 make_trio();
-                GI.player_hud.hide_trio_hud();
             }
         }
     }
 
     public void make_trio()
     {
+        GI.player_hud.start_trio_animation();
+
         // Place cards in desk
         for (int i = 0; i < 3; i++)
         {
