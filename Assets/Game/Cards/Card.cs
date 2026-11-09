@@ -91,6 +91,7 @@ public class Card : MonoBehaviour
     public int attack_amount;
 
     [Header("VFX")]
+    public Animator animator;
     public GameObject visual;
     public vfxSteal vfx_steal;
     public TeleportCard teleport_card;
@@ -143,7 +144,10 @@ public class Card : MonoBehaviour
             }
         }
     }
-
+    public void PlayVFXWolfEatPig()
+    {
+        animator.SetTrigger("Ability_EatPig");
+    }
     public void disable_card_ability_description_canvas()
     {
         ability_description_canvas.SetActive(false);

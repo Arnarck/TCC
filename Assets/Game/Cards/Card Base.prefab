@@ -657,7 +657,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Card
   type: 0
   family_type: 0
-  ability_type: 0
+  keyword_type: 0
   families_in_trio_to_activate_ability: 
   ability_description_canvas: {fileID: 2227334249476157012}
   ability_description_text: {fileID: 2140436058318037932}
@@ -671,6 +671,7 @@ MonoBehaviour:
   attack_1: 0
   attack_2: 0
   attack_amount: 0
+  animator: {fileID: 1167882427107165068}
   visual: {fileID: 324965723128377004}
   vfx_steal: {fileID: 4175897918176164850}
   teleport_card: {fileID: 8716728022781185275}
