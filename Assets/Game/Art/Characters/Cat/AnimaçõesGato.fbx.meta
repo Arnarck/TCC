@@ -3,32 +3,7 @@ guid: 1c037b4db6ffdbf498f2db4a17b6cb60
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: BeltButtonsNecklaces
-    second: {fileID: 2100000, guid: 7624e8be6a0be75408b8256e6155e694, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: ChestShoes
-    second: {fileID: 2100000, guid: 2d20a45322cb834498c0cf1bac41f0f3, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: EyesHeadWhiskers
-    second: {fileID: 2100000, guid: 1c26f41b34fbb6241969ffe1732b556b, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: HandsNailsTongueThroathTeeth
-    second: {fileID: 2100000, guid: d5fde302a63563c4a930f57b6f1bb07e, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: PantsArms
-    second: {fileID: 2100000, guid: 3cbea4184b8891f4686a797cd5f2ca38, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -293,6 +268,64 @@ ModelImporter:
       internalID: -741837746575356472
       firstFrame: 0
       lastFrame: 139
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ArmatureCat|TurnoBoss
+      takeName: ArmatureCat|TurnoBoss
+      internalID: 6666173955990179128
+      firstFrame: 0
+      lastFrame: 45
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ArmatureCat|VitoriaBoss
+      takeName: ArmatureCat|VitoriaBoss
+      internalID: -6278907229405830322
+      firstFrame: 0
+      lastFrame: 165
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
