@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour
                                 deselect_card(card);
                                 GI.player_hud.hide_trio_hud();
                             }
-                            else
+                            else if (selected_cards.Count < 3)
                             {
                                 select_card(card);
                                 if (selected_cards.Count == 3 && actions_remaining > 0)
