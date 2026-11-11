@@ -185,6 +185,7 @@ public class PlayerHUD : MonoBehaviour
     public void show_trio_hud()
     {
         trio_hud.SetActive(true);
+        make_trio_button.gameObject.SetActive(true);
 
         Color c = make_trio_image.color;
         c.a = 1f;

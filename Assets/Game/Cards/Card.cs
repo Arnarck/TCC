@@ -122,8 +122,7 @@ public class Card : MonoBehaviour
         family_type_image.sprite = GI.player_hud.families_sprite[(int)family_type];
 
         update_points_text();
-        update_arrow_image(attack_1, arrow_up_image);
-        update_arrow_image(attack_2, arrow_down_image);
+        update_arrows_image();
     }
 
     private void Update()
@@ -144,6 +143,41 @@ public class Card : MonoBehaviour
             }
         }
     }
+
+    public void update_arrows_image()
+    {
+        arrow_up_image.enabled = false;
+        arrow_down_image.enabled = false;
+
+        if (attack_1 == Attack_Type.DAMAGE_BOSS || attack_1 == Attack_Type.HEAL_BOSS ||
+            attack_2 == Attack_Type.DAMAGE_BOSS || attack_2 == Attack_Type.HEAL_BOSS)
+        {
+            arrow_up_image.enabled = true;
+        }
+
+        if (attack_1 == Attack_Type.DAMAGE_PLAYER || attack_1 == Attack_Type.HEAL_PLAYER ||
+            attack_2 == Attack_Type.DAMAGE_PLAYER || attack_2 == Attack_Type.HEAL_PLAYER)
+        {
+            arrow_down_image.enabled = true;
+        }
+
+        if (attack_1 != Attack_Type.NONE)
+        {
+            update_arrow_color(attack_1);
+
+            if (attack_2 != Attack_Type.NONE)
+            {
+                update_arrow_color(attack_2);
+            }
+        }
+        else if (attack_2 != Attack_Type.NONE)
+        {
+            arrow_down_image.enabled = false;
+
+            update_arrow_color(attack_2);
+        }
+    }
+
     public void PlayVFXWolfEatPig()
     {
         animator.SetTrigger("Ability_EatPig");
@@ -158,31 +192,20 @@ public class Card : MonoBehaviour
         points_text.text = attack_amount.ToString();
     }
 
-    public void update_arrow_image(Attack_Type attack_type, Image arrow_image)
+    public void update_arrow_color(Attack_Type attack)
     {
-        if (attack_type == Attack_Type.NONE)
-        {
-            arrow_image.enabled = false;
-        }
-        else
-        {
-            if (attack_type == Attack_Type.DAMAGE_BOSS || attack_type == Attack_Type.DAMAGE_PLAYER)
-            {
-                // Damage
-                arrow_image.color = damage_color;
-            }
-            else
-            {
-                // Heal
-                arrow_image.color = heal_color;
-            }
-        }
+        if      (attack == Attack_Type.DAMAGE_BOSS)   { arrow_up_image.color = damage_color; }
+        else if (attack == Attack_Type.HEAL_BOSS)     { arrow_up_image.color = heal_color; }
+        else if (attack == Attack_Type.HEAL_PLAYER)   { arrow_down_image.color = heal_color; }
+        else if (attack == Attack_Type.DAMAGE_PLAYER) { arrow_down_image.color = damage_color; }
     }
 
     public void improve_points_after_a_trio_to_self_demote_after_turn(int amount)
     {
         attack_amount += amount;
         has_improved_after_a_trio = true;
+
+        update_points_text();
     }
 
     public void turn_card()
@@ -210,6 +233,8 @@ public class Card : MonoBehaviour
         {
             attack_amount = 0;
         }
+
+        update_points_text();
     }
 
     public void add_to_player_hand()
@@ -250,6 +275,8 @@ public class Card : MonoBehaviour
     {
         __swap_attack(ref attack_1);
         __swap_attack(ref attack_2);
+
+        update_arrows_image();
     }
 
     public void __swap_attack(ref Attack_Type type)
@@ -278,6 +305,8 @@ public class Card : MonoBehaviour
     public void add_points(int amount)
     {
         attack_amount += amount;
+
+        update_points_text();
     }
 
     public void add_points_temporarily(int amount, int turns)
@@ -286,6 +315,8 @@ public class Card : MonoBehaviour
 
         remove_points_t = turns;
         points_to_remove_after_x_turns = amount;
+
+        update_points_text();
     }
 
     public void destroy()
