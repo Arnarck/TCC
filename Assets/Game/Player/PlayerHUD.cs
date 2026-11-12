@@ -251,8 +251,22 @@ public class PlayerHUD : MonoBehaviour
 
         TextMeshProUGUI text = free_texts[last_index];
         free_texts.RemoveAt(last_index);
+        living_texts.Add(text);
 
         return text;
+    }
+
+    public void add_all_texts_to_pool()
+    {
+        for (int i = living_texts.Count - 1; i >= 0 ; i--)
+        {
+            TextMeshProUGUI text = living_texts[i];
+
+            text.gameObject.SetActive(false);
+            text.transform.SetParent(text_pool_parent);
+            free_texts.Add(text);
+            living_texts.Remove(text);
+        }
     }
 
     public void show_trio_hud()

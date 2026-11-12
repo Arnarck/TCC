@@ -168,7 +168,7 @@ public class CardSystem : MonoBehaviour
         GI.boss.init();
         GI.player_first_person.gameObject.SetActive(false);
         GI.player_hud.show_card_game_hud();
-
+        GI.player_hud.add_all_texts_to_pool();
 
         // Spawn random cards to desk
         remove_cards_from_desk();
