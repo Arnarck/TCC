@@ -720,7 +720,7 @@ public class PlayerController : MonoBehaviour
     public void activate_card_ability(Card card)
     {
         int card_index = cards_in_trio.IndexOf(card);
-        card.do_attack();
+        //card.do_attack();
 
         if (card.ignore_card_ability) { return; }
 
@@ -795,8 +795,8 @@ public class PlayerController : MonoBehaviour
                             boss_card.turn_off(1);
 
                             bool swapped = false;
-                            if      (boss_card.attack_1 == Attack_Type.HEAL_PLAYER) { boss_card.swap_attack(ref boss_card.attack_1); swapped = true }
-                            else if (boss_card.attack_2 == Attack_Type.HEAL_PLAYER) { boss_card.swap_attack(ref boss_card.attack_2); swapped = true }
+                            if      (boss_card.attack_1 == Attack_Type.HEAL_PLAYER) { boss_card.swap_attack(ref boss_card.attack_1); swapped = true; }
+                            else if (boss_card.attack_2 == Attack_Type.HEAL_PLAYER) { boss_card.swap_attack(ref boss_card.attack_2); swapped = true; }
 
                             string s = "A boss card was turned off for 1 turn";
                             if (swapped)
