@@ -200,7 +200,7 @@ public class PlayerHUD : MonoBehaviour
     {
         card_ability_description_panel.SetActive(true);
         card_ability_description_text.text = description;
-        show_card_ability_description_t = 2f;
+        show_card_ability_description_t = 3.5f;
     }
 
     public void show_trio_hud()
