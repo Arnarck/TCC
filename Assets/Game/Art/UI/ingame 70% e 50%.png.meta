@@ -105,7 +105,7 @@ TextureImporter:
         width: 320
         height: 157
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -127,7 +127,7 @@ TextureImporter:
         width: 533
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 52, y: 0, z: 69, w: 0}
       customData: 
       outline: []
@@ -149,7 +149,7 @@ TextureImporter:
         width: 533
         height: 161
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 32, y: 0, z: 20, w: 0}
       customData: 
       outline: []
@@ -171,7 +171,7 @@ TextureImporter:
         width: 90
         height: 92
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -193,7 +193,7 @@ TextureImporter:
         width: 92
         height: 92
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -202,6 +202,50 @@ TextureImporter:
       bones: []
       spriteID: c10912438061f7646b5ea214e179e58b
       internalID: 1641635620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ingame 70% e 50%_0
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 550
+        width: 82
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bfa7123cfd02e44694540255f2ed3e8
+      internalID: -861683927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ingame 70% e 50%_1
+      rect:
+        serializedVersion: 2
+        x: 369
+        y: 547
+        width: 199
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f68a7b75dc63e84fba987e1f22d4bc6
+      internalID: -1265023222
       vertices: []
       indices: 
       edges: []
@@ -223,6 +267,8 @@ TextureImporter:
       bg_pannel1: -1211702771
       bg_pannel13: 348154757
       bg_pannel2: 1509724163
+      ingame 70% e 50%_0: -861683927
+      ingame 70% e 50%_1: -1265023222
       s: 1641635620
       w: 988740680
   mipmapLimitGroupName: 
