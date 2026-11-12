@@ -226,7 +226,7 @@ public class CardSystem : MonoBehaviour
                     if (current_card.remove_points_t <= 0)
                     {
                         current_card.remove_points(current_card.points_to_remove_after_x_turns);
-                        GI.player_hud.show_card_ability_description("<b>" + current_card.type + "</b> <b>DEMOTED</b> by " 
+                        GI.player_hud.add_message_to_history_panel("<b>" + current_card.type + "</b> <b>DEMOTED</b> by " 
                                                                     + current_card.points_to_remove_after_x_turns + " points");
                     }
                 }

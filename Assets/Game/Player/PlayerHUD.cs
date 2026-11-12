@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PlayerHUD : MonoBehaviour
 {
@@ -22,6 +24,12 @@ public class PlayerHUD : MonoBehaviour
     public Image pause_button_image;
     public Sprite resumed_sprite;
     public Sprite paused_sprite;
+
+    [Header("ABILITY HISTORY")]
+    public GameObject text_prefab;
+    public Transform text_pool_parent;
+    public ScrollRect scroll_rect;
+    public RectTransform scroll_view_content;
 
     [Header("TRIO")]
     public TextMeshProUGUI card_ability_description_text;
@@ -52,10 +60,13 @@ public class PlayerHUD : MonoBehaviour
     public TextMeshProUGUI interaction_text;
 
     [Header("INTERNAL")]
+    public bool update_scroll_view;
     public float boss_attack_text_t;
     public float trio_animation_t;
     public float show_card_ability_description_t;
     public Vector3 trio_image_start_position;
+    public List<TextMeshProUGUI> free_texts;
+    public List<TextMeshProUGUI> living_texts;
 
     private void Awake()
     {
@@ -65,6 +76,8 @@ public class PlayerHUD : MonoBehaviour
     private void Start()
     {
         trio_image_start_position = make_trio_image.transform.position;
+
+        spawn_texts(50);
     }
 
     private void Update()
@@ -105,6 +118,17 @@ public class PlayerHUD : MonoBehaviour
             Color c = make_trio_image.color;
             c.a = trio_animation_t;
             make_trio_image.color = c;
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (update_scroll_view)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(scroll_view_content);
+            scroll_rect.verticalNormalizedPosition = 0f;
+
+            update_scroll_view = false;
         }
     }
 
@@ -196,11 +220,39 @@ public class PlayerHUD : MonoBehaviour
         }
     }
 
-    public void show_card_ability_description(string description)
+    public void add_message_to_history_panel(string message)
     {
-        card_ability_description_panel.SetActive(true);
-        card_ability_description_text.text = description;
-        show_card_ability_description_t = 3.5f;
+        TextMeshProUGUI text = get_free_text();
+        text.gameObject.SetActive(true);
+        text.text = message;
+        text.transform.SetParent(scroll_view_content);
+
+        update_scroll_view = true;
+    }
+
+    public void spawn_texts(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            TextMeshProUGUI text = Instantiate(text_prefab, text_pool_parent).GetComponent<TextMeshProUGUI>();
+            free_texts.Add(text);
+            text.gameObject.SetActive(false);
+        }
+    }
+
+    public TextMeshProUGUI get_free_text()
+    {
+        if (free_texts.Count < 1)
+        {
+            spawn_texts(10);
+        }
+
+        int last_index = free_texts.Count - 1;
+
+        TextMeshProUGUI text = free_texts[last_index];
+        free_texts.RemoveAt(last_index);
+
+        return text;
     }
 
     public void show_trio_hud()

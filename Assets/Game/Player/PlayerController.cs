@@ -336,11 +336,11 @@ public class PlayerController : MonoBehaviour
                 // Enable next card (if there is any)
                 if (current_trio_card_to_activate_ability < cards_in_trio.Count - 1)
                 {
-                    activate_trio_cards_abilities_t = 4f;
+                    activate_trio_cards_abilities_t = 2f;
                 }
                 else
                 {
-                    activate_trio_cards_attacks_t = 4f;
+                    activate_trio_cards_attacks_t = 2f;
                 }
             }
         }
@@ -757,12 +757,12 @@ public class PlayerController : MonoBehaviour
                             cards_in_trio[i].add_points(2);
                         }
 
-                        GI.player_hud.show_card_ability_description("Cards on the right of <b>STRAW HOUSE PIG</b> were <b>PROMOTED</b> " +
+                        GI.player_hud.add_message_to_history_panel("Cards on the right of <b>STRAW HOUSE PIG</b> were <b>PROMOTED</b> " +
                                                                     "by 2 points");
                     }
                     else
                     {
-                        GI.player_hud.show_card_ability_description("Not all families needed are in trio. <b>STRAW HOUSE PIG</b> " +
+                        GI.player_hud.add_message_to_history_panel("Not all families needed are in trio. <b>STRAW HOUSE PIG</b> " +
                                                                     "ability will be ignored");
                     }
                 } break;
@@ -774,17 +774,17 @@ public class PlayerController : MonoBehaviour
                         {
                             Card card_on_the_right = cards_in_trio[card_index + 1];
                             card_on_the_right.swap_attacks();
-                            GI.player_hud.show_card_ability_description("<b>" + card_on_the_right.type + "</b> was <b>SWAPPED</b>");
+                            GI.player_hud.add_message_to_history_panel("<b>" + card_on_the_right.type + "</b> was <b>SWAPPED</b>");
                         }
                         else
                         {
                             card.swap_attacks();
-                            GI.player_hud.show_card_ability_description("<b>WOODEN HOUSE PIG</b> self <b>SWAPPED</b>");
+                            GI.player_hud.add_message_to_history_panel("<b>WOODEN HOUSE PIG</b> self <b>SWAPPED</b>");
                         }
                     }
                     else
                     {
-                        GI.player_hud.show_card_ability_description("Not all families needed are in trio. <b>WOODEN HOUSE PIG</b> " +
+                        GI.player_hud.add_message_to_history_panel("Not all families needed are in trio. <b>WOODEN HOUSE PIG</b> " +
                                                                     "ability will be ignored");
                     }
                 } break;
@@ -803,7 +803,7 @@ public class PlayerController : MonoBehaviour
                         s += ". Cards on the left were <b>DEMOTED</b> by 2 points";
                     }
 
-                    GI.player_hud.show_card_ability_description(s);
+                    GI.player_hud.add_message_to_history_panel(s);
                 }
                 break;
             case Card_Type.UGLY_DUCK:
@@ -811,11 +811,11 @@ public class PlayerController : MonoBehaviour
                     if (!cards_in_trio.Contains(card))
                     {
                         card.add_points(2);
-                        GI.player_hud.show_card_ability_description("<b>UGLY DUCK</b> <b>PROMOTED</b> by 2 points");
+                        GI.player_hud.add_message_to_history_panel("<b>UGLY DUCK</b> <b>PROMOTED</b> by 2 points");
                     }
                     else
                     {
-                        GI.player_hud.show_card_ability_description("<b>UGLY DUCK</b> ability isn't activated in trio");
+                        GI.player_hud.add_message_to_history_panel("<b>UGLY DUCK</b> ability isn't activated in trio");
                     }
                 } break;
             case Card_Type.GEPETTO:
@@ -824,12 +824,12 @@ public class PlayerController : MonoBehaviour
                     {
                         cards_in_trio[0].add_points(2);
                         cards_in_trio[2].add_points(2);
-                        GI.player_hud.show_card_ability_description("Adjacent cards to <b>" + card.type + "</b> were <b>PROMOTED</b> " +
+                        GI.player_hud.add_message_to_history_panel("Adjacent cards to <b>" + card.type + "</b> were <b>PROMOTED</b> " +
                                                                     "by 2 points");
                     }
                     else
                     {
-                        GI.player_hud.show_card_ability_description("Not all families needed are in Trio. <b>GEPETTO</b> ability will " +
+                        GI.player_hud.add_message_to_history_panel("Not all families needed are in Trio. <b>GEPETTO</b> ability will " +
                                                                     "be ignored");
                     }
                 } break;
@@ -851,12 +851,12 @@ public class PlayerController : MonoBehaviour
                             {
                                 s += " and <b>SWAPPED</b>";
                             }
-                            GI.player_hud.show_card_ability_description(s);
+                            GI.player_hud.add_message_to_history_panel(s);
                         }
                     }
                     else
                     {
-                        GI.player_hud.show_card_ability_description("Not all families needed are in Trio. <b>BAD WITCH</b> ability will " +
+                        GI.player_hud.add_message_to_history_panel("Not all families needed are in Trio. <b>BAD WITCH</b> ability will " +
                                                                     "be ignored");
                     }
                 } break;
@@ -880,7 +880,7 @@ public class PlayerController : MonoBehaviour
                         }
                     }
 
-                    GI.player_hud.show_card_ability_description("Cards in hand and trio were <b>SWAPPED</b>");
+                    GI.player_hud.add_message_to_history_panel("Cards in hand and trio were <b>SWAPPED</b>");
                 } break;
             case Card_Type.LITTLE_RED_RIDING_HOOD:
                 {
@@ -895,7 +895,7 @@ public class PlayerController : MonoBehaviour
                         }
                     }
 
-                    GI.player_hud.show_card_ability_description("All cards in hand of Family <b>LOTUS</b> were <b>PROMOTED</b> " +
+                    GI.player_hud.add_message_to_history_panel("All cards in hand of Family <b>LOTUS</b> were <b>PROMOTED</b> " +
                                                                 "by 2 points");
                 } break;
             case Card_Type.CINDERELLA:
@@ -903,11 +903,11 @@ public class PlayerController : MonoBehaviour
                     if (!cards_in_trio.Contains(card))
                     {
                         card.add_points_temporarily(8, 3);
-                        GI.player_hud.show_card_ability_description("<b>CINDERELLA</b> <b>PROMOTED</b> by 8 points for 3 turns");
+                        GI.player_hud.add_message_to_history_panel("<b>CINDERELLA</b> <b>PROMOTED</b> by 8 points for 3 turns");
                     }
                     else
                     {
-                        GI.player_hud.show_card_ability_description("<b>CINDERELLA</b> ability isn't activated in trio");
+                        GI.player_hud.add_message_to_history_panel("<b>CINDERELLA</b> ability isn't activated in trio");
                     }
                 } break;
             case Card_Type.BIG_BAD_WOLF:
@@ -935,7 +935,7 @@ public class PlayerController : MonoBehaviour
 
                     card.add_points(points_to_improve);
 
-                    GI.player_hud.show_card_ability_description("All cards in hand and trio <b>DEMOTED</b> by 1 point. " +
+                    GI.player_hud.add_message_to_history_panel("All cards in hand and trio <b>DEMOTED</b> by 1 point. " +
                                                                 "<b>BIG BAD WOLF PROMOTED</b> by " + points_to_improve + " points");
                 } break;
             case Card_Type.SLEEPING_BEAUTY:
@@ -943,12 +943,12 @@ public class PlayerController : MonoBehaviour
                     if (!cards_in_trio.Contains(card))
                     {
                         card.improve_points_after_a_trio_to_self_demote_after_turn(4);
-                        GI.player_hud.show_card_ability_description("<b>SLEEPING BEAUTY</b> <b>IMPROVED</b> by 4 points until the end of " +
+                        GI.player_hud.add_message_to_history_panel("<b>SLEEPING BEAUTY</b> <b>IMPROVED</b> by 4 points until the end of " +
                                                                     "the turn");
                     }
                     else
                     {
-                        GI.player_hud.show_card_ability_description("<b>SLEEPING BEAUTY</b> ability isn't activated in trio");
+                        GI.player_hud.add_message_to_history_panel("<b>SLEEPING BEAUTY</b> ability isn't activated in trio");
                     }
                 } break;
             case Card_Type.PRINCESS_AND_FROG:
@@ -960,11 +960,11 @@ public class PlayerController : MonoBehaviour
                             cards_in_trio[i].add_points(2);
                         }
 
-                        GI.player_hud.show_card_ability_description("All cards in trio <b>PROMOTED</b> by 2 points");
+                        GI.player_hud.add_message_to_history_panel("All cards in trio <b>PROMOTED</b> by 2 points");
                     }
                     else
                     {
-                        GI.player_hud.show_card_ability_description("There is a card of <b>PAW</b> Family in trio. " +
+                        GI.player_hud.add_message_to_history_panel("There is a card of <b>PAW</b> Family in trio. " +
                                                                     "<b>PRINCESS AND FROG</b> ability ignored");
                     }
                 } break;
@@ -981,49 +981,49 @@ public class PlayerController : MonoBehaviour
                             }
                         }
 
-                        GI.player_hud.show_card_ability_description("All cards in desk <b>PROMOTED</b> by 2 points");
+                        GI.player_hud.add_message_to_history_panel("All cards in desk <b>PROMOTED</b> by 2 points");
                     }
                     else
                     {
-                        GI.player_hud.show_card_ability_description("Not all families needed are in trio. <b>GRANNY</b> ability will " +
+                        GI.player_hud.add_message_to_history_panel("Not all families needed are in trio. <b>GRANNY</b> ability will " +
                                                                     "be ignored");
                     }
                 } break;
             case Card_Type.PINOCCHIO:
                 {
                     sabotage_random_boss_ability();
-                    GI.player_hud.show_card_ability_description("A random boss ability was <b>SABOTAGED</b>");
+                    GI.player_hud.add_message_to_history_panel("A random boss ability was <b>SABOTAGED</b>");
                 } break;
             case Card_Type.HUMAN_FROG:
                 {
                     if (are_all_families_in_trio(card.families_in_trio_to_activate_ability))
                     {
                         card.add_points(5);
-                        GI.player_hud.show_card_ability_description("<b>HUMAN FROG</b> <b>PROMOTED</b> by 5 points");
+                        GI.player_hud.add_message_to_history_panel("<b>HUMAN FROG</b> <b>PROMOTED</b> by 5 points");
                     }
                     else
                     {
                         if (card_index > 0) { cards_in_trio[card_index - 1].remove_points(5); }
                         if (card_index < 2) { cards_in_trio[card_index + 1].remove_points(5); }
 
-                        GI.player_hud.show_card_ability_description("Adjacent cards to <b>HUMAN FROG</b> in trio were <b>DEMOTED</b> " +
+                        GI.player_hud.add_message_to_history_panel("Adjacent cards to <b>HUMAN FROG</b> in trio were <b>DEMOTED</b> " +
                                                                     "by 5 points");
                     }
                 } break;
             case Card_Type.USELESS_DWARF:
                 {
                     // Nothing
-                    GI.player_hud.show_card_ability_description("<b>USELESS DWARF</b> has no ability");
+                    GI.player_hud.add_message_to_history_panel("<b>USELESS DWARF</b> has no ability");
                 } break;
             case Card_Type.ANNOYING_DWARF:
                 {
                     // Implemented at decrease_actions_remaining()
-                    GI.player_hud.show_card_ability_description("<b>ANNOYING DWARF</b> ability isn't activated in trio");
+                    GI.player_hud.add_message_to_history_panel("<b>ANNOYING DWARF</b> ability isn't activated in trio");
                 }
                 break;
             case Card_Type.DIZZINESS:
                 {
-                    GI.player_hud.show_card_ability_description("<b>DIZZINESS</b> has no ability");
+                    GI.player_hud.add_message_to_history_panel("<b>DIZZINESS</b> has no ability");
                     // Nothing
                 } break;
             default: Debug.Assert(false, "ability not implemented for " + card.type); break;
@@ -1101,7 +1101,7 @@ public class PlayerController : MonoBehaviour
 
         if (promoted_an_ugly_duck)
         {
-            GI.player_hud.show_card_ability_description("description");
+            GI.player_hud.add_message_to_history_panel("description");
         }
 
         // Reset trio data
@@ -1149,7 +1149,7 @@ public class PlayerController : MonoBehaviour
                         current_card.remove_points(2);
                         current_card.has_improved_after_a_trio = false;
 
-                        GI.player_hud.show_card_ability_description("<b>SLEEPING BEAUTY</b> <b>DEMOTED</b> by 2 points");
+                        GI.player_hud.add_message_to_history_panel("<b>SLEEPING BEAUTY</b> <b>DEMOTED</b> by 2 points");
                     }
                 }
             }
@@ -1157,7 +1157,7 @@ public class PlayerController : MonoBehaviour
             if (is_card_in_hand(Card_Type.ANNOYING_DWARF))
             {
                 take_damage(2);
-                GI.player_hud.show_card_ability_description("<b>ANNOYING DWARF</b> in hand. Player damaged by 2 points");
+                GI.player_hud.add_message_to_history_panel("<b>ANNOYING DWARF</b> in hand. Player damaged by 2 points");
             }
         }
 
