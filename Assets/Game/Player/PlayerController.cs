@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     public bool do_update_camera_point_animation;
     public bool improve_upcoming_pinocchios;
     public float disable_trio_cards_t;
+    public float update_turn_t;
     public int previous_camera_point;
     public float update_camera_point_t;
     public int gain_tokens_from_three_pigs_interaction_count;
@@ -276,6 +277,17 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (update_turn_t > 0f)
+        {
+            update_turn_t -= dt;
+            if (update_turn_t <= 0f)
+            {
+                maybe_update_turn();
+            }
+
+        }
+
+        // Disable trio cards over time
         if (disable_trio_cards_t > 0f)
         {
             disable_trio_cards_t -= dt;
@@ -292,7 +304,7 @@ public class PlayerController : MonoBehaviour
                 // Enable next card (if there is any)
                 if (current_trio_card_to_disable < cards_in_trio.Count - 1)
                 {
-                    disable_trio_cards_t = 2f;
+                    disable_trio_cards_t = 4f;
                 }
                 else
                 {
@@ -303,7 +315,10 @@ public class PlayerController : MonoBehaviour
                     }
                     else
                     {
-                        maybe_update_turn();
+                        if (can_update_turn())
+                        {
+                            update_turn_t = 2f;
+                        }
                     }
                 }
             }
@@ -719,6 +734,8 @@ public class PlayerController : MonoBehaviour
                         {
                             cards_in_trio[i].add_points(2);
                         }
+
+                        GI.player_hud.show_card_ability_description("Cards on the right IMPROVED by 2 points");
                     }
                 } break;
             case Card_Type.WOODEN_HOUSE_PIG:
@@ -728,10 +745,12 @@ public class PlayerController : MonoBehaviour
                         if (card_index < cards_in_trio.Count - 1)
                         {
                             cards_in_trio[card_index + 1].swap_attacks();
+                            GI.player_hud.show_card_ability_description("Card on the right <b>SWAPPED</b>");
                         }
                         else
                         {
                             card.swap_attacks();
+                            GI.player_hud.show_card_ability_description("Card self <b>SWAPPED</b>");
                         }
                     }
                 } break;
@@ -744,6 +763,8 @@ public class PlayerController : MonoBehaviour
                         {
                             cards_in_trio[i].remove_points(2);
                         }
+
+                        GI.player_hud.show_card_ability_description("Cards on the left DEMOTED by 2 points");
                     }
                 }
                 break;
@@ -752,17 +773,16 @@ public class PlayerController : MonoBehaviour
                     if (!cards_in_trio.Contains(card))
                     {
                         card.add_points(2);
+                        // Description at start_turn()
                     }
                 } break;
             case Card_Type.GEPETTO:
                 {
-                    if (are_all_families_in_trio(card.families_in_trio_to_activate_ability))
+                    if (are_all_families_in_trio(card.families_in_trio_to_activate_ability) && card_index == 1)
                     {
-                        if (card_index == 1)
-                        {
-                            cards_in_trio[0].add_points(2);
-                            cards_in_trio[2].add_points(2);
-                        }
+                        cards_in_trio[0].add_points(2);
+                        cards_in_trio[2].add_points(2);
+                        GI.player_hud.show_card_ability_description("Adjacent cards improved by 2 points");
                     }
                 } break;
             case Card_Type.BAD_WITCH:
@@ -774,8 +794,16 @@ public class PlayerController : MonoBehaviour
                         {
                             boss_card.turn_off(1);
 
-                            if      (boss_card.attack_1 == Attack_Type.HEAL_PLAYER) boss_card.swap_attack(ref boss_card.attack_1);
-                            else if (boss_card.attack_2 == Attack_Type.HEAL_PLAYER) boss_card.swap_attack(ref boss_card.attack_2);
+                            bool swapped = false;
+                            if      (boss_card.attack_1 == Attack_Type.HEAL_PLAYER) { boss_card.swap_attack(ref boss_card.attack_1); swapped = true }
+                            else if (boss_card.attack_2 == Attack_Type.HEAL_PLAYER) { boss_card.swap_attack(ref boss_card.attack_2); swapped = true }
+
+                            string s = "A boss card was turned off for 1 turn";
+                            if (swapped)
+                            {
+                                s += " and <b>SWAPPED</b>";
+                            }
+                            GI.player_hud.show_card_ability_description(s);
                         }
                     }
                 } break;
@@ -798,6 +826,8 @@ public class PlayerController : MonoBehaviour
                             cards_in_trio[i].swap_attacks();
                         }
                     }
+
+                    GI.player_hud.show_card_ability_description("Cards in hand and trio were <b>SWAPPED</b>");
                 } break;
             case Card_Type.LITTLE_RED_RIDING_HOOD:
                 {
@@ -811,12 +841,15 @@ public class PlayerController : MonoBehaviour
                             current_card.add_points(2);
                         }
                     }
+
+                    GI.player_hud.show_card_ability_description("description");
                 } break;
             case Card_Type.CINDERELLA:
                 {
                     if (!cards_in_trio.Contains(card))
                     {
                         card.add_points_temporarily(8, 3);
+                        GI.player_hud.show_card_ability_description("description");
                     }
                 } break;
             case Card_Type.BIG_BAD_WOLF:
@@ -843,12 +876,15 @@ public class PlayerController : MonoBehaviour
                     }
 
                     card.add_points(points_to_improve);
+
+                    GI.player_hud.show_card_ability_description("description");
                 } break;
             case Card_Type.SLEEPING_BEAUTY:
                 {
                     if (!cards_in_trio.Contains(card))
                     {
                         card.improve_points_after_a_trio_to_self_demote_after_turn(4);
+                        GI.player_hud.show_card_ability_description("description");
                     }
                 } break;
             case Card_Type.PRINCESS_AND_FROG:
@@ -860,6 +896,8 @@ public class PlayerController : MonoBehaviour
                             cards_in_trio[i].add_points(2);
                         }
                     }
+
+                    GI.player_hud.show_card_ability_description("description");
                 } break;
             case Card_Type.GRANNY:
                 {
@@ -873,22 +911,28 @@ public class PlayerController : MonoBehaviour
                                 card_in_desk.add_points(2);
                             }
                         }
+
+                        GI.player_hud.show_card_ability_description("description");
                     }
                 } break;
             case Card_Type.PINOCCHIO:
                 {
                     sabotage_random_boss_ability();
+                    GI.player_hud.show_card_ability_description("description");
                 } break;
             case Card_Type.HUMAN_FROG:
                 {
                     if (are_all_families_in_trio(card.families_in_trio_to_activate_ability))
                     {
                         card.add_points(5);
+                        GI.player_hud.show_card_ability_description("description");
                     }
                     else
                     {
                         if (card_index > 0) { cards_in_trio[card_index - 1].remove_points(5); }
                         if (card_index < 2) { cards_in_trio[card_index + 1].remove_points(5); }
+
+                        GI.player_hud.show_card_ability_description("description");
                     }
                 } break;
             case Card_Type.USELESS_DWARF:
@@ -965,6 +1009,7 @@ public class PlayerController : MonoBehaviour
         GI.player_hud.update_actions_remaining_text();
 
         // Promote all UGLY DUCKS once
+        bool promoted_an_ugly_duck = false;
         for (int i = 0; i < cards_in_hand.Length; i++)
         {
             Card card = cards_in_hand[i];
@@ -972,7 +1017,13 @@ public class PlayerController : MonoBehaviour
             {
                 activate_card_ability(card);
                 card.promoted_at_start_of_turn = true;
+                promoted_an_ugly_duck = true;
             }
+        }
+
+        if (promoted_an_ugly_duck)
+        {
+            GI.player_hud.show_card_ability_description("description");
         }
 
         // Reset trio data
@@ -1032,9 +1083,14 @@ public class PlayerController : MonoBehaviour
         GI.player_hud.update_actions_remaining_text();
     }
 
+    public bool can_update_turn()
+    {
+        return actions_remaining <= 0 && !applying_trio_card_abilities;
+    }
+
     public void maybe_update_turn()
     {
-        if (actions_remaining <= 0 && !applying_trio_card_abilities)
+        if (can_update_turn())
         {
             GI.card_system.update_turn();
         }

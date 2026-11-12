@@ -23,6 +23,10 @@ public class PlayerHUD : MonoBehaviour
     public Sprite resumed_sprite;
     public Sprite paused_sprite;
 
+    [Header("TRIO")]
+    public TextMeshProUGUI card_ability_description_text;
+    public GameObject card_ability_description_panel;
+
     [Header("BOSS CARD PREVIEW HUD")]
     public GameObject boss_card_preview_hud;
     public GameObject boss_card_families_to_disable_group;
@@ -50,6 +54,7 @@ public class PlayerHUD : MonoBehaviour
     [Header("INTERNAL")]
     public float boss_attack_text_t;
     public float trio_animation_t;
+    public float show_card_ability_description_t;
     public Vector3 trio_image_start_position;
 
     private void Awake()
@@ -65,6 +70,15 @@ public class PlayerHUD : MonoBehaviour
     private void Update()
     {
         float dt = Time.deltaTime;
+
+        if (show_card_ability_description_t > 0f)
+        {
+            show_card_ability_description_t -= dt;
+            if (show_card_ability_description_t <= 0f)
+            {
+                card_ability_description_panel.SetActive(false);
+            }
+        }
 
         if (boss_attack_text_t > 0f)
         {
@@ -180,6 +194,13 @@ public class PlayerHUD : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void show_card_ability_description(string description)
+    {
+        card_ability_description_panel.SetActive(true);
+        card_ability_description_text.text = description;
+        show_card_ability_description_t = 2f;
     }
 
     public void show_trio_hud()
