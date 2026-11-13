@@ -21,7 +21,6 @@ public class PlayerHUD : MonoBehaviour
     public GameObject card_game_hud;
     public GameObject trio_hud;
     public TextMeshProUGUI boss_attack_text;
-    public Image pause_button_image;
     public Sprite resumed_sprite;
     public Sprite paused_sprite;
 
@@ -360,7 +359,11 @@ public class PlayerHUD : MonoBehaviour
     {
         pause_ui.SetActive(true);
         pause_menu.SetActive(true);
-        pause_button_image.sprite = paused_sprite;
+    }
+
+    public void stop_game()
+    {
+        GI.player_card_game.stop_game();
     }
 
     public void show_tutorial_menu()
@@ -384,7 +387,6 @@ public class PlayerHUD : MonoBehaviour
         pause_ui.SetActive(false);
         pause_menu.SetActive(false);
         tutorial_menu.SetActive(false);
-        //pause_button_image.sprite = resumed_sprite; @Luana
     }
 
     public void show_win()
