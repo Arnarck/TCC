@@ -133,17 +133,17 @@ public class PlayerHUD : MonoBehaviour
 
     public void update_player_health_text()
     {
-        player_health_text.text = "Chips: " + GI.player_card_game.health;
+        player_health_text.text = GI.player_card_game.health.ToString();
     }
 
     public void update_boss_health_text()
     {
-        boss_health_text.text = "Boss's Chips: " + GI.boss.health;
+        boss_health_text.text = GI.boss.health.ToString();
     }
 
     public void update_actions_remaining_text()
     {
-        actions_remaining_text.text = "Actions Remaining: " + GI.player_card_game.actions_remaining;
+        actions_remaining_text.text = "Actions : " + GI.player_card_game.actions_remaining;
     }
 
     public void show_boss_attack_text(string text)
