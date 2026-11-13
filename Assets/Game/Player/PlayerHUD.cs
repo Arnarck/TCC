@@ -25,6 +25,9 @@ public class PlayerHUD : MonoBehaviour
     public Sprite paused_sprite;
 
     [Header("ABILITY HISTORY")]
+    public GameObject text_box_prefab;
+    public Transform text_box_panel;
+    public Transform text_box_pool_parent;
     public GameObject text_prefab;
     public Transform text_pool_parent;
     public ScrollRect scroll_rect;
@@ -66,6 +69,8 @@ public class PlayerHUD : MonoBehaviour
     public Vector3 trio_image_start_position;
     public List<TextMeshProUGUI> free_texts;
     public List<TextMeshProUGUI> living_texts;
+    public List<TextBox> free_text_boxes;
+    public List<TextBox> living_text_boxes;
 
     private void Awake()
     {
@@ -77,6 +82,7 @@ public class PlayerHUD : MonoBehaviour
         trio_image_start_position = make_trio_image.transform.position;
 
         spawn_texts(50);
+        spawn_text_boxes(50);
     }
 
     private void Update()
@@ -219,12 +225,49 @@ public class PlayerHUD : MonoBehaviour
         }
     }
 
+    public void spawn_text_boxes(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            TextBox text_box = Instantiate(text_box_prefab, text_box_pool_parent).GetComponent<TextBox>();
+            text_box.gameObject.SetActive(false);
+            free_text_boxes.Add(text_box);
+        }
+    }
+
+    public TextBox get_free_text_box()
+    {
+        if (free_text_boxes.Count < 1)
+        {
+            spawn_text_boxes(10);
+        }
+
+        int last_index = free_text_boxes.Count - 1;
+        TextBox text_box = free_text_boxes[last_index];
+
+        free_text_boxes.RemoveAt(last_index);
+        living_text_boxes.Add(text_box);
+
+        return text_box;
+    }
+
+    public void add_text_box_to_pool(TextBox text_box)
+    {
+        living_text_boxes.Remove(text_box);
+        free_text_boxes.Add(text_box);
+
+        text_box.transform.SetParent(text_box_pool_parent);
+    }
+
     public void add_message_to_history_panel(string message)
     {
         TextMeshProUGUI text = get_free_text();
         text.gameObject.SetActive(true);
         text.text = message;
         text.transform.SetParent(scroll_view_content);
+
+        TextBox text_box = get_free_text_box();
+        text_box.init(message, text_box_panel);
 
         update_scroll_view = true;
     }
