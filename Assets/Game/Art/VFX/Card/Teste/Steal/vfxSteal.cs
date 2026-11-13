@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class vfxSteal : MonoBehaviour, iVFX
+public class vfxMove : MonoBehaviour, iVFX
 {
     public Transform pontoA;
     public Transform pontoB;

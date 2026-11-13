@@ -93,7 +93,7 @@ public class Card : MonoBehaviour
     [Header("VFX")]
     public Animator animator;
     public GameObject visual;
-    public vfxSteal vfx_steal;
+    public vfxMove vfx_steal;
     public TeleportCard teleport_card;
     public ActiveCard active_card;
     public SelectCard select_card;
