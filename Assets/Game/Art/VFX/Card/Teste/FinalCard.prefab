@@ -477,11 +477,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7028834261113109673, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.1231
       objectReference: {fileID: 0}
     - target: {fileID: 7028834261113109673, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7028834261113109673, guid: f9dc2141ff1d505459cc836d02d69718, type: 3}
       propertyPath: m_LocalRotation.w
@@ -781,7 +781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFXDistribute
   velocidade: 5
-  card: {fileID: 0}
+  card: {fileID: 5360019203684424879}
 --- !u!114 &438251647626575590
 MonoBehaviour:
   m_ObjectHideFlags: 0
