@@ -72,4 +72,30 @@ public class StackChips : MonoBehaviour
         Destroy(stack[count]);
         stack.RemoveAt(count);
     } 
+
+public bool AddOneChip(GameObject chipPrefab, Vector3 chipOffset)
+{
+    if (count >= limit)
+        return false;
+
+    Vector3 totalOffset = chipOffset * count;
+
+    GameObject newChip = Instantiate(
+        chipPrefab,
+        spawn.transform.position + totalOffset,
+        spawn.transform.rotation
+    );
+
+    stack.Add(newChip);
+
+    count++;
+
+    Animator anim = newChip.GetComponentInChildren<Animator>();
+
+    if (anim != null)
+        anim.SetTrigger("Active");
+
+    return true;
+}
+
 }

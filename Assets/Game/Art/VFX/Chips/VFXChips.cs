@@ -1,8 +1,7 @@
 
 using UnityEngine;
-using UnityEngine.InputSystem;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 
 public class VFXChips : MonoBehaviour
 {
@@ -10,68 +9,111 @@ public class VFXChips : MonoBehaviour
     public CardSystem cardSystem;
 
     public List<StackChips> stacks;
-    List<int> blockStacks = new List<int>();
 
     public Vector3 offset = new Vector3(0, 0.3f, 0);
+    public float delay = 0.15f;
 
-    public float delay = 1f;
+    private Boss currentBoss;
+    private bool initialized;
 
-    public void Start()
+    void Start()
     {
-        StartCoroutine(MaxChips());
+        StartCoroutine(SyncBossChips());
     }
-    void Update()
+
+    IEnumerator SyncBossChips()
     {
-        if (Keyboard.current.gKey.wasPressedThisFrame) RemoveChips(10);
-    }
-    IEnumerator MaxChips()
-    {
+        // Mantém o tempo original antes de mostrar as fichas.
         yield return new WaitForSeconds(cardSystem.memorization_time);
 
+        initialized = true;
+
+        while (true)
+        {
+            if (GI.boss != null && GI.boss.isActiveAndEnabled)
+            {
+                // Detecta troca de Boss.
+                if (currentBoss != GI.boss)
+                {
+                    currentBoss = GI.boss;
+                    Debug.Log("Novo Boss detectado: " + currentBoss.name);
+                }
+
+                int target = Mathf.Max(0, currentBoss.health);
+                int current = GetTotalChips();
+
+                // Adiciona fichas até alcançar a vida do Boss.
+                if (current < target)
+                {
+                    if (AddOneChip())
+                    {
+                        yield return new WaitForSeconds(delay);
+                    }
+                    else
+                    {
+                        Debug.LogWarning(
+                            "Não há espaço suficiente nas pilhas para representar a vida do Boss."
+                        );
+                        yield return new WaitForSeconds(0.5f);
+                    }
+                }
+                // Remove fichas quando o Boss perde vida.
+                else if (current > target)
+                {
+                    if (RemoveOneChip())
+                    {
+                        // RemoveChip possui animação de 2 segundos.
+                        yield return new WaitForSeconds(2.1f);
+                    }
+                }
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    int GetTotalChips()
+    {
         int total = 0;
 
-        for(int i = 0; i < stacks.Count ;i++)
+        foreach (StackChips stack in stacks)
         {
-            stacks[i].AddChip(chip, stacks[i].limit, delay, offset);
-            total += stacks[i].limit;
+            if (stack != null)
+                total += stack.count;
         }
 
-        Debug.Log("Total de Fichas na mesa = " + total);
-        
+        return total;
     }
-    bool RemoveChips(int quant)  //Retorna false se estiver sem fichas
+
+    bool AddOneChip()
     {
-        //Debug.Log(blockStacks.Count);
-        int i = 0;
-        while(quant > 0 && blockStacks.Count != stacks.Count)
+        foreach (StackChips stack in stacks)
         {
-            int aux = i%stacks.Count;
-
-            if(stacks[aux].count <= 0 && ConfirmBlockList(aux)) blockStacks.Add(aux);
-
-            if (ConfirmBlockList(aux))
+            if (stack != null && stack.count < stack.limit)
             {
-                stacks[aux].RemoveChip();
-                quant--;
+                return stack.AddOneChip(chip, offset);
             }
-            i++;
-        }
-        if(quant != 0)
-        {
-            return false;
         }
 
-        return true;
+        return false;
     }
-    bool ConfirmBlockList(int valor) //Retorna false se o valor estiver na lista
+
+    bool RemoveOneChip()
     {
-        bool block = true;;
-        for(int i = 0; i < blockStacks.Count; i++)
+        // Procura uma pilha que ainda tenha fichas.
+        for (int i = stacks.Count - 1; i >= 0; i--)
         {
-            if(blockStacks[i] == valor) block = false;
+            if (stacks[i] != null && stacks[i].count > 0)
+            {
+                return stacks[i].RemoveChip() > 0;
+            }
         }
 
-        return block;
+        return false;
     }
 
+    public int GetBossChipCount()
+    {
+        return GetTotalChips();
+    }
 }
