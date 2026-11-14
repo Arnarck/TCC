@@ -77,6 +77,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: card_box_texture
+      value: 
+      objectReference: {fileID: 2100000, guid: f3f0f4663b1af79489238ba2ffc4f483, type: 2}
+    - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: ability_description
       value: Adjacent characters are <b>PROMOTED</b> by 2
       objectReference: {fileID: 0}

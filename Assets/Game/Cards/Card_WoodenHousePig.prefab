@@ -77,6 +77,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: card_box_texture
+      value: 
+      objectReference: {fileID: 2100000, guid: 1564475733849024a890498c250f6997, type: 2}
+    - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: ability_description
       value: "<b>SWAP</b> character to the right. If there\u2019s none, <b>SELF SWAP</b>"
       objectReference: {fileID: 0}

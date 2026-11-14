@@ -81,6 +81,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: card_box_texture
+      value: 
+      objectReference: {fileID: 2100000, guid: deb0622ddd0425a44a6a311eb7ebecb7, type: 2}
+    - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: ability_description
       value: While in your hand, <b>SELF PROMOTE</b> by 4 after a trio is <b>PLAYED</b>,
         but at the end of your turn, <b>SELF DEMOTE</b> by 2

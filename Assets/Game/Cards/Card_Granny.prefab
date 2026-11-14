@@ -81,6 +81,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
+      propertyPath: card_box_texture
+      value: 
+      objectReference: {fileID: 2100000, guid: 1389bc5f9ce934447aaa6eb39f8b25d7, type: 2}
+    - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: families_in_trio_to_activate_ability.Array.size
       value: 3
       objectReference: {fileID: 0}

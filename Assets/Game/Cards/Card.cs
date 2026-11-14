@@ -117,6 +117,9 @@ public class Card : MonoBehaviour
     public int points_to_remove_after_x_turns;
     public bool has_improved_after_a_trio;
 
+[Header("MATERIAL")]
+public Material card_box_texture;
+
     private void Start()
     {
         family_type_image.sprite = GI.player_hud.families_sprite[(int)family_type];
