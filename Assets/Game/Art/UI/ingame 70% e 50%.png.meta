@@ -100,10 +100,10 @@ TextureImporter:
       name: bg_pannel1
       rect:
         serializedVersion: 2
-        x: 993
-        y: 893
-        width: 320
-        height: 157
+        x: 972
+        y: 643
+        width: 214
+        height: 95
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -119,57 +119,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bg_pannel2
-      rect:
-        serializedVersion: 2
-        x: 1359
-        y: 892
-        width: 533
-        height: 160
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 52, y: 0, z: 69, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8157cdbea025cf446a525043f38cb2f4
-      internalID: 1509724163
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bg_pannel13
-      rect:
-        serializedVersion: 2
-        x: 1359
-        y: 712
-        width: 533
-        height: 161
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 32, y: 0, z: 20, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: becd1f420c3b5884592299e8bf20bcc5
-      internalID: 348154757
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: w
       rect:
         serializedVersion: 2
-        x: 56
-        y: 549
-        width: 90
-        height: 92
+        x: 17
+        y: 791
+        width: 110
+        height: 116
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -188,10 +144,10 @@ TextureImporter:
       name: s
       rect:
         serializedVersion: 2
-        x: 147
-        y: 549
-        width: 92
-        height: 92
+        x: 126
+        y: 791
+        width: 114
+        height: 117
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -210,12 +166,12 @@ TextureImporter:
       name: ingame 70% e 50%_0
       rect:
         serializedVersion: 2
-        x: 263
-        y: 550
-        width: 82
-        height: 86
+        x: 240
+        y: 789
+        width: 120
+        height: 119
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -232,12 +188,12 @@ TextureImporter:
       name: ingame 70% e 50%_1
       rect:
         serializedVersion: 2
-        x: 369
-        y: 547
-        width: 199
-        height: 89
+        x: 360
+        y: 788
+        width: 230
+        height: 120
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -246,6 +202,94 @@ TextureImporter:
       bones: []
       spriteID: 7f68a7b75dc63e84fba987e1f22d4bc6
       internalID: -1265023222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 394
+        width: 332
+        height: 204
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 884c8e8f6de15b24cb8f73abc56ff82c
+      internalID: -466356082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss2
+      rect:
+        serializedVersion: 2
+        x: 368
+        y: 393
+        width: 332
+        height: 205
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: befc8c4f4384e744d86c5c3f766e31d8
+      internalID: -672678387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3
+      rect:
+        serializedVersion: 2
+        x: 722
+        y: 394
+        width: 334
+        height: 205
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9228e576b5e54547a37c2a43da838ec
+      internalID: 1572256056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: YourChips
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 165
+        width: 334
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a5a234d3d9cf754bac532cffa7ccafe
+      internalID: -1842274686
       vertices: []
       indices: 
       edges: []
@@ -264,6 +308,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      Boss1: -466356082
+      Boss2: -672678387
+      Boss3: 1572256056
+      YourChips: -1842274686
       bg_pannel1: -1211702771
       bg_pannel13: 348154757
       bg_pannel2: 1509724163
