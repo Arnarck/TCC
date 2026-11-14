@@ -1,5 +1,5 @@
-\#C:/Users/carol/OneDrive/Área filter=lfs diff=lfs merge=lfs -text
-de filter=lfs diff=lfs merge=lfs -text
-Trabalho/TCC/Animações/AnimaçõesBruxa.fbx filter=lfs diff=lfs merge=lfs -text
-C:/Users/carol/OneDrive/Área[[:space:]]de[[:space:]]Trabalho/TCC/Animações/AnimaçõesBruxa.fbx filter=lfs diff=lfs merge=lfs -text
+# \#C:/Users/carol/OneDrive/Área filter=lfs diff=lfs merge=lfs -text
+# de filter=lfs diff=lfs merge=lfs -text
+sharedassets0.assets.resS filter=lfs diff=lfs merge=lfs -text
+# C:/Users/carol/OneDrive/Área[[:space:]]de[[:space:]]Trabalho/TCC/Animações/AnimaçõesBruxa.fbx filter=lfs diff=lfs merge=lfs -text
 Build[[:space:]]TCC/TCC_Data/sharedassets0.assets.resS filter=lfs diff=lfs merge=lfs -text
