@@ -17,6 +17,8 @@ public class PlayerHUD : MonoBehaviour
     public GameObject win_menu;
     public GameObject lose_menu;
     public GameObject tutorial_menu;
+    public GameObject[] tutorial_page;
+    public int current_page = 0;
     public GameObject back_to_main_menu_panel;
     public GameObject card_game_hud;
     public GameObject trio_hud;
@@ -423,6 +425,20 @@ public class PlayerHUD : MonoBehaviour
 
         pause_ui.SetActive(false);
         tutorial_menu.SetActive(false);
+    }
+
+    public void next_tutorial_page()
+    {
+        tutorial_page[current_page].SetActive(false);
+        tutorial_page[current_page + 1].SetActive(true);
+        current_page++;
+    }
+
+    public void previous_tutorial_page()
+    {
+        tutorial_page[current_page].SetActive(false);
+        tutorial_page[current_page - 1].SetActive(true);
+        current_page--;
     }
 
     public void hide_pause()
