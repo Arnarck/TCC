@@ -10,6 +10,7 @@ public class PlayerHUD : MonoBehaviour
     public TextMeshProUGUI boss_health_text;
     public TextMeshProUGUI player_health_text;
     public TextMeshProUGUI actions_remaining_text;
+    public GameObject memorization_phase_panel;
     public GameObject player_turn_message;
     public GameObject boss_turn_message;
     public GameObject pause_ui;
@@ -66,7 +67,9 @@ public class PlayerHUD : MonoBehaviour
     [Header("INTERNAL")]
     public bool update_scroll_view;
     public float boss_attack_text_t;
+    public float memorization_phase_panel_t;
     public float trio_animation_t;
+    public float show_memorization_phase_t;
     public float show_card_ability_description_t;
     public Vector3 trio_image_start_position;
     public List<TextMeshProUGUI> free_texts;
@@ -126,6 +129,24 @@ public class PlayerHUD : MonoBehaviour
             c.a = trio_animation_t;
             make_trio_image.color = c;
         }
+
+        if (memorization_phase_panel_t > 0f)
+        {
+            memorization_phase_panel_t -= dt;
+            if (memorization_phase_panel_t <= 0f)
+            {
+                hide_memorization_phase_panel();
+            }
+        }
+
+        if (show_memorization_phase_t > 0f)
+        {
+            show_memorization_phase_t -= dt;
+            if (show_memorization_phase_t <= 0f)
+            {
+                show_memorization_phase_panel();
+            }
+        }
     }
 
     private void LateUpdate()
@@ -137,6 +158,18 @@ public class PlayerHUD : MonoBehaviour
 
             update_scroll_view = false;
         }
+    }
+
+    public void show_memorization_phase_panel()
+    {
+        memorization_phase_panel.SetActive(true);
+        memorization_phase_panel_t = 4f;
+    }
+
+    public void hide_memorization_phase_panel()
+    {
+        memorization_phase_panel.SetActive(false);
+        memorization_phase_panel_t = 0f;
     }
 
     public void update_player_health_text()
@@ -370,6 +403,7 @@ public class PlayerHUD : MonoBehaviour
     public void start_memorization_phase()
     {
         card_game_hud.SetActive(false);
+        show_memorization_phase_t = 0.7f;
     }
 
     public void end_memorization_phase()
