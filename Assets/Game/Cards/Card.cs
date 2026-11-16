@@ -301,8 +301,13 @@ public Material card_box_texture;
 
     public void disable_from_trio()
     {
-        active_card.Active(transform.position, transform.rotation); // VFX
+        play_ability_vfx();
         disable_t = 2f;
+    }
+
+    public void play_ability_vfx()
+    {
+        active_card.Active(transform.position, transform.rotation); // VFX
     }
 
     public void add_points(int amount)
