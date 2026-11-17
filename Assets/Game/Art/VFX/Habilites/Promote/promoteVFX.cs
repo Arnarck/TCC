@@ -10,11 +10,11 @@ public class promoteVFX : MonoBehaviour
         particle_small.Play();
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Active();
-        }
-    }
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Q))
+    //    {
+    //        Active();
+    //    }
+    //}
 }
