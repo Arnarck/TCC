@@ -103,7 +103,7 @@ public class Card : MonoBehaviour
     public vfxShuffle vfx_shuffle;
     public vfxDistribute vfx_distribute;
     public vfxCreate vfx_create;
-
+    public promoteVFX promote_vfx; 
     public bool is_revealed = true;
 
     [Header("INTERNAL")]
@@ -309,7 +309,11 @@ public Material card_box_texture;
     {
         active_card.Active(transform.position, transform.rotation); // VFX
     }
-
+    public void play_promote_vfx()
+{
+    if (promote_vfx != null)
+        promote_vfx.Active();
+}
     public void add_points(int amount)
     {
         attack_amount += amount;

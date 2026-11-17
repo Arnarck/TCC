@@ -716,6 +716,7 @@ MonoBehaviour:
   vfx_shuffle: {fileID: 168571935335869311}
   vfx_distribute: {fileID: 7369331595345078974}
   vfx_create: {fileID: 2229543774974174157}
+  promote_vfx: {fileID: 8879862979474650217}
   is_revealed: 1
   ignore_card_ability: 0
   blow_up_if_selected: 0
@@ -1693,3 +1694,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1973775795928810185, guid: 2d498e8207273ae4f98827d549fd03cd, type: 3}
   m_PrefabInstance: {fileID: 3122364778011850565}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8879862979474650217 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5795924285347070764, guid: 2d498e8207273ae4f98827d549fd03cd, type: 3}
+  m_PrefabInstance: {fileID: 3122364778011850565}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bda295c9200e0c4498d8b36cef2e8c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::promoteVFX

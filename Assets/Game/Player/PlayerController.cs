@@ -755,6 +755,7 @@ public class PlayerController : MonoBehaviour
                         for (int i = card_index + 1; i < cards_in_trio.Count; i++)
                         {
                             cards_in_trio[i].add_points(2);
+                              cards_in_trio[i].play_promote_vfx();
                         }
 
                         GI.player_hud.add_message_to_history_panel("<b>STRAW HOUSE PIG: </b>Cards on the right were <b>PROMOTED</b> " +
@@ -793,6 +794,7 @@ public class PlayerController : MonoBehaviour
             case Card_Type.BRICK_HOUSE_PIG:
                 {
                     card.add_points(2);
+                    card.play_promote_vfx();
 
                     string s = "<b>BRICK HOUSE PIG: </b><b>PROMOTED</b> by 2 points";
                     if (card_index > 0)
@@ -813,6 +815,8 @@ public class PlayerController : MonoBehaviour
                     if (!cards_in_trio.Contains(card))
                     {
                         card.add_points(2);
+                        card.play_promote_vfx();
+
                         GI.player_hud.add_message_to_history_panel("<b>UGLY DUCK: </b><b>PROMOTED</b> by 2 points");
                     }
                     else
@@ -825,7 +829,9 @@ public class PlayerController : MonoBehaviour
                     if (are_all_families_in_trio(card.families_in_trio_to_activate_ability) && card_index == 1)
                     {
                         cards_in_trio[0].add_points(2);
+                        cards_in_trio[0].play_promote_vfx();
                         cards_in_trio[2].add_points(2);
+                        cards_in_trio[2].play_promote_vfx();
                         GI.player_hud.add_message_to_history_panel("<b>GEPETTO: </b>Adjacent cards were <b>PROMOTED</b> by 2 points");
                     }
                     else
@@ -893,6 +899,7 @@ public class PlayerController : MonoBehaviour
                         if (current_card && current_card.family_type == family_to_promote)
                         {
                             current_card.add_points(2);
+                            current_card.play_promote_vfx();
                         }
                     }
 
@@ -904,6 +911,7 @@ public class PlayerController : MonoBehaviour
                     if (!cards_in_trio.Contains(card))
                     {
                         card.add_points_temporarily(8, 3);
+                        card.play_promote_vfx();
                         GI.player_hud.add_message_to_history_panel("<b>CINDERELLA: </b><b>PROMOTED</b> by 8 points for 3 turns");
                     }
                     else
@@ -935,6 +943,7 @@ public class PlayerController : MonoBehaviour
                     }
 
                     card.add_points(points_to_improve);
+                    card.play_promote_vfx(); 
 
                     GI.player_hud.add_message_to_history_panel("<b>BIG BAD WOLF: </b><b>PROMOTED</b> by " + points_to_improve + " points." + 
                                                                " All cards in hand and trio were <b>DEMOTED</b> by 1 point");
@@ -944,6 +953,7 @@ public class PlayerController : MonoBehaviour
                     if (!cards_in_trio.Contains(card))
                     {
                         card.improve_points_after_a_trio_to_self_demote_after_turn(4);
+                        card.play_promote_vfx();
                         GI.player_hud.add_message_to_history_panel("<b>SLEEPING BEAUTY: </b><b>IMPROVED</b> by 4 points until the end of " +
                                                                     "the turn. <b>DEMOTED</b> by 2 points after that");
                     }
@@ -959,6 +969,7 @@ public class PlayerController : MonoBehaviour
                         for (int i = 0; i < cards_in_trio.Count; i++)
                         {
                             cards_in_trio[i].add_points(2);
+                            cards_in_trio[i].play_promote_vfx();
                         }
 
                         GI.player_hud.add_message_to_history_panel("<b>PRINCESS AND FROG: </b>All cards in trio <b>PROMOTED</b> by " +
@@ -980,6 +991,7 @@ public class PlayerController : MonoBehaviour
                             if (card_in_desk)
                             {
                                 card_in_desk.add_points(2);
+                                  card_in_desk.play_promote_vfx();
                             }
                         }
 
@@ -1001,6 +1013,7 @@ public class PlayerController : MonoBehaviour
                     if (are_all_families_in_trio(card.families_in_trio_to_activate_ability))
                     {
                         card.add_points(5);
+                        card.play_promote_vfx();
                         GI.player_hud.add_message_to_history_panel("<b>HUMAN FROG: </b><b>PROMOTED</b> by 5 points");
                     }
                     else
