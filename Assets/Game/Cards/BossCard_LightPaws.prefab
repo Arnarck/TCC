@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: attack_amount
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: ability_description
