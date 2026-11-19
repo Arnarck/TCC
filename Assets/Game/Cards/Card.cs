@@ -224,6 +224,10 @@ public Material card_box_texture;
     {
         vfx_distribute.Active(pointA, pointB, speed);
     }
+    public void MoveCard(Transform pointA, Transform pointB) //@VITOR
+    {
+        vfx_distribute.Active(pointA, pointB);
+    }
     public void create_card()//@VITOR
     {
         vfx_create.Active();//spline, target_hand_pos);
