@@ -29,6 +29,10 @@ PrefabInstance:
       value: "In 2 turns, <b>DESTROY</b> a character in the opponent\u2019s hand
         and create a \"Bad Apple\" in their hand"
       objectReference: {fileID: 0}
+    - target: {fileID: 987351274131268789, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 927625b9144d1fa45b19762dc7450a37, type: 2}
     - target: {fileID: 1976000910278940462, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
