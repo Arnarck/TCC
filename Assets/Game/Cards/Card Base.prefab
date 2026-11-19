@@ -1482,6 +1482,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 54212930437593909, guid: 5961de5866757f044933a9437fca93dd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7007606890606115879}
+    - targetCorrespondingSourceObject: {fileID: 54212930437593909, guid: 5961de5866757f044933a9437fca93dd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1044968147754228117}
   m_SourcePrefab: {fileID: 100100000, guid: 5961de5866757f044933a9437fca93dd, type: 3}
 --- !u!114 &168571935335869311 stripped
 MonoBehaviour:
@@ -1540,6 +1543,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AbilityTearUPaCard
   torn_card: {fileID: 7294737389498398251, guid: bf0228de26637cd46af13407c404afda, type: 3}
   myFather: {fileID: 6513423077981549246}
+--- !u!114 &1044968147754228117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324965723128377004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa476a32d2908e44bbe519873acff78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DisappearVFX
+  animator: {fileID: 1167882427107165068}
 --- !u!114 &896317773165402044 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 590609822193091109, guid: 5961de5866757f044933a9437fca93dd, type: 3}
