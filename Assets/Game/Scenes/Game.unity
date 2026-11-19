@@ -40648,6 +40648,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2820924870620074472, guid: b24302fa4d4883f4885c7833a0cb9aec, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 57f5726e540454f44a82aaf581c2775e, type: 2}
     - target: {fileID: 5173785074915138686, guid: b24302fa4d4883f4885c7833a0cb9aec, type: 3}
       propertyPath: m_Name
       value: Interaction - Update Turn
