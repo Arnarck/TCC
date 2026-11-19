@@ -25,6 +25,10 @@ PrefabInstance:
       value: After a character from [icon] is <b>SCORED,</b> <b>DEMOTE</b> all characters
         from that family by 2
       objectReference: {fileID: 0}
+    - target: {fileID: 987351274131268789, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0424b4974b43e474fa7cee05170f99a7, type: 2}
     - target: {fileID: 1976000910278940462, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

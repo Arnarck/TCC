@@ -36,6 +36,14 @@ PrefabInstance:
       propertyPath: ability_description
       value: It's gonna steal <b>5</b> of your chips! You really should disable it
       objectReference: {fileID: 0}
+    - target: {fileID: 987351274131268789, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6616443574512884d827b230460f2e8a, type: 2}
+    - target: {fileID: 987351274131268789, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a33b999014a00504fa277b221a6ee86e, type: 2}
     - target: {fileID: 1976000910278940462, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
