@@ -1166,7 +1166,7 @@ public class PlayerController : MonoBehaviour
 
             if (is_card_in_hand(Card_Type.ANNOYING_DWARF))
             {
-                take_damage(2);
+                take_damage(5);
                 GI.player_hud.add_message_to_history_panel("<b>ANNOYING DWARF: </b>Is in hand. Player damaged by 2 points");
             }
         }

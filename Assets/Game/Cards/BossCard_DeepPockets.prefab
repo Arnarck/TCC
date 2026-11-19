@@ -10,15 +10,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: attack_1
-      value: 4
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: attack_2
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: disable_type
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: attack_amount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: ability_description
-      value: Activate in the start of the next turn
+      value: It's gonna give him <b>5</b> chips... Maybe consider disabling it?
       objectReference: {fileID: 0}
     - target: {fileID: 1976000910278940462, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: m_LocalPosition.x
