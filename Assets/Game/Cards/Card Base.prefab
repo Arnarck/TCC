@@ -1458,6 +1458,10 @@ PrefabInstance:
       propertyPath: card
       value: 
       objectReference: {fileID: 6513423077981549246}
+    - target: {fileID: 7063677005003407143, guid: 5961de5866757f044933a9437fca93dd, type: 3}
+      propertyPath: velocidade
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
