@@ -12,6 +12,8 @@ public class AbilityVFX : MonoBehaviour
     public Transform spawn_ThreeLittlePigs;
     GameObject houseActiveSelf;
 
+    int test = 0;
+
     [Header("Wolf eating pigs")]
 
     public Animator cardPig;
@@ -32,7 +34,9 @@ public class AbilityVFX : MonoBehaviour
     {
         if (Keyboard.current.pKey.wasPressedThisFrame)
         {
-            Destroy_This_Card();
+            ThreeLittlePigsVFX(test);
+            test++;
+            //Destroy_This_Card();
         }
         
     }
@@ -40,9 +44,9 @@ public class AbilityVFX : MonoBehaviour
 
 
     // Habilidade Lobo + Porquinhos  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    public void PlayVFXWolfEatPig(GameObject card)
+    public void PlayVFXWolfEatPig(GameObject card)// nn usamos mais esse cara
     {
-        card.GetComponent<Animator>().SetTrigger("Ability_EatPig");
+        card.GetComponentInChildren<Animator>().SetTrigger("Ability_EatPig");
     }
     private void PlayVFXWolfEatPig()
     {
