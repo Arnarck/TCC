@@ -21,12 +21,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: keyword_type
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: attack_amount
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: ability_description
-      value: It's gonna give him <b>5</b> chips... Maybe consider disabling it?
+      value: It's gonna give him <b>5 chips</b>... Maybe consider disabling it?
+      objectReference: {fileID: 0}
+    - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: cost_to_disable_ability
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 987351274131268789, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

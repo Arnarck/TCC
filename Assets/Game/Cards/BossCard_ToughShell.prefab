@@ -21,6 +21,10 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: keyword_type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: ability_description
       value: Whenever the opponent plays a trio, <b> DESTROY</b> the  Character on
         the left

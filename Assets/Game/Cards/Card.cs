@@ -63,7 +63,10 @@ public enum Keyword_Type
     SABOTAGE,
     DESTROY,
     RECRUIT,
-
+    TRANSFORM,
+    SCORED,
+    NOTHING,
+    BLOWUP,
     COUNT,
 }
 

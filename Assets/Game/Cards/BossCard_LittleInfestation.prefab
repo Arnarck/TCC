@@ -17,8 +17,12 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: keyword_type
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: ability_description
-      value: "At the start of your turn, <b>RECRUIT</b> a \u201CUseless Dwarf\u201D
+      value: "At the start of your turn, <b>CREATE</b> a \u201CUseless Dwarf\u201D
         to the opponent\u2019s hand"
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
