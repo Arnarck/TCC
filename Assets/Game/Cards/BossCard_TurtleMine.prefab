@@ -22,8 +22,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: ability_description
-      value: Picks a random column. If a character from that row is taken/swaped,
-        <b>BLOW UP</b>
+      value: Picks a random column. If a character from it is taken/swaped, <b>BLOW
+        UP</b>
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: families_to_disable_card.Array.size
