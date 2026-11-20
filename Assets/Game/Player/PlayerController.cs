@@ -260,6 +260,11 @@ public class PlayerController : MonoBehaviour
                             boss_card_in_preview = boss_card;
                             boss_card_in_preview.hide_card_ability_description_canvas();
 
+                            if (current_camera_point != 1)
+                            {
+                                update_camera_point(1);
+                            }
+
                             set_card_preview_animation_values(boss_card_in_preview.transform, card_preview_point);
                             GI.player_hud.show_boss_card_preview_hud(boss_card);
                         }
