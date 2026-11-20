@@ -330,15 +330,28 @@ public class Boss : MonoBehaviour
                                 List<Card> available_cards = new List<Card>();
                                 for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
                                 {
-                                    available_cards.Add(GI.player_card_game.cards_in_hand[i]);
+                                    Card card = GI.player_card_game.cards_in_hand[i];
+                                    if (card)
+                                    {
+                                        available_cards.Add(card);
+                                    }
                                 }
 
-                                Card card_to_remove = available_cards[Random.Range(0, available_cards.Count)];
-                                GI.player_card_game.remove_card_from_hand(card_to_remove);
-                                GI.player_card_game.reorder_cards_in_hand();
-                                card_to_remove.destroy();
+                                if (available_cards.Count > 0)
+                                {
+                                    Card card_to_remove = available_cards[Random.Range(0, available_cards.Count)];
+                                    GI.player_card_game.remove_card_from_hand(card_to_remove);
+                                    GI.player_card_game.reorder_cards_in_hand();
+                                    card_to_remove.destroy();
 
-                                GI.player_hud.show_boss_attack_text("Destroyed " + card_to_remove.gameObject.name + "from player's hand");
+                                    GI.player_hud.show_boss_attack_text("Destroyed " + card_to_remove.gameObject.name + "from player's hand");
+                                }
+                                else
+                                {
+                                    GI.player_hud.show_boss_attack_text("Player has no card in hand to remove");
+                                }
+
+
                             } break;
                         case Boss_Abilities.REMOVE_PLAYER_POINTS_WHEN_SELECTING_A_CARD_FROM_A_ROW:
                             {
