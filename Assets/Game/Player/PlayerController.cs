@@ -226,7 +226,8 @@ public class PlayerController : MonoBehaviour
                     Card card = card_collider.card;
                     BossCard boss_card = card_collider.boss_card;
 
-                    if (card && !card.is_in_desk && !selected_cards.Contains(card))
+                    if (card && !card.is_in_desk && !selected_cards.Contains(card) && !cards_in_trio.Contains(card) && 
+                        selected_cards.Count < 3)
                     {
                         if (card_in_preview == card)
                         {
