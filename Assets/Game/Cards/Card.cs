@@ -104,6 +104,7 @@ public class Card : MonoBehaviour
     public vfxDistribute vfx_distribute;
     public vfxCreate vfx_create;
     public promoteVFX promote_vfx; 
+    public demoteVFX demote_vfx;
     public bool is_revealed = true;
 
     [Header("INTERNAL")]
@@ -317,6 +318,13 @@ public Material card_box_texture;
 {
     if (promote_vfx != null)
         promote_vfx.Active();
+}
+public void play_demote_vfx()
+{
+    if (demote_vfx != null)
+    {
+        demote_vfx.Active();
+    }
 }
     public void add_points(int amount)
     {

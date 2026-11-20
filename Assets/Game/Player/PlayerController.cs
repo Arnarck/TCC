@@ -803,6 +803,7 @@ public class PlayerController : MonoBehaviour
                         for (int i = card_index - 1; i >= 0; i--)
                         {
                             cards_in_trio[i].remove_points(2);
+                            cards_in_trio[i].play_demote_vfx();
                         }
 
                         s += ". Cards on the left were <b>DEMOTED</b> by 2 points";
@@ -929,6 +930,7 @@ public class PlayerController : MonoBehaviour
                         if (cards_in_hand[i])
                         {
                             cards_in_hand[i].remove_points(1);
+                            cards_in_hand[i].play_demote_vfx();
                             points_to_improve++;
                         }
                     }
@@ -939,6 +941,7 @@ public class PlayerController : MonoBehaviour
                         if (cards_in_trio[i] != card)
                         {
                             cards_in_trio[i].remove_points(1);
+                            cards_in_trio[i].play_demote_vfx();
                             points_to_improve++;
                         }
                     }
@@ -1019,8 +1022,8 @@ public class PlayerController : MonoBehaviour
                     }
                     else
                     {
-                        if (card_index > 0) { cards_in_trio[card_index - 1].remove_points(5); }
-                        if (card_index < 2) { cards_in_trio[card_index + 1].remove_points(5); }
+                        if (card_index > 0) { cards_in_trio[card_index - 1].remove_points(5);    cards_in_trio[card_index - 1].play_demote_vfx();}
+                        if (card_index < 2) { cards_in_trio[card_index + 1].remove_points(5);    cards_in_trio[card_index + 1].play_demote_vfx();}
 
                         GI.player_hud.add_message_to_history_panel("<b>HUMAN FROG: </b>Adjacent cards in trio were <b>DEMOTED</b> " +
                                                                     "by 5 points");
@@ -1158,6 +1161,7 @@ public class PlayerController : MonoBehaviour
                     if (current_card && current_card.type == Card_Type.SLEEPING_BEAUTY && current_card.has_improved_after_a_trio)
                     {
                         current_card.remove_points(2);
+                        current_card.play_demote_vfx();
                         current_card.has_improved_after_a_trio = false;
 
                         GI.player_hud.add_message_to_history_panel("<b>SLEEPING BEAUTY: </b><b>DEMOTED</b> by 2 points");

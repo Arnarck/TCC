@@ -718,6 +718,7 @@ MonoBehaviour:
   vfx_distribute: {fileID: 7369331595345078974}
   vfx_create: {fileID: 2229543774974174157}
   promote_vfx: {fileID: 8879862979474650217}
+  demote_vfx: {fileID: 5733883543326805154}
   is_revealed: 1
   ignore_card_ability: 0
   blow_up_if_selected: 0
@@ -1715,6 +1716,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1973775795928810185, guid: f8ed04bbf729f114db4cb2384de63082, type: 3}
   m_PrefabInstance: {fileID: 2623315750362850125}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5733883543326805154 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7779189295073685487, guid: f8ed04bbf729f114db4cb2384de63082, type: 3}
+  m_PrefabInstance: {fileID: 2623315750362850125}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad7a8453975ba245a925efd036d2c78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::demoteVFX
 --- !u!1001 &3122364778011850565
 PrefabInstance:
   m_ObjectHideFlags: 0
