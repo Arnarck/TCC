@@ -7102,6 +7102,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5302235777089728819, guid: 11d9d03b73e74194b84cb8ab992b3ce7, type: 3}
+      propertyPath: abilityVFX
+      value: 
+      objectReference: {fileID: 1529860336}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24849,6 +24853,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1665089382991479417, guid: 456ecf21ac803bc489afc4f30ce2e114, type: 3}
   m_PrefabInstance: {fileID: 4173459804958697992}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1529860336 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 891437960295355752, guid: 456ecf21ac803bc489afc4f30ce2e114, type: 3}
+  m_PrefabInstance: {fileID: 4173459804958697992}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7895cca9790dff4a9c4ab599d41fdf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityVFX
 --- !u!1001 &1551225098
 PrefabInstance:
   m_ObjectHideFlags: 0
