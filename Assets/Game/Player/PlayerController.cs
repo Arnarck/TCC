@@ -1341,14 +1341,14 @@ public class PlayerController : MonoBehaviour
     public void win()
     {
         pause_game();
-
+        game_over = true;
         GI.player_hud.show_win();
     }
 
     public void lose()
     {
         pause_game();
-
+        game_over = true;
         GI.player_hud.show_lose();
     }
 }
