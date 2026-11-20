@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
     public float update_camera_point_t;
     public int gain_tokens_from_three_pigs_interaction_count;
     public float card_preview_animation_t;
+    public bool making_trio;
     public Vector3 card_in_preview_start_position;
     public Vector3 card_in_preview_end_position;
     public Quaternion card_in_preview_start_rotation;
@@ -102,7 +103,7 @@ public class PlayerController : MonoBehaviour
         float dt = Time.deltaTime;
 
         { // Update Camera
-            if (!has_a_card_in_preview())
+            if (!has_a_card_in_preview() && !making_trio)
             {
                 if (Input.GetKeyDown(KeyCode.W))
                 {
@@ -131,7 +132,7 @@ public class PlayerController : MonoBehaviour
         }
 
         { // Select Card
-            if (Input.GetMouseButtonDown(0) && !has_a_card_in_preview() && update_camera_point_t <= 0f)
+            if (Input.GetMouseButtonDown(0) && !has_a_card_in_preview() && update_camera_point_t <= 0f && !making_trio)
             {
                 // Selects a card
 
@@ -214,7 +215,7 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
-            else if (Input.GetMouseButtonDown(1) && update_camera_point_t <= 0f)
+            else if (Input.GetMouseButtonDown(1) && update_camera_point_t <= 0f && !making_trio)
             {
                 // Previews a card
 
@@ -320,6 +321,7 @@ public class PlayerController : MonoBehaviour
                     }
                     else
                     {
+                        making_trio = false;
                         if (can_update_turn())
                         {
                             update_turn_t = 2f;
@@ -353,7 +355,7 @@ public class PlayerController : MonoBehaviour
         }
 
         { // Make Trio
-            if (Input.GetKeyDown(KeyCode.Space) && selected_cards.Count == 3 && actions_remaining > 0)
+            if (Input.GetKeyDown(KeyCode.Space) && selected_cards.Count == 3 && actions_remaining > 0 && !making_trio)
             {
                 make_trio();
             }
@@ -362,6 +364,7 @@ public class PlayerController : MonoBehaviour
 
     public void make_trio()
     {
+        making_trio = true;
         GI.player_hud.start_trio_animation();
 
         // Place cards in desk

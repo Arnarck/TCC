@@ -16,7 +16,8 @@ public class DeskInteraction : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GI.player_card_game.game_stopped || GI.card_system.is_memorization_phase || GI.player_card_game.has_a_card_in_preview())
+        if (GI.player_card_game.game_stopped || GI.card_system.is_memorization_phase || GI.player_card_game.has_a_card_in_preview() || 
+            GI.player_card_game.making_trio)
         { 
             return; 
         }
