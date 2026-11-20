@@ -157,7 +157,7 @@ public class Boss : MonoBehaviour
 
                 // Use ability
                 BossCard card_to_use = null;
-                if (available_abilities.Count > 0)
+                if (available_abilities.Count > 1)
                 {
                     card_to_use = available_abilities[Random.Range(0, available_abilities.Count)];
                     card_to_use.do_attack();
