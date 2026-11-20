@@ -828,7 +828,8 @@ public class PlayerController : MonoBehaviour
                         card.add_points(2);
                         card.play_promote_vfx();
 
-                        GI.player_hud.add_message_to_history_panel("<b>UGLY DUCK: </b><b>PROMOTED</b> by 2 points");
+                        GI.player_hud.add_message_to_history_panel("<b>UGLY DUCK: </b><b>PROMOTED</b> by 2 points " +
+                                                                   "(" + (card.promoted_at_start_of_turn_count + 1) + "/10)");
                     }
                     else
                     {
@@ -1119,10 +1120,10 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < cards_in_hand.Length; i++)
         {
             Card card = cards_in_hand[i];
-            if (card && card.type == Card_Type.UGLY_DUCK && !card.promoted_at_start_of_turn)
+            if (card && card.type == Card_Type.UGLY_DUCK && card.promoted_at_start_of_turn_count < 10)
             {
                 activate_card_ability(card);
-                card.promoted_at_start_of_turn = true;
+                card.promoted_at_start_of_turn_count++;
                 promoted_an_ugly_duck = true;
             }
         }

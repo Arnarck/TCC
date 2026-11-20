@@ -116,7 +116,7 @@ public class Card : MonoBehaviour
     public bool remove_player_points_when_selected;
     public bool is_in_desk;
     public float disable_t;
-    public bool promoted_at_start_of_turn;
+    public int promoted_at_start_of_turn_count;
     public int remove_points_t;
     public int points_to_remove_after_x_turns;
     public bool has_improved_after_a_trio;
