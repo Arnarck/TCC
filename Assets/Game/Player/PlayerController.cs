@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
         float dt = Time.deltaTime;
 
         { // Update Camera
-            if (!has_a_card_in_preview() && !making_trio)
+            if (!has_a_card_in_preview() && !making_trio && selected_cards.Count < 3)
             {
                 if (Input.GetKeyDown(KeyCode.W))
                 {
