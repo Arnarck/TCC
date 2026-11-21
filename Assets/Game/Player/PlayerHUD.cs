@@ -23,7 +23,6 @@ public class PlayerHUD : MonoBehaviour
     public GameObject back_to_main_menu_panel;
     public GameObject card_game_hud;
     public GameObject trio_hud;
-    public TextMeshProUGUI boss_attack_text;
     public Sprite resumed_sprite;
     public Sprite paused_sprite;
 
@@ -66,7 +65,6 @@ public class PlayerHUD : MonoBehaviour
 
     [Header("INTERNAL")]
     public bool update_scroll_view;
-    public float boss_attack_text_t;
     public float memorization_phase_panel_t;
     public float trio_animation_t;
     public float show_memorization_phase_t;
@@ -100,15 +98,6 @@ public class PlayerHUD : MonoBehaviour
             if (show_card_ability_description_t <= 0f)
             {
                 card_ability_description_panel.SetActive(false);
-            }
-        }
-
-        if (boss_attack_text_t > 0f)
-        {
-            boss_attack_text_t -= dt;
-            if (boss_attack_text_t <= 0f)
-            {
-                boss_attack_text.enabled = false;
             }
         }
 
@@ -185,13 +174,6 @@ public class PlayerHUD : MonoBehaviour
     public void update_actions_remaining_text()
     {
         actions_remaining_text.text = "Actions : " + GI.player_card_game.actions_remaining;
-    }
-
-    public void show_boss_attack_text(string text)
-    {
-        boss_attack_text.enabled = true;
-        boss_attack_text.text = text;
-        boss_attack_text_t = 2f;
     }
 
     public void show_card_preview_hud(Card card)
