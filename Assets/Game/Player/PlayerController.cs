@@ -340,6 +340,7 @@ public class PlayerController : MonoBehaviour
                 current_trio_card_to_activate_ability++;
 
                 Card card = cards_in_trio[current_trio_card_to_activate_ability];
+                card.active_card.Active(transform.position, transform.rotation); // VFX
                 activate_card_ability(card);
 
                 // Enable next card (if there is any)

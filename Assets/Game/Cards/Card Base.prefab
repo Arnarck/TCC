@@ -719,6 +719,7 @@ MonoBehaviour:
   vfx_create: {fileID: 2229543774974174157}
   promote_vfx: {fileID: 8879862979474650217}
   demote_vfx: {fileID: 5733883543326805154}
+  disappear_vfx: {fileID: 1044968147754228117}
   is_revealed: 1
   ignore_card_ability: 0
   blow_up_if_selected: 0

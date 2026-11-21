@@ -108,6 +108,7 @@ public class Card : MonoBehaviour
     public vfxCreate vfx_create;
     public promoteVFX promote_vfx; 
     public demoteVFX demote_vfx;
+    public DisappearVFX disappear_vfx;
     public bool is_revealed = true;
 
     [Header("INTERNAL")]
@@ -310,14 +311,10 @@ public Material card_box_texture;
 
     public void disable_from_trio()
     {
-        play_ability_vfx();
+        disappear_vfx.Active();
         disable_t = 2f;
     }
 
-    public void play_ability_vfx()
-    {
-        active_card.Active(transform.position, transform.rotation); // VFX
-    }
     public void play_promote_vfx()
 {
     if (promote_vfx != null)
