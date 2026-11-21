@@ -375,6 +375,7 @@ public class PlayerController : MonoBehaviour
 
             if (i == 0 && GI.boss.is_card_in_desk(Boss_Abilities.DESTROY_TRIO_CARD_ON_THE_LEFT))
             {
+                GI.player_hud.add_message_to_history_panel("<b>Tough Shell: </b>A card from Trio was destroyed");
                 card.destroy();
             }
             else

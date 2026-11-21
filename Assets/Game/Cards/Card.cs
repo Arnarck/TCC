@@ -261,6 +261,7 @@ public Material card_box_texture;
         if (remove_player_points_when_selected)
         {
             GI.player_card_game.take_damage(5);
+            GI.player_hud.add_message_to_history_panel("<b>Wonderland: </b>A card from a cursed row was selected. 5 Chips were lost");
         }
     }
 

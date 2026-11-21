@@ -117,18 +117,18 @@ public class Boss : MonoBehaviour
 
                         GI.player_hud.add_message_to_history_panel("<b>Bad Company: </b>A player card was replaced by a <b>Bad Apple</b>");
                     }
-                }
-                else
-                {
-                    if (replace_player_cards_t == 1)
-                    {
-                        GI.player_hud.add_message_to_history_panel("<b>Bad Company: </b>A player card will be replaced by a " +
-                                                                               "<b>Bad Apple</b> in 1 turn");
-                    }
                     else
                     {
-                        GI.player_hud.add_message_to_history_panel("<b>Bad Company: </b>A player card will be replaced by a " +
-                                                                   "<b>Bad Apple</b> in " + replace_player_cards_t + " turns");
+                        if (replace_player_cards_t == 1)
+                        {
+                            GI.player_hud.add_message_to_history_panel("<b>Bad Company: </b>A player card will be replaced by a " +
+                                                                                   "<b>Bad Apple</b> in 1 turn");
+                        }
+                        else
+                        {
+                            GI.player_hud.add_message_to_history_panel("<b>Bad Company: </b>A player card will be replaced by a " +
+                                                                       "<b>Bad Apple</b> in " + replace_player_cards_t + " turns");
+                        }
                     }
                 }
 
@@ -373,6 +373,15 @@ public class Boss : MonoBehaviour
                                 {
                                     blow_up_cards_collider.gameObject.SetActive(true);
                                     spawn_multicard_selector_in_desk(blow_up_cards_collider, GI.card_system.columns_spawn_points);
+
+                                    GI.player_hud.add_message_to_history_panel("<b>Turtle Mine: A card column from desk is armed. " +
+                                                                               "Selecting a card from this column will result in " +
+                                                                               "Game Over");
+                                }
+                                else
+                                {
+                                    GI.player_hud.add_message_to_history_panel("<b>Turtle Mine: Another card column from desk is already" +
+                                                                               " armed. Ability will be ignored");
                                 }
                             }
                             break;
@@ -405,8 +414,10 @@ public class Boss : MonoBehaviour
                                     }
                                 }
 
-                                GI.player_hud.show_boss_attack_text("Added 5 points to " + family_to_increase_points.ToString() + ". Removed" +
-                                    "10 points for the other families");
+                                GI.player_hud.add_message_to_history_panel("<b>Favorites: </b>Added 5 points to all cards from family " +
+                                                                           "<b>" + family_to_increase_points.ToString().Replace('_', ' ') + 
+                                                                           "</b> in player's hand. Removed 10 points from cards of " +
+                                                                           "the other families");
                             } break;
                         case Boss_Abilities.DESTROY_A_CARD_FROM_PLAYER_HAND:
                             {
@@ -427,11 +438,14 @@ public class Boss : MonoBehaviour
                                     GI.player_card_game.reorder_cards_in_hand();
                                     card_to_remove.destroy();
 
-                                    GI.player_hud.show_boss_attack_text("Destroyed " + card_to_remove.gameObject.name + "from player's hand");
+                                    GI.player_hud.add_message_to_history_panel("<b>Good Stuff: </b>Destroyed <b>" + 
+                                                                               card_to_remove.type.ToString().Replace('_', ' ') + 
+                                                                               "<b> card from player's hand");
                                 }
                                 else
                                 {
-                                    GI.player_hud.show_boss_attack_text("Player has no card in hand to remove");
+                                    GI.player_hud.show_boss_attack_text("<b>Good Stuff: </b>Player has no cards in hand. Ability will " +
+                                                                        "be ignored");
                                 }
 
 
@@ -441,7 +455,8 @@ public class Boss : MonoBehaviour
                                 remove_points_cards_collider.gameObject.SetActive(true);
                                 spawn_multicard_selector_in_desk(remove_points_cards_collider, GI.card_system.rows_spawn_points);
 
-                                GI.player_hud.show_boss_attack_text("A new row was selected to remove player points");
+                                GI.player_hud.add_message_to_history_panel("<b>Wonderland: </b>A card row from desk was cursed. " +
+                                                                           "Selecting a card from this row will result in 5 Chips loss");
                             } break;
                         case Boss_Abilities.DESTROY_CARD_FROM_TABLE_AND_REPLACE_WITH_ANNOYING_DWARF:
                             {
@@ -465,7 +480,8 @@ public class Boss : MonoBehaviour
                                 Card card_to_spawn = Instantiate(annoying_dwarf_card_prefab).GetComponent<Card>();
                                 GI.card_system.add_card_to_desk(card_to_spawn, index_to_remove);
 
-                                GI.player_hud.show_boss_attack_text("A card in desk was overwritten by an Annoying Dwarf");
+                                GI.player_hud.add_message_to_history_panel("<b>Secret Ingredient: </b>A card in desk was overwritten " +
+                                                                           "by an Annoying Dwarf");
                             } break;
                         case Boss_Abilities.DESTROY_TRIO_CARD_ON_THE_LEFT:
                             {
