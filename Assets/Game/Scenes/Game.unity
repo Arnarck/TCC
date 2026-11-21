@@ -40051,9 +40051,75 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 568849619072096179, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 568849619072096179, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 568849619072096179, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 568849619072096179, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: keywords_description.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[4]'
+      value: (DESTROY) Remove the affected cards from the player's hand or table
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[5]'
+      value: (CREATE) Creates a new card in the player's hand
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[6]'
+      value: (TRANSFORM) The affected card transforms into another
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[7]'
+      value: (SCORED) Some effect hapeens after this cards' chips are counted in
+        a trio
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[8]'
+      value: no Keyword
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[9]'
+      value: (BLOW UP) After this card activates, you'll lose MANY chips, watch out
+        for that
+      objectReference: {fileID: 0}
+    - target: {fileID: 4964207931770792945, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4964207931770792945, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5456988360979526347, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5456988360979526347, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005255545553219949, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
       propertyPath: m_Name
       value: Player HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 6491570496119654850, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6602431037687460606, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
       propertyPath: m_Pivot.x
@@ -40133,6 +40199,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6602431037687460606, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6967842870161420188, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6967842870161420188, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7064015094365469922, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7064015094365469922, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7064015094365469922, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
