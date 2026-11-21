@@ -444,7 +444,7 @@ public class Boss : MonoBehaviour
                                 }
                                 else
                                 {
-                                    GI.player_hud.show_boss_attack_text("<b>Good Stuff: </b>Player has no cards in hand. Ability will " +
+                                    GI.player_hud.add_message_to_history_panel("<b>Good Stuff: </b>Player has no cards in hand. Ability will " +
                                                                         "be ignored");
                                 }
 
@@ -456,7 +456,7 @@ public class Boss : MonoBehaviour
                                 spawn_multicard_selector_in_desk(remove_points_cards_collider, GI.card_system.rows_spawn_points);
 
                                 GI.player_hud.add_message_to_history_panel("<b>Wonderland: </b>A card row from desk was cursed. " +
-                                                                           "Selecting a card from this row will result in 5 Chips loss");
+                                                                           "Selecting a card from this row will consume 5 Chips");
                             } break;
                         case Boss_Abilities.DESTROY_CARD_FROM_TABLE_AND_REPLACE_WITH_ANNOYING_DWARF:
                             {
