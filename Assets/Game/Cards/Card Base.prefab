@@ -725,7 +725,7 @@ MonoBehaviour:
   remove_player_points_when_selected: 0
   is_in_desk: 0
   disable_t: 0
-  promoted_at_start_of_turn: 0
+  promoted_at_start_of_turn_count: 0
   remove_points_t: 0
   points_to_remove_after_x_turns: 0
   has_improved_after_a_trio: 0
@@ -984,7 +984,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.0402, y: 0.0315}
-  m_SizeDelta: {x: 0.02, y: 0.025}
+  m_SizeDelta: {x: 0.05, y: 0.025}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6891676069774078977
 CanvasRenderer:
