@@ -115,7 +115,20 @@ public class Boss : MonoBehaviour
                         Card bad_apple_card = Instantiate(bad_apple_card_prefab).GetComponent<Card>();
                         GI.player_card_game.add_card_to_hand(bad_apple_card, index);
 
-                        GI.player_hud.show_boss_attack_text("Added Bad Apple to player's hand");
+                        GI.player_hud.add_message_to_history_panel("<b>Bad Company: </b>A player card was replaced by a <b>Bad Apple</b>");
+                    }
+                }
+                else
+                {
+                    if (replace_player_cards_t == 1)
+                    {
+                        GI.player_hud.add_message_to_history_panel("<b>Bad Company: </b>A player card will be replaced by a " +
+                                                                               "<b>Bad Apple</b> in 1 turn");
+                    }
+                    else
+                    {
+                        GI.player_hud.add_message_to_history_panel("<b>Bad Company: </b>A player card will be replaced by a " +
+                                                                   "<b>Bad Apple</b> in " + replace_player_cards_t + " turns");
                     }
                 }
 
@@ -127,9 +140,23 @@ public class Boss : MonoBehaviour
                     {
                         int points_to_remove = 10;
                         demote_cards_collider.demote_cards_inside_collider(points_to_remove);
-                        GI.player_hud.show_boss_attack_text("Demoted cards in a columnn by " + points_to_remove + " points");
+                        GI.player_hud.add_message_to_history_panel("<b>Poison Pie: </b>All cards from a column in desk are " +
+                                                                   "<b>DEMOTED</b> by " + points_to_remove + " points");
 
                         demote_cards_collider.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        if (demote_cards_in_column_t == 1)
+                        {
+                            GI.player_hud.add_message_to_history_panel("<b>Poison Pie: </b>A card column from desk desk will be " +
+                                                                       "<b>DEMOTED</b> in 1 turn");
+                        }
+                        else
+                        {
+                            GI.player_hud.add_message_to_history_panel("<b>Poison Pie: </b>A card column from desk desk will be " +
+                                                                       "<b>DEMOTED</b> in " + demote_cards_in_column_t + " turns");
+                        }
                     }
                 }
 
@@ -140,6 +167,18 @@ public class Boss : MonoBehaviour
                     if (blow_up_t < 1)
                     {
                         GI.player_card_game.lose();
+                        GI.player_hud.add_message_to_history_panel("<b>T4: </b>Game Over");
+                    }
+                    else
+                    {
+                        if (blow_up_t == 1)
+                        {
+                            GI.player_hud.add_message_to_history_panel("<b>T4: </b>Game Over in 1 turn");
+                        }
+                        else
+                        {
+                            GI.player_hud.add_message_to_history_panel("<b>T4: </b>Game Over in " + blow_up_t + " turns");
+                        }
                     }
                 }
 
@@ -167,7 +206,7 @@ public class Boss : MonoBehaviour
                         case Boss_Abilities.ADD_CHIPS:
                             {
                                 add_health(10);
-                                GI.player_hud.show_boss_attack_text("Added 10 health");
+                                GI.player_hud.add_message_to_history_panel("<b>Deep Pockets: </b>Added 10 health");
                             }
                             break;
                         case Boss_Abilities.DEMOTE_CHARACTERS_FROM_FAMILY_X:
@@ -188,7 +227,9 @@ public class Boss : MonoBehaviour
 
                                 if (points_removed)
                                 {
-                                    GI.player_hud.show_boss_attack_text("Removed 2 points from family " + family_to_reduce_points.ToString());
+                                    GI.player_hud.add_message_to_history_panel("<b>Destroy Reputation: </b>Removed 2 points from cards " +
+                                                                               "of Family " + 
+                                                                               family_to_reduce_points.ToString().Replace('_', ' '));
                                 }
                             }
                             break;
@@ -198,6 +239,9 @@ public class Boss : MonoBehaviour
                                 {
                                     replace_player_cards_t = 2;
                                 }
+
+                                GI.player_hud.add_message_to_history_panel("<b>Bad Company: </b>A player card will be replaced by a " +
+                                                                           "<b>Bad Apple</b> in " + replace_player_cards_t + " turns");
                             }
                             break;
                         case Boss_Abilities.STEAL_PLAYER_POINTS:
@@ -207,7 +251,8 @@ public class Boss : MonoBehaviour
                                 GI.player_card_game.take_damage(points_to_steal);
                                 add_health(points_to_steal);
 
-                                GI.player_hud.show_boss_attack_text("Stolen " + points_to_steal + " points from player");
+                                GI.player_hud.add_message_to_history_panel("<b>Light Paws: </b>Stolen " + points_to_steal + " points " +
+                                                                           "from player");
                             }
                             break;
                         case Boss_Abilities.SPAWN_DWARF_IN_PLAYER_HAND:
@@ -215,7 +260,13 @@ public class Boss : MonoBehaviour
                                 bool success = spawn_card_in_player_hand(dwarf_card_prefab);
                                 if (success)
                                 {
-                                    GI.player_hud.show_boss_attack_text("Spawned a Dwarf in player's hand");
+                                    GI.player_hud.add_message_to_history_panel("<b>Little Infestation: </b>Spawned a Dwarf in player's " +
+                                                                               "hand");
+                                }
+                                else
+                                {
+                                    GI.player_hud.add_message_to_history_panel("<b>Little Infestation: </b>No available cards in " +
+                                                                               "player's hand. <b>Dwarf</b> will not spawn");
                                 }
 
                             }
@@ -227,8 +278,14 @@ public class Boss : MonoBehaviour
                                     demote_cards_in_column_t = 2;
                                     demote_cards_collider.gameObject.SetActive(true);
                                     spawn_multicard_selector_in_desk(demote_cards_collider, GI.card_system.columns_spawn_points);
+                                    GI.player_hud.add_message_to_history_panel("<b>Poison Pie: </b>A card column from desk desk will be " +
+                                                                               "<b>DEMOTED</b> in " + demote_cards_in_column_t + " turns");
                                 }
-
+                                else
+                                {
+                                    GI.player_hud.add_message_to_history_panel("<b>Poison Pie: </b>A card column from desk already is " +
+                                                                               "<b>DEMOTED</b>. Ability will be ignored");
+                                }
                             }
                             break;
                         case Boss_Abilities.PROMOTE_CARD_IN_PLAYER_HAND:
@@ -247,7 +304,13 @@ public class Boss : MonoBehaviour
 
                                 if (points_added)
                                 {
-                                    GI.player_hud.show_boss_attack_text("Added 1 point to a player's card");
+                                    GI.player_hud.add_message_to_history_panel("<b>Irresistible Cake: </b>Added 1 point to a player's " +
+                                                                               "card");
+                                }
+                                else
+                                {
+                                    GI.player_hud.add_message_to_history_panel("<b>Irresistible Cake: </b>Player has no cards in hand." +
+                                                                               " Ability will be ignored");
                                 }
                             }
                             break;
@@ -256,23 +319,37 @@ public class Boss : MonoBehaviour
                                 bool success = spawn_card_in_player_hand(annoying_dwarf_card_prefab);
                                 if (success)
                                 {
-                                    GI.player_hud.show_boss_attack_text("Spawned an Annoying Dwarf in player's hand");
+                                    GI.player_hud.add_message_to_history_panel("<b>Growing Infestation: </b>Spawned an " +
+                                                                               "<b>Annoying Dwarf</b> in player's hand");
+                                }
+                                else
+                                {
+                                    GI.player_hud.add_message_to_history_panel("<b>Growing Infestation: </b>Player has no cards i hand." +
+                                                                               " Ability will be ignored");
                                 }
 
                             }
                             break;
                         case Boss_Abilities.DEMOTE_CARD_BY_X_POINTS:
                             {
+                                bool success = false;
                                 for (int i = 0; i < GI.player_card_game.cards_in_hand.Length; i++)
                                 {
                                     Card card = GI.player_card_game.cards_in_hand[i];
                                     if (card)
                                     {
                                         card.remove_points(2);
-                                        GI.player_hud.show_boss_attack_text("Removed 2 points from a player's card");
+                                        GI.player_hud.add_message_to_history_panel("<b>Drinks: </b>Removed 2 points from a player's card");
+                                        success = true;
 
                                         break;
                                     }
+                                }
+
+                                if (!success)
+                                {
+                                    GI.player_hud.add_message_to_history_panel("<b>Drinks: </b>Player has no cards in hand. Ability " +
+                                                                               "will be ignored");
                                 }
                             }
                             break;
@@ -281,6 +358,12 @@ public class Boss : MonoBehaviour
                                 if (blow_up_t < 1)
                                 {
                                     blow_up_t = 4;
+                                    GI.player_hud.add_message_to_history_panel("<b>T4: </b>Game Over in " + blow_up_t + " turns");
+                                }
+                                else
+                                {
+                                    GI.player_hud.add_message_to_history_panel("<b>T4: </b>Another <b>T4</b> is in progress. Ability " +
+                                                                               "will be ignored");
                                 }
                             }
                             break;
