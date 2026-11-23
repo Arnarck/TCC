@@ -937,6 +937,15 @@ public class Boss : MonoBehaviour
             is_alive = false;
         }
 
+        if (amount >= 5)
+        {
+            animator.SetTrigger("TakeMoreDamage");
+        }
+        else if (amount > 0) 
+        { 
+            animator.SetTrigger("TakeDamage");
+        }
+
         GI.player_hud.update_boss_health_text();
     }
 
