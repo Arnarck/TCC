@@ -62,10 +62,11 @@ public class Boss : MonoBehaviour
     public int replace_player_cards_t;
     public int demote_cards_in_column_t;
     public int blow_up_t;
-    public float finish_turn_t;
     public int current_turn;
     public bool is_phase_2;
     public bool is_alive;
+    public float finish_turn_t;
+    public float play_start_turn_animation_t;
     public BossCard[] cards_in_desk;
 
     private void Start()
@@ -83,6 +84,16 @@ public class Boss : MonoBehaviour
         }
 
         float dt = Time.deltaTime;
+
+        if (play_start_turn_animation_t > 0f)
+        {
+            play_start_turn_animation_t -= dt;
+            if (play_start_turn_animation_t <= 0f)
+            {
+                animator.SetTrigger("StartTurn");
+            }
+        }
+
 
         if (finish_turn_t > 0f)
         {
@@ -575,16 +586,19 @@ public class Boss : MonoBehaviour
     public void start_turn()
     {
         current_turn++;
-        finish_turn_t = 2f;
+        finish_turn_t = 5.5f;
 
         bool entered_phase_2 = false;
         int half_health = max_health / 2;
         if (health <= half_health && previous_health > half_health)
         {
             animator.SetTrigger("EnterPhase2");
-            finish_turn_t += 3.5f;
             is_phase_2 = true;
             entered_phase_2 = true;
+        }
+        else
+        {
+            play_start_turn_animation_t = 0.5f;
         }
 
         // Add cards to desk
