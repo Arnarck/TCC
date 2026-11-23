@@ -126,6 +126,10 @@ public class PlayerController : MonoBehaviour
             if (update_camera_point_t <= 0f)
             {
                 update_camera_point_t = 0f;
+                if (current_camera_point == 4)
+                {
+                    GI.boss.animator.SetTrigger("CameraDiscomfort");
+                }
             }
 
             Transform start = camera_points[previous_camera_point];
