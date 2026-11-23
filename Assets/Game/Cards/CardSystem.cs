@@ -27,6 +27,7 @@ public class CardSystem : MonoBehaviour
     public bool is_player_turn;
     public bool is_memorization_phase;
     public float memorization_phase_t;
+    public float start_game_t;
     public Card[] cards_in_desk;
 
     [Header("Visual Effects")]
@@ -87,6 +88,29 @@ public class CardSystem : MonoBehaviour
         }
 
         float dt = Time.deltaTime;
+
+        if (start_game_t > 0f)
+        {
+            start_game_t -= dt;
+            if (start_game_t <= 0f)
+            {
+                spawn_cards_in_desk();
+
+                // Start player and boss
+                GI.player_card_game.start_game();
+                GI.boss.start_game();
+
+                // Spawn cards in player hand
+                Card card_to_hand_1 = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)]).GetComponent<Card>();
+                Card card_to_hand_2 = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)]).GetComponent<Card>();
+                GI.player_card_game.add_card_to_hand(card_to_hand_1, 0);
+                GI.player_card_game.add_card_to_hand(card_to_hand_2, 1);
+
+                start_memorization_phase();
+
+                __start_player_turn();
+            }
+        }
 
         if (is_memorization_phase)
         {
@@ -171,23 +195,9 @@ public class CardSystem : MonoBehaviour
         GI.player_hud.show_card_game_hud();
         GI.player_hud.add_all_texts_to_pool();
 
-        // Spawn random cards to desk
         remove_cards_from_desk();
-        spawn_cards_in_desk();
 
-        // Start player and boss
-        GI.player_card_game.start_game();
-        GI.boss.start_game();
-
-        // Spawn cards in player hand
-        Card card_to_hand_1 = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)]).GetComponent<Card>();
-        Card card_to_hand_2 = Instantiate(cards_prefabs[Random.Range(0, cards_prefabs.Length)]).GetComponent<Card>();
-        GI.player_card_game.add_card_to_hand(card_to_hand_1, 0);
-        GI.player_card_game.add_card_to_hand(card_to_hand_2, 1);
-
-        start_memorization_phase();
-
-        __start_player_turn();
+        start_game_t = 4.2f;
     }
 
     public void end_game()
@@ -263,8 +273,8 @@ public class CardSystem : MonoBehaviour
     {
         is_memorization_phase = true;
         memorization_phase_t = memorization_time;
-        GI.player_card_game.enable_memorization_phase_camera_view();
         GI.player_hud.start_memorization_phase();
+        GI.player_card_game.enable_memorization_phase_camera_view();
     }
 
     public void spawn_cards_in_desk()

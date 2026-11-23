@@ -96,12 +96,29 @@ public class PlayerController : MonoBehaviour
             else              { stop_game(); }
         }
 
+
+        float dt = Time.deltaTime;
+
+        if (update_camera_point_t > 0f)
+        {
+            update_camera_point_t -= dt * update_camera_point_animation_speed;
+            if (update_camera_point_t <= 0f)
+            {
+                update_camera_point_t = 0f;
+            }
+
+            Transform start = camera_points[previous_camera_point];
+            Transform target = camera_points[current_camera_point];
+
+            player_camera.transform.position = Vector3.Lerp(start.position, target.position, 1f - update_camera_point_t);
+            player_camera.transform.rotation = Quaternion.Lerp(start.rotation, target.rotation, 1f - update_camera_point_t);
+        }
+
+
         if (GI.card_system.is_memorization_phase || !GI.card_system.is_player_turn || game_stopped)
         {
             return;
         }
-
-        float dt = Time.deltaTime;
 
         { // Update Camera
             if (!has_a_card_in_preview() && !making_trio && selected_cards.Count < 3)
@@ -114,21 +131,6 @@ public class PlayerController : MonoBehaviour
                 {
                     update_camera_point(current_camera_point - 1);
                 }
-            }
-
-            if (update_camera_point_t > 0f)
-            {
-                update_camera_point_t -= dt*update_camera_point_animation_speed;
-                if (update_camera_point_t <= 0f)
-                {
-                    update_camera_point_t = 0f;
-                }
-
-                Transform start  = camera_points[previous_camera_point];
-                Transform target = camera_points[current_camera_point];
-
-                player_camera.transform.position =    Vector3.Lerp(start.position, target.position, 1f - update_camera_point_t);
-                player_camera.transform.rotation = Quaternion.Lerp(start.rotation, target.rotation, 1f - update_camera_point_t);
             }
         }
 
@@ -1314,7 +1316,7 @@ public class PlayerController : MonoBehaviour
 
     public void enable_memorization_phase_camera_view()
     {
-        update_camera_point(2, update_immediately: true);
+        update_camera_point(2, update_immediately: false);
     }
 
     public void enable_gameplay_camera_view()
