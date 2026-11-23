@@ -1380,6 +1380,7 @@ public class PlayerController : MonoBehaviour
     public void lose()
     {
         game_over = true;
+        GI.boss.animator.SetTrigger("Win");
         show_lose_t = 2.3f;
     }
 }
