@@ -68,6 +68,7 @@ public class Boss : MonoBehaviour
     public float finish_turn_t;
     public float play_start_turn_animation_t;
     public float kill_boss_t;
+    public float update_turn_t;
     public BossCard[] cards_in_desk;
 
     private void Start()
@@ -85,6 +86,15 @@ public class Boss : MonoBehaviour
         }
 
         float dt = Time.deltaTime;
+
+        if (update_turn_t > 0f)
+        {
+            update_turn_t -= dt;
+            if (update_turn_t <= 0f)
+            {
+                GI.card_system.update_turn();
+            }
+        }
 
         if (kill_boss_t > 0f)
         {
@@ -223,6 +233,21 @@ public class Boss : MonoBehaviour
                     card_to_use = available_abilities[Random.Range(0, available_abilities.Count)];
                     card_to_use.do_attack();
 
+                    // Play ability animation
+                    if (card_to_use.ability_type == Boss_Abilities.ADD_CHIPS || 
+                        card_to_use.ability_type == Boss_Abilities.STEAL_PLAYER_POINTS ||
+                        card_to_use.ability_type == Boss_Abilities.REPLACE_PLAYER_CARD ||
+                        card_to_use.ability_type == Boss_Abilities.BLOW_UP ||
+                        card_to_use.ability_type == Boss_Abilities.BLOW_UP_WHEN_SELECTING_A_CARD_FROM_A_COLUMN)
+                    {
+                        animator.SetTrigger("SpecialAbility");
+                    }
+                    else
+                    {
+                        animator.SetTrigger("NormalAbility");
+                    }
+
+                    // Apply ability
                     switch (card_to_use.ability_type)
                     {
                         case Boss_Abilities.ADD_CHIPS:
@@ -516,7 +541,7 @@ public class Boss : MonoBehaviour
                 }
 
                 previous_health = health;
-                GI.card_system.update_turn();
+                update_turn_t = 2f;
             }
         }
     }
@@ -597,7 +622,7 @@ public class Boss : MonoBehaviour
     public void start_turn()
     {
         current_turn++;
-        finish_turn_t = 5.5f;
+        finish_turn_t = 3f;
 
         bool entered_phase_2 = false;
         int half_health = max_health / 2;
