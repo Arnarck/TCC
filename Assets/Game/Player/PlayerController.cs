@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
     public int gain_tokens_from_three_pigs_interaction_count;
     public float card_preview_animation_t;
     public bool making_trio;
+    public int previous_health;
     public Vector3 card_in_preview_start_position;
     public Vector3 card_in_preview_end_position;
     public Quaternion card_in_preview_start_rotation;
@@ -1108,6 +1109,7 @@ public class PlayerController : MonoBehaviour
 
         gain_tokens_from_three_pigs_interaction_count = MAX_TOKENS_FROM_THREE_PIGS_INTERACTION;
         health = 100;
+        previous_health = health;
         GI.player_hud.update_player_health_text();
         applying_trio_card_abilities = false;
     }
@@ -1153,8 +1155,13 @@ public class PlayerController : MonoBehaviour
             health = 0;
             lose();
         }
+        else if (health <= 30 && previous_health > 30)
+        {
+            GI.boss.animator.SetTrigger("MockPlayer");
+        }
 
         GI.player_hud.update_player_health_text();
+        previous_health = health;
     }
 
     public void decrease_actions_remaining()
