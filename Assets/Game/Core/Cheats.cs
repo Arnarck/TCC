@@ -29,6 +29,6 @@ public class Cheats : MonoBehaviour
     public void kill_boss()
     {
         GI.boss.take_damage(GI.boss.max_health);
-        GI.boss.maybe_kill_boss();
+        GI.boss.kill_boss();
     }
 }

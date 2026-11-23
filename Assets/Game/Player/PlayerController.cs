@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
     public float update_camera_point_t;
     public int gain_tokens_from_three_pigs_interaction_count;
     public float card_preview_animation_t;
+    public float show_win_t;
+    public float show_lose_t;
     public bool making_trio;
     public int previous_health;
     public Vector3 card_in_preview_start_position;
@@ -85,6 +87,28 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        float dt = Time.deltaTime;
+
+        if (show_win_t > 0f)
+        {
+            show_win_t -= dt;
+            if (show_win_t <= 0f)
+            {
+                pause_game();
+                GI.player_hud.show_win();
+            }
+        }
+
+        if (show_lose_t > 0f)
+        {
+            show_lose_t -= dt;
+            if (show_lose_t <= 0f)
+            {
+                pause_game();
+                GI.player_hud.show_lose();
+            }
+        }
+
         if (game_over)
         {
             return;
@@ -95,9 +119,6 @@ public class PlayerController : MonoBehaviour
             if (game_stopped) { resume_game(); }
             else              { stop_game(); }
         }
-
-
-        float dt = Time.deltaTime;
 
         if (update_camera_point_t > 0f)
         {
@@ -318,17 +339,10 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     applying_trio_card_abilities = false;
-                    if (GI.boss.health <= 0)
+                    making_trio = false;
+                    if (can_update_turn())
                     {
-                        GI.boss.maybe_kill_boss();
-                    }
-                    else
-                    {
-                        making_trio = false;
-                        if (can_update_turn())
-                        {
-                            update_turn_t = 2f;
-                        }
+                        update_turn_t = 2f;
                     }
                 }
             }
@@ -1207,6 +1221,12 @@ public class PlayerController : MonoBehaviour
 
     public void maybe_update_turn()
     {
+        if (GI.boss.health <= 0)
+        {
+            GI.boss.kill_boss();
+            return;
+        }
+
         if (can_update_turn())
         {
             GI.card_system.update_turn();
@@ -1352,15 +1372,14 @@ public class PlayerController : MonoBehaviour
 
     public void win()
     {
-        pause_game();
         game_over = true;
-        GI.player_hud.show_win();
+        GI.boss.animator.SetTrigger("Lose");
+        show_win_t = 2.3f;
     }
 
     public void lose()
     {
-        pause_game();
         game_over = true;
-        GI.player_hud.show_lose();
+        show_lose_t = 2.3f;
     }
 }

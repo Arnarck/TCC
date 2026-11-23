@@ -67,6 +67,7 @@ public class Boss : MonoBehaviour
     public bool is_alive;
     public float finish_turn_t;
     public float play_start_turn_animation_t;
+    public float kill_boss_t;
     public BossCard[] cards_in_desk;
 
     private void Start()
@@ -84,6 +85,16 @@ public class Boss : MonoBehaviour
         }
 
         float dt = Time.deltaTime;
+
+        if (kill_boss_t > 0f)
+        {
+            kill_boss_t -= dt;
+            if (kill_boss_t <= 0f)
+            {
+                gameObject.SetActive(false);
+                GI.card_system.start_game();
+            }
+        }
 
         if (play_start_turn_animation_t > 0f)
         {
@@ -963,14 +974,12 @@ public class Boss : MonoBehaviour
         GI.player_hud.update_boss_health_text();
     }
 
-    public void maybe_kill_boss()
+    public void kill_boss()
     {
-        if (health > 0f) { return; }
-
-        gameObject.SetActive(false);
         if (GI.card_system.current_boss_index < GI.card_system.bosses_in_game.Length - 1)
         {
-            GI.card_system.start_game();
+            animator.SetTrigger("Lose");
+            kill_boss_t = 8.2f;
         }
         else
         {
