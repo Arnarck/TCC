@@ -86,7 +86,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 12e654b5472beca4f93a128ee166d723, type: 2}
     - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: ability_description
-      value: 'Nothing...
+      value: '<b>NOTHING...</b>
 
         What, did you expect something useful?'
       objectReference: {fileID: 0}
