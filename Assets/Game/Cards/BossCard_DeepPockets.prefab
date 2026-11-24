@@ -30,7 +30,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: ability_description
-      value: It's gonna give him <b>5 chips</b>... Maybe consider disabling it?
+      value: In his turn, it's gonna give him <b>5 chips</b>... Maybe consider disabling
+        it?
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: cost_to_disable_ability

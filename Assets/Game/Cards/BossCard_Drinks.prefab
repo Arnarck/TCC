@@ -30,8 +30,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: ability_description
-      value: '<b>DEMOTE</b> a character in their opponent hand by 2. After removed,
-        <b>CREATE</b> a "Dizzines" in the opponent''s hand         '
+      value: <b>DEMOTE</b> a character in the opponent's hand by 3. After removed,
+        <b>CREATE</b> a "Dizzines" in the opponent's hand
       objectReference: {fileID: 0}
     - target: {fileID: 987351274131268789, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

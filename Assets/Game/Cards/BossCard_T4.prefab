@@ -30,10 +30,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: families_to_disable_card.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: 'families_to_disable_card.Array.data[1]'
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: 'families_to_disable_card.Array.data[2]'
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: 'families_to_disable_card.Array.data[3]'
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 987351274131268789, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}

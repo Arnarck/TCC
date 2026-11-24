@@ -385,8 +385,8 @@ public class Boss : MonoBehaviour
                                     Card card = GI.player_card_game.cards_in_hand[i];
                                     if (card)
                                     {
-                                        card.remove_points(2);
-                                        GI.player_hud.add_message_to_history_panel("<b>Drinks: </b>Removed 2 points from a player's card");
+                                        card.remove_points(3);
+                                        GI.player_hud.add_message_to_history_panel("<b>Drinks: </b>Removed 3 points from a player's card");
                                         success = true;
 
                                         break;
