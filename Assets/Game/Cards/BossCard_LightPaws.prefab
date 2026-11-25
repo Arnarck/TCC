@@ -38,7 +38,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: ability_description
-      value: It's gonna <b>steal 5 of your chips!</b> You really should disable it
+      value: It's gonna <b>steal 10 of your chips!</b> You really should disable
+        it
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: cost_to_disable_ability
