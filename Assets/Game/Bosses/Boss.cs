@@ -247,7 +247,9 @@ public class Boss : MonoBehaviour
                         animator.SetTrigger("NormalAbility");
                     }
 
-                    // Apply ability
+                    GI.audio_player.play(Audio_Type.ACTIVATE_BOSS_CARD_ABILITY);
+
+                    // Activate ability
                     switch (card_to_use.ability_type)
                     {
                         case Boss_Abilities.ADD_CHIPS:
@@ -549,6 +551,7 @@ public class Boss : MonoBehaviour
     public void init()
     {
         gameObject.SetActive(true);
+        GI.audio_player.play(Audio_Type.BOSS_INTRO);
     }
 
     public bool spawn_card_in_player_hand(GameObject card_prefab)
@@ -628,6 +631,7 @@ public class Boss : MonoBehaviour
         int half_health = max_health / 2;
         if (health <= half_health && previous_health > half_health)
         {
+            GI.audio_player.play(Audio_Type.BOSS_PHASE_2);
             animator.SetTrigger("EnterPhase2");
             is_phase_2 = true;
             entered_phase_2 = true;
@@ -980,6 +984,7 @@ public class Boss : MonoBehaviour
 
     public void take_damage(int amount)
     {
+        GI.audio_player.play(Audio_Type.BOSS_TAKE_DAMAGE);
         health -= amount;
         if (health <= 0)
         {

@@ -40,10 +40,24 @@ public class AudioPlayer : MonoBehaviour
 {
     public AudioSource[] audios;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-        
+        GI.audio_player = this;
+    }
+
+    private void Start()
+    {
+        play(Audio_Type.AMBIENT_SOUND_1);
+        play(Audio_Type.AMBIENT_SOUND_2);
+
+        if (GI.player_card_game)
+        {
+            play(Audio_Type.GAMEPLAY_MUSIC);
+        }
+        else
+        {
+            play(Audio_Type.MAIN_MENU_MUSIC);
+        }
     }
 
     // Update is called once per frame
@@ -55,5 +69,6 @@ public class AudioPlayer : MonoBehaviour
     public void play(Audio_Type type)
     {
         audios[(int)type].Play();
+        Debug.Log("Playing: " + type);
     }
 }

@@ -420,6 +420,7 @@ public class PlayerHUD : MonoBehaviour
     {
         pause_ui.SetActive(true);
         pause_menu.SetActive(true);
+        GI.audio_player.play(Audio_Type.SWITCH_MENU);
     }
 
     public void stop_game()
@@ -433,6 +434,7 @@ public class PlayerHUD : MonoBehaviour
 
         pause_ui.SetActive(true);
         tutorial_menu.SetActive(true);
+        GI.audio_player.play(Audio_Type.SWITCH_MENU);
     }
 
     public void hide_tutorial_menu()
@@ -441,6 +443,7 @@ public class PlayerHUD : MonoBehaviour
 
         pause_ui.SetActive(false);
         tutorial_menu.SetActive(false);
+        GI.audio_player.play(Audio_Type.SWITCH_MENU);
     }
 
     public void next_tutorial_page()
@@ -448,6 +451,7 @@ public class PlayerHUD : MonoBehaviour
         tutorial_page[current_page].SetActive(false);
         tutorial_page[current_page + 1].SetActive(true);
         current_page++;
+        GI.audio_player.play(Audio_Type.SWITCH_MENU);
     }
 
     public void previous_tutorial_page()
@@ -455,6 +459,7 @@ public class PlayerHUD : MonoBehaviour
         tutorial_page[current_page].SetActive(false);
         tutorial_page[current_page - 1].SetActive(true);
         current_page--;
+        GI.audio_player.play(Audio_Type.SWITCH_MENU);
     }
 
     public void hide_pause()
@@ -462,6 +467,7 @@ public class PlayerHUD : MonoBehaviour
         pause_ui.SetActive(false);
         pause_menu.SetActive(false);
         tutorial_menu.SetActive(false);
+        GI.audio_player.play(Audio_Type.SWITCH_MENU);
     }
 
     public void show_win()
@@ -480,18 +486,21 @@ public class PlayerHUD : MonoBehaviour
     {
         pause_menu.SetActive(true);
         back_to_main_menu_panel.SetActive(false);
+        GI.audio_player.play(Audio_Type.SWITCH_MENU);
     }
 
     public void show_back_to_main_menu_panel()
     {
         pause_menu.SetActive(false);
         back_to_main_menu_panel.SetActive(true);
+        GI.audio_player.play(Audio_Type.SWITCH_MENU);
     }
 
     public void hide_back_to_main_menu_panel()
     {
         back_to_main_menu_panel.SetActive(false);
         pause_menu.SetActive(true);
+        GI.audio_player.play(Audio_Type.SWITCH_MENU);
     }
 
     // @Luana
@@ -538,5 +547,11 @@ public class PlayerHUD : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+
+    // Used in UI/HUD
+    public void play_button_click()
+    {
+        GI.audio_player.play(Audio_Type.BUTTON_CLICK);
     }
 }

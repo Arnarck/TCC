@@ -16,4 +16,5 @@ public static class GI
     public static PlayerController player_card_game;
     public static PlayerControllerFirstPerson player_first_person;
     public static Boss boss;
+    public static AudioPlayer audio_player;
 }

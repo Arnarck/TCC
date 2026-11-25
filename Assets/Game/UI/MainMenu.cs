@@ -274,4 +274,10 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
 #endif
     }
+
+    // Used in UI/HUD
+    public void play_button_click()
+    {
+        GI.audio_player.play(Audio_Type.BUTTON_CLICK);
+    }
 }

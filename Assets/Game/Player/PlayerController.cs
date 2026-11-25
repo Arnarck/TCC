@@ -96,6 +96,7 @@ public class PlayerController : MonoBehaviour
             {
                 pause_game();
                 GI.player_hud.show_win();
+                GI.audio_player.play(Audio_Type.PLAYER_WIN);
             }
         }
 
@@ -106,6 +107,7 @@ public class PlayerController : MonoBehaviour
             {
                 pause_game();
                 GI.player_hud.show_lose();
+                GI.audio_player.play(Audio_Type.PLAYER_LOSE);
             }
         }
 
@@ -179,6 +181,7 @@ public class PlayerController : MonoBehaviour
                             if (selected_cards.Count > 0)
                             {
                                 // Swap card in hand with card in the desk
+                                GI.audio_player.play(Audio_Type.COLLECT_CARD_FROM_DESK);
                                 Card card_to_move_to_desk = selected_cards[selected_cards.Count - 1];
                                 int index_in_hand = remove_card_from_hand(card_to_move_to_desk);
 
@@ -191,6 +194,7 @@ public class PlayerController : MonoBehaviour
                             else if (has_available_space_in_hand())
                             {
                                 // Add card to hand
+                                GI.audio_player.play(Audio_Type.COLLECT_CARD_FROM_DESK);
                                 int index_in_desk = GI.card_system.remove_card_from_desk(card);
                                 card.vfx_steal.pontoA = GI.card_system.cards_spawn_points[index_in_desk];
 
@@ -211,15 +215,18 @@ public class PlayerController : MonoBehaviour
                         {
                             if (selected_cards.Contains(card))
                             {
+                                GI.audio_player.play(Audio_Type.SELECT_CARD_IN_HAND);
                                 deselect_card(card);
                                 GI.player_hud.hide_trio_hud();
                             }
                             else if (selected_cards.Count < 3)
                             {
+                                GI.audio_player.play(Audio_Type.SELECT_CARD_IN_HAND);
                                 select_card(card);
                                 if (selected_cards.Count == 3 && actions_remaining > 0)
                                 {
                                     GI.player_hud.show_trio_hud();
+                                    GI.audio_player.play(Audio_Type.THREE_CARDS_SELECTED);
                                 }
                             }
                         }
@@ -258,6 +265,7 @@ public class PlayerController : MonoBehaviour
                     if (card && !card.is_in_desk && !selected_cards.Contains(card) && !cards_in_trio.Contains(card) && 
                         selected_cards.Count < 3)
                     {
+                        GI.audio_player.play(Audio_Type.SELECT_CARD_IN_HAND);
                         if (card_in_preview == card)
                         {
                             int index = get_card_in_hand_index(card);
@@ -276,6 +284,7 @@ public class PlayerController : MonoBehaviour
                     }
                     else if (boss_card)
                     {
+                        GI.audio_player.play(Audio_Type.SELECT_CARD_IN_HAND);
                         if (boss_card_in_preview == boss_card)
                         {
                             int index = GI.boss.get_card_in_desk_index(boss_card);
@@ -335,6 +344,7 @@ public class PlayerController : MonoBehaviour
                 Card card = cards_in_trio[current_trio_card_to_activate_attack];
                 card.do_attack();
                 card.disable_from_trio();
+                GI.audio_player.play(Audio_Type.DELETE_PLAYER_CARD);
 
                 if (current_trio_card_to_activate_attack < cards_in_trio.Count - 1)
                 {
@@ -388,6 +398,7 @@ public class PlayerController : MonoBehaviour
     {
         making_trio = true;
         GI.player_hud.start_trio_animation();
+        GI.audio_player.play(Audio_Type.MAKE_TRIO);
 
         // Place cards in desk
         for (int i = 0; i < 3; i++)
@@ -775,7 +786,7 @@ public class PlayerController : MonoBehaviour
     public void activate_card_ability(Card card)
     {
         int card_index = cards_in_trio.IndexOf(card);
-        //card.do_attack();
+        GI.audio_player.play(Audio_Type.ACTIVATE_PLAYER_CARD_ABILITY);
 
         if (card.ignore_card_ability) { return; }
 
@@ -1169,6 +1180,7 @@ public class PlayerController : MonoBehaviour
 
     public void take_damage(int amount)
     {
+        GI.audio_player.play(Audio_Type.PLAYER_TAKE_DAMAGE);
         health -= amount;
         if (health <= 0)
         {

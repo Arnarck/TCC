@@ -211,6 +211,7 @@ public class CardSystem : MonoBehaviour
 
     public void update_turn()
     {
+        GI.audio_player.play(Audio_Type.SWITCH_TURN);
         if (is_player_turn)
         {
             // Player Turn ends. Switch to boss turn
@@ -271,6 +272,7 @@ public class CardSystem : MonoBehaviour
 
     public void start_memorization_phase()
     {
+        GI.audio_player.play(Audio_Type.START_MEMORIZATION_PHASE);
         is_memorization_phase = true;
         memorization_phase_t = memorization_time;
         GI.player_hud.start_memorization_phase();

@@ -31,4 +31,10 @@ public class Cheats : MonoBehaviour
         GI.boss.take_damage(GI.boss.max_health);
         GI.boss.kill_boss();
     }
+
+    // Used in UI/HUD
+    public void play_button_click()
+    {
+        GI.audio_player.play(Audio_Type.BUTTON_CLICK);
+    }
 }
