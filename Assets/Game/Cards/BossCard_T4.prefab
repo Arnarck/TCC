@@ -26,11 +26,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: ability_description
-      value: In 4 turns, <b>BLOW UP</b> for 100.000 chips
+      value: If not disabled, starts a 10-turn timer. If it reaches 0, it <b>BLOWS
+        UP</b>, causing a Game Over
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: families_to_disable_card.Array.size
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: 'families_to_disable_card.Array.data[1]'

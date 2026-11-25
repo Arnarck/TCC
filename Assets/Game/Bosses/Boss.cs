@@ -404,7 +404,7 @@ public class Boss : MonoBehaviour
                             {
                                 if (blow_up_t < 1)
                                 {
-                                    blow_up_t = 4;
+                                    blow_up_t = 10;
                                     GI.player_hud.add_message_to_history_panel("<b>T4: </b>Game Over in " + blow_up_t + " turns");
                                 }
                                 else

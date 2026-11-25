@@ -26,8 +26,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: ability_description
-      value: If not disabled, picks a random column. If a character from it is taken/swaped,
-        <b>BLOW UP</b>, causing a Game Over
+      value: If not disabled, picks a random column. If a character from it is taken/swapped,
+        it <b>BLOWS UP</b>, causing a Game Over
+      objectReference: {fileID: 0}
+    - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: cost_to_disable_ability
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: families_to_disable_card.Array.size
