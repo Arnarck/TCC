@@ -293,7 +293,7 @@ public class Boss : MonoBehaviour
                             break;
                         case Boss_Abilities.STEAL_PLAYER_POINTS:
                             {
-                                int points_to_steal = 10;
+                                int points_to_steal = 5;
 
                                 GI.player_card_game.take_damage(points_to_steal);
                                 add_health(points_to_steal);
