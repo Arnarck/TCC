@@ -43,6 +43,33 @@ public class AudioPlayer : MonoBehaviour
     void Awake()
     {
         GI.audio_player = this;
+
+        // Creates data
+        if (!PlayerPrefs.HasKey("master_volume"))
+        {
+            PlayerPrefs.SetFloat("master_volume", 1f);
+            PlayerPrefs.SetFloat("sfx_volume", 1f);
+            PlayerPrefs.SetFloat("music_volume", 1f);
+        }
+
+        float master_volume = PlayerPrefs.GetFloat("master_volume");
+        float sfx_volume    = PlayerPrefs.GetFloat("sfx_volume");
+        float music_volume  = PlayerPrefs.GetFloat("music_volume");
+
+        // Update all audio volumes
+        for (int i = 0; i < audios.Length; i++)
+        {
+            if (i == (int)Audio_Type.GAMEPLAY_MUSIC || i == (int)Audio_Type.MAIN_MENU_MUSIC)
+            {
+                // Music
+                audios[i].volume = audios[i].volume*master_volume*music_volume;
+            }
+            else
+            {
+                // SFX
+                audios[i].volume = audios[i].volume*master_volume*sfx_volume;
+            }
+        }
     }
 
     private void Start()

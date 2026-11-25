@@ -37,6 +37,11 @@ public class MainMenu : MonoBehaviour
     public RectTransform[] archive_papers_end_point_settings_menu;
     public RectTransform[] archive_papers_end_point_main_menu;
 
+    [Header("SETTINGS MENU")]
+    public Slider master_volume_slider;
+    public Slider sfx_volume_slider;
+    public Slider music_volume_slider;
+
     [Header("INTERNAL")]
     public float archive_animation_t;
     public float file_animation_t;
@@ -62,6 +67,10 @@ public class MainMenu : MonoBehaviour
         next_menu = Menu_Type.COUNT;
         current_menu = Menu_Type.MAIN;
         start_fog_density = RenderSettings.fogDensity;
+
+        master_volume_slider.SetValueWithoutNotify(PlayerPrefs.GetFloat("master_volume"));
+        sfx_volume_slider.SetValueWithoutNotify(PlayerPrefs.GetFloat("sfx_volume"));
+        music_volume_slider.SetValueWithoutNotify(PlayerPrefs.GetFloat("music_volume"));
     }
 
     private void Update()
@@ -279,5 +288,20 @@ public class MainMenu : MonoBehaviour
     public void play_button_click()
     {
         GI.audio_player.play(Audio_Type.BUTTON_CLICK);
+    }
+
+    public void update_master_volume()
+    {
+        PlayerPrefs.SetFloat("master_volume", master_volume_slider.value);
+    }
+
+    public void update_sfx_volume()
+    {
+        PlayerPrefs.SetFloat("sfx_volume", sfx_volume_slider.value);
+    }
+
+    public void update_music_volume()
+    {
+        PlayerPrefs.SetFloat("music_volume", music_volume_slider.value);
     }
 }
