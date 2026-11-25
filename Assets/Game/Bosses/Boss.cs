@@ -252,7 +252,7 @@ public class Boss : MonoBehaviour
                     {
                         case Boss_Abilities.ADD_CHIPS:
                             {
-                                add_health(10);
+                                add_health(5);
                                 GI.player_hud.add_message_to_history_panel("<b>Deep Pockets: </b>Added 10 health");
                             }
                             break;
@@ -293,7 +293,7 @@ public class Boss : MonoBehaviour
                             break;
                         case Boss_Abilities.STEAL_PLAYER_POINTS:
                             {
-                                int points_to_steal = 10;
+                                int points_to_steal = 5;
 
                                 GI.player_card_game.take_damage(points_to_steal);
                                 add_health(points_to_steal);
@@ -404,7 +404,7 @@ public class Boss : MonoBehaviour
                             {
                                 if (blow_up_t < 1)
                                 {
-                                    blow_up_t = 4;
+                                    blow_up_t = 10;
                                     GI.player_hud.add_message_to_history_panel("<b>T4: </b>Game Over in " + blow_up_t + " turns");
                                 }
                                 else
