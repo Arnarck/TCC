@@ -1038,7 +1038,7 @@ public class PlayerController : MonoBehaviour
                             Card card_in_desk = GI.card_system.cards_in_desk[i];
                             if (card_in_desk)
                             {
-                                card_in_desk.add_points(2);
+                                card_in_desk.add_points(6);
                                   card_in_desk.play_promote_vfx();
                             }
                         }
