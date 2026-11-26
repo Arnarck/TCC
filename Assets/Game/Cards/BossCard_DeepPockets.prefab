@@ -17,6 +17,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
+      propertyPath: turn_off_t
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7648149308236499770, guid: e1819a70f4757a54bbf86f783ba2845f, type: 3}
       propertyPath: disable_type
       value: 1
       objectReference: {fileID: 0}
