@@ -565,7 +565,7 @@ public class PlayerController : MonoBehaviour
                             card_types_in_trio.Contains(Card_Type.BRICK_HOUSE_PIG) &&
                             gain_tokens_from_three_pigs_interaction_count > 0)
                 {
-                    abilityVFX.ThreeLittlePigsVFX(3 - gain_tokens_from_three_pigs_interaction_count);
+                    abilityVFX.ThreeLittlePigsVFX(2 - gain_tokens_from_three_pigs_interaction_count);
                     gain_tokens_from_three_pigs_interaction_count--;
                     add_health(2);
                 }

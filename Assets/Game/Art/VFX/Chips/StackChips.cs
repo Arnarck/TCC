@@ -67,7 +67,7 @@ public class StackChips : MonoBehaviour
          
         stack[count].GetComponentInChildren<Animator>().SetTrigger("Active");
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(delay);
 
         Destroy(stack[count]);
         stack.RemoveAt(count);
