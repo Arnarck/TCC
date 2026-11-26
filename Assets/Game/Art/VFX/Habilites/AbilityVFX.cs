@@ -9,7 +9,9 @@ public class AbilityVFX : MonoBehaviour
     [Header("Three Little Pigs")]
     public List<GameObject> house = new List<GameObject>();
 
-    public Transform spawn_ThreeLittlePigs;
+    public Transform spawn_ThreeLittlePigs, spawn_coin_house_pig;
+
+    public GameObject pig_coin;
     GameObject houseActiveSelf;
 
     int test = 0;
@@ -38,6 +40,10 @@ public class AbilityVFX : MonoBehaviour
             test++;
             //Destroy_This_Card();
         }
+        if (Keyboard.current.oKey.wasPressedThisFrame)
+        {
+            DropCoinHousePig();
+        }
         
     }
 
@@ -59,6 +65,11 @@ public class AbilityVFX : MonoBehaviour
         if(Destroy_House()) StartCoroutine(WaitForDestroyingPigsHouse(i));
         
         else houseActiveSelf = Instantiate(house[i], spawn_ThreeLittlePigs.position, spawn_ThreeLittlePigs.rotation);
+    }
+
+    public void DropCoinHousePig()
+    {
+        Instantiate(pig_coin, spawn_coin_house_pig.position, spawn_coin_house_pig.rotation);
     }
 
     bool Destroy_House()

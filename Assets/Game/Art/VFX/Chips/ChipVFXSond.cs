@@ -7,4 +7,9 @@ public class ChipVFXSond : MonoBehaviour
     {
         audio.Play();
     }
+
+    private void destroy_this()
+    {
+        Destroy(this.gameObject);
+    }
 }
