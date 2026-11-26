@@ -6,7 +6,7 @@ using System.Linq;
 public class PlayerController : MonoBehaviour
 {
     public const int MAX_CARDS_IN_HAND = 5;
-    public const int MAX_TOKENS_FROM_THREE_PIGS_INTERACTION = 2;
+    public const int MAX_TOKENS_FROM_THREE_PIGS_INTERACTION = 3;
 
     public Camera player_camera;
     public Transform card_preview_point;
@@ -565,7 +565,7 @@ public class PlayerController : MonoBehaviour
                             card_types_in_trio.Contains(Card_Type.BRICK_HOUSE_PIG) &&
                             gain_tokens_from_three_pigs_interaction_count > 0)
                 {
-                    abilityVFX.ThreeLittlePigsVFX(2 - gain_tokens_from_three_pigs_interaction_count);
+                    abilityVFX.ThreeLittlePigsVFX(3 - gain_tokens_from_three_pigs_interaction_count);
                     gain_tokens_from_three_pigs_interaction_count--;
                     add_health(2);
                 }
