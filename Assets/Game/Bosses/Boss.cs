@@ -255,7 +255,7 @@ public class Boss : MonoBehaviour
                         case Boss_Abilities.ADD_CHIPS:
                             {
                                 add_health(5);
-                                GI.player_hud.add_message_to_history_panel("<b>Deep Pockets: </b>Added 10 health");
+                                GI.player_hud.add_message_to_history_panel("<b>Deep Pockets: </b>Added 5 health");
                             }
                             break;
                         case Boss_Abilities.DEMOTE_CHARACTERS_FROM_FAMILY_X:
