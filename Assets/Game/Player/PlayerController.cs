@@ -944,7 +944,7 @@ public class PlayerController : MonoBehaviour
                         Card current_card = cards_in_hand[i];
                         if (current_card && current_card.family_type == family_to_promote)
                         {
-                            current_card.add_points(2);
+                            current_card.add_points(4);
                             current_card.play_promote_vfx();
                         }
                     }

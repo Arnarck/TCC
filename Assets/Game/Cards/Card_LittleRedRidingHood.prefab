@@ -89,7 +89,7 @@ PrefabInstance:
       value: 'When played in a trio, all characters from [family lotus icon] in your
         hand are
 
-        <b>PROMOTED</b> by 2'
+        <b>PROMOTED</b> by 4'
       objectReference: {fileID: 0}
     - target: {fileID: 6513423077981549246, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: m_Name
