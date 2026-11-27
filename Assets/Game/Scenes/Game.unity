@@ -55719,6 +55719,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 987157794}
     - target: {fileID: 2163931753016736439, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
+      propertyPath: shuffleDeckVFX
+      value: 
+      objectReference: {fileID: 8693041182844518604}
+    - target: {fileID: 2163931753016736439, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
+      propertyPath: shuffleDuration
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2163931753016736439, guid: 485bf941a160d7548ba71014fdd836cd, type: 3}
       propertyPath: 'bosses_in_game.Array.data[0]'
       value: 
       objectReference: {fileID: 838904537}
@@ -55832,6 +55840,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5447ffb1e3ed22b4eb22ce7df7ed7f71, type: 3}
+--- !u!114 &8693041182844518604 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2387535037226375439, guid: 5447ffb1e3ed22b4eb22ce7df7ed7f71, type: 3}
+  m_PrefabInstance: {fileID: 8693041182844518603}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 616bfacf2a5e46144b978579ea3b39cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShuffleDeckVFX
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
