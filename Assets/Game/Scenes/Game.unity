@@ -54441,6 +54441,12 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2084305221416343983, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
+      propertyPath: 'keywords_description.Array.data[2]'
+      value: (SWAP) Inverts the affected cards between gain/loss. (   <sprite name="Arrow_Heal_Player">
+        / <sprite name="Arrow_Heal_Boss">   ) becomes (   <sprite name="Arrow_Damage_Player"> 
+        / <sprite name="arrow_Damage_Boss">    ).
+      objectReference: {fileID: 0}
     - target: {fileID: 2471508816458579691, guid: ea164f1114263a44dbb0446c70d4e8f7, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
