@@ -19,6 +19,7 @@ public class MainMenu : MonoBehaviour
     public GameObject main_menu;
     public GameObject quit_menu;
     public GameObject settings_menu;
+    public GameObject credits_menu;
 
     [Header("MENU ANIMATION")]
     public AnimationCurve quit_menu_animation_curve;
@@ -88,6 +89,15 @@ public class MainMenu : MonoBehaviour
                     current_menu = Menu_Type.SETTINGS;
                 }
             }
+            if (next_menu == Menu_Type.CREDITS)
+            {
+                do_file_animation(archive_papers_end_point_settings_menu, false);
+                if (file_animation_t <= 0f)
+                {
+                    credits_menu.SetActive(true);
+                    current_menu = Menu_Type.CREDITS;
+                }
+            }
             else if (next_menu == Menu_Type.MAIN)
             {
                 do_file_animation(archive_papers_end_point_main_menu, true);
@@ -100,7 +110,7 @@ public class MainMenu : MonoBehaviour
 
         if (archive_animation_t > 0f)
         {
-            if (next_menu == Menu_Type.SETTINGS)
+            if (next_menu == Menu_Type.SETTINGS || next_menu == Menu_Type.CREDITS)
             {
                 do_archive_animation(panel_archive_settings_menu_point, false);
                 if (archive_animation_t <= 0f)
@@ -236,6 +246,16 @@ public class MainMenu : MonoBehaviour
         panel_archive_start_rotation = panel_archive.rotation;
     }
 
+    public void go_to_credits_menu()
+    {
+        main_menu.SetActive(false);
+        next_menu = Menu_Type.CREDITS;
+
+        archive_animation_t = 1f;
+        panel_archive_start_position = panel_archive.position;
+        panel_archive_start_rotation = panel_archive.rotation;
+    }
+
     public void go_to_quit_menu()
     {
         main_menu.SetActive(false);
@@ -253,10 +273,11 @@ public class MainMenu : MonoBehaviour
     {
         quit_menu.SetActive(false);
         settings_menu.SetActive(false);
+        credits_menu.SetActive(false);
 
         next_menu = Menu_Type.MAIN;
 
-        if (current_menu == Menu_Type.SETTINGS)
+        if (current_menu == Menu_Type.SETTINGS || current_menu == Menu_Type.CREDITS)
         {
             file_animation_t = 1f;
         }
