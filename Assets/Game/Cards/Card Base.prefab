@@ -1487,6 +1487,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 54212930437593909, guid: 5961de5866757f044933a9437fca93dd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1044968147754228117}
+    - targetCorrespondingSourceObject: {fileID: 54212930437593909, guid: 5961de5866757f044933a9437fca93dd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1065584787863830140}
   m_SourcePrefab: {fileID: 100100000, guid: 5961de5866757f044933a9437fca93dd, type: 3}
 --- !u!114 &168571935335869311 stripped
 MonoBehaviour:
@@ -1558,6 +1561,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DisappearVFX
   animator: {fileID: 1167882427107165068}
+--- !u!114 &1065584787863830140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324965723128377004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e539a207839a8144ebcdeb8dfffcb221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardSelectVFX
+  move: {fileID: 4175897918176164850}
 --- !u!114 &896317773165402044 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 590609822193091109, guid: 5961de5866757f044933a9437fca93dd, type: 3}
