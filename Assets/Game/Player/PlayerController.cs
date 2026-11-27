@@ -515,21 +515,6 @@ public class PlayerController : MonoBehaviour
                     int card_index = card_types_in_trio.IndexOf(Card_Type.LITTLE_RED_RIDING_HOOD);
                     cards_in_trio[card_index].add_points(6);
                 }
-                else if (card.type == Card_Type.BAD_WITCH && card_types_in_trio.Contains(Card_Type.HUMAN_FROG))
-                {
-                    can_make_secret_interactions = false;
-                    card.ignore_card_ability = true;
-
-                    // Remove Human Frog
-                    int index_to_remove = card_types_in_trio.IndexOf(Card_Type.HUMAN_FROG);
-                    cards_in_trio[index_to_remove].destroy();
-
-                    // Spawn Princess and Frog
-                    spawn_card_in_trio(GI.card_system.get_card_prefab(Card_Type.PRINCESS_AND_FROG), index_to_remove);
-
-                    // Sabotage Boss ability
-                    sabotage_random_boss_ability();
-                }
                 else if (card.type == Card_Type.GEPETTO && card_types_in_trio.Contains(Card_Type.PINOCCHIO))
                 {
                     can_make_secret_interactions = false;
