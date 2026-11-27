@@ -10,6 +10,7 @@ public class PlayerHUD : MonoBehaviour
     public TextMeshProUGUI boss_health_text;
     public TextMeshProUGUI player_health_text;
     public TextMeshProUGUI actions_remaining_text;
+    public GameObject secret_interaction_panel;
     public GameObject memorization_phase_panel;
     public GameObject player_turn_message;
     public GameObject boss_turn_message;
@@ -69,6 +70,7 @@ public class PlayerHUD : MonoBehaviour
     public float trio_animation_t;
     public float show_memorization_phase_t;
     public float show_card_ability_description_t;
+    public float hide_secret_interaction_message_t;
     public Vector3 trio_image_start_position;
     public List<TextMeshProUGUI> free_texts;
     public List<TextMeshProUGUI> living_texts;
@@ -134,6 +136,15 @@ public class PlayerHUD : MonoBehaviour
             if (show_memorization_phase_t <= 0f)
             {
                 show_memorization_phase_panel();
+            }
+        }
+
+        if (hide_secret_interaction_message_t > 0f)
+        {
+            hide_secret_interaction_message_t -= dt;
+            if (hide_secret_interaction_message_t <= 0f)
+            {
+                secret_interaction_panel.SetActive(false);
             }
         }
     }
@@ -326,6 +337,14 @@ public class PlayerHUD : MonoBehaviour
             free_texts.Add(text);
             living_texts.Remove(text);
         }
+    }
+
+    public void show_secret_interaction_message(string message)
+    {
+        secret_interaction_panel.SetActive(true);
+        add_message_to_history_panel(message);
+
+        hide_secret_interaction_message_t = 2f;
     }
 
     public void show_trio_hud()

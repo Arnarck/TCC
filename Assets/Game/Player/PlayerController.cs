@@ -466,6 +466,10 @@ public class PlayerController : MonoBehaviour
                     {
                         i--;
                     }
+
+                    GI.player_hud.show_secret_interaction_message("<b>Secret Interaction:</b> <b>BIG BAD WOLF</b> has been <b>IMRPOVED</b> by its base points. " +
+                                                                  "However, <b>" + card_Destroyed.type.ToString().Replace('_', ' ') + 
+                                                                  "</b> has been destroyed");
                 }
                 else if (card.type == Card_Type.LITTLE_RED_RIDING_HOOD && card_types_in_trio.Contains(Card_Type.BIG_BAD_WOLF) &&
                         has_available_space_in_hand())
@@ -477,6 +481,9 @@ public class PlayerController : MonoBehaviour
                     add_card_to_hand(card_to_spawn, get_first_available_index_in_hand());
 
                     destroy_card_from_trio(card_types_in_trio.IndexOf(Card_Type.BIG_BAD_WOLF));
+
+                    GI.player_hud.show_secret_interaction_message("<b>Secret Interaction:</b> A <b>GRANNY</b> has been spawned in hand. " +
+                                                                  "However, <b>BIG BAD WOLF</b> has been destroyed");
                 }
                 else if (card.type == Card_Type.BAD_WITCH && card_types_in_trio.Contains(Card_Type.SLEEPING_BEAUTY))
                 {
@@ -487,6 +494,9 @@ public class PlayerController : MonoBehaviour
                     cards_in_trio[sleeping_beauty_index].remove_points(cards_in_trio[sleeping_beauty_index].attack_amount);
 
                     sabotage_random_boss_ability();
+
+                    GI.player_hud.show_secret_interaction_message("<b>Secret Interaction:</b> A random boss ability has been <b>SABOTAGED</b>. However, " +
+                                                                  "<b>SLEEPING BEAUTY</b> now has zero attack points");
                 }
                 else if (card.type == Card_Type.GRANNY && card_types_in_trio.Contains(Card_Type.BRICK_HOUSE_PIG))
                 {
@@ -497,6 +507,9 @@ public class PlayerController : MonoBehaviour
 
                     int card_index = card_types_in_trio.IndexOf(Card_Type.BRICK_HOUSE_PIG);
                     cards_in_trio[card_index].add_points(4);
+
+                    GI.player_hud.show_secret_interaction_message("<b>Secret Interaction:</b> <b>GRANNY</b> and <b>BRICK HOUSE PIG</b> were <b>IMPROVED</b> by " +
+                                                                  "4 points");
                 }
                 else if (card.type == Card_Type.GRANNY && card_types_in_trio.Contains(Card_Type.LITTLE_RED_RIDING_HOOD))
                 {
@@ -505,6 +518,8 @@ public class PlayerController : MonoBehaviour
 
                     int card_index = card_types_in_trio.IndexOf(Card_Type.LITTLE_RED_RIDING_HOOD);
                     cards_in_trio[card_index].add_points(6);
+
+                    GI.player_hud.show_secret_interaction_message("<b>Secret Interaction:</b> <b>LITTLE RED RIDING HOOD</b> has been <b>IMPROVED</b> by 6 points");
                 }
                 else if (card.type == Card_Type.GEPETTO && card_types_in_trio.Contains(Card_Type.PINOCCHIO))
                 {
@@ -515,6 +530,8 @@ public class PlayerController : MonoBehaviour
                     cards_in_trio[card_index].add_points(3);
 
                     improve_upcoming_pinocchios = true;
+
+                    GI.player_hud.show_secret_interaction_message("<b>Secret Interaction:</b> <b>PINOCCHIO</b> has been <b>IMPROVED</b> by 3 points");
                 }
                 else if (card.type == Card_Type.BAD_WITCH && card_types_in_trio.Contains(Card_Type.PINOCCHIO) && 
                                                                 has_available_space_in_hand())
@@ -525,6 +542,9 @@ public class PlayerController : MonoBehaviour
                     Card card_to_spawn = Instantiate(GI.card_system.pinocchio_card_prefab).GetComponent<Card>();
                     card_to_spawn.attack_1 = Attack_Type.DAMAGE_PLAYER;
                     add_card_to_hand(card_to_spawn, get_first_available_index_in_hand());
+
+                    GI.player_hud.show_secret_interaction_message("<b>Secret Interaction:</b> A <b>PINOCCHIO</b> was spawned in hand. However, its attack points " +
+                                                                  "will damage the player");
                 }
                 else if (card.type == Card_Type.WOODEN_HOUSE_PIG && 
                             card_types_in_trio.Contains(Card_Type.STRAW_HOUSE_PIG) &&
@@ -534,6 +554,8 @@ public class PlayerController : MonoBehaviour
                     abilityVFX.ThreeLittlePigsVFX(3 - gain_tokens_from_three_pigs_interaction_count);
                     gain_tokens_from_three_pigs_interaction_count--;
                     add_health(2);
+
+                    GI.player_hud.show_secret_interaction_message("<b>Secret Interaction:</b> <b>PLAYER</b> has been <b>IMPROVED</b> by 2 points");
                 }
                 else if (card.type == Card_Type.PUSS_IN_BOOTS && (card_types_in_trio.Contains(Card_Type.BAD_WITCH) ||
                                                                     card_types_in_trio.Contains(Card_Type.BIG_BAD_WOLF)))
@@ -541,12 +563,28 @@ public class PlayerController : MonoBehaviour
                     if (card.attack_1 == Attack_Type.HEAL_PLAYER || card.attack_2 == Attack_Type.HEAL_PLAYER)
                     {
                         card.add_points(card.attack_amount);
+                        GI.player_hud.show_secret_interaction_message("<b>Secret Interaction:</b> <b>PUSS IN BOOTS</b> has been <b>IMPROVED</b> by its base attack " +
+                                                                      "points");
+                    }
+                    else
+                    {
+                        GI.player_hud.show_secret_interaction_message("<b>Secret Interaction:</b> <b>PUSS IN BOOTS</b> does not <b>HEAL</b> player. Interaction " +
+                                                                      "will be ignored");
                     }
                 }
             }
         }
 
-        activate_trio_cards_abilities_t = 1f;
+        if (can_make_secret_interactions)
+        {
+            // Interaction didn't happened
+            activate_trio_cards_abilities_t = 1f;
+        }
+        else
+        {
+            // Interaction happened
+            activate_trio_cards_abilities_t = 4f;
+        }
         current_trio_card_to_activate_ability = -1;
         current_trio_card_to_activate_attack = -1;
         applying_trio_card_abilities = true;
