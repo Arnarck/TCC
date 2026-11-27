@@ -515,16 +515,6 @@ public class PlayerController : MonoBehaviour
                     int card_index = card_types_in_trio.IndexOf(Card_Type.LITTLE_RED_RIDING_HOOD);
                     cards_in_trio[card_index].add_points(6);
                 }
-                else if (card.type == Card_Type.PRINCESS_AND_FROG && (card_types_in_trio.Contains(Card_Type.SLEEPING_BEAUTY) ||
-                                                                        card_types_in_trio.Contains(Card_Type.CINDERELLA)))
-                {
-                    can_make_secret_interactions = false;
-                    card.ignore_card_ability = true;
-
-                    card.destroy();
-
-                    spawn_card_in_trio(GI.card_system.human_frog_card_prefab, i);
-                }
                 else if (card.type == Card_Type.BAD_WITCH && card_types_in_trio.Contains(Card_Type.HUMAN_FROG))
                 {
                     can_make_secret_interactions = false;
