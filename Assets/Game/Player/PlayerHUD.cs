@@ -28,6 +28,7 @@ public class PlayerHUD : MonoBehaviour
     public Sprite paused_sprite;
 
     [Header("ABILITY HISTORY")]
+    public CanvasGroup history_panel_group;
     public GameObject text_box_prefab;
     public Transform text_box_panel;
     public Transform text_box_pool_parent;
@@ -572,5 +573,25 @@ public class PlayerHUD : MonoBehaviour
     public void play_button_click()
     {
         GI.audio_player.play(Audio_Type.BUTTON_CLICK);
+    }
+
+    public void toggle_history_panel()
+    {
+        if (history_panel_group == null)
+        {
+            Debug.LogWarning("Canvas Group");
+            return;
+        }
+
+        bool abrir = history_panel_group.alpha < 0.5f;
+
+        history_panel_group.alpha = abrir ? 1f : 0f;
+        history_panel_group.interactable = abrir;
+        history_panel_group.blocksRaycasts = abrir;
+
+        if (abrir)
+        {
+            update_scroll_view = true;
+        }
     }
 }
