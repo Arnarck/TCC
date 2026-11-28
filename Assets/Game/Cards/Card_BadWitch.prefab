@@ -87,8 +87,8 @@ PrefabInstance:
     - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: ability_description
       value: "<sprite name=\"paw\"> <sprite name=\"candy\"> <sprite name=\"lotus\">:
-        When played in a trio, <b>SABOTAGE</b> a opponent\u2019s ability. If this
-        is  [arrow green down], <b>SWAP</b>"
+        When played in a trio, <b>SABOTAGE</b> a opponent\u2019s ability.\nIf this
+        is  <sprite name=\"Arrow_Heal_Player\">, <b>SWAP</b>"
       objectReference: {fileID: 0}
     - target: {fileID: 5917914737427504582, guid: 577c211cffe42c14499e25b5faadaf2c, type: 3}
       propertyPath: families_in_trio_to_activate_ability.Array.size
