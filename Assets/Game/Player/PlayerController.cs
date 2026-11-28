@@ -181,17 +181,48 @@ public class PlayerController : MonoBehaviour
                         {
                             if (selected_cards.Count > 0)
                             {
-                                // Swap card in hand with card in the desk
                                 GI.audio_player.play(Audio_Type.COLLECT_CARD_FROM_DESK);
+
                                 Card card_to_move_to_desk = selected_cards[selected_cards.Count - 1];
-                                int index_in_hand = remove_card_from_hand(card_to_move_to_desk);
 
-                                int index_in_desk = GI.card_system.remove_card_from_desk(card);
-                                add_card_to_hand(card, index_in_hand, true);
+                                // 1) tira da seleção SEM disparar reorder
+                                selected_cards.Remove(card_to_move_to_desk);
+                                card_to_move_to_desk.select_card.Active();
+                                card_to_move_to_desk.disable_card_ability_description_canvas();
+                                if (selected_cards.Count == 0) first_selected_hand_index = -1;
 
-                                GI.card_system.add_card_to_desk(card_to_move_to_desk, index_in_desk);
-                                decrease_actions_remaining();
+                                // 2) acha e libera o slot na mão
+                                int index_in_hand = -1;
+                                for (int i = 0; i < cards_in_hand.Length; i++)
+                                {
+                                    if (cards_in_hand[i] == card_to_move_to_desk)
+                                    {
+                                        cards_in_hand[i] = null;
+                                        index_in_hand = i;
+                                        break;
+                                    }
+                                }
+
+                                if (index_in_hand < 0)
+                                {
+                                    Debug.LogError("Swap abortado: carta selecionada não está em cards_in_hand.");
+                                }
+                                else
+                                {
+                                    int index_in_desk = GI.card_system.remove_card_from_desk(card);
+                                    add_card_to_hand(card, index_in_hand, true);
+                                    GI.card_system.add_card_to_desk(card_to_move_to_desk, index_in_desk);
+
+                                    // 3) reorder só uma vez, no final
+                                    reorder_hand_by_selection();
+
+                                    // 4) HUD coerente
+                                    if (selected_cards.Count < 3) GI.player_hud.hide_trio_hud();
+
+                                    decrease_actions_remaining();
+                                }
                             }
+   
                             else if (has_available_space_in_hand())
                             {
                                 // Add card to hand
@@ -1302,24 +1333,44 @@ public class PlayerController : MonoBehaviour
     reorder_hand_by_selection();
 }
 
-    public void deselect_card(Card card)
+    public void deselect_card(Card card, bool reorder = true)
 {
-    if (!selected_cards.Contains(card))
-        return;
-
+    if (!selected_cards.Contains(card)) return;
     card.select_card.Active();
     selected_cards.Remove(card);
+    if (selected_cards.Count == 0) first_selected_hand_index = -1;
+    if (reorder) reorder_hand_by_selection();
+}
 
-    if (selected_cards.Count == 0)
-        first_selected_hand_index = -1;
-
-    reorder_hand_by_selection();
+public int remove_card_from_hand(Card card, bool reorder = true)
+{
+    deselect_card(card, reorder: false);
+    card.disable_card_ability_description_canvas();
+    for (int i = 0; i < cards_in_hand.Length; i++)
+    {
+        if (cards_in_hand[i] == card)
+        {
+            cards_in_hand[i] = null;
+            return i;
+        }
+    }
+    return -1;
 }
 
     public void add_card_to_hand(Card card, int index, bool animate = false)
     {
-        card.add_to_player_hand();
-        cards_in_hand[index] = card;
+        if (card == null) return;
+
+    if (index < 0 || index >= cards_in_hand.Length)
+    {
+        Debug.LogError($"[add_card_to_hand] índice inválido {index} para {card.type}");
+        // fallback seguro
+        index = get_first_available_index_in_hand();
+        if (index < 0) return;
+    }
+
+    card.add_to_player_hand();
+    cards_in_hand[index] = card;
 
         if (animate)
         {
