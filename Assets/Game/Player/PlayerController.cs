@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
     public Vector3 camera_start_position;
     public Quaternion camera_start_rotation;
     public Transform card_in_preview_transform;
+    private int first_selected_hand_index = -1;
     public Card card_in_preview;
     public BossCard boss_card_in_preview;
     public List<Card> cards_in_trio;
@@ -1294,21 +1295,26 @@ public class PlayerController : MonoBehaviour
     }
 
     public void select_card(Card card)
-    {
-        card.select_card.Active();
-        selected_cards.Add(card);
-    }
+{
+    card.select_card.Active();
+    selected_cards.Add(card);
+
+    reorder_hand_by_selection();
+}
 
     public void deselect_card(Card card)
-    {
-        if (!selected_cards.Contains(card)) 
-        { 
-            return; 
-        }
+{
+    if (!selected_cards.Contains(card))
+        return;
 
-        card.select_card.Active();
-        selected_cards.Remove(card);
-    }
+    card.select_card.Active();
+    selected_cards.Remove(card);
+
+    if (selected_cards.Count == 0)
+        first_selected_hand_index = -1;
+
+    reorder_hand_by_selection();
+}
 
     public void add_card_to_hand(Card card, int index, bool animate = false)
     {
@@ -1403,4 +1409,85 @@ public class PlayerController : MonoBehaviour
         GI.boss.animator.SetTrigger("Win");
         show_lose_t = 2.3f;
     }
+    public void reorder_hand_by_selection()
+{
+    if (making_trio)
+        return;
+
+    int handSize = cards_in_hand.Length;
+
+    if (selected_cards.Count == 0)
+    {
+        first_selected_hand_index = -1;
+        return;
+    }
+
+    // Guarda a posição original da primeira carta.
+    if (first_selected_hand_index < 0)
+    {
+        first_selected_hand_index =
+            get_card_in_hand_index(selected_cards[0]);
+    }
+
+    if (first_selected_hand_index < 0)
+        return;
+
+    // Impede que o trio ultrapasse o tamanho da mão.
+    int startIndex = Mathf.Clamp(
+        first_selected_hand_index,
+        0,
+        handSize - selected_cards.Count
+    );
+
+    Card[] reordered_hand = new Card[handSize];
+
+    // Reúne as cartas que não foram selecionadas.
+    List<Card> remainingCards = new List<Card>();
+
+    for (int i = 0; i < cards_in_hand.Length; i++)
+    {
+        Card card = cards_in_hand[i];
+
+        if (card != null && !selected_cards.Contains(card))
+        {
+            remainingCards.Add(card);
+        }
+    }
+
+    // Coloca as cartas selecionadas na ordem de seleção.
+    for (int i = 0; i < selected_cards.Count; i++)
+    {
+        reordered_hand[startIndex + i] = selected_cards[i];
+    }
+
+    // Preenche as posições restantes.
+    int remainingIndex = 0;
+
+    for (int i = 0; i < handSize; i++)
+    {
+        if (reordered_hand[i] == null &&
+            remainingIndex < remainingCards.Count)
+        {
+            reordered_hand[i] = remainingCards[remainingIndex];
+            remainingIndex++;
+        }
+    }
+
+    // Atualiza o array e anima as cartas.
+    for (int i = 0; i < handSize; i++)
+    {
+        cards_in_hand[i] = reordered_hand[i];
+
+        Card card = cards_in_hand[i];
+
+        if (card != null)
+        {
+            card.MoveCard(
+                card.transform,
+                cards_spawn_points[i],
+                5f
+            );
+        }
+    }
+}
 }

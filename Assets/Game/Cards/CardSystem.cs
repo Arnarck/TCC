@@ -34,6 +34,8 @@ public class CardSystem : MonoBehaviour
 
     public SplineContainer spline_create;
     public VFXTurn vfxTurn; 
+[SerializeField] private ShuffleDeckVFX shuffleDeckVFX;
+[SerializeField] private float shuffleDuration = 1.2f;
 
     [ContextMenu("Fill Desk With Cards")]
     public void DEBUG_spawn_cards_in_desk()
@@ -261,15 +263,31 @@ public class CardSystem : MonoBehaviour
             if (round_count % 3 == 0)
             {
                 // Memorization Phase
-                remove_cards_from_desk();
-                spawn_cards_in_desk();
-                start_memorization_phase();
+               // remove_cards_from_desk();
+               // spawn_cards_in_desk();
+                //start_memorization_phase();
+                StartCoroutine(ReshuffleDesk());
             }
             vfxTurn.OffLight();
             __start_player_turn();
         }
     }
+    private IEnumerator ReshuffleDesk()
+    {
+       start_memorization_phase();
 
+        if (shuffleDeckVFX != null)
+        {
+            shuffleDeckVFX.Active();
+            yield return new WaitForSeconds(shuffleDuration);
+        }
+
+        remove_cards_from_desk();
+
+        spawn_cards_in_desk();
+
+       
+    }
     public void start_memorization_phase()
     {
         GI.audio_player.play(Audio_Type.START_MEMORIZATION_PHASE);
@@ -314,4 +332,5 @@ public class CardSystem : MonoBehaviour
         GI.player_hud.hide_boss_turn_message();
         GI.player_hud.show_player_turn_message();
     }
+
 }
