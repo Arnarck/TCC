@@ -1467,77 +1467,90 @@ public int remove_card_from_hand(Card card, bool reorder = true)
 
     int handSize = cards_in_hand.Length;
 
-    if (selected_cards.Count == 0)
+    // 1. Junta todas as cartas que estão na mão em uma lista (ignorando os nulls/slots vazios)
+    List<Card> allCards = new List<Card>();
+    for (int i = 0; i < handSize; i++)
     {
+        if (cards_in_hand[i] != null)
+        {
+            allCards.Add(cards_in_hand[i]);
+        }
+    }
+
+    // 2. Cria a nova ordem da mão
+    List<Card> newHandOrder = new List<Card>();
+
+    if (selected_cards.Count > 0)
+    {
+        // Descobre a posição original da primeira carta selecionada
+        if (first_selected_hand_index < 0)
+        {
+            first_selected_hand_index = get_card_in_hand_index(selected_cards[0]);
+        }
+
+        // Impede que o trio ultrapasse os limites da mão
+        int startIndex = Mathf.Clamp(first_selected_hand_index, 0, handSize - selected_cards.Count);
+
+        // 3. Pega todas as cartas que NÃO estão selecionadas, na ordem original
+        List<Card> unselectedCards = new List<Card>();
+        for (int i = 0; i < handSize; i++)
+        {
+            Card card = cards_in_hand[i];
+            if (card != null && !selected_cards.Contains(card))
+            {
+                unselectedCards.Add(card);
+            }
+        }
+
+        // 4. Reconstrói a mão:
+        // Preenche os espaços antes do trio
+        for (int i = 0; i < startIndex; i++)
+        {
+            if (unselectedCards.Count > 0)
+            {
+                newHandOrder.Add(unselectedCards[0]);
+                unselectedCards.RemoveAt(0);
+            }
+        }
+
+        // Insere as cartas selecionadas (o trio) juntas
+        for (int i = 0; i < selected_cards.Count; i++)
+        {
+            newHandOrder.Add(selected_cards[i]);
+        }
+
+        // Preenche o restante da mão com as cartas não selecionadas que sobraram
+        while (unselectedCards.Count > 0)
+        {
+            newHandOrder.Add(unselectedCards[0]);
+            unselectedCards.RemoveAt(0);
+        }
+    }
+    else
+    {
+        // Se não há nada selecionado, apenas mantém a ordem atual compactada
+        newHandOrder = allCards;
         first_selected_hand_index = -1;
-        return;
     }
 
-    // Guarda a posição original da primeira carta.
-    if (first_selected_hand_index < 0)
-    {
-        first_selected_hand_index =
-            get_card_in_hand_index(selected_cards[0]);
-    }
-
-    if (first_selected_hand_index < 0)
-        return;
-
-    // Impede que o trio ultrapasse o tamanho da mão.
-    int startIndex = Mathf.Clamp(
-        first_selected_hand_index,
-        0,
-        handSize - selected_cards.Count
-    );
-
-    Card[] reordered_hand = new Card[handSize];
-
-    // Reúne as cartas que não foram selecionadas.
-    List<Card> remainingCards = new List<Card>();
-
-    for (int i = 0; i < cards_in_hand.Length; i++)
-    {
-        Card card = cards_in_hand[i];
-
-        if (card != null && !selected_cards.Contains(card))
-        {
-            remainingCards.Add(card);
-        }
-    }
-
-    // Coloca as cartas selecionadas na ordem de seleção.
-    for (int i = 0; i < selected_cards.Count; i++)
-    {
-        reordered_hand[startIndex + i] = selected_cards[i];
-    }
-
-    // Preenche as posições restantes.
-    int remainingIndex = 0;
-
+    // 5. Aplica a nova ordem no array oficial e move as cartas visualmente
     for (int i = 0; i < handSize; i++)
     {
-        if (reordered_hand[i] == null &&
-            remainingIndex < remainingCards.Count)
+        if (i < newHandOrder.Count)
         {
-            reordered_hand[i] = remainingCards[remainingIndex];
-            remainingIndex++;
+            cards_in_hand[i] = newHandOrder[i];
+            
+            // Anima a carta para o novo slot
+            Card card = cards_in_hand[i];
+            if (card != null)
+            {
+                card.MoveCard(card.transform, cards_spawn_points[i], 5f);
+            }
         }
-    }
-
-    // Atualiza o array e anima as cartas.
-    for (int i = 0; i < handSize; i++)
-    {
-        cards_in_hand[i] = reordered_hand[i];
-
-        Card card = cards_in_hand[i];
-
-        if (card != null)
+        else
         {
-            card.MoveCard(
-                card.transform,
-                cards_spawn_points[i],
-                5f
-            );
+            // Preenche o resto do array com null (slots vazios reais no fim da mão)
+            cards_in_hand[i] = null;
         }
     }
 }
